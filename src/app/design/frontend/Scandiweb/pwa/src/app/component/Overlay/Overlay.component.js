@@ -1,13 +1,11 @@
 import { createPortal } from 'react-dom';
-import { createRef, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import SourceOverlay from 'SourceComponent/Overlay/Overlay.component';
 
 import isMobile from 'Util/Mobile';
 import { MixType, ChildrenType } from 'Type/Common';
 
-import './Overlay.style';
-
-export default class Overlay extends PureComponent {
+export default class Overlay extends SourceOverlay {
     static propTypes = {
         mix: MixType,
         id: PropTypes.string.isRequired,
@@ -28,15 +26,6 @@ export default class Overlay extends PureComponent {
         isFreezeEnabled: true,
         onHide: () => {}
     };
-
-    overlayRef = createRef();
-
-    componentDidUpdate(prevProps) {
-        const prevWasVisible = this.getIsVisible(prevProps);
-        const isVisible = this.getIsVisible();
-        if (isVisible && !prevWasVisible) this.onVisible();
-        if (!isVisible && prevWasVisible) this.onHide();
-    }
 
     onVisible() {
         const { onVisible } = this.props;
