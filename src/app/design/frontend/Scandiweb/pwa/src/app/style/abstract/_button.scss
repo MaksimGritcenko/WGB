@@ -18,7 +18,7 @@
 
     display: inline-block;
     border-radius: 0;
-    font-size: 20px;
+    font-size: 15px;
     text-transform: uppercase;
     padding: var(--button-padding);
     color: var(--button-color);
@@ -59,9 +59,9 @@
     }
 
     &_isHollow {
-        --button-hover-border: var(--white);
-        --button-hover-background: var(--black);
-        --button-hover-color: var(--white);
+        --button-hover-border: var(--secondary-base-color);
+        --button-hover-background: var(--primary-base-color);
+        --button-hover-color: var(--secondary-base-color);
         border-color: var(--button-background);
         color: var(--button-background);
         background: transparent;

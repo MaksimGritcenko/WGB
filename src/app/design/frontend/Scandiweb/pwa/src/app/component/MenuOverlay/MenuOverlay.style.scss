@@ -224,6 +224,7 @@
     }
 
     &-ItemCaption {
+        font-family: "Oswald";
         font-size: 38px;
         line-height: 1.4rem;
         font-weight: bold;
@@ -237,6 +238,7 @@
             }
 
             &_subcategory {
+                font-family: "Roboto";
                 font-size: 16px;
                 font-weight: normal;
                 text-transform: none;
@@ -248,7 +250,7 @@
             }
 
             &_banner {
-                color: var(--black);
+                color: var(--primary-base-color);
                 font-size: 15px;
                 position: absolute;
                 justify-self: center;

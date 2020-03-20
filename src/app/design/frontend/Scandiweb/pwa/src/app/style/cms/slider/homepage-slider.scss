@@ -10,7 +10,7 @@
  */
 
  :root {
-    --homepage-slider-color: var(--black);
+    --homepage-slider-color: var(--primary-base-color);
 }
 
 .homepage-slider {
@@ -48,7 +48,7 @@
     }
 
     .Button {
-        border-color: var(--black);
+        border-color: var(--primary-base-color);
         // font-size: 20px;
 
         @include mobile {
