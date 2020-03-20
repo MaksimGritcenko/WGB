@@ -1,0 +1,27 @@
+version: '3'
+services:
+  nginx:
+    volumes:
+      - ./deploy/frontend/conf/nginx/cache-router.conf:/etc/nginx/conf.d/cache-router.conf
+    links:
+      - frontend
+  frontend:
+    image: scandipwa/frontend:${PROJECT_IMAGE}
+    build:
+      context: build/frontend
+      args:
+        - BASEPATH=${BASEPATH}
+        - NODEJS_VERSION=${NODEJS_VERSION}
+    volumes:
+      - ./src/localmodules/base-theme:/var/www/public/localmodules/base-theme
+      - ./src/vendor:/var/www/public/vendor
+      - app-data:/var/www/public
+    env_file: .env
+    environment: 
+      - PROCESS_FILE=${FRONTEND_CORE_PROCESS_FILE}
+    working_dir: "/var/www/public/localmodules/base-theme/"
+    command: ["/bin/bash", "/start.sh"]
+    expose:
+      - 3003
+  app:
+    command: ["/wait-for-it.sh", "mysql:3306", "--", "/start-when-frontend-serving.sh"]
