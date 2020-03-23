@@ -53,15 +53,9 @@ export {
 } from 'SourceComponent/Header/Header.component';
 
 export default class Header extends SourceHeader {
-    constructor(props) {
-        super(props);
-
-        console.log(this);
-    }
-
     static propTypes = {
         ...this.propTypes,
-        onSearchBarClick: PropTypes.func.isRequired,
+        // onSearchBarClick: PropTypes.func.isRequired
     };
 
     stateMap = {
@@ -75,10 +69,11 @@ export default class Header extends SourceHeader {
             minicart: true
         },
         [CATEGORY]: {
-            back: true,
             menu: true,
+            searchButton: true,
             title: true,
-            minicart: true
+            account: true,
+            minicart: true,
         },
         [CUSTOMER_ACCOUNT]: {
             close: true,
@@ -225,7 +220,7 @@ export default class Header extends SourceHeader {
     renderSearchField(isSearchVisible = false) {
         const {
             searchCriteria, onSearchOutsideClick,
-            onSearchBarClick, onSearchBarChange
+            // onSearchBarClick, onSearchBarChange
         } = this.props;
 
         return (
@@ -369,7 +364,6 @@ export default class Header extends SourceHeader {
         const source = this.stateMap[name]
             ? this.stateMap[name]
             : this.stateMap[HOME_PAGE];
-
 
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key])
