@@ -1,5 +1,5 @@
 import { Fragment, createRef } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import SourceHeader, {
     PDP,
@@ -32,7 +32,8 @@ import {
     closeIcon,
     backIcon,
     editIcon
-} from './Header.config.js';
+} from './Header.config';
+
 import './Header.style';
 
 export {
@@ -40,6 +41,7 @@ export {
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
+    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     HOME_PAGE,
     MENU,
@@ -49,12 +51,12 @@ export {
     CART,
     CART_EDITING,
     CHECKOUT,
-    CMS_PAGE,
+    CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
 export default class Header extends SourceHeader {
     static propTypes = {
-        ...this.propTypes,
+        ...this.propTypes
         // onSearchBarClick: PropTypes.func.isRequired
     };
 
@@ -73,7 +75,7 @@ export default class Header extends SourceHeader {
             searchButton: true,
             title: true,
             account: true,
-            minicart: true,
+            minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
             close: true,
@@ -141,8 +143,8 @@ export default class Header extends SourceHeader {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
-        ...this.renderMap,
-    }
+        ...this.renderMap
+    };
 
     searchBarRef = createRef();
 
@@ -220,6 +222,7 @@ export default class Header extends SourceHeader {
     renderSearchField(isSearchVisible = false) {
         const {
             searchCriteria, onSearchOutsideClick,
+            onClearSearchButtonClick
             // onSearchBarClick, onSearchBarChange
         } = this.props;
 
@@ -231,7 +234,7 @@ export default class Header extends SourceHeader {
                       elem="SearchWrapper"
                       aria-label="Search"
                     >
-                        {/* <input
+                        { /* <input
                             id="search-field"
                             ref={ this.searchBarRef }
                             placeholder={ __('Type a new search') }
@@ -244,9 +247,10 @@ export default class Header extends SourceHeader {
                                 isVisible: isSearchVisible,
                                 type: 'searchField'
                             } }
-                        /> */}
+                        /> */ }
                         <SearchOverlay
-                            searchCriteria={ searchCriteria }
+                          clearSearch={ onClearSearchButtonClick }
+                          searchCriteria={ searchCriteria }
                         />
                     </div>
                 </ClickOutside>
@@ -270,9 +274,9 @@ export default class Header extends SourceHeader {
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
                 <div
-                    block="Header"
-                    elem="AccountWrapper"
-                    aria-label="My account"
+                  block="Header"
+                  elem="AccountWrapper"
+                  aria-label="My account"
                 >
                     <button
                       block="Header"
@@ -314,8 +318,8 @@ export default class Header extends SourceHeader {
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
                 <div
-                    block="Header"
-                    elem="MiniCartWrapper"
+                  block="Header"
+                  elem="MiniCartWrapper"
                 >
                     <button
                       block="Header"
@@ -326,9 +330,9 @@ export default class Header extends SourceHeader {
                     >
                         { minicartIcon }
                         <span
-                            aria-label="Items in cart"
-                            block="Header"
-                            elem="MinicartQty"
+                          aria-label="Items in cart"
+                          block="Header"
+                          elem="MinicartQty"
                         >
                             { items_qty || '0' }
                         </span>
