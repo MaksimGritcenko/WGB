@@ -46,7 +46,7 @@ export const minicartIcon = (
     </svg>
 );
 
-export const userIcon = (
+export const accountIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M256 0a135 135 0 100 270 135 135 0 000-270zm0 240a105 105 0 110-210 105 105 0 010 210zM424 358c-37-37-86-58-138-58h-60A197 197 0 0031 497c0 8 7 15 15 15h420c8 0 15-7 15-15 0-52-20-101-57-139zM62 482c7-85 78-152 164-152h60c86 0 157 67 164 152H62z"/>
     </svg>

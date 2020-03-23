@@ -223,6 +223,12 @@
                     width: 70px;
                 }
             }
+
+            &_searchButton {
+                @include after-mobile {
+                    order: 1;
+                }
+            }
         }
     }
 
@@ -338,6 +344,10 @@
     &-MiniCartWrapper {
         height: 35px;
         width: 35px;
+
+        @include after-mobile {
+            order: 3;
+        }
     }
 
     &-MinicartQty {
@@ -345,5 +355,12 @@
         top: 59%;
         left: 50%;
         transform: translate(-50%, -50%);
+        font-size: 10px;
+    }
+
+    &-AccountWrapper {
+        @include after-mobile {
+            order: 2;
+        }
     }
 }

@@ -26,7 +26,7 @@ import MyAccountOverlay from 'Component/MyAccountOverlay';
 import {
     menuIcon,
     searchIcon,
-    userIcon,
+    accountIcon,
     minicartIcon,
     logoIcon,
     closeIcon,
@@ -274,7 +274,11 @@ export default class Header extends SourceHeader {
 
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
-                <div aria-label="My account">
+                <div
+                    block="Header"
+                    elem="AccountWrapper"
+                    aria-label="My account"
+                >
                     <button
                       block="Header"
                       elem="Button"
@@ -282,7 +286,7 @@ export default class Header extends SourceHeader {
                       onClick={ onMyAccountButtonClick }
                       aria-label="Open my account"
                     >
-                        { userIcon }
+                        { accountIcon }
                     </button>
                     <MyAccountOverlay />
                 </div>
