@@ -23,6 +23,16 @@ import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 
+import {
+    menuIcon,
+    searchIcon,
+    accountIcon,
+    minicartIcon,
+    logoIcon,
+    closeIcon,
+    backIcon,
+    editIcon
+} from './Header.config.js';
 import './Header.style';
 
 export {
@@ -80,14 +90,14 @@ export default class Header extends SourceHeader {
         },
         [HOME_PAGE]: {
             menu: true,
+            searchButton: true,
             title: true,
             account: true,
             minicart: true,
             logo: true
         },
         [MENU]: {
-            close: true,
-            search: true
+            close: true
         },
         [MENU_SUBCATEGORY]: {
             back: true,
@@ -122,6 +132,23 @@ export default class Header extends SourceHeader {
         }
     };
 
+    renderMap = {
+        cancel: this.renderCancelButton.bind(this),
+        back: this.renderBackButton.bind(this),
+        close: this.renderCloseButton.bind(this),
+        menu: this.renderMenuButton.bind(this),
+        searchButton: this.renderSearchButton.bind(this),
+        search: this.renderSearchField.bind(this),
+        title: this.renderTitle.bind(this),
+        logo: this.renderLogo.bind(this),
+        account: this.renderAccountButton.bind(this),
+        minicart: this.renderMinicartButton.bind(this),
+        clear: this.renderClearButton.bind(this),
+        edit: this.renderEditButton.bind(this),
+        ok: this.renderOkButton.bind(this),
+        ...this.renderMap,
+    }
+
     searchBarRef = createRef();
 
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
@@ -130,6 +157,10 @@ export default class Header extends SourceHeader {
         const { onClearSearchButtonClick } = this.props;
         this.searchBarRef.current.focus();
         onClearSearchButtonClick();
+    }
+
+    renderLogoImage() {
+        return logoIcon;
     }
 
     renderMenuButton(isVisible = false) {
@@ -146,10 +177,48 @@ export default class Header extends SourceHeader {
                       aria-hidden={ !isVisible }
                       tabIndex={ isVisible ? 0 : -1 }
                       onClick={ onMenuButtonClick }
-                    />
+                    >
+                        { menuIcon }
+                    </button>
                     <MenuOverlay />
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderBackButton(isVisible = false) {
+        const { onBackButtonClick } = this.props;
+
+        return (
+            <button
+              key="back"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'back', isVisible } }
+              onClick={ onBackButtonClick }
+              aria-label="Go back"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { backIcon }
+            </button>
+        );
+    }
+
+    renderSearchButton(isVisible = false) {
+        return (
+            <button
+              key="searchButton"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'searchButton', isVisible } }
+              onClick={ () => {} }
+              aria-label="Search"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { searchIcon }
+            </button>
         );
     }
 
@@ -167,23 +236,23 @@ export default class Header extends SourceHeader {
                       elem="SearchWrapper"
                       aria-label="Search"
                     >
-                            <input
-                              id="search-field"
-                              ref={ this.searchBarRef }
-                              placeholder={ __('Type a new search') }
-                              block="Header"
-                              elem="SearchField"
-                              onClick={ onSearchBarClick }
-                              onChange={ onSearchBarChange }
-                              value={ searchCriteria }
-                              mods={ {
-                                  isVisible: isSearchVisible,
-                                  type: 'searchField'
-                              } }
-                            />
-                            <SearchOverlay
-                              searchCriteria={ searchCriteria }
-                            />
+                        {/* <input
+                            id="search-field"
+                            ref={ this.searchBarRef }
+                            placeholder={ __('Type a new search') }
+                            block="Header"
+                            elem="SearchField"
+                            onClick={ onSearchBarClick }
+                            onChange={ onSearchBarChange }
+                            value={ searchCriteria }
+                            mods={ {
+                                isVisible: isSearchVisible,
+                                type: 'searchField'
+                            } }
+                        /> */}
+                        <SearchOverlay
+                            searchCriteria={ searchCriteria }
+                        />
                     </div>
                 </ClickOutside>
                 <button
@@ -205,17 +274,42 @@ export default class Header extends SourceHeader {
 
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
-                <div aria-label="My account">
+                <div
+                    block="Header"
+                    elem="AccountWrapper"
+                    aria-label="My account"
+                >
                     <button
                       block="Header"
                       elem="Button"
                       mods={ { isVisible, type: 'account' } }
                       onClick={ onMyAccountButtonClick }
                       aria-label="Open my account"
-                    />
+                    >
+                        { accountIcon }
+                    </button>
                     <MyAccountOverlay />
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderCloseButton(isVisible = false) {
+        const { onCloseButtonClick } = this.props;
+
+        return (
+            <button
+              key="close"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'close', isVisible } }
+              onClick={ onCloseButtonClick }
+              aria-label="Close"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { closeIcon }
+            </button>
         );
     }
 
@@ -224,7 +318,10 @@ export default class Header extends SourceHeader {
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
-                <div>
+                <div
+                    block="Header"
+                    elem="MiniCartWrapper"
+                >
                     <button
                       block="Header"
                       elem="Button"
@@ -232,7 +329,14 @@ export default class Header extends SourceHeader {
                       onClick={ onMinicartButtonClick }
                       aria-label="Minicart"
                     >
-                        <span aria-label="Items in cart">{ items_qty || '0' }</span>
+                        { minicartIcon }
+                        <span
+                            aria-label="Items in cart"
+                            block="Header"
+                            elem="MinicartQty"
+                        >
+                            { items_qty || '0' }
+                        </span>
                     </button>
                     <CartOverlay />
                 </div>
@@ -253,7 +357,9 @@ export default class Header extends SourceHeader {
               aria-label="Clear"
               aria-hidden={ !isVisible }
               tabIndex={ isVisible ? 0 : -1 }
-            />
+            >
+                { editIcon }
+            </button>
         );
     }
 
@@ -264,9 +370,6 @@ export default class Header extends SourceHeader {
             ? this.stateMap[name]
             : this.stateMap[HOME_PAGE];
 
-        console.log("this.stateMap[name]");
-        console.log(this.stateMap[name]);
-        console.log(this.stateMap);
 
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key])

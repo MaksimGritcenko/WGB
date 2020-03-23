@@ -84,7 +84,7 @@
 }
 
 .Header {
-    --header-background: var(--secondary-light-color);
+    --header-background: transparent;
     --header-color: var(--secondary-dark-color);
     --header-icon-stroke-width: 2px;
 
@@ -94,10 +94,6 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
-
-    @include mobile {
-        border-bottom: 1px solid #0003;
-    }
 
     &_name {
         &_cart {
@@ -201,43 +197,13 @@
         &_type {
             &_menu,
             &_account,
-            &_minicart {
+            &_minicart,
+            &_searchButton {
                 @include after-mobile {
                     @include button-visible;
                 }
             }
 
-            &_close {
-                @include close-button;
-            }
-
-            &_back {
-                @include back-button;
-            }
-
-            &_menu {
-                @include menu-button;
-
-                @include after-mobile {
-                    width: 100px;
-                }
-            }
-
-            &_account {
-                @include account-button;
-            }
-
-            &_minicart {
-                @include minicart-button;
-
-                &.Header-Button_isVisible {
-                    width: 100%;
-                }
-
-                @include after-mobile {
-                    width: 100%;
-                }
-            }
 
             &_searchClear {
                 @include clear-search-button;
@@ -247,9 +213,6 @@
                 @include clear-button;
             }
 
-            &_edit {
-                @include edit-button;
-            }
 
             &_ok,
             &_cancel {
@@ -260,6 +223,12 @@
                     width: 70px;
                 }
             }
+
+            &_searchButton {
+                @include after-mobile {
+                    order: 1;
+                }
+            }
         }
     }
 
@@ -268,8 +237,6 @@
         margin-left: 5px;
 
         @include after-mobile {
-            @include search-icon-input;
-
             text-align: right;
             margin-right: 1rem;
         }
@@ -317,6 +284,7 @@
         bottom: 0;
         opacity: 0;
         overflow: hidden;
+        text-align: center;
 
         transition-property: opacity;
         transition-duration: 200ms;
@@ -370,6 +338,29 @@
             @include mobile {
                 text-decoration: none;
             }
+        }
+    }
+
+    &-MiniCartWrapper {
+        height: 35px;
+        width: 35px;
+
+        @include after-mobile {
+            order: 3;
+        }
+    }
+
+    &-MinicartQty {
+        position: absolute;
+        top: 59%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10px;
+    }
+
+    &-AccountWrapper {
+        @include after-mobile {
+            order: 2;
         }
     }
 }
