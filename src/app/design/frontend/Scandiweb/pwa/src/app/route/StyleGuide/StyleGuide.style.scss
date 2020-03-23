@@ -1,0 +1,10 @@
+.StyleGuide {
+    width: 600px;
+    margin: auto;
+    display: grid;
+    grid-gap: 10px;
+
+    .ButtonRow {
+        display: flex;
+    }
+}

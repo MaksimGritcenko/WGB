@@ -10,12 +10,12 @@
  */
 
 :root {
-    --button-padding: 13px 22px;
+    --button-padding: 8px 22px;
     --button-color: #{$white};
     --button-background: var(--primary-base-color);
     --button-border: var(--primary-base-color);
-    --button-hover-background: var(--white);
-    --button-hover-color: var(--black);
+    --button-hover-background: var(--secondary-base-color);
+    --button-hover-color: var(--primary-base-color);
     --button-hover-border: var(--primary-base-color);
     --button-border-width: 1px;
 }
