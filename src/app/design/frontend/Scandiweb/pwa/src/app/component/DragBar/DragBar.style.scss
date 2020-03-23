@@ -1,0 +1,100 @@
+@keyframes bounce {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-5px);
+    }
+}
+
+.DragBar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    &-Draggable {
+        --draggable-y: 0;
+        --open-bounce-speed: 500ms;
+        --overflow: hidden;
+        --animation-speed: 0;
+
+        position: fixed;
+        top: calc(100% - 180px);
+        width: 100%;
+        will-change: transform;
+        transition: var(--animation-speed) transform;
+        transform: translate3d(0, var(--draggable-y), 0);
+        max-height: 100%;
+        overflow: var(--overflow);
+        overscroll-behavior: contain;
+        scroll-behavior: smooth;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            height: calc(100% - 50px);
+            width: 100%;
+            left: 0;
+            top: 50px;
+            z-index: 1;
+        }
+
+        > * {
+            padding: 20px;
+            z-index: 2;
+        }
+    }
+
+    &-Details {
+        transition: max-height 100ms;
+        will-change: max-height;
+        background: #fff;
+
+        > *:last-of-type {
+            padding-bottom: 20px;
+        }
+    }
+
+    &-Header {
+        padding-top: 70px; // 20px + 50px (draggable are offset)
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 50px;
+            height: 4px;
+            border-radius: 5px;
+            background: #fff;
+            will-change: transform;
+            animation: bounce var(--open-bounce-speed) infinite alternate;
+        }
+    }
+
+    &-Heading {
+        font-size: 18px;
+        margin-bottom: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        white-space: nowrap;
+        line-height: 1;
+    }
+
+    &-Price {
+        font-size: 15px;
+        display: block;
+        line-height: 1;
+    }
+
+    &-CTA {
+        --button-padding: 13px 23px;
+
+        margin-top: 11px;
+        font-size: 13px;
+    }
+}
