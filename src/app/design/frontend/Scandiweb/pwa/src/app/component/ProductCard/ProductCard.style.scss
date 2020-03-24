@@ -18,27 +18,23 @@
 .ProductCard {
     padding-left: 0;
     min-width: 0;
+    height: calc(50vh - var(--header-height) / 2);
 
     &-Hero {
+        margin: auto;
+        height: calc(100vh - 3 * var(--header-height));
+        width: 104%;
+        left: -2%;
         grid-column: span 2;
         grid-row: span 2;
 
         & .ProductCard {
-            &-Link {
-                position: relative;
-                height: 100.7%;
-            }
-
             &-Content {
                 justify-content: center;
                 margin-top: 5px;
                 display: flex;
                 flex-direction: row;
                 padding-top: 12px;
-            }
-
-            &-Picture {
-                height: 99%;
             }
 
             &-Brand {
@@ -63,11 +59,6 @@
         }
     }
 
-    &_isHero {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
     &::before {
         content: none;
     }
@@ -82,10 +73,6 @@
         flex-wrap: wrap;
         flex-direction: column;
         justify-items: center;
-
-        &_isHero {
-            padding-top: 3%;
-        }
     }
 
     &-Name,
@@ -122,16 +109,11 @@
 
         @include mobile {
             line-height: 1;
-            font-size: 12px;
         }
     }
 
     &-Picture {
-        padding-bottom: 120%;
-
-        &_isHero {
-            height: 99%;
-        }
+        height: 100%;
     }
 
     &-PictureMissing {
@@ -212,11 +194,8 @@
         color: inherit;
         display: flex;
         flex-direction: column;
-
-        &_isHero {
-            position: relative;
-            height: 100%;
-        }
+        position: relative;
+        height: 100%;
 
         &:hover,
         &:focus {

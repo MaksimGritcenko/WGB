@@ -21,6 +21,7 @@
     }
 
     &-Page {
+        margin: 0 .5rem;
         display: grid;
         grid-auto-flow: dense;
         grid-template-columns: repeat(2, 1fr);

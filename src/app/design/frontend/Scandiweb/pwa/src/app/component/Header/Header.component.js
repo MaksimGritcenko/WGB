@@ -1,5 +1,5 @@
 import { Fragment, createRef } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import SourceHeader, {
     PDP,
@@ -32,7 +32,8 @@ import {
     closeIcon,
     backIcon,
     editIcon
-} from './Header.config.js';
+} from './Header.config';
+
 import './Header.style';
 
 export {
@@ -40,6 +41,7 @@ export {
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
+    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     HOME_PAGE,
     MENU,
@@ -49,17 +51,13 @@ export {
     CART,
     CART_EDITING,
     CHECKOUT,
-    CMS_PAGE,
+    CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
 export default class Header extends SourceHeader {
-    constructor(props) {
-        super(props);
-    }
-
     static propTypes = {
-        ...this.propTypes,
-        onSearchBarClick: PropTypes.func.isRequired,
+        ...this.propTypes
+        // onSearchBarClick: PropTypes.func.isRequired
     };
 
     stateMap = {
@@ -73,9 +71,10 @@ export default class Header extends SourceHeader {
             minicart: true
         },
         [CATEGORY]: {
-            back: true,
             menu: true,
+            searchButton: true,
             title: true,
+            account: true,
             minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
@@ -129,9 +128,27 @@ export default class Header extends SourceHeader {
     };
 
     renderMap = {
+<<<<<<< HEAD
         ...this.renderMap,
         searchButton: this.renderSearchButton.bind(this)
     }
+=======
+        cancel: this.renderCancelButton.bind(this),
+        back: this.renderBackButton.bind(this),
+        close: this.renderCloseButton.bind(this),
+        menu: this.renderMenuButton.bind(this),
+        searchButton: this.renderSearchButton.bind(this),
+        search: this.renderSearchField.bind(this),
+        title: this.renderTitle.bind(this),
+        logo: this.renderLogo.bind(this),
+        account: this.renderAccountButton.bind(this),
+        minicart: this.renderMinicartButton.bind(this),
+        clear: this.renderClearButton.bind(this),
+        edit: this.renderEditButton.bind(this),
+        ok: this.renderOkButton.bind(this),
+        ...this.renderMap
+    };
+>>>>>>> dd2cf1057eb5cf75e26dc49366f90c1a6d86c3bf
 
     searchBarRef = createRef();
 
@@ -212,7 +229,8 @@ export default class Header extends SourceHeader {
     renderSearchField(isSearchVisible = false) {
         const {
             searchCriteria, onSearchOutsideClick,
-            onSearchBarClick, onSearchBarChange
+            onClearSearchButtonClick
+            // onSearchBarClick, onSearchBarChange
         } = this.props;
 
         return (
@@ -223,7 +241,7 @@ export default class Header extends SourceHeader {
                       elem="SearchWrapper"
                       aria-label="Search"
                     >
-                        {/* <input
+                        { /* <input
                             id="search-field"
                             ref={ this.searchBarRef }
                             placeholder={ __('Type a new search') }
@@ -236,9 +254,10 @@ export default class Header extends SourceHeader {
                                 isVisible: isSearchVisible,
                                 type: 'searchField'
                             } }
-                        /> */}
+                        /> */ }
                         <SearchOverlay
-                            searchCriteria={ searchCriteria }
+                          clearSearch={ onClearSearchButtonClick }
+                          searchCriteria={ searchCriteria }
                         />
                     </div>
                 </ClickOutside>
@@ -262,9 +281,9 @@ export default class Header extends SourceHeader {
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
                 <div
-                    block="Header"
-                    elem="AccountWrapper"
-                    aria-label="My account"
+                  block="Header"
+                  elem="AccountWrapper"
+                  aria-label="My account"
                 >
                     <button
                       block="Header"
@@ -306,8 +325,8 @@ export default class Header extends SourceHeader {
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
                 <div
-                    block="Header"
-                    elem="MiniCartWrapper"
+                  block="Header"
+                  elem="MiniCartWrapper"
                 >
                     <button
                       block="Header"
@@ -318,9 +337,9 @@ export default class Header extends SourceHeader {
                     >
                         { minicartIcon }
                         <span
-                            aria-label="Items in cart"
-                            block="Header"
-                            elem="MinicartQty"
+                          aria-label="Items in cart"
+                          block="Header"
+                          elem="MinicartQty"
                         >
                             { items_qty || '0' }
                         </span>
@@ -356,7 +375,6 @@ export default class Header extends SourceHeader {
         const source = this.stateMap[name]
             ? this.stateMap[name]
             : this.stateMap[HOME_PAGE];
-
 
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key])
