@@ -96,8 +96,11 @@
     background-color: var(--header-background);
 
     &_name {
-        &_category {
-            --header-background: var(--header-default-background);
+        &_category,
+        &_filter {
+            @include mobile {
+                --header-background: var(--header-default-background);
+            }
         }
 
         &_cart {

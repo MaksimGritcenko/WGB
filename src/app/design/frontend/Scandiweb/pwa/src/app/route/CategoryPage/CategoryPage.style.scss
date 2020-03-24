@@ -64,6 +64,7 @@
     }
 
     &-Miscellaneous {
+        position: sticky;
         order: -1;
         z-index: 1;
         display: grid;
@@ -73,13 +74,16 @@
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        z-index: 90;
+        background: transparent;
+
         @include mobile {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            width: 100%;
-            z-index: 90;
             background: #fff;
+            position: fixed;
         }
 
         .hideOnScroll & {
@@ -89,10 +93,8 @@
         }
 
         > * {
-            @include mobile {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
     }
 }

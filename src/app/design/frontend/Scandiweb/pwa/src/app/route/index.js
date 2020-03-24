@@ -64,10 +64,6 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <NavigationTabs />,
             position: 25
-        },
-        {
-            component: <Breadcrumbs />,
-            position: 30
         }
     ];
 }
