@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom';
 import Breadcrumbs from 'Component/Breadcrumbs';
 import Header from 'Component/Header';
 import NotificationList from 'Component/NotificationList';
+import NavigationTabs from 'Component/NavigationTabs';
 
 // importing all parts of original header planned to modify
 import {
@@ -61,8 +62,8 @@ export class AppRouter extends SourceAppRouter {
             position: 20
         },
         {
-            component: <Breadcrumbs />,
-            position: 30
+            component: <NavigationTabs />,
+            position: 25
         }
     ];
 }
