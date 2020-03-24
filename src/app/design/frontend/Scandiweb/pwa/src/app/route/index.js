@@ -1,10 +1,15 @@
 // importing the necessary module to implement the "default export"
 import { connect } from 'react-redux';
-import { lazy } from 'react';
+import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
+
+import Breadcrumbs from 'Component/Breadcrumbs';
+import Header from 'Component/Header';
+import NotificationList from 'Component/NotificationList';
 
 // importing all parts of original header planned to modify
 import {
+    BEFORE_ITEMS_TYPE,
     SWITCH_ITEMS_TYPE,
     mapStateToProps,
     mapDispatchToProps,
@@ -45,7 +50,21 @@ export class AppRouter extends SourceAppRouter {
             }
         );
     }
+
+    [BEFORE_ITEMS_TYPE] = [
+        {
+            component: <NotificationList />,
+            position: 10
+        },
+        {
+            component: <Header />,
+            position: 20
+        },
+        {
+            component: <Breadcrumbs />,
+            position: 30
+        }
+    ];
 }
 
-// preserve the default export
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
