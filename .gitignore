@@ -1,4 +1,6 @@
 node_modules
 opt/*
+mutagen*.lock
 !.gitignore
 !**/.gitkeep
+.DS_Store
