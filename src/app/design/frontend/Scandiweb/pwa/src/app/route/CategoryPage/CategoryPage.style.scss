@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --filter-height: 35px;
+}
+
 .CategoryPage {
     overflow-x: hidden;
     --content-wrapper-width: 100%;
@@ -56,7 +60,7 @@
         text-align: right;
         grid-column: 2;
         font-size: 16px;
-        min-height: 35px;
+        min-height: var(--filter-height);
 
         &::before {
             content: '+';
@@ -69,11 +73,11 @@
     &-Miscellaneous {
         position: sticky;
         order: -1;
-        z-index: 1;
+        z-index: 101;
         display: grid;
         grid-template-columns: 50% 50%;
         align-items: center;
-        min-height: 35px;
+        min-height: var(--filter-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
 
@@ -81,7 +85,6 @@
         top: var(--header-height);
         left: 0;
         width: 100%;
-        z-index: 90;
         background: transparent;
 
         @include mobile {
