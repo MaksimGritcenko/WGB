@@ -10,6 +10,9 @@
  */
 
 .CategoryPage {
+    overflow-x: hidden;
+    --content-wrapper-width: 100%;
+
     &-Wrapper {
         @include after-mobile {
             display: grid;
