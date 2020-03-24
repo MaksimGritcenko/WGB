@@ -108,6 +108,8 @@ class DragBar extends Component {
     }
 
     render() {
+        const { children } = this.props;
+        
         return (
             <article block="DragBar">
                 <Draggable
@@ -119,18 +121,7 @@ class DragBar extends Component {
                       elem: 'Draggable'
                   } }
                 >
-                    <header block="DragBar" elem="Header">
-                        <h1 block="DragBar" elem="Heading">TEXTURED WEAVE BERMUDA SHORTS</h1>
-                        <span aria-label="Product price" block="DragBar" elem="Price">29.95 EUR</span>
-                        <button block="DragBar" elem="CTA" onClick={ () => alert('added to cart') }>Add to cart</button>
-                    </header>
-                    <div block="DragBar" elem="Details">
-                        <p>We are wrapping the children with a simple Div (styled-components) that gets from the state the x and y translation. We are also passing an indication for dragging and adding a mouse event that will let us do the magic.</p>
-                        <p>We are wrapping the children with a simple Div (styled-components) that gets from the state the x and y translation. We are also passing an indication for dragging and adding a mouse event that will let us do the magic.</p>
-                        <p>We are wrapping the children with a simple Div (styled-components) that gets from the state the x and y translation. We are also passing an indication for dragging and adding a mouse event that will let us do the magic.</p>
-                        <p>We are wrapping the children with a simple Div (styled-components) that gets from the state the x and y translation. We are also passing an indication for dragging and adding a mouse event that will let us do the magic.</p>
-                        <p>We are wrapping the children with a simple Div (styled-components) that gets from the state the x and y translation. We are also passing an indication for dragging and adding a mouse event that will let us do the magic.</p>
-                    </div>
+                    { children }
                 </Draggable>
             </article>
         );
