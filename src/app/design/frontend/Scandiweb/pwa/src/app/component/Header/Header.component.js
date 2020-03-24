@@ -93,9 +93,7 @@ export default class Header extends SourceHeader {
             minicart: true,
             logo: true
         },
-        [MENU]: {
-            close: true
-        },
+        [MENU]: {},
         [MENU_SUBCATEGORY]: {
             back: true,
             title: true
@@ -165,7 +163,10 @@ export default class Header extends SourceHeader {
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
-                <div>
+                <div
+                  block="Header"
+                  elem="MenuWrapper"
+                >
                     <button
                       block="Header"
                       elem="Button"

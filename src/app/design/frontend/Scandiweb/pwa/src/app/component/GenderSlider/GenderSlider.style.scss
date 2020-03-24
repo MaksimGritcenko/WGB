@@ -1,0 +1,68 @@
+.GenderSlider {
+    &-Main {
+        width: 100%;
+        height: 100%;
+        padding-top: 15px;
+    }
+
+    &-Slider {
+        height: 100%;
+    }
+
+    &-Slide {
+        height: 100%;
+    }
+
+    &-GenderSwitcher {
+        display: flex;
+        justify-content: center;
+
+        &_isBottom {
+            position: fixed;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+    }
+
+    &-GenderButton {
+        &:first-of-type {
+            margin-right: 15px;
+        }
+
+        &_isBottom {
+            font-weight: bold;
+            font-family: 'oswald';
+            font-size: 20px;
+        }
+
+        &_isActive {
+            text-decoration: underline;
+        }
+
+        &.Button {
+            border: none;
+        }
+    }
+
+    &_button {
+        &_close {
+            &.Header-Button_type_close.Header-Button {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 15px;
+                width: 30px;
+                height: 30px;
+                padding: 7px;
+                opacity: 1;
+                pointer-events: auto;
+
+                @include after-mobile {
+                    width: 30px;
+                }
+            }
+        }
+    }
+}
