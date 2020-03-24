@@ -29,7 +29,7 @@
     --button-color: initial;
     --button-padding: 0;
     --option-is-selected: 0;
-
+    margin-bottom: 12px;
     margin-left: 0;
 
     &:focus,
@@ -118,10 +118,12 @@
     &-String,
     &-Text {
         font-size: 15px;
+        text-transform: uppercase;
 
         &_isSelected {
             --option-border-color: var(--primary-base-color);
             --option-text-color: var(--primary-base-color);
+            font-weight: bold;
         }
     }
 
@@ -154,7 +156,7 @@
 
                 ~ label {
                     margin: 0;
-                    min-width: 1.5rem;
+                    min-width: 0.5rem;
                     top: .3rem;
                 }
             }
@@ -187,5 +189,13 @@
     &_isNotAvailable {
         opacity: .25;
         pointer-events: none;
+    }
+
+    &_isClosed {
+        display: none;
+    }
+
+    &_isOpen {
+        display: block;
     }
 }

@@ -15,7 +15,7 @@
     --product-configurable-attributes-content-padding: 0;
 
     @include mobile {
-        --product-configurable-attributes-content-padding: .5rem .5rem 1.5rem;
+        --product-configurable-attributes-content-padding: .5rem 1rem 1.5rem;
     }
 }
 
@@ -38,7 +38,41 @@
         align-items: start;
         font-size: 16px;
         font-weight: 100;
-        text-transform: capitalize;
+        text-transform: uppercase;
+
+        &-More {
+            color: var(--option-text-color);
+            margin-left: 15px;
+            font-size: 15px;
+            text-transform: uppercase;
+
+            &::before,
+            &::after {
+                content: '';
+                background: var(--option-text-color);
+                width: 11px;
+                height: 1px;
+                position: absolute;
+                top: 8px;
+                left: -14px;
+            }
+
+            &::before {
+                width: 1px;
+                height: 11px;
+                top: 3px;
+                left: -9px;
+                transform: scale(1);
+            }
+
+            &_isOpen::before {
+                transform: scale(0);
+            }
+
+            @include after-mobile {
+                margin-bottom: 12px;
+            }
+        }
     }
 
     &-DropDownList {

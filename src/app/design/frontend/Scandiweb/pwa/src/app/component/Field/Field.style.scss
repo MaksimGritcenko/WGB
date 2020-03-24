@@ -248,6 +248,8 @@ $select-arrow-width: 6px !default;
 
     [type='checkbox'] {
         + label {
+            padding-top: 1px;
+
             &::after {
                 left: .25rem;
                 top: .6rem;
