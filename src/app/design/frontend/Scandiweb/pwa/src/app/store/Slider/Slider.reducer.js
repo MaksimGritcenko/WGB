@@ -1,7 +1,7 @@
+import { WOMEN } from 'Component/GenderSlider/GenderSlider.component';
 import {
     CHANGE_STATE
 } from './Slider.action';
-import { WOMEN } from 'Component/GenderSlider/GenderSlider.component';
 
 export const initialState = {
     activeStateIndex: WOMEN
@@ -16,7 +16,7 @@ const SliderReducer = (state = initialState, action) => {
 
         return {
             ...state,
-            activeState: activeScreenIndex
+            activeStateIndex: activeScreenIndex
         };
 
     default:

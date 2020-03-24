@@ -2,14 +2,14 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import GenderSlider from './GenderSlider.component';
 import { changeState } from 'Store/Slider';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { hideActiveOverlay } from 'Store/Overlay';
 import { goToPreviousNavigationState } from 'Store/Navigation';
+import GenderSlider from './GenderSlider.component';
 
 export const mapStateToProps = state => ({
-    activeState: state.SliderReducer.activeState,
+    activeStateIndex: state.SliderReducer.activeStateIndex,
     changeState
 });
 

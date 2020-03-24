@@ -128,11 +128,6 @@ export default class Header extends SourceHeader {
     };
 
     renderMap = {
-<<<<<<< HEAD
-        ...this.renderMap,
-        searchButton: this.renderSearchButton.bind(this)
-    }
-=======
         cancel: this.renderCancelButton.bind(this),
         back: this.renderBackButton.bind(this),
         close: this.renderCloseButton.bind(this),
@@ -148,7 +143,6 @@ export default class Header extends SourceHeader {
         ok: this.renderOkButton.bind(this),
         ...this.renderMap
     };
->>>>>>> dd2cf1057eb5cf75e26dc49366f90c1a6d86c3bf
 
     searchBarRef = createRef();
 
@@ -170,8 +164,8 @@ export default class Header extends SourceHeader {
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
                 <div
-                    block="Header"
-                    elem="MenuWrapper"
+                  block="Header"
+                  elem="MenuWrapper"
                 >
                     <button
                       block="Header"

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import SourceSlider, { ACTIVE_SLIDE_PERCENT } from 'SourceComponent/Slider/Slider.component';
 
-export { 
+export {
     ANIMATION_DURATION,
     ACTIVE_SLIDE_PERCENT
 } from 'SourceComponent/Slider/Slider.component';
@@ -37,7 +37,7 @@ export default class Slider extends SourceSlider {
             if (isSideClick) return this.onClickChangeSlide(state, slideSize, lastTranslate, fullSliderSize);
 
             return -prevActiveSlider;
-        };
+        }
 
         if (translate >= 0) {
             onActiveImageChange(0);

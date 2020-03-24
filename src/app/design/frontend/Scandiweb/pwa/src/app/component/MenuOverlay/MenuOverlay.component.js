@@ -17,7 +17,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
               isStatic={ !!isMobile.any() }
             >
                 <GenderSlider
-                    isGenderSwitcher
+                  isGenderSwitcher
                 >
                     <span>Woman content</span>
                     <span>Men content</span>

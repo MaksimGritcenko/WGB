@@ -9,35 +9,38 @@ export const WOMEN = 0;
 export const MEN = 1;
 
 export default class GenderSlider extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            activeImageIndex: 0
-        }
-    }
-
     static propTypes = {
         children: PropTypes.array.isRequired,
-        isBottomSwitcher: PropTypes.bool
+        isBottomSwitcher: PropTypes.bool,
+        onCloseButtonClick: PropTypes.func.isRequired,
+        activeStateIndex: PropTypes.number.isRequired,
+        changeState: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         isBottomSwitcher: false
     };
 
-    componentDidUpdate(prevState) {
-        const { activeState: prevActiveState } = prevState;
-        const { activeState } = this.props;
+    constructor(props) {
+        super(props);
 
-        if (prevActiveState !== activeState) {
-            this.updateActiveImageIndex(activeState);
+        this.state = {
+            activeImageIndex: 0
+        };
+    }
+
+    componentDidUpdate(prevState) {
+        const { activeStateIndex: prevactiveStateIndex } = prevState;
+        const { activeStateIndex } = this.props;
+
+        if (prevactiveStateIndex !== activeStateIndex) {
+            this.updateActiveImageIndex(activeStateIndex);
         }
     }
 
-    updateActiveImageIndex(activeImageIndex) {
-        this.setState({ activeImageIndex });
-    }
+    handleSlideChange = (index) => {
+        this.handleGenderSwitch(index);
+    };
 
     handleGenderSwitch(activeImageIndex) {
         const { changeState } = this.props;
@@ -46,8 +49,8 @@ export default class GenderSlider extends PureComponent {
         changeState(activeImageIndex);
     }
 
-    handleSlideChange(index) {
-        this.handleGenderSwitch(index);
+    updateActiveImageIndex(activeImageIndex) {
+        this.setState({ activeImageIndex });
     }
 
     renderCloseButton() {
@@ -60,7 +63,7 @@ export default class GenderSlider extends PureComponent {
               block="Header"
               elem="Button"
               mods={ { type: 'close' } }
-              mix={ { block: "GenderSlider", mods: { button: 'close' } } }
+              mix={ { block: 'GenderSlider', mods: { button: 'close' } } }
               onClick={ onCloseButtonClick }
               aria-label="Close"
             >
@@ -74,7 +77,7 @@ export default class GenderSlider extends PureComponent {
         const { isBottomSwitcher } = this.props;
 
         const mods = isBottomSwitcher ? { isBottom: true, isActive: activeImageIndex === index } : {};
-        const mix = !isBottomSwitcher ? { block: "Button", mods: { isHollow: activeImageIndex !== index } } : {};
+        const mix = !isBottomSwitcher ? { block: 'Button', mods: { isHollow: activeImageIndex !== index } } : {};
 
         return (
             <button
@@ -87,7 +90,7 @@ export default class GenderSlider extends PureComponent {
             >
                 { __(title.toUpperCase()) }
             </button>
-        )
+        );
     }
 
     renderGenderSwitcher() {
@@ -95,22 +98,23 @@ export default class GenderSlider extends PureComponent {
 
         return (
             <div
-                block="GenderSlider"
-                elem="GenderSwitcher"
-                mods={ { isBottom: isBottomSwitcher } }
+              block="GenderSlider"
+              elem="GenderSwitcher"
+              mods={ { isBottom: isBottomSwitcher } }
             >
                 { this.renderButton('Woman', WOMEN) }
                 { this.renderButton('Men', MEN) }
                 { this.renderCloseButton() }
             </div>
-        )
+        );
     }
 
-    renderSlide(slideContent) {
+    renderSlide(slideContent, index) {
         return (
             <div
-                block="GenderSlider"
-                elem="Slide"
+              key={ index }
+              block="GenderSlider"
+              elem="Slide"
             >
                 { slideContent }
             </div>
@@ -123,18 +127,18 @@ export default class GenderSlider extends PureComponent {
 
         return (
             <div
-                block="GenderSlider"
-                elem="Main"
+              block="GenderSlider"
+              elem="Main"
             >
                 { this.renderGenderSwitcher() }
                 <Slider
-                    mix={ { block: 'GenderSlider', elem: 'Slider' } }
-                    onActiveImageChange={ index => this.handleSlideChange(index) }
-                    activeImage={ activeImageIndex }
+                  mix={ { block: 'GenderSlider', elem: 'Slider' } }
+                  onActiveImageChange={ this.handleSlideChange }
+                  activeImage={ activeImageIndex }
                 >
                     { children.map(this.renderSlide) }
                 </Slider>
             </div>
-        )
+        );
     }
 }
