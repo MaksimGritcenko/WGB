@@ -101,6 +101,16 @@
             @include mobile {
                 --header-background: var(--header-default-background);
             }
+
+            @include after-mobile {
+                padding-bottom: var(--filter-height);
+                transition: background .4s ease-out;
+
+                &:hover {
+                    --header-background: white;
+                    transition: background .5s ease-out;
+                }
+            }
         }
 
         &_cart {
@@ -155,6 +165,10 @@
                     display: none;
                 }
             }
+        }
+
+        &_filter {
+            --header-background: var(--header-default-background);
         }
     }
 
