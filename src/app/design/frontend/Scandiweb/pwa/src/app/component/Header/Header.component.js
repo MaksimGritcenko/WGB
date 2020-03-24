@@ -55,8 +55,6 @@ export {
 export default class Header extends SourceHeader {
     constructor(props) {
         super(props);
-
-        console.log(this);
     }
 
     static propTypes = {
@@ -96,9 +94,7 @@ export default class Header extends SourceHeader {
             minicart: true,
             logo: true
         },
-        [MENU]: {
-            close: true
-        },
+        [MENU]: {},
         [MENU_SUBCATEGORY]: {
             back: true,
             title: true
@@ -133,20 +129,8 @@ export default class Header extends SourceHeader {
     };
 
     renderMap = {
-        cancel: this.renderCancelButton.bind(this),
-        back: this.renderBackButton.bind(this),
-        close: this.renderCloseButton.bind(this),
-        menu: this.renderMenuButton.bind(this),
-        searchButton: this.renderSearchButton.bind(this),
-        search: this.renderSearchField.bind(this),
-        title: this.renderTitle.bind(this),
-        logo: this.renderLogo.bind(this),
-        account: this.renderAccountButton.bind(this),
-        minicart: this.renderMinicartButton.bind(this),
-        clear: this.renderClearButton.bind(this),
-        edit: this.renderEditButton.bind(this),
-        ok: this.renderOkButton.bind(this),
         ...this.renderMap,
+        searchButton: this.renderSearchButton.bind(this)
     }
 
     searchBarRef = createRef();
@@ -168,7 +152,10 @@ export default class Header extends SourceHeader {
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
-                <div>
+                <div
+                    block="Header"
+                    elem="MenuWrapper"
+                >
                     <button
                       block="Header"
                       elem="Button"

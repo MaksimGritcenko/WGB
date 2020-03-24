@@ -10,6 +10,7 @@ import NotificationList from 'Component/NotificationList';
 // importing all parts of original header planned to modify
 import {
     BEFORE_ITEMS_TYPE,
+    AFTER_ITEMS_TYPE,
     SWITCH_ITEMS_TYPE,
     mapStateToProps,
     mapDispatchToProps,
@@ -65,6 +66,8 @@ export class AppRouter extends SourceAppRouter {
             position: 30
         }
     ];
+
+    [AFTER_ITEMS_TYPE] = []
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

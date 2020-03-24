@@ -117,7 +117,6 @@
             }
         }
 
-        &_menu,
         &_menu_subcategory {
             .Header-Button_type {
                 &_close {
@@ -225,6 +224,8 @@
             }
 
             &_searchButton {
+                order: -1;
+
                 @include after-mobile {
                     order: 1;
                 }
@@ -362,5 +363,9 @@
         @include after-mobile {
             order: 2;
         }
+    }
+
+    &-MenuWrapper {
+        order: -2;
     }
 }
