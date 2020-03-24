@@ -25,7 +25,7 @@ export default class GenderSlider extends PureComponent {
         super(props);
 
         this.state = {
-            activeImageIndex: 0
+            activeImageIndex: WOMEN
         };
     }
 
