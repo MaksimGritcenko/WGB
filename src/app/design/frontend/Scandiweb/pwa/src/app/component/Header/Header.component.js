@@ -32,6 +32,7 @@ import {
     closeIcon,
     backIcon,
     editIcon
+
 } from './Header.config.js';
 import './Header.style';
 
@@ -53,15 +54,9 @@ export {
 } from 'SourceComponent/Header/Header.component';
 
 export default class Header extends SourceHeader {
-    constructor(props) {
-        super(props);
-
-        console.log(this);
-    }
-
     static propTypes = {
         ...this.propTypes,
-        onSearchBarClick: PropTypes.func.isRequired,
+        // onSearchBarClick: PropTypes.func.isRequired,
     };
 
     stateMap = {
