@@ -21,16 +21,17 @@ export default class ProductPage extends SourceProductPage {
                   product={ productOrVariant }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductActions
-                      getLink={ getLink }
-                      updateConfigurableVariant={ updateConfigurableVariant }
-                      product={ dataSource }
-                      productOrVariant={ productOrVariant }
-                      parameters={ parameters }
-                      areDetailsLoaded={ areDetailsLoaded }
-                      configurableVariantIndex={ configurableVariantIndex }
-                />
-                <DragBar />
+                <DragBar>
+                    <ProductActions
+                        getLink={ getLink }
+                        updateConfigurableVariant={ updateConfigurableVariant }
+                        product={ dataSource }
+                        productOrVariant={ productOrVariant }
+                        parameters={ parameters }
+                        areDetailsLoaded={ areDetailsLoaded }
+                        configurableVariantIndex={ configurableVariantIndex }
+                    />
+                </DragBar>
             </>
         );
     }
