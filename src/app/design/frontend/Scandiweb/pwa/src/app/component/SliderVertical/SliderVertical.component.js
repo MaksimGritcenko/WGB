@@ -16,7 +16,7 @@ import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
 import './SliderVertical.style';
 
-export const ANIMATION_DURATION = 300;
+export const ANIMATION_DURATION = 450;
 export const ACTIVE_SLIDE_PERCENT = 0.1;
 
 /**
@@ -171,7 +171,7 @@ export default class SliderVertical extends Slider {
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
-                  shiftY={ -activeImage * this.sliderHeight }
+                  shiftY={ -activeImage * this.sliderHeight || 0 }
                 >
                     { children }
                 </Draggable>
