@@ -5,6 +5,7 @@ import SourceHeader, {
     PDP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
+    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     HOME_PAGE,
     MENU,
@@ -41,7 +42,8 @@ export {
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_ACCOUNT_PAGE,    
+    CUSTOMER_SUB_ACCOUNT,
     HOME_PAGE,
     MENU,
     MENU_SUBCATEGORY,
@@ -65,9 +67,7 @@ export default class Header extends SourceHeader {
             close: true
         },
         [PDP]: {
-            back: true,
-            title: true,
-            minicart: true
+            menu: true,
         },
         [CATEGORY]: {
             back: true,
