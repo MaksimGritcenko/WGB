@@ -21,12 +21,7 @@ export const HISTORY_END_CATEGORY_STRING = 8;
 
 export class NavigationAbstractContainer extends SourceNavigationAbstractContainer {
     handleDesktopRouteChange(history) {
-        const {
-            hideActiveOverlay,
-            setNavigationState
-        } = this.props;
-
-        setNavigationState(this.routeMap['/']);
+        const { hideActiveOverlay } = this.props;
 
         const path = history.pathname.substr(HISTORY_START_CATEGORY_STRING, HISTORY_END_CATEGORY_STRING);
 
