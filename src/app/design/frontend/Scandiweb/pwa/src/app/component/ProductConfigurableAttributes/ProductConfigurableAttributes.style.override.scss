@@ -1,0 +1,14 @@
+.ProductConfigurableAttributes {
+    display: flex;
+    
+    &-Attribute {
+        flex: 1 1;
+    }
+
+    .Attribute {
+        &-Name {
+            text-transform: uppercase;
+            margin: 7px;
+        }
+    }
+}
