@@ -116,7 +116,7 @@
             text-transform: uppercase;
             margin-right: var(--filter-button-margin);
             opacity: var(--filter-button-opacity);
-            transition: margin-right, opacity 300ms ease-in-out;
+            transition: margin-right, opacity 300ms, 300ms ease-in-out;
 
             &::after,
             &::before {
@@ -157,7 +157,8 @@
             }
 
             @include after-mobile {
-                padding-bottom: var(--filter-height);
+                // padding-bottom: var(--filter-height);
+                padding-bottom: 10px;
                 transition: background .4s ease-out;
 
 
@@ -232,10 +233,11 @@
             opacity: 1;
             --header-background: var(--header-default-background);
 
-            // check why it does not work
-            // .Header-Filter-Button {
-            //     transition: margin, opacity 300ms ease-in-out;
-            // }
+            .Header-Filter-Button {
+                &::before {
+                    transform: scale(0);
+                }
+            }
         }
     }
 

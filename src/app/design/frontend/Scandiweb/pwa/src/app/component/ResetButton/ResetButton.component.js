@@ -10,15 +10,11 @@
  */
 
 import SourceResetButton from 'SourceComponent/ResetButton/ResetButton.component';
-import PropTypes from 'prop-types';
-import { MixType } from 'Type/Common';
 import './ResetButton.style';
 
 export default class ResetButton extends SourceResetButton {
     render() {
         const { mix, isContentFiltered } = this.props;
-
-        const text = !isContentFiltered ? 'NO' : 'Yes';
 
         return (
             <div
@@ -30,11 +26,11 @@ export default class ResetButton extends SourceResetButton {
                   block="ResetButton"
                   elem="Button"
                   mix={ {
-                      block: 'Button',
-                      mods: { isHollow: true }
+                      block: 'ResetButton',
+                      mods: { isContentFiltered }
                   } }
                 >
-                    { text + __('Reset') }
+                    { __('Reset') }
                 </button>
             </div>
         );
