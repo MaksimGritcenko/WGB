@@ -1,12 +1,8 @@
-:root {
-    --buttons-text-color: #000000;
-}
-
 .FavoriteItem {
     &-ButtonsDown {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .ButtonsDown {
@@ -16,7 +12,7 @@
             border: none;
             background: none;
             background-color: unset;
-            color: var(--buttons-text-color);
+            color: #383838;
             font-size: 13px;
             font-family: 'Roboto', sans-serif;
             letter-spacing: -0.5px;
@@ -30,19 +26,20 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                margin: 0 5px;
+                margin: 0 9px;
                 height: 5px;
                 border-right: 1px solid var(--product-after-line-color);
             }
         }
     }
     &-Row {
-        margin-top: 10px;
+        margin-top: 9px;
 
         .FavoriteItem-AddToCart {
             padding: 10px 0;
             width: 100%;
             font-size: 15px;
+            max-width: 220px;
         }
     }
 }

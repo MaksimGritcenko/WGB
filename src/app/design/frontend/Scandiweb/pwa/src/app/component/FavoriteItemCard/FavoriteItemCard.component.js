@@ -30,10 +30,6 @@ export default class FavoriteItemCard extends PureComponent {
         product: ProductType.isRequired,
         productOrVariant: ProductType.isRequired,
         thumbnail: PropTypes.string,
-        availableVisualOptions: PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.string,
-            value: PropTypes.string
-        })).isRequired,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.element,
@@ -58,30 +54,13 @@ export default class FavoriteItemCard extends PureComponent {
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;
         if (!price) return <TextPlaceholder />;
+        console.log( price );
 
         return (
             <ProductPrice
               price={ price }
               mix={ { block: 'FavoriteItemCard', elem: 'Price' } }
             />
-        );
-    }
-
-    renderVisualConfigurableOptions() {
-        const { availableVisualOptions } = this.props;
-
-        return (
-            <div block="FavoriteItemCard" elem="ConfigurableOptions">
-                { availableVisualOptions.map(({ value, label }) => (
-                    <span
-                      block="FavoriteItemCard"
-                      elem="Color"
-                      key={ value }
-                      style={ { backgroundColor: value } }
-                      aria-label={ label }
-                    />
-                )) }
-            </div>
         );
     }
 
@@ -171,12 +150,11 @@ export default class FavoriteItemCard extends PureComponent {
                             { this.renderPicture() }
                         </figure>
                         <div block="FavoriteItemCard" elem="Content">
-                            { this.renderVisualConfigurableOptions() }
+                        { this.renderAdditionalProductDetails() }
                             <div block="FavoriteItemCard" elem="Info">
                                 { this.renderMainDetails() }
                                 { this.renderProductPrice() }
                             </div>
-                            { this.renderAdditionalProductDetails() }
                             { children }
                         </div>
                     </>

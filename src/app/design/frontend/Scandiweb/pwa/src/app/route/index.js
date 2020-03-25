@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import Breadcrumbs from 'Component/Breadcrumbs';
 import Header from 'Component/Header';
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
@@ -73,7 +72,7 @@ export class AppRouter extends SourceAppRouter {
         }
     ];
 
-    [AFTER_ITEMS_TYPE] = []
+    [AFTER_ITEMS_TYPE] = [];
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

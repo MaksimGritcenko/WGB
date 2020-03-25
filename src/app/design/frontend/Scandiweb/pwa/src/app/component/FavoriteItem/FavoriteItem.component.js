@@ -61,7 +61,7 @@ export default class FavoriteItem extends PureComponent {
               mix={ { block: 'ButtonsDown', elem: 'Remove' } }
               onClick={ removeItem }
             >
-                { __('Remove from Favorites') }
+                { __('Remove item from the list') }
             </button>
         );
     }
