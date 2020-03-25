@@ -24,12 +24,12 @@
     @include after-mobile {
         position: fixed;
         right: 0;
-        top: var(--header-height);
+        top: calc(var(--header-height) - 17px);
         padding: 15px;
         max-width: 40vw;
         transform: translateX(100%);
         overflow: scroll;
-        height: 86vh;
+        height: calc(100vh - var(--header-height) + 17px);
     }
 
     &_isVisible {

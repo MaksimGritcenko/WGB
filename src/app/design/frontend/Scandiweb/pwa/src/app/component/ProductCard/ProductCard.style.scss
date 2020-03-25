@@ -55,8 +55,6 @@
             }
 
             &-Picture {
-                height: 100vh;
-
                 & > img {
                     object-fit: contain;
                 }
@@ -120,6 +118,10 @@
 
     &-Picture {
         height: 100vh;
+
+        @include mobile {
+            height: 50vh;
+        }
 
         & > img {
             object-fit: cover;

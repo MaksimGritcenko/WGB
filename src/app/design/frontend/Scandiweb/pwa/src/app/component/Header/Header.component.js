@@ -1,6 +1,5 @@
 import { Fragment, createRef } from 'react';
-// import PropTypes from 'prop-types';
-
+import ResetButton from 'Component/ResetButton';
 import SourceHeader, {
     PDP,
     CATEGORY,
@@ -375,6 +374,25 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderFilterButton() {
+        const { onFilterButtonClick } = this.props;
+
+        return (
+            <div
+              block="Header"
+              elem="Filter"
+            >
+                <button
+                  block="Header"
+                  elem="Filter-Button"
+                  onClick={ onFilterButtonClick }
+                >
+                    { __('Filters') }
+                </button>
+            </div>
+        );
+    }
+
     render() {
         const { navigationState: { name } } = this.props;
 
@@ -383,6 +401,7 @@ export default class Header extends SourceHeader {
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>
+                { this.renderFilterButton() }
             </header>
         );
     }
