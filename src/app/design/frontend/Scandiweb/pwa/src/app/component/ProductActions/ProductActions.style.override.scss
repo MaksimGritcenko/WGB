@@ -49,7 +49,7 @@
             &_short {
                 @include mobile {
                     border-bottom: 0;
-                    margin: 8px;
+                    margin: 15px 0;
                     order: 6;
                     padding: 0;
                 }
@@ -66,6 +66,7 @@
     }
 
     &-ShortDescription {
+        margin: 0;
         order: 6;
     }
 
@@ -73,12 +74,12 @@
         @include mobile {
             border-top: none;
             order: 4;
-            padding: 1rem 0;
+            padding: 1rem 0 0 0;
             position: static;
         }
     }
 
-    &-AttributesWrapper {
+    &-AttributesWrapper {        
         @include mobile {
             order: 8;
         }
