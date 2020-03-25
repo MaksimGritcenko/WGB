@@ -38,10 +38,16 @@
 
 @mixin button-visible {
     opacity: 1;
-    padding: 7.5px;
-    width: 35px;
+    padding: 15px 10px;
+    width: 40px;
+    height: var(--header-height);
     pointer-events: all;
     overflow: visible;
+
+    @include after-mobile {
+        width: 60px;
+        padding: 20px;
+    }
 }
 
 @mixin search-bar-visible {
@@ -190,10 +196,14 @@
         height: var(--header-nav-height);
         display: flex;
         align-items: center;
-        padding: 0 5px;
+        padding: 0px 10px;
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+
+        @include after-mobile {
+            padding: 0;
+        }
     }
 
     &-Button {
@@ -216,8 +226,8 @@
 
         &_type {
             &_menu,
-            &_account,
             &_minicart,
+            &_wishlist,
             &_searchButton {
                 @include after-mobile {
                     @include button-visible;
@@ -249,6 +259,12 @@
 
                 @include after-mobile {
                     order: 1;
+                }
+            }
+
+            &_wishlist {
+                @include after-mobile {
+                    order: 2
                 }
             }
         }
@@ -364,8 +380,7 @@
     }
 
     &-MiniCartWrapper {
-        height: 35px;
-        width: 35px;
+        order: 1;
 
         @include after-mobile {
             order: 3;
@@ -374,8 +389,8 @@
 
     &-MinicartQty {
         position: absolute;
-        top: 59%;
-        left: 50%;
+        top: 54%;
+        left: 49%;
         transform: translate(-50%, -50%);
         font-size: 10px;
     }

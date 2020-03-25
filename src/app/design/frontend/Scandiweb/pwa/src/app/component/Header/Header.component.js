@@ -31,7 +31,8 @@ import {
     logoIcon,
     closeIcon,
     backIcon,
-    editIcon
+    editIcon,
+    wishlistIcon
 } from './Header.config';
 
 import './Header.style';
@@ -89,7 +90,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true,
             logo: true
         },
@@ -141,6 +142,7 @@ export default class Header extends SourceHeader {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
+        wishlist: this.renderWishlistButton.bind(this),
         ...this.renderMap
     };
 
@@ -309,6 +311,22 @@ export default class Header extends SourceHeader {
               tabIndex={ isVisible ? 0 : -1 }
             >
                 { closeIcon }
+            </button>
+        );
+    }
+
+    renderWishlistButton(isVisible = false) {
+        return (
+            <button
+              key="wishlist"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'wishlist', isVisible } }
+              aria-label="Wishlist"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { wishlistIcon }
             </button>
         );
     }
