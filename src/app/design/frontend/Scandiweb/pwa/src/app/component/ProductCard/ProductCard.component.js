@@ -9,6 +9,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import ProductPrice from 'Component/ProductPrice';
 import PropTypes from 'prop-types';
 import SourceProductCard from 'SourceComponent/ProductCard/ProductCard.component';
 import './ProductCard.style';
@@ -27,6 +28,18 @@ export default class ProductCard extends SourceProductCard {
         ...this.defaultProps,
         isHero: false
     };
+
+    renderProductPrice() {
+        const { productOrVariant: { price } } = this.props;
+        if (!price) return null;
+
+        return (
+            <ProductPrice
+              price={ price }
+              mix={ { block: 'ProductCard', elem: 'Price' } }
+            />
+        );
+    }
 
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute, isHero } = this.props;

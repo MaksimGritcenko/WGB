@@ -101,6 +101,16 @@
             @include mobile {
                 --header-background: var(--header-default-background);
             }
+
+            @include after-mobile {
+                padding-bottom: var(--filter-height);
+                transition: background .4s ease-out;
+
+                &:hover {
+                    --header-background: white;
+                    transition: background .5s ease-out;
+                }
+            }
         }
 
         &_cart {
@@ -156,6 +166,10 @@
                 }
             }
         }
+
+        &_filter {
+            --header-background: var(--header-default-background);
+        }
     }
 
     &-Banner {
@@ -176,7 +190,7 @@
         height: var(--header-nav-height);
         display: flex;
         align-items: center;
-        padding: 0 1rem;
+        padding: 0 5px;
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;

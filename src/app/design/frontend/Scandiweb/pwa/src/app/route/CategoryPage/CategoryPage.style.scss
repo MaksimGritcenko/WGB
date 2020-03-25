@@ -9,6 +9,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+:root {
+    --filter-height: 35px;
+}
+
 .CategoryPage {
     overflow-x: hidden;
     --content-wrapper-width: 100%;
@@ -56,35 +60,60 @@
         text-align: right;
         grid-column: 2;
         font-size: 16px;
-        min-height: 50px;
+        min-height: var(--filter-height);
+        margin-right: 15px;
+
+        &::before,
+        &::after {
+            content: '';
+            background: var(--option-text-color);
+            width: 11px;
+            height: 1px;
+            position: absolute;
+            top: 8px;
+            left: -14px;
+        }
 
         &::before {
-            content: '+';
-            position: relative;
-            left: -5px;
-            top: 0;
+            width: 1px;
+            height: 11px;
+            top: 3px;
+            left: -9px;
+            transform: scale(1);
         }
+
+        &_isOpen::before {
+            transform: scale(0);
+        }
+
+        @include after-mobile {
+            text-align: right;
+        }
+
     }
 
     &-Miscellaneous {
         position: sticky;
         order: -1;
-        z-index: 1;
+        z-index: 101;
         display: grid;
-        grid-template-columns: 50% 50%;
+        grid-template-columns: auto 350px;
         align-items: center;
-        min-height: 56px;
+        min-height: var(--filter-height);
         transform: translateY(0);
         transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+        //fix later
+        padding-top: 4px;
+        font-size: 15px;
 
         position: fixed;
         top: var(--header-height);
         left: 0;
         width: 100%;
-        z-index: 90;
         background: transparent;
 
         @include mobile {
+            grid-template-columns: 50% 50%;
             background: #fff;
             position: fixed;
         }

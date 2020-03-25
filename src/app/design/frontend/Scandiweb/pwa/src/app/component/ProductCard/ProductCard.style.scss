@@ -18,11 +18,9 @@
 .ProductCard {
     padding-left: 0;
     min-width: 0;
-    height: calc(50vh - var(--header-height) / 2);
 
     &-Hero {
         margin: auto;
-        height: calc(100vh - 3 * var(--header-height));
         width: 104%;
         left: -2%;
         grid-column: span 2;
@@ -31,7 +29,6 @@
         & .ProductCard {
             &-Content {
                 justify-content: center;
-                margin-top: 5px;
                 display: flex;
                 flex-direction: row;
                 padding-top: 12px;
@@ -56,6 +53,14 @@
                     margin: 0 10px;
                 }
             }
+
+            &-Picture {
+                height: 100vh;
+
+                & > img {
+                    object-fit: contain;
+                }
+            }
         }
     }
 
@@ -68,6 +73,7 @@
     }
 
     &-Content {
+        margin-bottom: 1rem;
         padding: 1rem;
         display: flex;
         flex-wrap: wrap;
@@ -113,7 +119,11 @@
     }
 
     &-Picture {
-        height: 100%;
+        height: 100vh;
+
+        & > img {
+            object-fit: cover;
+        }
     }
 
     &-PictureMissing {
