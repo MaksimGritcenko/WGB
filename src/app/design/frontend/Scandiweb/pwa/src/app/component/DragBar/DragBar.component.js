@@ -17,10 +17,14 @@ import CSS from 'Util/CSS/CSS';
 import './DragBar.style';
 
 class DragBar extends Component {
+    state = {
+        areDetailsOpen: false
+    };
+
     constructor(props) {
         super(props);
 
-        this.areDetailsOpen = false;
+        this.touchActionEnabled = false;
         this.animatedTransitionOnce = false;
 
         this.dragBarRef = React.createRef();
@@ -29,9 +33,11 @@ class DragBar extends Component {
     }
 
     onDrag({ translateY }) {
-        if (!this.areDetailsOpen && translateY < 0) {
+        const { areDetailsOpen } = this.state;
+
+        if (!areDetailsOpen && translateY < 0) {
             CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
-        } else if (this.areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
+        } else if (areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
             if (!this.animatedTransitionOnce) {
                 this._animateAutoMove();
                 this.animatedTransitionOnce = true;
@@ -42,59 +48,58 @@ class DragBar extends Component {
         }
     }
 
+    closeDetails(cb) {
+        cb({
+            originalY: 0,
+            lastTranslateY: 0
+        });
+
+        this.setState({
+            ...this.state,
+            areDetailsOpen: false
+        })
+
+        this._animateAutoMove();
+        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
+        CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+    }
+
+    openDetails(cb) {
+        cb({
+            originalY: 0,
+            lastTranslateY: this._getScreenSizeWithAdjustment()
+        });
+
+        this.setState({
+            ...this.state,
+            areDetailsOpen: true
+        })
+
+        this._animateAutoMove();
+        CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
+        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
+        CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+    }
+    
     onDragEnd(state, callback) {
         const { translateY } = state;
-
+        const { areDetailsOpen } = this.state;
         this.animatedTransitionOnce = false;
 
-        if (!this.areDetailsOpen) {
+        if (!areDetailsOpen) {
             if (translateY > -150) {
                 // details are close and drag is higher than -150px => we close it back
-                callback({
-                    originalY: 0,
-                    lastTranslateY: 0
-                });
-
-                this._animateAutoMove();
-                CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
-                CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+                this.closeDetails(callback);
             } else {
                 // details are closed, but drag is lower than -150px => we open it completely
-                callback({
-                    originalY: 0,
-                    lastTranslateY: this._getScreenSizeWithAdjustment()
-                });
-
-                this.areDetailsOpen = true;
-
-                this._animateAutoMove();
-                CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
-                CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
-                CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 180px)');
+                this.openDetails(callback);
             }
         } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
             // details are open and drag is higher than 150px => we close it
-            callback({
-                originalY: 0,
-                lastTranslateY: 0
-            });
-
-            this.areDetailsOpen = false;
-
-            this._animateAutoMove();
-            CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
-            CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+            this.closeDetails(callback);
         } else {
             // details are open and drag is lower than 150px => we open it back
-            callback({
-                originalY: 0,
-                lastTranslateY: this._getScreenSizeWithAdjustment()
-            });
-
-            this._animateAutoMove();
-            CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
-            CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
-            CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 180px)');
+            this.openDetails(callback);
         }
     }
 
@@ -109,7 +114,8 @@ class DragBar extends Component {
 
     render() {
         const { children } = this.props;
-        
+        const touchActionEnabled = this.state;
+
         return (
             <article block="DragBar">
                 <Draggable
@@ -118,7 +124,8 @@ class DragBar extends Component {
                   draggableRef={ this.dragBarRef }
                   mix={ {
                       block: 'DragBar',
-                      elem: 'Draggable'
+                      elem: 'Draggable',
+                      mods: touchActionEnabled
                   } }
                 >
                     { children }
