@@ -10,8 +10,6 @@ import {
     PLACEHOLDER_TYPE
 } from 'SourceComponent/ProductGallery/ProductGallery.component';
 
-import './ProductGallery.style.override';
-
 class ProductGallery extends SourceProductGallery {
     renderSlider() {
         const {
