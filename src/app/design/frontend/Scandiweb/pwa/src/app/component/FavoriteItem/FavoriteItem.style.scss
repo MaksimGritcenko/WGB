@@ -1,0 +1,48 @@
+:root {
+    --buttons-text-color: #000000;
+}
+
+.FavoriteItem {
+    &-ButtonsDown {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .ButtonsDown {
+        &-View,
+        &-Remove{
+            padding: 13px 0 0;
+            border: none;
+            background: none;
+            background-color: unset;
+            color: var(--buttons-text-color);
+            font-size: 13px;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: -0.5px;
+            text-transform: unset;
+        }
+
+        &-View {
+            &::after {
+                content:"";
+                position: relative;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: 0 5px;
+                height: 5px;
+                border-right: 1px solid var(--product-after-line-color);
+            }
+        }
+    }
+    &-Row {
+        margin-top: 10px;
+
+        .FavoriteItem-AddToCart {
+            padding: 10px 0;
+            width: 100%;
+            font-size: 15px;
+        }
+    }
+}

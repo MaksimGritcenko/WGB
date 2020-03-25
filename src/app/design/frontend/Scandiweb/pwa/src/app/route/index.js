@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 
 import Breadcrumbs from 'Component/Breadcrumbs';
 import Header from 'Component/Header';
+import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
 import NavigationTabs from 'Component/NavigationTabs';
 
@@ -49,6 +50,10 @@ export class AppRouter extends SourceAppRouter {
             {
                 component: <Route path="/styleguide" exact component={ StyleGuide } />,
                 position: 11
+            },
+            {
+                component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
+                position: 1
             }
         );
     }
