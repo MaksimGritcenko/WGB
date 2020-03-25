@@ -19,7 +19,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
                 <GenderSlider
                   isGenderSwitcher
                 >
-                    <span>Woman content</span>
+                    <span>Women content</span>
                     <span>Men content</span>
                 </GenderSlider>
             </Overlay>
