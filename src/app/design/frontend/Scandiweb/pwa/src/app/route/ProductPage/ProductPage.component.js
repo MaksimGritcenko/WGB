@@ -24,7 +24,7 @@ export default class ProductPage extends SourceProductPage {
                 elem="GoBackIcon"
                 width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink"
             >
-                <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Page-2" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="PDP_mobile" transform="translate(-15.000000, -66.000000)" stroke="#090403">
                         <g id="Group-3" transform="translate(16.000000, 66.000000)">
                             <g id="Group-2">
