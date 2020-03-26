@@ -30,7 +30,7 @@ export default class ResetButton extends SourceResetButton {
                       mods: { isContentFiltered }
                   } }
                 >
-                    { __('Reset') }
+                    { __('Clear') }
                 </button>
             </div>
         );

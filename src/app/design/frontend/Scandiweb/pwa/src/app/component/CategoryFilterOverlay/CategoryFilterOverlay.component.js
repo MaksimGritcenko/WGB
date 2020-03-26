@@ -58,9 +58,10 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isFreezeEnabled={ false }
             >
+                { this.renderHeading() }
                 { this.renderNoResults() }
-                { this.renderResetButton() }
-                { this.renderSeeResults() }
+                {/* { this.renderResetButton() }
+                { this.renderSeeResults() } */}
             </Overlay>
         );
     }
@@ -72,6 +73,7 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
               id={ CATEGORY_FILTER_OVERLAY_ID }
               isFreezeEnabled={ false }
             >
+                { this.renderHeading() }
                 { this.renderPriceRange() }
             </Overlay>
         );
