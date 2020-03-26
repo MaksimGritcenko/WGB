@@ -9,10 +9,11 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import ExpandableContent from 'Component/ExpandableContent';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
+import CategoryProductAttributeValue from 'Component/CategoryProductAttributeValue';
+import CategoryExpandableContent from 'Component/CategoryExpandableContent';
 // eslint-disable-next-line max-len
 import SourceCategoryConfigurableAttributes from 'SourceComponent/CategoryConfigurableAttributes/CategoryConfigurableAttributes.component';
+import './CategoryConfigurableAttributes.style.scss';
 
 export const VIEW_MORE_ITEMS_LIMIT = 3;
 
@@ -33,25 +34,40 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
 
         return (
             <div
-              block="ProductConfigurableAttributes"
+              block="CategoryConfigurableAttributes"
               elem="SwatchList"
               mods={ { isLong } }
             >
                 { attribute_values.map((attribute_value, i) => {
                     const mix = isLong && i >= VIEW_MORE_ITEMS_LIMIT
-                        ? { block: 'ProductAttributeValue', mods: { isOpen, isClosed: !isOpen } }
+                        ? { block: 'CategoryProductAttributeValue', mods: { isOpen, isClosed: !isOpen } }
                         : {};
 
                     return this.renderConfigurableAttributeValue({ ...option, attribute_value, mix });
                 }) }
                 <button
-                  block="ProductConfigurableAttributes"
+                  block="CategoryConfigurableAttributes"
                   elem="SwatchList-More"
                   mods={ { isOpen } }
                   onClick={ () => this.toggleIsOpen(id) }
                 >
                     { text }
                 </button>
+            </div>
+        );
+    }
+
+    renderDropdown(option) {
+        const { attribute_values } = option;
+
+        return (
+            <div
+              block="CategoryConfigurableAttributes"
+              elem="DropDownList"
+            >
+                { attribute_values.map(attribute_value => (
+                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
+                )) }
             </div>
         );
     }
@@ -74,18 +90,18 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
             const isSwatch = !!swatch_data;
 
             return (
-                <ExpandableContent
+                <CategoryExpandableContent
                   key={ attribute_code }
                   heading={ attribute_label }
                   subHeading={ getSubHeading(option) }
                   mix={ {
-                      block: 'ProductConfigurableAttributes',
+                      block: 'CategoryConfigurableAttributes',
                       elem: 'Expandable'
                   } }
                   isContentExpanded={ isContentExpanded }
                 >
                     { isSwatch ? this.renderSwatch(option, id) : this.renderDropdown(option) }
-                </ExpandableContent>
+                </CategoryExpandableContent>
             );
         });
     }
@@ -101,7 +117,7 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
         const { attribute_value, mix } = attribute;
 
         return (
-            <ProductAttributeValue
+            <CategoryProductAttributeValue
               key={ attribute_value }
               attribute={ attribute }
               isSelected={ isSelected(attribute) }
@@ -111,6 +127,16 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
               mix={ mix }
               isFormattedAsLink
             />
+        );
+    }
+
+    render() {
+        const { isReady, mix } = this.props;
+
+        return (
+            <div block="CategoryConfigurableAttributes" mix={ mix }>
+                { isReady ? this.renderConfigurableAttributes() : this.renderPlaceholders() }
+            </div>
         );
     }
 }
