@@ -68,7 +68,13 @@ export class AppRouter extends SourceAppRouter {
         }
     ];
 
-    [AFTER_ITEMS_TYPE] = []
+    [AFTER_ITEMS_TYPE] = [];
+
+    getHeaderAndFooterOptions() {
+        return {
+            footer: { identifiers: this.getCmsBlocksToRequest() }
+        };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
