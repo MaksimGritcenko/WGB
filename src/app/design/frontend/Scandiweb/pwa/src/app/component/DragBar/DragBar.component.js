@@ -47,13 +47,9 @@ class DragBar extends Component {
         if (!areDetailsOpen && translateY < 0) {
             CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
         } else if (areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
-            if (!this.animatedTransitionOnce) {
-                this._animateAutoMove();
-                this.animatedTransitionOnce = true;
-            }
 
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
-            CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${180 + translateY}px)`);
+            CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
         }
     }
 
