@@ -11,6 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Children } from 'react';
+
 import CSS from 'Util/CSS';
 import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
@@ -154,6 +156,21 @@ export default class SliderVertical extends Slider {
         });
     }
 
+    renderCrumbs() {
+        const { children } = this.props;
+        if (children.length <= 1) return null;
+
+        return (
+            <div
+              block="Slider"
+              elem="Crumbs"
+              mix={ { block: 'SliderVertical', elem: 'Crumbs' } }
+            >
+                { Children.map(children, this.renderCrumb) }
+            </div>
+        );
+    }
+
     render() {
         const {
             showCrumbs, mix, activeImage, children
@@ -166,7 +183,7 @@ export default class SliderVertical extends Slider {
               ref={ this.sliderRef }
             >
                 <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical: true } } }
+                  mix={ { block: 'Slider', elem: 'Wrapper', mix: { block: 'SliderVertical', elem: 'Wrapper' }} }
                   draggableRef={ this.draggableRef }
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
