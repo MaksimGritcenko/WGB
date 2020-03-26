@@ -19,7 +19,7 @@ export default class ProductPage extends SourceProductPage {
 
     renderGoBackIcon() {
         return <>
-            <svg 
+            <svg
                 block="ProductPage"
                 elem="GoBackIcon"
                 width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink"
@@ -45,7 +45,7 @@ export default class ProductPage extends SourceProductPage {
               elem="GoBackText"
             >
                 {__('Back to ')}
-                <span 
+                <span
                   block="ProductPage"
                   elem="Category"
                 >
@@ -61,7 +61,7 @@ export default class ProductPage extends SourceProductPage {
         if (!url_path) return null;
         return <>
             <div block="ProductPage" elem="Header">
-                <Link 
+                <Link
                   block="ProductPage"
                   elem="GoBack"
                   to={`/${url_path}`}
@@ -82,12 +82,28 @@ export default class ProductPage extends SourceProductPage {
             />
         )
     }
-    
+
     renderProductPageContent() {
         return <>
             { this.renderPDPHeader() }
-            { this.renderProductGallery() }     
+            { this.renderProductGallery() }
         </>
+    }
+
+    freezeScroll() {
+        document.body.classList.add('scrollDisabled');
+    }
+
+    unFreezeScroll() {
+        document.body.classList.remove('scrollDisabled');
+    }
+
+    componentDidMount() {
+        this.freezeScroll();
+    }
+
+    componentWillUnmount() {
+        this.unFreezeScroll();
     }
 
     renderAdditionalSections() {
