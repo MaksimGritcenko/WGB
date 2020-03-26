@@ -51,6 +51,32 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
         );
     }
 
+    renderEmptyFilters() {
+        return (
+            <Overlay
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+              isFreezeEnabled={ false }
+            >
+                { this.renderNoResults() }
+                { this.renderResetButton() }
+                { this.renderSeeResults() }
+            </Overlay>
+        );
+    }
+
+    renderMinimalFilters() {
+        return (
+            <Overlay
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+              isFreezeEnabled={ false }
+            >
+                { this.renderPriceRange() }
+            </Overlay>
+        );
+    }
+
     renderDefaultFilters() {
         const { onVisible, onHide } = this.props;
 
@@ -60,6 +86,7 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
               onHide={ onHide }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
+              isFreezeEnabled={ false }
               isStatic
             >
                 { this.renderHeading() }

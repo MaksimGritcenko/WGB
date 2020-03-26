@@ -7,8 +7,6 @@ import { MixType, ChildrenType } from 'Type/Common';
 
 import './Overlay.style.override.scss';
 
-export const SCROLL_DISABLED_CLASS = 'scrollDisabled';
-
 export default class Overlay extends SourceOverlay {
     static propTypes = {
         mix: MixType,
@@ -30,14 +28,6 @@ export default class Overlay extends SourceOverlay {
         isFreezeEnabled: true,
         onHide: () => {}
     };
-
-    // componentWillUnmount() {
-    //     if (document.body.classList.contains(SCROLL_DISABLED_CLASS)) {
-    //         document.body.classList.remove(SCROLL_DISABLED_CLASS);
-    //         document.body.style.marginTop = 0;
-    //         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
-    //     }
-    // }
 
     onVisible() {
         const { onVisible } = this.props;
@@ -61,14 +51,14 @@ export default class Overlay extends SourceOverlay {
         const { isFreezeEnabled } = this.props;
         if (!isFreezeEnabled) return;
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
-        document.body.classList.add(SCROLL_DISABLED_CLASS);
+        document.body.classList.add('scrollDisabled');
         document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
     }
 
     unfreezeScroll() {
         const { isFreezeEnabled } = this.props;
         if (!isFreezeEnabled) return;
-        document.body.classList.remove(SCROLL_DISABLED_CLASS);
+        document.body.classList.remove('scrollDisabled');
         document.body.style.marginTop = 0;
         window.scrollTo(0, this.YoffsetWhenScrollDisabled);
     }
