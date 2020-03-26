@@ -60,8 +60,6 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
             >
                 { this.renderHeading() }
                 { this.renderNoResults() }
-                {/* { this.renderResetButton() }
-                { this.renderSeeResults() } */}
             </Overlay>
         );
     }
