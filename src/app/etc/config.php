@@ -244,6 +244,7 @@ return [
         'ScandiPWA_StoreGraphQL' => 1,
         'ScandiPWA_UrlrewriteGraphQl' => 1,
         'ScandiPWA_WishlistGraphQl' => 1,
+        'Scandiweb_ContactGraphQl' => 1,
         'ScandiPWA_Customization' => 1,
         'Scandiweb_LocaleResolverFix' => 1,
         'ScandiPWA_SliderGraphQl' => 1,
