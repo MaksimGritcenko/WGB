@@ -28,15 +28,20 @@
         transition-property: transform, top;
         transform: translate3d(0, var(--draggable-y), 0);
         max-height: 100%;
+
         overflow: var(--overflow);
         overscroll-behavior: contain;
         scroll-behavior: smooth;
 
         &_areDetailsOpen {
             top: calc(100% - 60px);
-            // touch-action: pan-y;
+
+            // TODO figure out without important
+            &::before {
+                content: none !important;
+            }
         }
-        
+
         &::after {
             content: '';
             position: absolute;
@@ -51,7 +56,7 @@
         &::before {
             content: '';
             position: absolute;
-            top: 0;
+            top: 5px;
             left: 0;
             right: 0;
             margin: auto;
@@ -63,7 +68,7 @@
             z-index: 1001;
             animation: bounce var(--open-bounce-speed) infinite alternate;
         }
-        
+
         > * {
             padding: 0 16px;
             z-index: 2;
