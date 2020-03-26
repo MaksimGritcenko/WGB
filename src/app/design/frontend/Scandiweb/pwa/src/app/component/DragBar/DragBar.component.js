@@ -43,7 +43,6 @@ class DragBar extends Component {
 
     onDrag({ translateY }) {
         const { areDetailsOpen } = this.state;
-        console.log(translateY);
 
         if (!areDetailsOpen && translateY < 0) {
             CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
@@ -56,7 +55,7 @@ class DragBar extends Component {
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
             CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${180 + translateY}px)`);
         }
-    } 
+    }
 
     closeDetails(cb, isManualChange = false) { // is manual && is changed
         const { goToPreviousHeaderState } = this.props;
@@ -70,7 +69,7 @@ class DragBar extends Component {
             ...this.state,
             areDetailsOpen: false
         });
-        
+
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
         CSS.setVariable(this.dragBarRef, 'overflow', 'visible');
@@ -93,7 +92,7 @@ class DragBar extends Component {
             ...this.state,
             areDetailsOpen: true
         })
-        
+
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
