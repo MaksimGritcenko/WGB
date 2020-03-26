@@ -20,10 +20,11 @@
         --overflow: visible;
         --animation-speed: 0;
 
+        background-color: #fff;
         position: fixed;
         width: 100%;
         will-change: transform, top;
-        top: calc(100% - var(--header-height) * 2 - 15px);
+        top: calc(100% - 110px);
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
         transform: translate3d(0, var(--draggable-y), 0);
@@ -34,7 +35,7 @@
         scroll-behavior: smooth;
 
         &_areDetailsOpen {
-            top: calc(100% - 60px);
+            max-height: calc(100% - 60px);
 
             // TODO figure out without important
             &::before {
@@ -56,7 +57,7 @@
         &::before {
             content: '';
             position: absolute;
-            top: 5px;
+            top: -7px;
             left: 0;
             right: 0;
             margin: auto;
