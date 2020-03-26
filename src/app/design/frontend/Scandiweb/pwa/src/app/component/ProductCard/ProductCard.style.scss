@@ -56,7 +56,9 @@
 
             &-Picture {
                 & > img {
-                    object-fit: contain;
+                    @include after-mobile {
+                        object-fit: contain;
+                    }
                 }
             }
         }
@@ -117,10 +119,12 @@
     }
 
     &-Picture {
-        height: 100vh;
+        @include after-mobile {
+            height: 100vh;
+        }
 
         @include mobile {
-            height: 50vh;
+            padding-bottom: 140%;
         }
 
         & > img {
