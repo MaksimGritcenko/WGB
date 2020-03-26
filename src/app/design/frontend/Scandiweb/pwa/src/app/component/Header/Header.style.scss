@@ -157,7 +157,6 @@
             }
 
             @include after-mobile {
-                // padding-bottom: var(--filter-height);
                 padding-bottom: 10px;
                 transition: background .4s ease-out;
 

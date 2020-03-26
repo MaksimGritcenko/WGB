@@ -13,10 +13,10 @@
 
 import PropTypes from 'prop-types';
 import Field from 'Component/Field/Field.component';
-import './ProductAttributeValue.style';
-import SourceProductAttributeValue from 'SourceComponent/ProductAttributeValue/ProductAttributeValue.component';
+import './CategoryProductAttributeValue.style';
+import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 
-export default class ProductAttributeValue extends SourceProductAttributeValue {
+export default class CategoryProductAttributeValue extends ProductAttributeValue {
     static propTypes = {
         ...this.propTypes,
         isFormattedAsLink: PropTypes.bool
@@ -51,7 +51,7 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
     renderPlaceholder() {
         return (
             <div
-              block="ProductAttributeValue"
+              block="CategoryProductAttributeValue"
               elem="Placeholder"
             />
         );
@@ -71,7 +71,7 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
 
         return (
             <data
-              block="ProductAttributeValue"
+              block="CategoryProductAttributeValue"
               elem="Color"
               value={ label }
               title={ label }
@@ -99,13 +99,13 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
         return (
             <>
                 <img
-                  block="ProductAttributeValue"
+                  block="CategoryProductAttributeValue"
                   elem="Image"
                   src={ `/media/attribute/swatch${img}` }
                   alt={ label }
                 />
                 <data
-                  block="ProductAttributeValue"
+                  block="CategoryProductAttributeValue"
                   elem="Image-Overlay"
                   value={ label }
                   title={ label }
@@ -128,7 +128,7 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
               label={ value }
               value={ value }
               mix={ {
-                  block: 'ProductAttributeValue',
+                  block: 'CategoryProductAttributeValue',
                   elem: 'Text',
                   mods: { isSelected }
               } }
@@ -147,7 +147,7 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
 
         return (
             <span
-              block="ProductAttributeValue"
+              block="CategoryProductAttributeValue"
               elem="String"
               mods={ { isSelected } }
               title={ label }
@@ -193,7 +193,7 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
         if (isFormattedAsText) {
             return (
                 <div
-                  block="ProductAttributeValue"
+                  block="CategoryProductAttributeValue"
                   mix={ mix }
                 >
                     { this.renderAttributeByType() }
@@ -204,7 +204,7 @@ export default class ProductAttributeValue extends SourceProductAttributeValue {
         return (
             <a
               href={ href }
-              block="ProductAttributeValue"
+              block="CategoryProductAttributeValue"
               mods={ { isNotAvailable } }
               onClick={ this.clickHandler }
               aria-hidden={ isNotAvailable }
