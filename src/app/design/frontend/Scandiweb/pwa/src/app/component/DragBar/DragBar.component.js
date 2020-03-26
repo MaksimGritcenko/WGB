@@ -13,8 +13,17 @@
 import { Component } from 'react';
 import Draggable from 'Component/Draggable';
 import CSS from 'Util/CSS/CSS';
+import { connect } from 'react-redux';
+import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
 
 import './DragBar.style';
+
+const mapDispatchToProps = dispatch => ({
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
+    goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
+})
 
 class DragBar extends Component {
     state = {
@@ -34,6 +43,7 @@ class DragBar extends Component {
 
     onDrag({ translateY }) {
         const { areDetailsOpen } = this.state;
+        console.log(translateY);
 
         if (!areDetailsOpen && translateY < 0) {
             CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
@@ -46,9 +56,11 @@ class DragBar extends Component {
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
             CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${180 + translateY}px)`);
         }
-    }
+    } 
 
-    closeDetails(cb) {
+    closeDetails(cb, isManualChange = false) { // is manual && is changed
+        const { goToPreviousHeaderState } = this.props;
+
         cb({
             originalY: 0,
             lastTranslateY: 0
@@ -57,14 +69,21 @@ class DragBar extends Component {
         this.setState({
             ...this.state,
             areDetailsOpen: false
-        })
-
+        });
+        
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
+        CSS.setVariable(this.dragBarRef, 'overflow', 'visible');
         CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+
+        if (isManualChange) {
+            goToPreviousHeaderState();
+        }
     }
 
     openDetails(cb) {
+        const { changeHeaderState } = this.props;
+
         cb({
             originalY: 0,
             lastTranslateY: this._getScreenSizeWithAdjustment()
@@ -74,13 +93,15 @@ class DragBar extends Component {
             ...this.state,
             areDetailsOpen: true
         })
-
+        
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
         CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+
+        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails(cb) })
     }
-    
+
     onDragEnd(state, callback) {
         const { translateY } = state;
         const { areDetailsOpen } = this.state;
@@ -96,7 +117,7 @@ class DragBar extends Component {
             }
         } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
             // details are open and drag is higher than 150px => we close it
-            this.closeDetails(callback);
+            this.closeDetails(callback, true);
         } else {
             // details are open and drag is lower than 150px => we open it back
             this.openDetails(callback);
@@ -109,7 +130,7 @@ class DragBar extends Component {
 
     _animateAutoMove() {
         CSS.setVariable(this.dragBarRef, 'animation-speed', '150ms');
-        setTimeout(() => CSS.setVariable(this.dragBarRef, 'animation-speed', '0'), 150);
+        this.timedOutAnimation = setTimeout(() => CSS.setVariable(this.dragBarRef, 'animation-speed', '0'), 150);
     }
 
     render() {
@@ -135,4 +156,4 @@ class DragBar extends Component {
     }
 }
 
-export default DragBar;
+export default connect(null, mapDispatchToProps)(DragBar);

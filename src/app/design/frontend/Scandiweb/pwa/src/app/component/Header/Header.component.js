@@ -55,6 +55,8 @@ export {
     CMS_PAGE,
 } from 'SourceComponent/Header/Header.component';
 
+export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
+
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes,
@@ -67,7 +69,10 @@ export default class Header extends SourceHeader {
             close: true
         },
         [PDP]: {
-            menu: true,
+            menu: true
+        },
+        [DRAGBAR_OPEN]: {
+            dragbar_close: true
         },
         [CATEGORY]: {
             back: true,
@@ -141,6 +146,7 @@ export default class Header extends SourceHeader {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
+        dragbar_close: this.renderDragbarCloseButton.bind(this),
         ...this.renderMap,
     }
 
@@ -286,6 +292,26 @@ export default class Header extends SourceHeader {
                     <MyAccountOverlay />
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderDragbarCloseButton(isVisible = false) {
+        const { onCloseButtonClick } = this.props;
+
+        return (
+            <button
+              key="dragbar_close"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'close', isVisible } }
+              mix={ { block: 'DragBar', elem: 'Close' } }
+              onClick={ onCloseButtonClick }
+              aria-label="Close"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { closeIcon }
+            </button>
         );
     }
 
