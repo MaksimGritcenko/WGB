@@ -20,15 +20,16 @@ export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         isWishlistLoading: PropTypes.bool.isRequired,
-        removeAll: PropTypes.func.isRequired,
         addAllToCart: PropTypes.func.isRequired,
         isWishlistEmpty: PropTypes.bool.isRequired,
         wishlistItems: PropTypes.objectOf(ProductType).isRequired,
-        updateBreadcrumbs: PropTypes.func.isRequired
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         this.updateBreadcrumbs();
+        this.updateHeaderMod();
     }
 
     updateBreadcrumbs() {
@@ -36,7 +37,7 @@ export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
         const breadcrumbs = [
             {
                 url: '/my-favorites',
-                name: __('My Wishlist')
+                name: __('My Favorites')
             },
             {
                 url: '/',
@@ -47,10 +48,12 @@ export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
         updateBreadcrumbs(breadcrumbs);
     }
 
-    renderActionLine() {
-        return (
-            null
-        );
+    updateHeaderMod() {
+        const { setHeaderState } = this.props;
+
+        setHeaderState({
+            name: 'favorites'
+        });
     }
 
     renderProduct = ([id, product]) => <FavoriteItem key={ id } product={ product } />;
@@ -66,7 +69,6 @@ export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
                 <div block="MyAccountMyWishlist" elem="Title">
                 { __('MY FAVORITES') }
                 </div>
-                { this.renderActionLine() }
                 { this.renderContent() }
             </div>
         );

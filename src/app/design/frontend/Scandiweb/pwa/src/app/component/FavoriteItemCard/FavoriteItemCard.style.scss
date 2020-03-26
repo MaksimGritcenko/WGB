@@ -38,6 +38,10 @@
         width: 100%;
         max-width: 250px;
         padding: 0 15px;
+
+        @include after-mobile {
+            padding: unset;
+        }
     }
 
     &-Info {
@@ -45,13 +49,17 @@
         flex-direction: row;
         align-items: center;
         max-width: 220px;
+
+        @include after-mobile {
+            align-self: center;
+        }
     }
 
     &-Name,
     &-Brand,
     &-SKU,
     &-Price {
-        color: #383838;
+        color:var(--link-color);
         width: 100%;
         font-size: 13px;
         font-family: 'Roboto', sans-serif;
@@ -67,8 +75,7 @@
         }
 
         @include after-mobile {
-            font-size: 14px;
-            line-height: 1.3;
+            text-align: center;
         }
     }
 
@@ -79,32 +86,36 @@
             bottom: 0;
             left: 0;
             right: 0;
-            margin-right: 9px;
+            margin: 0 9px;
             height: 5px;
             border-right: 1px solid var(--product-after-line-color);
+        }
+
+        @include after-mobile {
+            max-width: 70px;
+            overflow: visible;
         }
     }
 
     &-Name {
         @include after-mobile {
-            margin-top: .5rem;
-        }
-    }
+            min-width: 75px;
+            max-width: 220px;
 
-    &-SKU {
-        @include after-mobile {
-            margin-top: .5rem;
+            &_isLoaded {
+                text-overflow: ellipsis;
+                left: 9px;
+            }
         }
     }
 
     &-Brand {
-        color: #414141;
+        color: var(--link-color);
         font-weight: 700;
         font-size: 13px;
 
-        @include mobile {
-            line-height: 1;
-            font-size: 13px;
+        @include after-mobile {
+            align-self: center;
         }
 
         .ProductAttributeValue {
@@ -117,6 +128,11 @@
         height: 160px;
         padding: unset;
         margin-left: 15px;
+
+        @include after-mobile {
+            width: 320px;
+            height: 474px;
+        }
     }
 
     &-PictureMissing {

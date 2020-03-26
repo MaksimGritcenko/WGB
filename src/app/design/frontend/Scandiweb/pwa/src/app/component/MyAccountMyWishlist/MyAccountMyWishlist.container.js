@@ -9,15 +9,18 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { changeNavigationState } from 'Store/Navigation';
+
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta';
-import MyAccountMyWishlist from './MyAccountMyWishlist.component';
+import { MyAccountMyWishlistContainer as SourceMyAccountMyWishlistContainer }
+    from 'SourceComponent/MyAccountMyWishlist/MyAccountMyWishlist.container';
 
 export const mapStateToProps = state => ({
     wishlistItems: state.WishlistReducer.productsInWishlist,
@@ -28,13 +31,14 @@ export const mapDispatchToProps = dispatch => ({
     clearWishlist: () => WishlistDispatcher.clearWishlist(dispatch),
     moveWishlistToCart: () => WishlistDispatcher.moveWishlistToCart(dispatch),
     showNotification: message => dispatch(showNotification('success', message)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     updateMeta: meta => dispatch(updateMeta(meta)),
     updateBreadcrumbs: (breadcrumbs) => {
         BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
     }
 });
 
-export class MyAccountMyWishlistContainer extends PureComponent {
+export class MyAccountMyWishlistContainer extends SourceMyAccountMyWishlistContainer {
     static propTypes = {
         clearWishlist: PropTypes.func.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -53,61 +57,15 @@ export class MyAccountMyWishlistContainer extends PureComponent {
         updateMeta({ title: __('My Favorites') });
     }
 
-    containerProps = () => {
-        const { isLoading } = this.state;
-
-        return {
-            isWishlistEmpty: this._getIsWishlistEmpty(),
-            isLoading
-        };
-    };
-
-    containerFunctions = () => ({
-        removeAll: this.removeAll,
-        addAllToCart: this.addAllToCart
-    });
-
     addAllToCart = () => {
         const { moveWishlistToCart } = this.props;
 
         this.setState({ isLoading: true });
 
         return moveWishlistToCart().then(
-            () => this.showNotificationAndRemoveLoading('Wishlist moved to cart')
+            () => this.showNotificationAndRemoveLoading('Favorite Item moved to cart')
         );
     };
-
-    removeAll = () => {
-        const { clearWishlist } = this.props;
-
-        this.setState({ isLoading: true });
-
-        return clearWishlist().then(
-            () => this.showNotificationAndRemoveLoading('Wishlist cleared')
-        );
-    };
-
-    _getIsWishlistEmpty = () => {
-        const { wishlistItems } = this.props;
-
-        return Object.entries(wishlistItems).length <= 0;
-    };
-
-    showNotificationAndRemoveLoading(message) {
-        const { showNotification } = this.props;
-        this.setState({ isLoading: false });
-        showNotification(message);
-    }
-
-    render() {
-        return (
-            <MyAccountMyWishlist
-              { ...this.props }
-              { ...this.containerProps() }
-              { ...this.containerFunctions() }
-            />
-        );
-    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyWishlistContainer);

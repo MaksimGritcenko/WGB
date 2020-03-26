@@ -63,8 +63,8 @@ export default class ProductPrice extends SourceProductPrice {
                     <data
                       value={ formatedCurrency }
                     >
+                          <span>{ `${ currency } ` }</span>
                         <span itemProp="lowPrice">{ formatedCurrency }</span>
-                        <span>{ currency }</span>
                     </data>
                 </PriceSemanticElementName>
 
@@ -74,8 +74,8 @@ export default class ProductPrice extends SourceProductPrice {
                   mods={ { isVisible: discountPercentage > 0 } }
                   aria-label={ __('Old product price') }
                 >
+                    <span>{ `${ currency } ` }</span>
                     <span itemProp="highPrice">{ roundedRegularPrice }</span>
-                    <span>{ currency }</span>
                 </del>
 
                 <meta itemProp="priceCurrency" content={ priceCurrency } />

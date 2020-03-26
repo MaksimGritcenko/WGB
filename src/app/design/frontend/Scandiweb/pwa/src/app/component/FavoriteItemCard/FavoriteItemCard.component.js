@@ -54,7 +54,6 @@ export default class FavoriteItemCard extends PureComponent {
     renderProductPrice() {
         const { productOrVariant: { price } } = this.props;
         if (!price) return <TextPlaceholder />;
-        console.log( price );
 
         return (
             <ProductPrice
