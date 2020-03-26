@@ -74,7 +74,7 @@ export class MyAccountContainer extends SourceMyAccountContainer {
     changeActiveTab(activeTab) {
         const { history } = this.props;
         const { [activeTab]: { url } } = this.tabMap;
-        if (url === '/my-favorites') {
+        if (activeTab === MY_WISHLIST) {
             history.push(`${ url }`);
         } else {
             history.push(`${ MY_ACCOUNT_URL }${ url }`);

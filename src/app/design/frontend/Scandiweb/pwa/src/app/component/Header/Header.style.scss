@@ -96,6 +96,10 @@
     background-color: var(--header-background);
 
     &_name {
+        &_favorites {
+            --header-background: var(--header-default-background);
+        }
+
         &_category,
         &_filter {
             @include mobile {

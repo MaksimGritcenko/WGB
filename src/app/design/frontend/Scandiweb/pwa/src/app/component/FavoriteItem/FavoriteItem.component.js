@@ -18,6 +18,7 @@ import { ProductType, FilterType } from 'Type/ProductList';
 
 import './FavoriteItem.style';
 
+const PRODUCT_URL = 'product/';
 export default class FavoriteItem extends PureComponent {
     static propTypes = {
         addToCart: PropTypes.func,
@@ -82,7 +83,7 @@ export default class FavoriteItem extends PureComponent {
                         <Link
                           block="ButtonsDown"
                           elem="View"
-                          to={ product.url_key }
+                          to={ PRODUCT_URL + product.url_key }
                         >
                             { __('View Item') }
                         </Link>

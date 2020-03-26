@@ -15,6 +15,7 @@ import FavoriteItem from 'Component/FavoriteItem';
 
 import SourceMyAccountMyWishlist from 'SourceComponent/MyAccountMyWishlist/MyAccountMyWishlist.component';
 import './MyAccountMyWishlist.override.style.scss';
+import { FAVORITES } from 'Component/Header';
 
 export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
     static propTypes = {
@@ -52,7 +53,8 @@ export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: 'favorites'
+            name: FAVORITES,
+            title: null
         });
     }
 

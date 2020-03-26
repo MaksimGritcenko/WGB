@@ -9,13 +9,6 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
- :root {
-    --product-card-picture-mask-color: #f5f5f5;
-    --product-card-color-border-color: #efefef;
-    --product-cart-picture-label-background: rgba(255, 255, 255, .7);
-    --product-after-line-color: #000000;
-}
-
 .FavoriteItemCard {
     padding-left: 0;
     display: flex;
@@ -60,7 +53,6 @@
     &-SKU,
     &-Price {
         color:var(--link-color);
-        width: 100%;
         font-size: 13px;
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
@@ -80,6 +72,10 @@
     }
 
     &-Price {
+        width: 90px;
+        text-align: center;
+        right: 10px;
+
         &::before {
             content:"";
             position: relative;
@@ -88,24 +84,17 @@
             right: 0;
             margin: 0 9px;
             height: 5px;
-            border-right: 1px solid var(--product-after-line-color);
+            border-right: 1px solid var(--link-color);
         }
 
         @include after-mobile {
-            max-width: 70px;
-            overflow: visible;
+            right: 0;
         }
     }
 
     &-Name {
         @include after-mobile {
-            min-width: 75px;
-            max-width: 220px;
-
-            &_isLoaded {
-                text-overflow: ellipsis;
-                left: 9px;
-            }
+                left: 10px;
         }
     }
 
@@ -152,21 +141,6 @@
         padding: 22px 0 6px;
     }
 
-    &-Color {
-        --product-card-color-size: 9px;
-
-        @include after-mobile {
-            --product-card-color-size: 10px;
-        }
-
-        display: inline-block;
-        width: var(--product-card-color-size);
-        height: var(--product-card-color-size);
-        border-radius: 50%;
-        overflow: hidden;
-        margin-left: calc(var(--product-card-color-size) / 3);
-        border: 1px solid var(--product-card-color-border-color);
-    }
 
     &-Figure {
         display: flex;
