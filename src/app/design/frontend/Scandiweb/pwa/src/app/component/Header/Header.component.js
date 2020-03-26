@@ -1,5 +1,4 @@
 import { Fragment, createRef } from 'react';
-import ResetButton from 'Component/ResetButton';
 import SourceHeader, {
     PDP,
     CATEGORY,
@@ -34,6 +33,7 @@ import {
 } from './Header.config';
 
 import './Header.style';
+import 'Component/Popup/Popup.style';
 
 export {
     PDP,
@@ -111,10 +111,17 @@ export default class Header extends SourceHeader {
             title: true,
             cancel: true
         },
+        // [FILTER]: {
+        //     close: true,
+        //     clear: true,
+        //     title: true
+        // },
         [FILTER]: {
-            close: true,
-            clear: true,
-            title: true
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true
         },
         [CHECKOUT]: {
             back: true,
@@ -392,6 +399,22 @@ export default class Header extends SourceHeader {
             </div>
         );
     }
+
+    renderTitle(isVisible = false) {
+        const { navigationState: { title } } = this.props;
+
+        return (
+            <h2
+              key="title"
+              block="Header"
+              elem="Title"
+              mods={ { isVisible } }
+            >
+                { title }
+            </h2>
+        );
+    }
+
 
     render() {
         const { navigationState: { name } } = this.props;

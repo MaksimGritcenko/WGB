@@ -98,6 +98,11 @@
                 background: white;
                 color: var(--option-text-color);
 
+                @include mobile {
+                    text-align: right;
+                    padding-right: 5px;
+                }
+
                 &_isContentFiltered {
                     --option-text-color: black;
                 }

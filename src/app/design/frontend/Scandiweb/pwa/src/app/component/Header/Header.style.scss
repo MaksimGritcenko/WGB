@@ -230,8 +230,9 @@
         &_filter {
             --filter-button-margin: 268px;
             --filter-button-opacity: 0;
-            opacity: 1;
             --header-background: var(--header-default-background);
+
+            opacity: 1;
 
             .Header-Filter-Button {
                 &::before {
