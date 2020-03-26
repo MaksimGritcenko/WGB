@@ -57,7 +57,6 @@ export class CategoryFilterOverlayContainer extends SourceCategoryFilterOverlayC
     onVisible() {
         const {
             changeHeaderState,
-            changeNavigationState,
             goToPreviousNavigationState,
             navigationState: prevNavigationState
         } = this.props;
@@ -71,11 +70,6 @@ export class CategoryFilterOverlayContainer extends SourceCategoryFilterOverlayC
             name: FILTER,
             title,
             onCloseClick: () => goToPreviousNavigationState()
-        });
-
-        changeNavigationState({
-            name: FILTER,
-            isHidden: true
         });
     }
 

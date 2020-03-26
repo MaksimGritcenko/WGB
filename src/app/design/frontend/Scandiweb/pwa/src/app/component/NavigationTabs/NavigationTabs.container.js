@@ -27,7 +27,7 @@ export class NavigationTabsContainer extends SourceNavigationTabsContainer {
             setHeaderState
         } = this.props;
 
-        if (name === FILTER) {
+        if (name === FILTER && window.scrollY !== 0) {
             hideActiveOverlay();
             setHeaderState({ name: CATEGORY, title });
         }
