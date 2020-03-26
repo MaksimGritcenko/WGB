@@ -3,9 +3,48 @@
         background: var(--header-background);
     }
 
+    &-AddToCartWrapper {
+        @include mobile {
+            border-top: none;
+            order: 4;
+            padding: 0 0 0.5rem 0;
+            position: static;
+        }
+    }
+
+    &-AddToCart {
+        @include mobile {
+            width: 110%;
+        }
+    }
+
+    &-Attributes {
+        @include mobile {
+            border-top: none;
+        }
+    }
+
+    &-AttributesWrapper {        
+        @include mobile {
+            margin: 0 0 15px 0;
+            order: 8;
+        }
+    }
+
+    &-Brand {
+        @include mobile {
+            font-size: 13px;
+            margin: 0.5rem 0 0 0;
+            text-align: center;
+            color: #000;
+        }
+    }
+
     &-NameAndPrice {
         @include mobile {
             display: flex;
+            justify-content: center;
+            margin: 5px 0;
         }
     }
 
@@ -13,27 +52,32 @@
         @include mobile {
             text-align: right;
             text-transform: uppercase;
-            flex: 4 1;
+            max-width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
     }
 
     &-Price {
         @include mobile {
-            flex: 3 1;
             font-size: 13px;
             order: 3;
             padding: 0;
+        }
+
+        &::before {
+            @include mobile {
+                margin: 0 5px;
+                position: relative;
+                top: -1px;
+                content: '|';
+            }
         }
     }
 
     &-Price + &-Section_type_short {
         margin-top: 0;
-    }
-
-    &-Attributes {
-        @include mobile {
-            border-top: none;
-        }
     }
 
     &-Section {
@@ -57,6 +101,11 @@
         }
     }
 
+    &-ShortDescription {
+        margin: 0;
+        order: 6;
+    }
+
     &-Title {
         @include mobile {
             font-size: 1rem;
@@ -64,25 +113,4 @@
             text-transform: uppercase;
         }
     }
-
-    &-ShortDescription {
-        margin: 0;
-        order: 6;
-    }
-
-    &-AddToCartWrapper {
-        @include mobile {
-            border-top: none;
-            order: 4;
-            padding: 1rem 0 0 0;
-            position: static;
-        }
-    }
-
-    &-AttributesWrapper {        
-        @include mobile {
-            order: 8;
-        }
-    }
-
 }

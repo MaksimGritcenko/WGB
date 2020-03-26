@@ -9,12 +9,7 @@ import './ProductActions.style.override';
 export default class ProductActions extends SourceProductActions {
     renderNameAndBrand() {
         const {
-            product:
-                {
-                    name,
-                    attributes: { brand: { attribute_value: brand } = {} } = {}
-                },
-            showOnlyIfLoaded
+            product: { name },
         } = this.props;
 
         return (
@@ -23,19 +18,40 @@ export default class ProductActions extends SourceProductActions {
               elem="Section"
               mods={ { type: 'name' } }
             >
-                { showOnlyIfLoaded(
-                    brand,
-                    (
-                        <h4 block="ProductActions" elem="Brand" itemProp="brand">
-                            <TextPlaceholder content={ brand } />
-                        </h4>
-                    )
-                ) }
+                { this.renderBrand() }
                 <p block="ProductActions" elem="Title" itemProp="name">
                     <TextPlaceholder content={ name } length="medium" />
                 </p>
             </section>
         );
+    }
+
+    renderBrand() {
+        // TODO replace by const
+        let {
+            product: { attributes: { brand: { attribute_value: brand } = {} } = {} },
+            showOnlyIfLoaded
+        } = this.props;
+        
+        // display content or empty line
+        const contentToShow = showOnlyIfLoaded(
+            brand,
+            (
+                <p block="ProductActions" elem="Brand" itemProp="brand">
+                    <TextPlaceholder content={ brand } />
+                </p>
+            )
+        );
+
+        const emptyContent = (
+            <p block="ProductActions" elem="Brand" itemProp="brand">
+                <br />
+            </p>
+        );
+
+        return <>
+            { contentToShow || emptyContent}
+        </>
     }
 
     renderNameAndPrice() {
@@ -58,10 +74,11 @@ export default class ProductActions extends SourceProductActions {
                 />
             </div>
         </>
-    } 
+    }
 
     renderMobile() {
         return <>
+            { this.renderBrand() }
             { this.renderNameAndPrice() }
         </>
     }
