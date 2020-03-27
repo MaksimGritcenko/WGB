@@ -1,9 +1,10 @@
 import { UPDATE_MENU } from 'SourceStore/HeaderAndFooter/HeaderAndFooter.action';
 
-export const updateMenu = (menMenu, womenMenu) => ({
+export const updateMenu = (menMenu, womenMenu, moreInfoMenu) => ({
     type: UPDATE_MENU,
     menMenu,
-    womenMenu
+    womenMenu,
+    moreInfoMenu
 });
 
 export {

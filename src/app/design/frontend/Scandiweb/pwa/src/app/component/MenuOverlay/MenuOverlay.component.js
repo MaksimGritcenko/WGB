@@ -149,7 +149,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
         });
     }
 
-    renderTopLevel(menuId) {
+    renderTopLevel(menuId, mods) {
         const { [menuId]: menu } = this.props;
         const categoryArray = Object.values(menu);
 
@@ -162,14 +162,18 @@ export default class MenuOverlay extends SourceMenuOverlay {
         const mainMods = { type: 'main' };
 
         return (
-            <div block="MenuOverlay" elem="Menu">
+            <div
+              block="MenuOverlay"
+              elem="Menu"
+              mods={ mods }
+            >
                 <ul
                   block="MenuOverlay"
                   elem="ItemList"
                   mods={ mainMods }
                   aria-label={ mainCategoriesTitle }
                 >
-                    { this.renderFirstLevel(mainCategories, mainMods) }
+                    { this.renderFirstLevel(mainCategories, { ...mainMods, ...mods }) }
                 </ul>
             </div>
         );
@@ -201,6 +205,15 @@ export default class MenuOverlay extends SourceMenuOverlay {
         );
     }
 
+    renderSlide(slideId) {
+        return (
+            <>
+                { this.renderTopLevel(slideId) }
+                { this.renderTopLevel('moreInfoMenu', { isMoreInfo: true }) }
+            </>
+        );
+    }
+
     render() {
         return (
             <Overlay
@@ -212,8 +225,8 @@ export default class MenuOverlay extends SourceMenuOverlay {
                 <GenderSlider
                   isGenderSwitcher
                 >
-                    { this.renderTopLevel('womenMenu') }
-                    { this.renderTopLevel('menMenu') }
+                    { this.renderSlide('womenMenu') }
+                    { this.renderSlide('menMenu') }
                 </GenderSlider>
                 { this.renderBottomContent() }
             </Overlay>

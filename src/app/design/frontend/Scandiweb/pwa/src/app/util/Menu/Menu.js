@@ -16,7 +16,7 @@ export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
 ) => (PID - prevPID) || (P - prevP));
 
 const findRootCategoryIndex = (items) => {
-    for (let i = 0; i < items.length - 1; i++) {
+    for (let i = 0; i < items.length; i++) {
         if (items[i].parent_id === 0) return i;
     }
 
@@ -33,12 +33,15 @@ const findParentPosition = (parent_id, sortedItems) => {
     return null;
 };
 
-const sortMenu = (unsortedItems) => {
+const sortMenu = (items) => {
+    if (!items.length) return [];
+
+    const unsortedItems = Array.from(items);
     const rootIndex = findRootCategoryIndex(unsortedItems);
     const sortedItems = [unsortedItems[rootIndex]];
     unsortedItems.splice(rootIndex, 1);
 
-    if (!unsortedItems.length) return [];
+    if (!unsortedItems.length) return sortedItems;
 
     for (let i = 0; i < unsortedItems.length; i++) {
         const { parent_id } = unsortedItems[i];

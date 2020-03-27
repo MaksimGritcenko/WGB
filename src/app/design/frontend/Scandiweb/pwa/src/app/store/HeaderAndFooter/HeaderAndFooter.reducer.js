@@ -7,6 +7,7 @@ import {
 export const initialState = {
     menMenu: {},
     womenMenu: {},
+    moreInfoMenu: {},
     isHeaderAndFooterVisible: true
 };
 
@@ -15,7 +16,8 @@ const HeaderAndFooterReducer = (state = initialState, action) => {
         type,
         isHeaderAndFooterVisible,
         menMenu,
-        womenMenu
+        womenMenu,
+        moreInfoMenu
     } = action;
 
     switch (type) {
@@ -23,7 +25,8 @@ const HeaderAndFooterReducer = (state = initialState, action) => {
         return {
             ...state,
             menMenu: MenuReducer.reduce(menMenu),
-            womenMenu: MenuReducer.reduce(womenMenu)
+            womenMenu: MenuReducer.reduce(womenMenu),
+            moreInfoMenu: MenuReducer.reduce(moreInfoMenu)
         };
     case TOGGLE_HEADER_AND_FOOTER:
         return { ...state, isHeaderAndFooterVisible };
