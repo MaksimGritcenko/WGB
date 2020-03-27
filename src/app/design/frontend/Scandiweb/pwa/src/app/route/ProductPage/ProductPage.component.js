@@ -7,6 +7,8 @@ import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
 import ProductReviews from 'Component/ProductReviews';
 import RelatedProducts from 'Component/RelatedProducts'
+import ContentWrapper from 'Component/ContentWrapper';
+import isMobile from 'Util/Mobile';
 
 import './ProductPage.style.override';
 
@@ -117,8 +119,15 @@ export default class ProductPage extends SourceProductPage {
             areDetailsLoaded
         } = this.props;
 
+        const ConditionalWrapper = ({ condition, ifTrue, ifFalse, children }) =>
+            condition ? ifTrue(children) : ifFalse(children);
+
         return (
-            <DragBar>
+            <ConditionalWrapper
+              condition={ isMobile.any() }
+              ifTrue={ children => <DragBar>{ children }</DragBar>}
+              ifFalse={ children => <ContentWrapper mix={ { block: 'ProductContentWrapper' } } label={ __('Product information') }>{ children }</ContentWrapper> }
+            >
                 <ProductActions
                     getLink={getLink}
                     updateConfigurableVariant={updateConfigurableVariant}
@@ -140,7 +149,7 @@ export default class ProductPage extends SourceProductPage {
                     product={dataSource}
                     areDetailsLoaded={areDetailsLoaded}
                 />
-            </DragBar>
+            </ConditionalWrapper>
         );
     }
 }
