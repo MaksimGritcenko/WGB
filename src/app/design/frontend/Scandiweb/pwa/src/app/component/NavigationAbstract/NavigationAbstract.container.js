@@ -11,7 +11,9 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { CATEGORY } from 'Component/Header/Header.component';
+import {
+    CATEGORY, FILTER, PDP
+} from 'Component/Header/Header.component';
 import SourceNavigationAbstractContainer from 'SourceComponent/NavigationAbstract/NavigationAbstract.container';
 
 export { DEFAULT_STATE } from 'SourceComponent/NavigationAbstract/NavigationAbstract.container';
@@ -20,13 +22,33 @@ export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
 
 export class NavigationAbstractContainer extends SourceNavigationAbstractContainer {
-    handleDesktopRouteChange(history) {
+    handleMobileRouteChange(history) {
         const {
             hideActiveOverlay,
-            setNavigationState
+            setNavigationState,
+            navigationState: { name }
         } = this.props;
 
-        setNavigationState(this.routeMap['/']);
+        const { pathname } = history;
+
+        // Find the new state name
+        const newNavigationState = this.getNavigationState(pathname);
+        const { name: newName } = newNavigationState;
+
+        // Update the state if new name is set
+        if (name !== newName && name !== FILTER) {
+            setNavigationState(newNavigationState);
+        }
+
+        if (name === FILTER && newName === PDP) {
+            hideActiveOverlay();
+        }
+
+        return { prevPathname: pathname };
+    }
+
+    handleDesktopRouteChange(history) {
+        const { hideActiveOverlay } = this.props;
 
         const path = history.pathname.substr(HISTORY_START_CATEGORY_STRING, HISTORY_END_CATEGORY_STRING);
 

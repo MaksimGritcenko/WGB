@@ -18,18 +18,21 @@
 .CategoryFilterOverlay {
     transition: transform 300ms ease-in-out;
     transform: translateY(100%);
-    min-width: 350px;
     display: block;
+    position: fixed;
+    right: 0;
+    top: calc(var(--header-height) - 17px);
+    padding: 15px;
+    width: 350px;
+    transform: translateX(100%);
+    overflow: scroll;
+    height: calc(100vh - var(--header-height) + 17px);
 
-    @include after-mobile {
-        position: fixed;
-        right: 0;
-        top: var(--header-height);
-        padding: 15px;
-        max-width: 40vw;
-        transform: translateX(100%);
-        overflow: scroll;
-        height: 86vh;
+    @include mobile {
+        width: 55vw;
+        padding: 9px;
+        padding-top: 0;
+        margin-top: 9px;
     }
 
     &_isVisible {
@@ -48,14 +51,16 @@
                 transition: transform 300ms ease-in-out;
                 transform: translateX(0%);
             }
-        }
 
-        @include mobile {
-            transform: translateY(0%);
+            &-Heading {
+                opacity: 1;
+                transition: opacity 300ms ease-in-out;
+            }
         }
     }
 
     &-NoResults {
+        font-size: 15px;
         margin: 0;
         padding: 1rem 1rem 0;
 
@@ -69,9 +74,15 @@
         margin-bottom: 3rem;
         flex-direction: row;
         justify-content: center;
+        opacity: 0;
+        transition: opacity 300ms ease-in-out;
+
+        @include mobile {
+            margin: 1rem 0;
+        }
 
         & > *,
-        & > .ResetButton > * {
+        & > .ResetButton > .ResetButton {
             margin-left: auto;
             text-transform: uppercase;
             border: none;
@@ -79,8 +90,29 @@
             font-size: 15px;
         }
 
-        @include mobile {
-            display: none;
+        & > .ResetButton {
+            @include mobile {
+                padding: 0;
+            }
+
+            > .ResetButton {
+                background: white;
+                color: var(--option-text-color);
+
+                @include mobile {
+                    text-align: right;
+                    padding-right: 5px;
+                }
+
+                &_isContentFiltered {
+                    --option-text-color: black;
+                }
+
+                &:hover {
+                    background: none;
+                    color: var(--option-text-color);
+                }
+            }
         }
     }
 
@@ -88,30 +120,34 @@
         margin-left: 15px;
         margin-right: auto;
 
-        &::before,
-        &::after {
+        &::after,
+        &::before {
             content: '';
-            background: var(--option-text-color);
-            width: 11px;
-            height: 1px;
             position: absolute;
-            top: 8px;
-            left: -14px;
+            height: 7px;
+            width: 1px;
+            background-color: black;
+            left: -8px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
         }
 
         &::before {
-            width: 1px;
-            height: 11px;
-            top: 3px;
-            left: -9px;
+            transform-origin: 50% 50%;
             transform: scale(1);
+            transition: 200ms transform;
+            will-change: transform;
+        }
+
+        &::after {
+            transform-origin: 50% 50%;
+            transform: rotate(90deg);
         }
     }
 
     &-Item {
-        @include after-mobile {
-            margin-right: 1rem;
-        }
+        margin-right: 1rem;
 
         &_isSelected {
             &:not(.Swatch_type_color):not(.Swatch_type_cat) {
@@ -120,28 +156,22 @@
         }
 
         &:not(.Swatch_type_color):not(.Swatch_type_cat) {
-            @include after-mobile {
-                padding: 0 12px;
-                border: 1px solid var(--category-filter-overlay-desktop-color);
-                color: var(--category-filter-overlay-desktop-color);
-                margin-right: 6px;
-            }
+            padding: 0 12px;
+            border: 1px solid var(--category-filter-overlay-desktop-color);
+            color: var(--category-filter-overlay-desktop-color);
+            margin-right: 6px;
 
             &:hover {
-                @include after-mobile {
-                    --category-filter-overlay-desktop-color: var(--category-filter-overlay-hover-color);
-                }
+                --category-filter-overlay-desktop-color: var(--category-filter-overlay-hover-color);
             }
         }
 
         &_type_cat {
             &::before {
-                @include after-mobile {
-                    content: '\2022';
+                content: '\2022';
 
-                    margin-right: 1rem;
-                    margin-left: 2px;
-                }
+                margin-right: 1rem;
+                margin-left: 2px;
             }
         }
     }
@@ -152,28 +182,23 @@
 
     &-Attributes,
     &-Filter {
-        @include after-mobile {
-            margin-left: 3rem;
-        }
-
+        margin-left: 3rem;
         transform: translateX(100%);
         transition: transform 300ms ease-in-out;
+
+        @include mobile {
+            margin-left: 20px;
+        }
     }
 
     &-Attributes {
         --option-margin: .5rem;
-
-        @include after-mobile {
-            --option-margin: 0 12px 12px 0;
-        }
+        --option-margin: 0 12px 12px 0;
     }
 
     &-Filter {
         order: 50;
-
-        @include after-mobile {
-            margin-bottom: 1rem;
-        }
+        margin-bottom: 1rem;
     }
 
     &-SeeResults,
@@ -187,32 +212,11 @@
     }
 
     &-SeeResults {
-        @include after-mobile {
-            display: none;
-        }
-
-        .CategoryFilterOverlay-NoResults ~ & {
-            @include mobile {
-                display: none;
-            }
-        }
+        display: none;
     }
 
     &-Button.Button {
         width: 100%;
-    }
-
-    &-ResetButton {
-        @include mobile {
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .CategoryFilterOverlay-NoResults ~ & {
-            @include mobile {
-                display: block;
-            }
-        }
     }
 
     li {
@@ -221,21 +225,10 @@
         &::before {
             content: none;
         }
-
-        &:last-child {
-            @include mobile {
-                margin-bottom: .6rem;
-            }
-        }
-    }
-
-    .ProductAttributeValue-Image-Overlay {
-        @include mobile {
-            margin: .5rem;
-        }
     }
 
     &.Overlay {
         opacity: 1;
+        z-index: 110;
     }
 }

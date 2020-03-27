@@ -5,8 +5,8 @@ export const menuIcon = (
     </svg>
 );
 
-export const bookmarkIcon = (
-    <svg height="404pt" viewBox="-58 0 404 405" width="404pt" xmlns="http://www.w3.org/2000/svg">
+export const wishlistIcon = (
+    <svg viewBox="-58 0 404 405" xmlns="http://www.w3.org/2000/svg">
         <path d="M278 0H10C5 0 0 4 0 10v375a20 20 0 0032 16l112-80 112 80a20 20 0 0032-16V10c0-6-5-10-10-10zm-10 385l-118-85c-4-2-8-2-12 0L20 385V20h248zm0 0" />
     </svg>
 );

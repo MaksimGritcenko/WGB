@@ -38,10 +38,16 @@
 
 @mixin button-visible {
     opacity: 1;
-    padding: 7.5px;
-    width: 35px;
+    padding: 15px 10px;
+    width: 40px;
+    height: var(--header-height);
     pointer-events: all;
     overflow: visible;
+
+    @include after-mobile {
+        width: 60px;
+        padding: 20px;
+    }
 }
 
 @mixin search-bar-visible {
@@ -87,6 +93,8 @@
 .Header {
     --header-background: transparent;
     --header-icon-stroke-width: 2px;
+    --filter-button-margin: 14px;
+    --filter-button-opacity: 1;
 
     position: fixed;
     top: 0;
@@ -94,6 +102,58 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
+
+    @include after-mobile {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 0;
+    }
+
+    & > * {
+        width: 100%;
+    }
+
+    &-Filter {
+        display: none;
+        justify-content: flex-end;
+
+        &-Button {
+            font-size: 15px;
+            text-transform: uppercase;
+            margin-right: var(--filter-button-margin);
+            opacity: var(--filter-button-opacity);
+            transition: margin-right, opacity 300ms, 300ms ease-in-out;
+
+            &::after,
+            &::before {
+                content: '';
+                position: absolute;
+                height: 7px;
+                width: 1px;
+                background-color: black;
+                left: -8px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+
+            &::before {
+                transform-origin: 50% 50%;
+                transform: scale(1);
+                transition: 200ms transform;
+                will-change: transform;
+            }
+
+            &::after {
+                transform-origin: 50% 50%;
+                transform: rotate(90deg);
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
 
     &_name {
         &_category,
@@ -103,8 +163,13 @@
             }
 
             @include after-mobile {
-                padding-bottom: var(--filter-height);
+                padding-bottom: 10px;
                 transition: background .4s ease-out;
+
+
+                .Header-Filter {
+                    display: flex;
+                }
 
                 &:hover {
                     --header-background: white;
@@ -168,7 +233,17 @@
         }
 
         &_filter {
+            --filter-button-margin: 268px;
+            --filter-button-opacity: 0;
             --header-background: var(--header-default-background);
+
+            opacity: 1;
+
+            .Header-Filter-Button {
+                &::before {
+                    transform: scale(0);
+                }
+            }
         }
     }
 
@@ -190,10 +265,14 @@
         height: var(--header-nav-height);
         display: flex;
         align-items: center;
-        padding: 0 5px;
+        padding: 0px 5px;
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;
+
+        @include after-mobile {
+            padding: 0;
+        }
     }
 
     &-Button {
@@ -216,8 +295,8 @@
 
         &_type {
             &_menu,
-            &_account,
             &_minicart,
+            &_wishlist,
             &_searchButton {
                 @include after-mobile {
                     @include button-visible;
@@ -249,6 +328,12 @@
 
                 @include after-mobile {
                     order: 1;
+                }
+            }
+
+            &_wishlist {
+                @include after-mobile {
+                    order: 2
                 }
             }
         }
@@ -364,8 +449,7 @@
     }
 
     &-MiniCartWrapper {
-        height: 35px;
-        width: 35px;
+        order: 1;
 
         @include after-mobile {
             order: 3;
@@ -374,8 +458,8 @@
 
     &-MinicartQty {
         position: absolute;
-        top: 59%;
-        left: 50%;
+        top: 54%;
+        left: 49%;
         transform: translate(-50%, -50%);
         font-size: 10px;
     }

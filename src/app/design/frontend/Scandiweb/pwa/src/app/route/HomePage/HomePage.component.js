@@ -15,8 +15,8 @@ export default class HomePage extends PureComponent {
         return (
             <div block="HomePage">
                 <GenderSlider
-                    isGenderSwitcher
-                    isBottomSwitcher
+                  isGenderSwitcher
+                  isBottomSwitcher
                 >
                     <CmsPage { ...this.props } isBreadcrumbsActive={ false } />
                     <CmsPage { ...this.props } isBreadcrumbsActive={ false } />
