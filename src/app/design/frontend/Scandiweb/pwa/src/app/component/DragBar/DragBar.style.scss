@@ -7,6 +7,10 @@
     }
 }
 
+body {
+    overscroll-behavior: none;
+}
+
 .DragBar {
     background-color: var(--header-background);
     width: 100%;
@@ -31,7 +35,7 @@
         top: calc(100vh - 110px);
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
-        transform: translate3d(0, var(--draggable-y), 0);
+        transform: translateY(var(--draggable-y));
         max-height: calc(100vh - 50px);
 
         overflow: var(--overflow);
