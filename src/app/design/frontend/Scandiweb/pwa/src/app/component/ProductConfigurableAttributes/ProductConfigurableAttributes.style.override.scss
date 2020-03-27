@@ -1,10 +1,20 @@
 .ProductConfigurableAttributes {
     display: flex;
     justify-content: space-between;
-    
+
+    @include after-mobile {
+        flex-flow: column;
+    }
+
     &-Attribute {
-        flex: 1 1;
-        max-width: 48%;
+        @include mobile {
+            flex: 1 1;
+            max-width: 48%;
+        }
+
+        @include after-mobile {
+            width: 60%;
+        }
     }
 
     .Attribute {

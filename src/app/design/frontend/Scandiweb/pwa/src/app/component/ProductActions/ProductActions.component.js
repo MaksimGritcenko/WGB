@@ -7,32 +7,12 @@ import { GROUPED } from 'Util/Product';
 import './ProductActions.style.override';
 
 export default class ProductActions extends SourceProductActions {
-    renderNameAndBrand() {
-        const {
-            product: { name },
-        } = this.props;
-
-        return (
-            <section
-              block="ProductActions"
-              elem="Section"
-              mods={ { type: 'name' } }
-            >
-                { this.renderBrand() }
-                <p block="ProductActions" elem="Title" itemProp="name">
-                    <TextPlaceholder content={ name } length="medium" />
-                </p>
-            </section>
-        );
-    }
-
     renderBrand() {
-        // TODO replace by const
-        let {
+        const {
             product: { attributes: { brand: { attribute_value: brand } = {} } = {} },
             showOnlyIfLoaded
         } = this.props;
-        
+
         // display content or empty line
         const contentToShow = showOnlyIfLoaded(
             brand,
@@ -83,29 +63,17 @@ export default class ProductActions extends SourceProductActions {
         </>
     }
 
-    renderDesktop() {
-        return <>
-            { this.renderPrice() }
-            { this.renderNameAndBrand() }
-        </>
-    }
-
     render() {
         return (
             <article block="ProductActions">
-                {
-                    isMobile.any()
-                        ? this.renderMobile()
-                        : this.renderDesktop()
-                }
+                { this.renderBrand() }
+                { this.renderNameAndPrice() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
-                    { this.renderQuantityInput() }
                     { this.renderAddToCart() }
                     { this.renderProductWishlistButton() }
                 </div>
                 { this.renderReviews() }
-                { this.renderSkuAndStock() }
                 { this.renderConfigurableAttributes() }
                 { this.renderGroupedItems() }
                 { this.renderTierPrices() }
