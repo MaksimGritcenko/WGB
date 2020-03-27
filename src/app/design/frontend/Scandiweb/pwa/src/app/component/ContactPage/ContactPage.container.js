@@ -22,7 +22,7 @@ export class ContactPageContainer extends PureComponent {
 
     containerProps = () => {
         // isDisabled: this._getIsDisabled()
-    }
+    };
 
     render() {
         return (

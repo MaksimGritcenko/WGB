@@ -1,6 +1,9 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './New.style';
+import './ContactPage.style';
+
+import ContactForm from 'Component/ContactForm';
+import Accordion from 'Component/Accordion';
 
 class ContactPage extends PureComponent {
     static propTypes = {
@@ -10,7 +13,17 @@ class ContactPage extends PureComponent {
     render() {
         return (
             <div block="ContactPage">
-                {/* TODO: Implement render method */}
+                <Accordion>
+                    <div label="FORM APPLICATION">
+                        <ContactForm />
+                    </div>
+                    <div label="STAY SOCIAL">
+                    <p>
+                    Find us here:
+                    </p>
+
+                    </div>
+                </Accordion>
             </div>
         );
     }

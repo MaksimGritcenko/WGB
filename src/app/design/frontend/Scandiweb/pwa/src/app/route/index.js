@@ -4,7 +4,7 @@ import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
 import Header from 'Component/Header';
-import ContactForm from 'Component/ContactForm';
+import ContactPage from 'Component/ContactPage';
 
 import NotificationList from 'Component/NotificationList';
 import NavigationTabs from 'Component/NavigationTabs';
@@ -52,7 +52,7 @@ export class AppRouter extends SourceAppRouter {
                 position: 11
             },
             {
-                component: <Route path="/contact-us" exact component={ ContactForm } />,
+                component: <Route path="/contact-us" exact component={ ContactPage } />,
                 position: 2
             }
         );
@@ -73,7 +73,7 @@ export class AppRouter extends SourceAppRouter {
         }
     ];
 
-    [AFTER_ITEMS_TYPE] = []
+    [AFTER_ITEMS_TYPE] = [];
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

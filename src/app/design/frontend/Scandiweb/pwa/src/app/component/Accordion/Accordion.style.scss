@@ -1,0 +1,17 @@
+.Accordion {
+    display: flex;
+    flex-direction: column;
+
+    &-Button {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-Title {
+        width: 100%;
+        align-content: left;
+    }
+    &-arrow {
+        float: right;
+    }
+}
