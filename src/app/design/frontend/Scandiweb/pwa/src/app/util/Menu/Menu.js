@@ -8,7 +8,7 @@ export {
     TYPE_CUSTOM_URL,
     TYPE_CMS_PAGE,
     TYPE_CATEGORY
-} from 'SourceUtil/Menu';
+} from 'SourceUtil/Menu/Menu';
 
 export const getSortedItems = unsortedItems => Array.from(unsortedItems).sort((
     { parent_id: PID, position: P },
