@@ -20,15 +20,15 @@
 
     @include mobile {
         --option-border-color: #{$black};
-        --option-text-color: #{$black};
     }
 }
 
-.ProductAttributeValue {
+.CategoryProductAttributeValue {
     --button-background: initial;
     --button-color: initial;
     --button-padding: 0;
     --option-is-selected: 0;
+
     margin-bottom: 12px;
     margin-left: 0;
 
