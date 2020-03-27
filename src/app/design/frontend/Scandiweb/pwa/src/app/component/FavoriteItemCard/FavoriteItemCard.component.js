@@ -32,7 +32,7 @@ export default class FavoriteItemCard extends PureComponent {
         thumbnail: PropTypes.string,
         getAttribute: PropTypes.func.isRequired,
         registerSharedElement: PropTypes.func.isRequired,
-        children: PropTypes.element,
+        children: PropTypes.array,
         isLoading: PropTypes.bool,
         mix: PropTypes.shape({})
     };
@@ -144,19 +144,17 @@ export default class FavoriteItemCard extends PureComponent {
             >
                 <Loader isLoading={ isLoading } />
                 <meta itemProp="sku" content={ sku } />
-                    <>
-                        <figure block="FavoriteItemCard" elem="Figure">
-                            { this.renderPicture() }
-                        </figure>
-                        <div block="FavoriteItemCard" elem="Content">
-                        { this.renderAdditionalProductDetails() }
-                            <div block="FavoriteItemCard" elem="Info">
-                                { this.renderMainDetails() }
-                                { this.renderProductPrice() }
-                            </div>
-                            { children }
-                        </div>
-                    </>
+                <figure block="FavoriteItemCard" elem="Figure">
+                { this.renderPicture() }
+                </figure>
+                <div block="FavoriteItemCard" elem="Content">
+                    { this.renderAdditionalProductDetails() }
+                    <div block="FavoriteItemCard" elem="Info">
+                        { this.renderMainDetails() }
+                        { this.renderProductPrice() }
+                    </div>
+                    { children }
+                </div>
             </li>
         );
     }

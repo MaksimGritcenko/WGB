@@ -23,6 +23,7 @@ export const mapDispatchToProps = dispatch => ({
     addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
 });
 
+const IMAGE_SWATCH = '1';
 export class FavoriteItemCardContainer extends PureComponent {
     static propTypes = {
         product: ProductType,
@@ -116,30 +117,36 @@ export class FavoriteItemCardContainer extends PureComponent {
         ) || {};
     }
 
+    _getAttributeOptions() {
+        const { product: { attribute_options = [], attribute_values } } = this.props;
+
+        return Object.values(attribute_options).reduce(
+            (acc, option) => {
+                const {
+                    swatch_data,
+                    label,
+                    value: attrValue
+                } = option;
+
+                const { type, value } = swatch_data || {};
+
+                if (
+                    type === IMAGE_SWATCH
+                    && attribute_values.includes(attrValue)
+                ) {
+                    acc.push({ value, label });
+                }
+
+                return acc;
+            }, []
+        );
+    }
+
     _getAvailableVisualOptions() {
         const { product: { configurable_options = [] } } = this.props;
 
-        return Object.values(configurable_options).reduce((acc, { attribute_options = {}, attribute_values }) => {
-            const visualOptions = Object.values(attribute_options).reduce(
-                (acc, option) => {
-                    const {
-                        swatch_data,
-                        label,
-                        value: attrValue
-                    } = option;
-
-                    const { type, value } = swatch_data || {};
-
-                    if (
-                        type === '1'
-                        && attribute_values.includes(attrValue)
-                    ) {
-                        acc.push({ value, label });
-                    }
-
-                    return acc;
-                }, []
-            );
+        return Object.values(configurable_options).reduce((acc) => {
+            const visualOptions = this._getAttributeOptions();
 
             if (visualOptions.length > 0) return [...acc, ...visualOptions];
             return acc;

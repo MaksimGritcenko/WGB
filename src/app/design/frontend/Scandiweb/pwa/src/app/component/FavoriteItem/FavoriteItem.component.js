@@ -77,19 +77,17 @@ export default class FavoriteItem extends PureComponent {
               mix={ { block: 'FavoriteItem' } }
               isLoading={ isLoading }
             >
-                <>
-                    { this.renderAddToCart() }
-                    <div block="FavoriteItem" elem="ButtonsDown">
-                        <Link
-                          block="ButtonsDown"
-                          elem="View"
-                          to={ PRODUCT_URL + product.url_key }
-                        >
-                            { __('View Item') }
-                        </Link>
-                        { this.renderRemove() }
-                    </div>
-                </>
+                { this.renderAddToCart() }
+                <div block="FavoriteItem" elem="ButtonsDown">
+                    <Link
+                      block="ButtonsDown"
+                      elem="View"
+                      to={ PRODUCT_URL + product.url_key }
+                    >
+                        { __('View Item') }
+                    </Link>
+                    { this.renderRemove() }
+                </div>
             </FavoriteItemCard>
         );
     }

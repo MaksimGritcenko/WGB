@@ -12,7 +12,7 @@
  */
 
 import {
-    CATEGORY, FILTER, PDP
+    CATEGORY, FILTER, PDP, FAVORITES
 } from 'Component/Header/Header.component';
 import SourceNavigationAbstractContainer from 'SourceComponent/NavigationAbstract/NavigationAbstract.container';
 
@@ -36,7 +36,7 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
         const { name: newName } = newNavigationState;
 
         // Update the state if new name is set
-        if (name !== newName && name !== FILTER) {
+        if (name !== newName && name !== FILTER && name !== FAVORITES) {
             setNavigationState(newNavigationState);
         }
 

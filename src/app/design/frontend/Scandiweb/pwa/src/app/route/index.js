@@ -52,7 +52,7 @@ export class AppRouter extends SourceAppRouter {
             },
             {
                 component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
-                position: 1
+                position: 90
             }
         );
     }
