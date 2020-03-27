@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
-import Breadcrumbs from 'Component/Breadcrumbs';
 import Header from 'Component/Header';
+import ContactForm from 'Component/ContactForm';
+
 import NotificationList from 'Component/NotificationList';
 import NavigationTabs from 'Component/NavigationTabs';
 
@@ -49,6 +50,10 @@ export class AppRouter extends SourceAppRouter {
             {
                 component: <Route path="/styleguide" exact component={ StyleGuide } />,
                 position: 11
+            },
+            {
+                component: <Route path="/contact-us" exact component={ ContactForm } />,
+                position: 2
             }
         );
     }
