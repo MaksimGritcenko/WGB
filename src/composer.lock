@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f506116867481522a5acb2427bc49851",
+    "content-hash": "96b498b8b398c5e42c3ddc297e120e00",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -11806,7 +11806,7 @@
         },
         {
             "name": "scandipwa/gtm",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmitrijs-voronovs/GTM.git",
@@ -11842,14 +11842,14 @@
             ],
             "support": {
                 "email": "info@scandiweb.com",
-                "source": "https://github.com/dmitrijs-voronovs/GTM/tree/master",
+                "source": "https://github.com/dmitrijs-voronovs/GTM/tree/1.0.0",
                 "issues": "https://github.com/dmitrijs-voronovs/GTM/issues"
             },
             "time": "2020-02-07T17:26:41+00:00"
         },
         {
             "name": "scandipwa/gtm-graphql",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmitrijs-voronovs/GTM-graphql.git",
@@ -11885,7 +11885,7 @@
             ],
             "support": {
                 "email": "info@scandiweb.com",
-                "source": "https://github.com/dmitrijs-voronovs/GTM-graphql/tree/master",
+                "source": "https://github.com/dmitrijs-voronovs/GTM-graphql/tree/1.0.0",
                 "issues": "https://github.com/dmitrijs-voronovs/GTM-graphql/issues"
             },
             "time": "2020-02-07T17:37:16+00:00"
@@ -17538,12 +17538,12 @@
             "version": "1.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
+                "url": "https://github.com/php-webdriver/php-webdriver-archive.git",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver-archive/zipball/e43de70f3c7166169d0f14a374505392734160e5",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5",
                 "shasum": ""
             },
@@ -21042,8 +21042,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "scandipwa/gtm": 20,
-        "scandipwa/gtm-graphql": 20,
         "phpmd/phpmd": 0
     },
     "prefer-stable": false,
