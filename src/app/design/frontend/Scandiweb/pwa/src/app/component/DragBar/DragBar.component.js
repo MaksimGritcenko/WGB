@@ -11,9 +11,10 @@
  */
 
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Draggable from 'Component/Draggable';
 import CSS from 'Util/CSS/CSS';
-import { connect } from 'react-redux';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
@@ -23,7 +24,7 @@ import './DragBar.style';
 const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
-})
+});
 
 class DragBar extends Component {
     state = {
@@ -53,10 +54,10 @@ class DragBar extends Component {
         }
     }
 
-    closeDetails(cb, isManualChange = false) { // is manual && is changed
+    closeDetails(isManualChange = false) { // is manual && is changed
         const { goToPreviousHeaderState } = this.props;
 
-        cb({
+        this.cb({
             originalY: 0,
             lastTranslateY: 0
         });
@@ -76,10 +77,10 @@ class DragBar extends Component {
         }
     }
 
-    openDetails(cb) {
+    openDetails() {
         const { changeHeaderState } = this.props;
 
-        cb({
+        this.cb({
             originalY: 0,
             lastTranslateY: this._getScreenSizeWithAdjustment()
         });
@@ -94,28 +95,37 @@ class DragBar extends Component {
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
         CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
 
-        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails(cb) })
+        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.areDetailsOpen) {
+            if (prevProps.location.pathname !== this.props.location.pathname) {
+                this.closeDetails(true);
+            }
+        }
     }
 
     onDragEnd(state, callback) {
         const { translateY } = state;
         const { areDetailsOpen } = this.state;
         this.animatedTransitionOnce = false;
+        this.cb = callback;
 
         if (!areDetailsOpen) {
             if (translateY > -150) {
                 // details are close and drag is higher than -150px => we close it back
-                this.closeDetails(callback);
+                this.closeDetails();
             } else {
                 // details are closed, but drag is lower than -150px => we open it completely
-                this.openDetails(callback);
+                this.openDetails();
             }
         } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
             // details are open and drag is higher than 150px => we close it
-            this.closeDetails(callback, true);
+            this.closeDetails(true);
         } else {
             // details are open and drag is lower than 150px => we open it back
-            this.openDetails(callback);
+            this.openDetails();
         }
     }
 
@@ -151,4 +161,5 @@ class DragBar extends Component {
     }
 }
 
-export default connect(null, mapDispatchToProps)(DragBar);
+export const DragBarWrapper = connect(null, mapDispatchToProps)(DragBar);
+export default withRouter(DragBarWrapper);
