@@ -1,23 +1,29 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showNotification } from 'Store/Notification';
 import { ContactInfoQuery } from 'Query';
 import DataContainer from 'Util/Request/DataContainer';
+import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
+import { updateMeta } from 'Store/Meta';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
+import { changeNavigationState } from 'Store/Navigation';
 import ContactPage from './ContactPage.component';
-
 
 export const mapStateToProps = state => ({
     // wishlistItems: state.WishlistReducer.productsInWishlist
 });
 
 export const mapDispatchToProps = dispatch => ({
-    // addProduct: options => CartDispatcher.addProductToCart(dispatch, options)
+    updateMeta: meta => dispatch(updateMeta(meta)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    updateBreadcrumbs: (breadcrumbs) => {
+        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+    }
 });
 
 export class ContactPageContainer extends DataContainer {
     static propTypes = {
-        // TODO: implement prop-types
+        updateMeta: PropTypes.func.isRequired
     };
 
     state = {
@@ -29,6 +35,9 @@ export class ContactPageContainer extends DataContainer {
     };
 
     componentDidMount() {
+        const { updateMeta } = this.props;
+
+        updateMeta({ title: __('Contact Us') });
         this.requestContactInfo();
     }
 
@@ -36,7 +45,7 @@ export class ContactPageContainer extends DataContainer {
         this.fetchData(
             [ContactInfoQuery.getContactInfoQuery()],
             ({ ContactInfo }) => this.setState({ ContactInfo }),
-            e => console.log('Error')
+            e => console.log(e)
         );
     }
 
@@ -44,6 +53,7 @@ export class ContactPageContainer extends DataContainer {
         return (
             <ContactPage
               { ...this.state }
+              { ...this.props }
             />
         );
     }

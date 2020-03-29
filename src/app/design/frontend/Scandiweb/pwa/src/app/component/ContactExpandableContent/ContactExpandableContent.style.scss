@@ -1,0 +1,181 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+  --expandable-content-color: #000;
+  --expandable-content-divider-color: var(--primary-divider-color);
+}
+
+@mixin expanded-content {
+  opacity: 1;
+  max-height: 100%;
+  padding: unset;
+  padding-bottom: 15px;
+}
+
+.ContactExpandableContent {
+    border-top: 1px solid var(--expandable-content-divider-color);
+    margin: 0 13px 0 16px;
+
+  &-MainContent {
+    font-size: 13px;
+    font-weight: 600;
+
+    @include after-mobile {
+      font-size: 15px;
+      padding-left: 37px;
+    }
+  }
+
+  &-SubContent {
+    font-size: 13px;
+    letter-spacing: -0.43px;
+    line-height: 1;
+    padding-bottom: 6px;
+
+    @include after-mobile {
+      font-size: 15px;
+      padding-left: 37px;
+    }
+  }
+
+  &:first-of-type {
+    border-top: 0;
+  }
+
+  &:last-of-type {
+      border-bottom: 1px solid var(--expandable-content-divider-color);
+  }
+
+  &-Button {
+    text-align: left;
+    width: 100%;
+    will-change: border-color;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 17px 0;
+
+    @include after-mobile {
+      padding: 19px 0;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      height: 0;
+      width: 0;
+      border-style: solid;
+      border-width: 5px 3px 0 3px;
+      border-color: #000000 transparent transparent transparent;
+      right: 1.5rem;
+      top: 0;
+      transition: transform 330ms ease-in-out;
+      bottom: 0;
+      margin: auto;
+    }
+
+    &_isContentExpanded {
+      &::before {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &-Heading,
+  &-SubHeading {
+    display: block;
+    color: var(--expandable-content-color);
+  }
+
+  &-Heading {
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-transform: uppercase;
+    word-break: break-all;
+
+    @include after-mobile {
+      cursor: auto;
+      font-size: 17px;
+      font-weight: bold;
+      text-transform: none;
+    }
+  }
+
+  &-SubHeading {
+    font-weight: 300;
+    font-size: .8rem;
+    line-height: 1.1;
+  }
+
+  &-Content {
+    // Disabled as it prevents z-index use inside
+    // will-change: max-height, padding, opacity;
+    transition-property: opacity;
+    transition-duration: 200ms;
+    padding: 0 1rem;
+    max-height: 0;
+    overflow: hidden;
+          opacity: 0;
+
+    &_isContentExpanded {
+        @include expanded-content;
+    }
+  }
+}
+
+.Email {
+  &-ContactExpandableContentHeading {
+    &::before{
+      content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 13 13'%3E%3Cg%3E%3Cpath d='M4.76 9.981v2.599c0 .181.112.342.28.4.04.013.083.02.126.02.126 0 .249-.062.327-.171L6.96 10.76 4.76 9.981zM12.83.079c-.125-.093-.289-.105-.424-.03L.218 6.683c-.144.079-.229.24-.217.408.013.17.12.314.274.369l3.388 1.207 7.215-6.433L5.295 9.25l5.678 2.023c.042.015.087.023.131.023.074 0 .147-.021.211-.062.103-.065.173-.175.191-.299L12.996.486c.022-.158-.042-.315-.167-.407z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+  }
+}
+
+.Phone {
+  &-ContactExpandableContentHeading {
+    &::before{
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 13 13'%3E%3Cpath d='M12.972 10.073c-.036-.111-.27-.274-.701-.49-.117-.067-.283-.16-.499-.277-.215-.117-.41-.224-.586-.323-.176-.098-.34-.194-.494-.286l-.23-.162c-.13-.089-.24-.155-.329-.198-.089-.043-.177-.065-.263-.065-.123 0-.277.088-.461.263-.185.176-.354.367-.508.573-.154.206-.317.397-.49.572-.172.176-.313.263-.424.263-.056 0-.125-.015-.208-.046-.083-.03-.146-.057-.19-.078-.042-.022-.116-.065-.22-.13-.106-.064-.164-.1-.176-.106-.844-.468-1.567-1.003-2.17-1.606-.603-.603-1.139-1.327-1.607-2.17-.006-.012-.041-.07-.106-.175-.065-.105-.108-.179-.13-.222-.02-.043-.047-.106-.078-.19-.03-.082-.046-.151-.046-.207 0-.11.088-.252.263-.425.176-.172.367-.335.573-.489.206-.154.397-.323.572-.508.176-.184.263-.338.263-.461 0-.086-.021-.174-.064-.263-.043-.09-.11-.199-.199-.328l-.161-.231c-.093-.154-.188-.318-.287-.494-.098-.175-.206-.37-.323-.586-.117-.215-.209-.382-.277-.499C3.201.3 3.038.065 2.927.028 2.884.009 2.819 0 2.733 0c-.166 0-.383.03-.65.092-.269.062-.48.126-.633.194-.308.13-.634.505-.98 1.126C.158 1.991 0 2.563 0 3.13c0 .166.01.327.032.484.022.157.06.334.116.531.055.197.1.344.134.439.033.095.096.266.189.512.092.246.148.397.166.453.215.603.47 1.141.766 1.615.486.788 1.15 1.602 1.99 2.443.84.84 1.654 1.503 2.442 1.99.474.295 1.013.55 1.616.766.055.018.206.073.452.166l.513.19c.095.033.242.078.438.133.198.056.374.094.531.116.157.021.319.032.485.032.566 0 1.139-.157 1.717-.47.622-.346.997-.672 1.127-.98.068-.153.132-.364.194-.632.061-.268.092-.485.092-.651 0-.086-.01-.15-.028-.194z'/%3E%3C/svg%3E");
+   }
+  }
+}
+
+.Form {
+  &-ContactExpandableContentHeading {
+    &::before{
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 18 17'%3E%3Cg%3E%3Cpath d='M.019 16.37c-.05.171 0 .36.126.485.093.092.222.145.351.145.047 0 .093-.007.136-.02l4.634-1.316-3.924-3.907L.019 16.37z' transform='translate(.375)'/%3E%3Cpath d='M.515 17c-.137 0-.267-.053-.364-.15-.133-.132-.183-.325-.13-.504l1.343-4.668 3.995 3.97L.656 16.98c-.047.013-.094.02-.14.02zm.862-5.263L.051 16.353c-.047.169 0 .348.124.471.09.09.213.14.34.14.044 0 .09-.007.134-.02l4.643-1.319-3.915-3.888zM16.567 2.55L14.452.44C14.166.156 13.792 0 13.39 0c-.4 0-.776.156-1.06.436l-1.058 1.057 4.233 4.227 1.059-1.058c.283-.283.436-.658.436-1.057.003-.4-.153-.772-.433-1.054z' transform='translate(.375)'/%3E%3Cpath d='M15.501 5.72l-4.23-4.22L12.335.44c.285-.285.662-.44 1.062-.44.404 0 .781.155 1.063.44l2.101 2.096c.284.284.44.66.44 1.06 0 .403-.156.78-.44 1.06L15.501 5.72zM11.318 1.5l4.183 4.173 1.04-1.037c.277-.277.43-.644.43-1.036 0-.393-.153-.76-.43-1.037l-2.102-2.1c-.278-.278-.649-.43-1.043-.43-.393 0-.76.152-1.039.43l-1.039 1.036zM1.94 10.872L10.57 2.224 14.783 6.446 6.153 15.093z' transform='translate(.375)'/%3E%3Cpath d='M6.1 15.093l-4.252-4.257 8.685-8.691 4.25 4.254L6.1 15.093zm-4.202-4.257L6.1 15.044l8.635-8.645-4.203-4.207-8.635 8.644z' transform='translate(.375)'/%3E%3C/g%3E%3C/svg%3E%0A");
+   }
+  }
+}
+
+.Social {
+  &-ContactExpandableContentHeading {
+    &::before{
+      content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 13 13'%3E%3Cg%3E%3Cpath d='M6.5 0C3.771 0 1.32 1.731.403 4.308.153 5.01 0 5.748 0 6.5 0 10.084 2.93 13 6.5 13c.956 0 1.88-.21 2.752-.622l2.5.612c.136.035.288-.022.38-.158.09-.132.106-.31.04-.46l-.738-1.68C12.43 9.518 13 8.041 13 6.5 13 2.916 10.07 0 6.5 0zm3.047 7.367c.21 0 .38.193.38.433s-.17.433-.38.433H7.984l-.356 1.419c-.056.224-.261.364-.47.298-.203-.066-.32-.306-.263-.536l.297-1.18H4.937l-.356 1.418c-.056.224-.261.364-.47.298-.203-.066-.32-.306-.263-.536l.297-1.18h-.692c-.21 0-.38-.195-.38-.434 0-.24.17-.433.38-.433h.91l.435-1.734H3.453c-.21 0-.38-.194-.38-.433 0-.24.17-.433.38-.433h1.563l.356-1.42c.058-.23.27-.36.47-.297.203.066.32.306.263.535l-.297 1.182h2.255l.356-1.42c.058-.23.271-.36.47-.297.203.066.32.306.263.535l-.297 1.182h.692c.21 0 .38.193.38.433s-.17.433-.38.433h-.91l-.435 1.734h1.345z'/%3E%3C/g%3E%3C/svg%3E");
+   }
+  }
+}
+
+.Email,
+.Phone,
+.Form,
+.Social {
+  &-ContactExpandableContentHeading {
+    &::before{
+      padding-right: 10px;
+
+      @include after-mobile {
+        padding-right: 20px;
+      }
+    }
+  }
+}
