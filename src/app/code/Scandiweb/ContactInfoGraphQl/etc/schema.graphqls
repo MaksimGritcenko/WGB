@@ -1,0 +1,9 @@
+type Query {
+    getContactInfo: ContactInfo @doc(description: "Send contact info") @resolver(class:"\\Scandiweb\\ContactInfoGraphQl\\Model\\Resolver\\Contact")
+}
+
+type ContactInfo {
+    store_phone: String
+    store_email: String
+    store_working_hours: String
+}

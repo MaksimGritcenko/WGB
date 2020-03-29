@@ -1,3 +1,5 @@
+<?xml version="1.0"?>
+<!--
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -8,7 +10,9 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
+-->
 
-export * from 'SourceQuery';
-export { default as ContactFormQuery } from 'Query/ContactForm.query';
-export { default as ContactInfoQuery } from 'Query/ContactInfo.query';
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Scandiweb_ContactInfoGraphQl" setup_version="1.0.0">
+    </module>
+</config>

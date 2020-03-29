@@ -1,3 +1,4 @@
+<?php
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -9,6 +10,10 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-export * from 'SourceQuery';
-export { default as ContactFormQuery } from 'Query/ContactForm.query';
-export { default as ContactInfoQuery } from 'Query/ContactInfo.query';
+use Magento\Framework\Component\ComponentRegistrar;
+
+ComponentRegistrar::register(
+    ComponentRegistrar::MODULE,
+    'Scandiweb_ContactInfoGraphQl',
+    __DIR__
+);
