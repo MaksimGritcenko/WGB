@@ -71,6 +71,11 @@
             margin-top: 55px;
         }
 
+        &_isMoreInfo {
+            margin-top: 30px;
+            margin-bottom: 100px;
+        }
+
         li {
             padding-left: 0;
 
@@ -197,6 +202,7 @@
         font-weight: bold;
         text-transform: uppercase;
         text-align: center;
+        line-height: 1;
 
         &_type {
             &_trending {
@@ -236,6 +242,13 @@
                     transform: translateY(-50%);
                     font-size: 40px;
                 }
+
+                &.MenuOverlay-ItemCaption_isMoreInfo {
+                    &::before {
+                        font-size: 20px;
+                        width: 20px;
+                    }
+                }
             }
 
             &_plus {
@@ -247,6 +260,19 @@
             &_minus {
                 &::before {
                     content: '-';
+                }
+            }
+        }
+
+        &_isMoreInfo {
+            font-family: "Roboto", sans-serif;
+            font-size: 23px;
+            font-weight: 400;
+
+            &_plus,
+            &_minus {
+                &::before {
+                    font-size: 20px;
                 }
             }
         }
