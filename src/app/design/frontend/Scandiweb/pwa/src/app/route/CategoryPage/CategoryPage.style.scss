@@ -59,27 +59,37 @@
         text-transform: uppercase;
         text-align: right;
         grid-column: 2;
-        font-size: 16px;
+        font-size: 15px;
         min-height: var(--filter-height);
         margin-right: 15px;
 
-        &::before,
-        &::after {
+        @include mobile {
+            padding: 0;
+        }
+
+        &::after,
+        &::before {
             content: '';
-            background: var(--option-text-color);
-            width: 11px;
-            height: 1px;
             position: absolute;
-            top: 8px;
-            left: -14px;
+            height: 7px;
+            width: 1px;
+            background-color: black;
+            left: -8px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
         }
 
         &::before {
-            width: 1px;
-            height: 11px;
-            top: 3px;
-            left: -9px;
+            transform-origin: 50% 50%;
             transform: scale(1);
+            transition: 200ms transform;
+            will-change: transform;
+        }
+
+        &::after {
+            transform-origin: 50% 50%;
+            transform: rotate(90deg);
         }
 
         &_isOpen::before {
@@ -93,11 +103,10 @@
     }
 
     &-Miscellaneous {
+        display: none;
         position: sticky;
         order: -1;
-        z-index: 101;
-        display: grid;
-        grid-template-columns: auto 350px;
+        z-index: 99;
         align-items: center;
         min-height: var(--filter-height);
         transform: translateY(0);
@@ -113,7 +122,9 @@
         background: transparent;
 
         @include mobile {
-            grid-template-columns: 50% 50%;
+            display: flex;
+            padding-top: 0;
+            justify-content: flex-end;
             background: #fff;
             position: fixed;
         }
@@ -122,11 +133,6 @@
             @include mobile {
                 transform: translateY(-100%);
             }
-        }
-
-        > * {
-            padding-left: 1rem;
-            padding-right: 1rem;
         }
     }
 }

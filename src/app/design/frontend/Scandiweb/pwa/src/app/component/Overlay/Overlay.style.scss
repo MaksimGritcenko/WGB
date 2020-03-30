@@ -27,7 +27,7 @@
 
     background-color: var(--overlay-background);
 
-    &:not(.Overlay_isStatic) {
+    &:not(.Overlay_isStatic):not(.CategoryFilterOverlay) {
         @include mobile {
             -webkit-overflow-scrolling: touch;
 

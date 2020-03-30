@@ -96,6 +96,8 @@
 .Header {
     --header-background: transparent;
     --header-icon-stroke-width: 2px;
+    --filter-button-margin: 14px;
+    --filter-button-opacity: 1;
 
     position: fixed;
     top: 0;
@@ -104,7 +106,63 @@
     z-index: 100;
     background-color: var(--header-background);
 
+    @include after-mobile {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 0;
+    }
+
+    & > * {
+        width: 100%;
+    }
+
+    &-Filter {
+        display: none;
+        justify-content: flex-end;
+
+        &-Button {
+            font-size: 15px;
+            text-transform: uppercase;
+            margin-right: var(--filter-button-margin);
+            opacity: var(--filter-button-opacity);
+            transition: margin-right, opacity 300ms, 300ms ease-in-out;
+
+            &::after,
+            &::before {
+                content: '';
+                position: absolute;
+                height: 7px;
+                width: 1px;
+                background-color: black;
+                left: -8px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+
+            &::before {
+                transform-origin: 50% 50%;
+                transform: scale(1);
+                transition: 200ms transform;
+                will-change: transform;
+            }
+
+            &::after {
+                transform-origin: 50% 50%;
+                transform: rotate(90deg);
+            }
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
     &_name {
+        &_favorites {
+            --header-background: var(--header-default-background);
+        }
+
         &_category,
         &_filter {
             @include mobile {
@@ -112,8 +170,13 @@
             }
 
             @include after-mobile {
-                padding-bottom: var(--filter-height);
+                padding-bottom: 10px;
                 transition: background .4s ease-out;
+
+
+                .Header-Filter {
+                    display: flex;
+                }
 
                 &:hover {
                     --header-background: white;
@@ -177,7 +240,17 @@
         }
 
         &_filter {
+            --filter-button-margin: 268px;
+            --filter-button-opacity: 0;
             --header-background: var(--header-default-background);
+
+            opacity: 1;
+
+            .Header-Filter-Button {
+                &::before {
+                    transform: scale(0);
+                }
+            }
         }
     }
 
@@ -199,7 +272,7 @@
         height: var(--header-nav-height);
         display: flex;
         align-items: center;
-        padding: 0px 10px;
+        padding: 0px 5px;
         z-index: 20;
         max-width: var(--content-wrapper-width);
         margin: auto;

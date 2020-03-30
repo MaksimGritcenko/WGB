@@ -36,14 +36,15 @@ import {
 } from './Header.config';
 
 import './Header.style';
+import 'Component/Popup/Popup.style';
 
 export {
     PDP,
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_SUB_ACCOUNT,
     HOME_PAGE,
     MENU,
     MENU_SUBCATEGORY,
@@ -55,6 +56,9 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
+
+export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes,
@@ -62,14 +66,23 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [FAVORITES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
         },
         [PDP]: {
-            back: true,
-            title: true,
-            minicart: true
+            menu: true
+        },
+        [DRAGBAR_OPEN]: {
+            dragbar_close: true
         },
         [CATEGORY]: {
             menu: true,
@@ -113,10 +126,17 @@ export default class Header extends SourceHeader {
             title: true,
             cancel: true
         },
+        // [FILTER]: {
+        //     close: true,
+        //     clear: true,
+        //     title: true
+        // },
         [FILTER]: {
-            close: true,
-            clear: true,
-            title: true
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true
         },
         [CHECKOUT]: {
             back: true,
@@ -142,6 +162,7 @@ export default class Header extends SourceHeader {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
+        dragbar_close: this.renderDragbarCloseButton.bind(this),
         wishlist: this.renderWishlistButton.bind(this),
         ...this.renderMap
     };
@@ -296,6 +317,26 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderDragbarCloseButton(isVisible = false) {
+        const { onCloseButtonClick } = this.props;
+
+        return (
+            <button
+              key="dragbar_close"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'close', isVisible } }
+              mix={ { block: 'DragBar', elem: 'Close' } }
+              onClick={ onCloseButtonClick }
+              aria-label="Close"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { closeIcon }
+            </button>
+        );
+    }
+
     renderCloseButton(isVisible = false) {
         const { onCloseButtonClick } = this.props;
 
@@ -393,6 +434,41 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderFilterButton() {
+        const { onFilterButtonClick } = this.props;
+
+        return (
+            <div
+              block="Header"
+              elem="Filter"
+            >
+                <button
+                  block="Header"
+                  elem="Filter-Button"
+                  onClick={ onFilterButtonClick }
+                >
+                    { __('Filters') }
+                </button>
+            </div>
+        );
+    }
+
+    renderTitle(isVisible = false) {
+        const { navigationState: { title } } = this.props;
+
+        return (
+            <h2
+              key="title"
+              block="Header"
+              elem="Title"
+              mods={ { isVisible } }
+            >
+                { title }
+            </h2>
+        );
+    }
+
+
     render() {
         const {
             navigationState: { name },
@@ -408,6 +484,7 @@ export default class Header extends SourceHeader {
                 >
                     { this.renderHeaderState() }
                 </nav>
+                { this.renderFilterButton() }
             </header>
         );
     }

@@ -41,7 +41,13 @@ export default class HomePage extends PureComponent {
 
     handleArrowClick() {
         const { genderSwitchIndex, changeVerticalSlideIndex } = this.props;
-        const { activeSlide, activeSlide: { [genderSwitchIndex]: activeSlideIndex }, slideCount } = this.state;
+        const {
+            activeSlide,
+            activeSlide: {
+                [genderSwitchIndex]: activeSlideIndex
+            },
+            slideCount
+        } = this.state;
 
         const nextActiveIndex = activeSlideIndex + (slideCount - 1 === activeSlideIndex ? -1 : 1);
 

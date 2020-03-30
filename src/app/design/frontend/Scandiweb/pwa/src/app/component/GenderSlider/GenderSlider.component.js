@@ -126,7 +126,7 @@ export default class GenderSlider extends PureComponent {
                 { slideContent }
             </div>
         );
-    }
+    };
 
     render() {
         const { children } = this.props;

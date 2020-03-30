@@ -1,0 +1,6 @@
+.ProductPrice {
+    @include mobile {
+        line-height: 1.5;
+        font-weight: normal;
+    }
+}

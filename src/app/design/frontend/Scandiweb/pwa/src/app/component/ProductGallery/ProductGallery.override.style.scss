@@ -1,0 +1,7 @@
+.ProductGallery {
+    &-Slider {
+        @include mobile {
+            min-height: var(--slider-height);
+        }
+    }
+}

@@ -17,7 +17,7 @@ import {
 } from 'SourceComponent/ProductList/ProductList.component';
 import './ProductList.style';
 
-export { observerThreshold, RENDER_PAGE_FREQUENCY }
+export { observerThreshold, RENDER_PAGE_FREQUENCY };
 export const HERO_PRODUCT_NUMBER = 5;
 
 /**
