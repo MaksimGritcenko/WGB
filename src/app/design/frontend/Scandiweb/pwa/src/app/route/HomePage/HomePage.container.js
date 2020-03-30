@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import HomePage from './HomePage.component';
 import { changeVerticalSlideIndex } from 'Store/Slider';
+import HomePage from './HomePage.component';
 
 export const mapStateToProps = state => ({
     urlKey: state.ConfigReducer.cms_home_page,

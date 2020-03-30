@@ -1,18 +1,50 @@
 <?php
 /**
- * Scandiweb_Slider
+ * WGB_Slider
  *
- * @category    Scandiweb
- * @package     Scandiweb_Slider
- * @author      Artis Ozolins <artis@scandiweb.com>
- * @copyright   Copyright (c) 2016 Scandiweb, Ltd (http://scandiweb.com)
+ * @category    WGB
+ * @package     WGB_Slider
+ * @author      Roberts Briedis <artis@scandiweb.com>
  */
 namespace WGB\Slider\Block\Adminhtml\Slide\Edit\Tab;
 
-use Scandiweb\Slider\Block\Adminhtml\Slide\Edit\Tab\Slide as BaseSlide;
-
-class Slide extends BaseSlide
+class Slide extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var \Magento\Cms\Model\Wysiwyg\Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @var \Magento\Store\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Store\Model\System\Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Store\Model\System\Store $systemStore,
+        array $data = []
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        $this->_systemStore = $systemStore;
+        parent::__construct($context, $registry, $formFactory, $data);
+    }
+
+    /**
+     * @return \Scandiweb\Slider\Block\Adminhtml\Slide\Edit\Tab\Slide
+     */
     protected function _prepareForm()
     {
         /* @var $model \Scandiweb\Slider\Model\Slide */
@@ -92,27 +124,27 @@ class Slide extends BaseSlide
             \IntlDateFormatter::SHORT
         );
 
-        $general->addField(
-            'start_time',
-            'date',
-            [
-                'name' => 'start_time',
-                'label' => __('Start Time'),
-                'date_format' => $dateFormat,
-                'class' => 'validate-date validate-date-range date-range-custom_theme-from'
-            ]
-        );
+        // $general->addField(
+        //     'start_time',
+        //     'date',
+        //     [
+        //         'name' => 'start_time',
+        //         'label' => __('Start Time'),
+        //         'date_format' => $dateFormat,
+        //         'class' => 'validate-date validate-date-range date-range-custom_theme-from'
+        //     ]
+        // );
 
-        $general->addField(
-            'end_time',
-            'date',
-            [
-                'name' => 'end_time',
-                'label' => __('End Time'),
-                'date_format' => $dateFormat,
-                'class' => 'validate-date validate-date-range date-range-custom_theme-to'
-            ]
-        );
+        // $general->addField(
+        //     'end_time',
+        //     'date',
+        //     [
+        //         'name' => 'end_time',
+        //         'label' => __('End Time'),
+        //         'date_format' => $dateFormat,
+        //         'class' => 'validate-date validate-date-range date-range-custom_theme-to'
+        //     ]
+        // );
 
         $general->addField(
             'position',
@@ -130,15 +162,13 @@ class Slide extends BaseSlide
             ]
         );
 
-        // Block 1
-
         /* @var $general \Magento\Framework\Data\Form\Element\Fieldset */
-        $block1 = $form->addFieldset(
+        $block = $form->addFieldset(
             'block_1_fieldset',
-            ['legend' => __('Block 1'), 'class' => 'fieldset-wide']
+            ['legend' => __('Content'), 'class' => 'fieldset-wide']
         );
 
-        $block1->addField(
+        $block->addField(
             'image',
             'image',
             [
@@ -149,42 +179,42 @@ class Slide extends BaseSlide
             ]
         );
 
-        $block1->addField(
-            'embed_code',
-            'text',
-            [
-                'label' => __('Video Embed Code'),
-                'title' => __('Video Embed Code'),
-                'name' => 'embed_code',
-                'note' => __(
-                    'Copy youtube or vimeo or any iframe code from "share" '
-                    . 'tab here if you want to display video in this block.'
-                )
-            ]
-        );
+        // $block->addField(
+        //     'embed_code',
+        //     'text',
+        //     [
+        //         'label' => __('Video Embed Code'),
+        //         'title' => __('Video Embed Code'),
+        //         'name' => 'embed_code',
+        //         'note' => __(
+        //             'Copy youtube or vimeo or any iframe code from "share" '
+        //             . 'tab here if you want to display video in this block.'
+        //         )
+        //     ]
+        // );
 
-        $block1->addField(
-            'slide_link',
-            'text',
-            [
-                'label' => __('Block Link'),
-                'title' => __('Block Link'),
-                'name' => 'slide_link',
-                'note' => __('Full URL where block should redirect after click on it.')
-            ]
-        );
+        // $block->addField(
+        //     'slide_link',
+        //     'text',
+        //     [
+        //         'label' => __('Block Link'),
+        //         'title' => __('Block Link'),
+        //         'name' => 'slide_link',
+        //         'note' => __('Full URL where block should redirect after click on it.')
+        //     ]
+        // );
 
-        $block1->addField(
-            'display_title',
-            'text',
-            [
-                'label' => __('Display Title'),
-                'title' => __('Display Title'),
-                'name' => 'display_title',
-            ]
-        );
+        // $block->addField(
+        //     'display_title',
+        //     'text',
+        //     [
+        //         'label' => __('Display Title'),
+        //         'title' => __('Display Title'),
+        //         'name' => 'display_title',
+        //     ]
+        // );
 
-        $block1->addField(
+        $block->addField(
             'slide_text',
             'editor',
             [
@@ -195,7 +225,7 @@ class Slide extends BaseSlide
             ]
         );
 
-        $block1->addField(
+        $block->addField(
             'slide_text_position',
             'select',
             [
@@ -207,7 +237,7 @@ class Slide extends BaseSlide
             ]
         );
 
-        // $block1->addField(
+        // $block->addField(
         //     'slide_width_class',
         //     'select',
         //     [
@@ -218,171 +248,16 @@ class Slide extends BaseSlide
         //     ]
         // );
 
-        $block1->addField(
+        $block->addField(
             'slide_content_is_white',
-            'checkbox',
-            [
-                'label' => __('Is white color'),
-                'title' => __('Is white color'),
-                'name' => 'slide_content_is_white'
-            ]
-        );
-
-        echo "Is white color"; var_dump('Is white color') . "<br>";
-
-
-        // Block 2
-
-        /* @var $general \Magento\Framework\Data\Form\Element\Fieldset */
-        $block2 = $form->addFieldset(
-            'block_2_fieldset',
-            ['legend' => __('Block 2 (optional)'), 'class' => 'fieldset-wide']
-        );
-
-        $block2->addField(
-            'image_2',
-            'image',
-            [
-                'name' => 'image_2',
-                'label' => __('Image'),
-                'title' => __('Image'),
-            ]
-        );
-
-        $block2->addField(
-            'embed_code_2',
-            'text',
-            [
-                'label' => __('Video Embed Code'),
-                'title' => __('Video Embed Code'),
-                'name' => 'embed_code_2',
-                'note' => __(
-                    'Copy youtube or vimeo or any iframe code from "share" '
-                    . 'tab here if you want to display video in this block.'
-                )
-            ]
-        );
-
-        $block2->addField(
-            'slide_link_2',
-            'text',
-            [
-                'label' => __('Block Link'),
-                'title' => __('Block Link'),
-                'name' => 'slide_link_2',
-                'note' => __('Full URL where block should redirect after click on it.')
-            ]
-        );
-
-        $block2->addField(
-            'display_title_2',
-            'text',
-            [
-                'label' => __('Display Title'),
-                'title' => __('Display Title'),
-                'name' => 'display_title_2',
-            ]
-        );
-
-        $block2->addField(
-            'slide_text_2',
-            'editor',
-            [
-                'label' => __('Block Text'),
-                'title' => __('Block Text'),
-                'name' => 'slide_text_2',
-                'config' => $wysiwygConfig,
-            ]
-        );
-
-        $block2->addField(
-            'slide_text_position_2',
             'select',
             [
-                'label' => __('Block Foreground Text Position'),
-                'title' => __('Block Foreground Text Position'),
-                'name' => 'slide_text_position_2',
-                'required' => true,
-                'options' => ['0' => __('Left'), '1' => __('Right'), '2' => __('Center')]
+                'label' => __('Chose content color'),
+                'title' => __('Chose content color'),
+                'name' => 'slide_content_is_white',
+                'options' => ['0' => __('Black'), '1' => __('White')]
             ]
         );
-
-        // Block 3
-
-        /* @var $general \Magento\Framework\Data\Form\Element\Fieldset */
-        $block3 = $form->addFieldset(
-            'block_3_fieldset',
-            ['legend' => __('Block 3 (optional)'), 'class' => 'fieldset-wide']
-        );
-
-        $block3->addField(
-            'image_3',
-            'image',
-            [
-                'name' => 'image_3',
-                'label' => __('Image'),
-                'title' => __('Image'),
-            ]
-        );
-
-        $block3->addField(
-            'embed_code_3',
-            'text',
-            [
-                'label' => __('Video Embed Code'),
-                'title' => __('Video Embed Code'),
-                'name' => 'embed_code_3',
-                'note' => __(
-                    'Copy youtube or vimeo or any iframe code from "share" '
-                    . 'tab here if you want to display video in this block.'
-                )
-            ]
-        );
-
-        $block3->addField(
-            'slide_link_3',
-            'text',
-            [
-                'label' => __('Block Link'),
-                'title' => __('Block Link'),
-                'name' => 'slide_link_3',
-                'note' => __('Full URL where block should redirect after click on it.')
-            ]
-        );
-
-        $block3->addField(
-            'display_title_3',
-            'text',
-            [
-                'label' => __('Display Title'),
-                'title' => __('Display Title'),
-                'name' => 'display_title_3',
-            ]
-        );
-
-        $block3->addField(
-            'slide_text_3',
-            'editor',
-            [
-                'label' => __('Block Text'),
-                'title' => __('Block Text'),
-                'name' => 'slide_text_3',
-                'config' => $wysiwygConfig,
-            ]
-        );
-
-        $block3->addField(
-            'slide_text_position_3',
-            'select',
-            [
-                'label' => __('Block Foreground Text Position'),
-                'title' => __('Block Foreground Text Position'),
-                'name' => 'slide_text_position_3',
-                'required' => true,
-                'options' => ['0' => __('Left'), '1' => __('Right'), '2' => __('Center')]
-            ]
-        );
-
         $values = $model->getData();
         $values['image'] = $model->getImageUrl();
         $values['image_2'] = $model->getImage2Url();
@@ -392,5 +267,46 @@ class Slide extends BaseSlide
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * @return \Magento\Framework\Phrase
+     */
+    public function getTabLabel()
+    {
+        return __('Slide');
+    }
+
+    /**
+     * @return \Magento\Framework\Phrase
+     */
+    public function getTabTitle()
+    {
+        return __('Slide');
+    }
+
+    /**
+     * @return bool
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return false;
+    }
+
+    /**
+     * @param  string $resourceId
+     * @return bool
+     */
+    protected function _isAllowedAction($resourceId)
+    {
+        return $this->_authorization->isAllowed($resourceId);
     }
 }

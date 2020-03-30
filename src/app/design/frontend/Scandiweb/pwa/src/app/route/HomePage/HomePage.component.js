@@ -7,8 +7,8 @@ import { WOMEN, MEN } from 'Component/GenderSlider/GenderSlider.component';
 
 import './HomePage.style.scss';
 
-const WOMEN_SLIDER_ID = 5;
-const MEN_SLIDER_ID = 6;
+export const WOMEN_SLIDER_ID = 5;
+export const MEN_SLIDER_ID = 6;
 
 export default class HomePage extends PureComponent {
     static propTypes = {
@@ -44,7 +44,7 @@ export default class HomePage extends PureComponent {
         const { activeSlide, activeSlide: { [genderSwitchIndex]: activeSlideIndex }, slideCount } = this.state;
 
         const nextActiveIndex = activeSlideIndex + (slideCount - 1 === activeSlideIndex ? -1 : 1);
-        
+
         this.setState({
             activeSlide: {
                 ...activeSlide,

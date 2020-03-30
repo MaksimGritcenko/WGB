@@ -1,3 +1,3 @@
-type Slider @doc(description: "foo defines bar"){
+type Slide {
     slide_content_is_white: Boolean @doc(description: "Slide content is white")
 }
