@@ -12,8 +12,8 @@
     },
     "require": {
         "magento/product-community-edition": "2.3.3",
-        "scandipwa/gtm": "1.0",
-        "scandipwa/gtm-graphql": "1.0",
+        "scandipwa/gtm": "1.0.0",
+        "scandipwa/gtm-graphql": "1.0.0",
         "scandipwa/installer": "^1.2.0",
         "scandipwa/source": "^2.1"
     },
