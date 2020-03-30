@@ -45,6 +45,7 @@
     &-Wrapper {
         @include after-mobile {
             width: 850px;
+            display: block;
         }
     }
 

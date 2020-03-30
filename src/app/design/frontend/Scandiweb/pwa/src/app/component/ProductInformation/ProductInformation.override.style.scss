@@ -2,4 +2,11 @@
     @include mobile {
         border-top: none;
     }
+
+    &-ExpandableContentContent {
+        @include after-mobile {
+            // TODO figure out without important
+            display: block !important;
+        }
+    }
 }

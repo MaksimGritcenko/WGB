@@ -1,4 +1,8 @@
 .ProductGallery {
+    @include after-mobile {
+        display: block;
+    }
+
     &-Slider {
         @include mobile {
             min-height: var(--slider-height);
