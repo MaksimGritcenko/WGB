@@ -33,6 +33,12 @@ export default class SliderVertical extends Slider {
 
         if (!sliderChildren || !sliderChildren[0]) return;
 
+        CSS.setVariable(
+            this.sliderRef,
+            'slider-height',
+            `calc(${window.innerHeight}px - (var(--header-height) * 2) - 110px)`
+        );
+
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
         };
@@ -183,7 +189,7 @@ export default class SliderVertical extends Slider {
               ref={ this.sliderRef }
             >
                 <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper', mix: { block: 'SliderVertical', elem: 'Wrapper' }} }
+                  mix={ { block: 'Slider', elem: 'Wrapper', mix: { block: 'SliderVertical', elem: 'Wrapper' } } }
                   draggableRef={ this.draggableRef }
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }

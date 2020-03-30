@@ -19,6 +19,7 @@ body {
     position: relative;
 
     &-Close {
+        margin-right: 15px;
         order: 666;
     }
 
@@ -37,7 +38,7 @@ body {
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
         transform: translateY(var(--draggable-y));
-        max-height: calc(100% - 50px);
+        max-height: calc(100% - var(--header-height));
 
         overflow: var(--overflow);
         overscroll-behavior: contain;
