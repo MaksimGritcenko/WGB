@@ -19,7 +19,7 @@
     }
 }
 
-.ProductConfigurableAttributes {
+.CategoryConfigurableAttributes {
     &-SwatchList,
     &-DropDownList {
         text-align: center;
@@ -46,23 +46,33 @@
             font-size: 15px;
             text-transform: uppercase;
 
-            &::before,
-            &::after {
+            @include mobile {
+                margin-bottom: 25px;
+            }
+
+            &::after,
+            &::before {
                 content: '';
-                background: var(--option-text-color);
-                width: 11px;
-                height: 1px;
                 position: absolute;
-                top: 8px;
-                left: -14px;
+                height: 7px;
+                width: 1px;
+                background-color: var(--option-text-color);
+                left: -8px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
             }
 
             &::before {
-                width: 1px;
-                height: 11px;
-                top: 3px;
-                left: -9px;
+                transform-origin: 50% 50%;
                 transform: scale(1);
+                transition: 200ms transform;
+                will-change: transform;
+            }
+
+            &::after {
+                transform-origin: 50% 50%;
+                transform: rotate(90deg);
             }
 
             &_isOpen::before {
@@ -77,6 +87,13 @@
 
     &-DropDownList {
         width: 100%;
+        margin-bottom: 20px;
+
+        & > * > * {
+            @include mobile {
+                padding-bottom: 12px;
+            }
+        }
     }
 
     &-Expandable {

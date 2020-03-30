@@ -1,6 +1,4 @@
 import { Fragment, createRef } from 'react';
-// import PropTypes from 'prop-types';
-
 import SourceHeader, {
     PDP,
     CATEGORY,
@@ -36,6 +34,7 @@ import {
 } from './Header.config';
 
 import './Header.style';
+import 'Component/Popup/Popup.style';
 
 export {
     PDP,
@@ -55,6 +54,7 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes
@@ -62,6 +62,14 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [FAVORITES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
@@ -113,10 +121,17 @@ export default class Header extends SourceHeader {
             title: true,
             cancel: true
         },
+        // [FILTER]: {
+        //     close: true,
+        //     clear: true,
+        //     title: true
+        // },
         [FILTER]: {
-            close: true,
-            clear: true,
-            title: true
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true
         },
         [CHECKOUT]: {
             back: true,
@@ -393,6 +408,41 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderFilterButton() {
+        const { onFilterButtonClick } = this.props;
+
+        return (
+            <div
+              block="Header"
+              elem="Filter"
+            >
+                <button
+                  block="Header"
+                  elem="Filter-Button"
+                  onClick={ onFilterButtonClick }
+                >
+                    { __('Filters') }
+                </button>
+            </div>
+        );
+    }
+
+    renderTitle(isVisible = false) {
+        const { navigationState: { title } } = this.props;
+
+        return (
+            <h2
+              key="title"
+              block="Header"
+              elem="Title"
+              mods={ { isVisible } }
+            >
+                { title }
+            </h2>
+        );
+    }
+
+
     render() {
         const { navigationState: { name } } = this.props;
 
@@ -401,6 +451,7 @@ export default class Header extends SourceHeader {
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>
+                { this.renderFilterButton() }
             </header>
         );
     }
