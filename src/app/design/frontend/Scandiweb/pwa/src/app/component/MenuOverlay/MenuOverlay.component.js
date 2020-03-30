@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import SourceMenuOverlay, { MENU_OVERLAY_KEY } from 'SourceComponent/MenuOverlay/MenuOverlay.component';
 import Overlay from 'Component/Overlay';
 import GenderSlider from 'Component/GenderSlider';
@@ -11,6 +12,14 @@ import './MenuOverlay.style';
 export { MENU_OVERLAY_KEY };
 
 export default class MenuOverlay extends SourceMenuOverlay {
+    static propTypes = {
+        womenMenu: PropTypes.object.isRequired,
+        menMenu: PropTypes.object.isRequired,
+        hideActiveOverlay: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
+    };
+
     state = { activeCategoryId: null };
 
     closeMenuOverlay(e) {
@@ -28,10 +37,53 @@ export default class MenuOverlay extends SourceMenuOverlay {
         this.setState({ activeCategoryId: activeCategoryId === item_id ? null : item_id });
     }
 
+    renderSubLevelItemList(children, subcategoryMods) {
+        const childrenArray = getSortedItems(Object.values(children));
+
+        return childrenArray.map((item) => {
+            const {
+                url,
+                item_id,
+                children,
+                cms_page_identifier
+            } = item;
+
+            const childrenArray = Object.values(children);
+
+            const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
+
+            if (childrenArray.length) {
+                return (
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                    <div
+                      key={ item_id }
+                      onClick={ e => this.handleSubcategoryClick(e, item) }
+                      tabIndex="0"
+                      role="button"
+                    >
+                        { this.renderItemContent(item, subcategoryMods) }
+                        { this.renderSubLevel(item) }
+                    </div>
+                );
+            }
+
+            return (
+                <Link
+                  key={ item_id }
+                  to={ path }
+                  onClick={ this.closeMenuOverlay }
+                  block="MenuOverlay"
+                  elem="Link"
+                >
+                    { this.renderItemContent(item, subcategoryMods) }
+                </Link>
+            );
+        });
+    }
+
     renderSubLevel(category) {
         const { activeCategoryId } = this.state;
         const { item_id, children } = category;
-        const childrenArray = getSortedItems(Object.values(children));
         const isVisible = activeCategoryId === item_id;
         const subcategoryMods = { type: 'subcategory' };
 
@@ -46,43 +98,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
                   elem="ItemList"
                   mods={ { ...subcategoryMods } }
                 >
-                    { childrenArray.map((item) => {
-                        const {
-                            url,
-                            item_id,
-                            children,
-                            cms_page_identifier
-                        } = item;
-
-                        const childrenArray = Object.values(children);
-
-                        const path = cms_page_identifier ? `/${ cms_page_identifier}` : url;
-
-                        return (childrenArray.length
-                            ? (
-                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                                <div
-                                  key={ item_id }
-                                  onClick={ e => this.handleSubcategoryClick(e, item) }
-                                  tabIndex="0"
-                                  role="button"
-                                >
-                                    { this.renderItemContent(item, subcategoryMods) }
-                                    { this.renderSubLevel(item) }
-                                </div>
-                            ) : (
-                                <Link
-                                  key={ item_id }
-                                  to={ path }
-                                  onClick={ this.closeMenuOverlay }
-                                  block="MenuOverlay"
-                                  elem="Link"
-                                >
-                                    { this.renderItemContent(item, subcategoryMods) }
-                                </Link>
-                            )
-                        );
-                    }) }
+                    { this.renderSubLevelItemList(children, subcategoryMods) }
                 </div>
             </div>
         );
@@ -113,37 +129,58 @@ export default class MenuOverlay extends SourceMenuOverlay {
         );
     }
 
-    renderFirstLevel(itemList, itemMods) {
+    renderFirstLevelButton(item, itemMods) {
         const { activeCategoryId } = this.state;
+        const { item_id } = item;
+
+        const buttonIcon = activeCategoryId === item_id ? 'minus' : 'plus';
+
+        return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <div
+              onClick={ () => this.handleSubcategoryClick(item_id) }
+              tabIndex="0"
+              role="button"
+            >
+                { this.renderItemContent(item, { ...itemMods, buttonIcon }) }
+                { this.renderSubLevel(item) }
+            </div>
+        );
+    }
+
+    renderFirstLevelLink(item, itemMods) {
+        const { url } = item;
+
+        return (
+            <Link
+              to={ url }
+              onClick={ this.closeMenuOverlay }
+              block="MenuOverlay"
+              elem="Link"
+            >
+                { this.renderItemContent(item, itemMods) }
+            </Link>
+        );
+    }
+
+    renderFirstLevelItem(childrenArrayLength, item, itemMods) {
+        return (
+            childrenArrayLength
+                ? this.renderFirstLevelButton(item, itemMods)
+                : this.renderFirstLevelLink(item, itemMods)
+        );
+    }
+
+    renderFirstLevel(itemList, itemMods) {
         const childrenArray = getSortedItems(Object.values(itemList));
 
         return childrenArray.map((item) => {
-            const { item_id, children, url } = item;
+            const { item_id, children } = item;
             const childrenArray = Object.values(children);
 
             return (
                 <li key={ item_id } block="MenuOverlay" elem="Item">
-                    { childrenArray.length
-                        ? (
-                            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                            <div
-                              onClick={ () => this.handleSubcategoryClick(item_id) }
-                              tabIndex="0"
-                              role="button"
-                            >
-                                { this.renderItemContent(item, { ...itemMods, buttonIcon: activeCategoryId === item_id ? 'minus' : 'plus' }) }
-                                { this.renderSubLevel(item) }
-                            </div>
-                        ) : (
-                            <Link
-                              to={ url }
-                              onClick={ this.closeMenuOverlay }
-                              block="MenuOverlay"
-                              elem="Link"
-                            >
-                                { this.renderItemContent(item, itemMods) }
-                            </Link>
-                        ) }
+                    { this.renderFirstLevelItem(childrenArray.length, item, itemMods) }
                 </li>
             );
         });

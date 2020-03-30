@@ -17,13 +17,25 @@ import './CategoryFilterOverlay.style';
 export { CATEGORY_FILTER_OVERLAY_ID };
 
 export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
+    renderFilterButton() {
+        const { onFilterButtonClick } = this.props;
+
+        return (
+            <button
+              block="CategoryFilterOverlay"
+              elem="FilterButton"
+              onClick={ onFilterButtonClick }
+            >
+                { __('Filters') }
+            </button>
+        );
+    }
+
     renderHeading() {
         return (
             <>
                 <div block="CategoryFilterOverlay" elem="Heading">
-                    <div block="CategoryFilterOverlay" elem="FilterButton">
-                        Filters
-                    </div>
+                    { this.renderFilterButton() }
                     { this.renderResetButton() }
                 </div>
             </>
@@ -39,6 +51,32 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
         );
     }
 
+    renderEmptyFilters() {
+        return (
+            <Overlay
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+              isFreezeEnabled={ false }
+            >
+                { this.renderHeading() }
+                { this.renderNoResults() }
+            </Overlay>
+        );
+    }
+
+    renderMinimalFilters() {
+        return (
+            <Overlay
+              mix={ { block: 'CategoryFilterOverlay' } }
+              id={ CATEGORY_FILTER_OVERLAY_ID }
+              isFreezeEnabled={ false }
+            >
+                { this.renderHeading() }
+                { this.renderPriceRange() }
+            </Overlay>
+        );
+    }
+
     renderDefaultFilters() {
         const { onVisible, onHide } = this.props;
 
@@ -48,6 +86,8 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
               onHide={ onHide }
               mix={ { block: 'CategoryFilterOverlay' } }
               id={ CATEGORY_FILTER_OVERLAY_ID }
+              isFreezeEnabled={ false }
+              isStatic
             >
                 { this.renderHeading() }
                 { this.renderFilters() }
