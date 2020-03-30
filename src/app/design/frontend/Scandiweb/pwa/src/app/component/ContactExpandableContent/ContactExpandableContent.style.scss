@@ -161,14 +161,12 @@
 .Social {
   &-ContactExpandableContentContent {
     .CmsBlock-Wrapper {
-      p {
         font-size: 13px;
 
         @include after-mobile {
           font-size: 15px;
           padding-left: 37px;
         }
-      }
 
       .Image_hasSrc {
         width: 13px;

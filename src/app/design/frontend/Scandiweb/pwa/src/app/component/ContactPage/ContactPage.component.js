@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import CmsBlock from 'Component/CmsBlock';
 import ContactForm from 'Component/ContactForm';
 import ContactExpandableContent from 'Component/ContactExpandableContent';
+import { WHITE } from 'Component/Header';
 
 import './ContactPage.style';
 
@@ -43,7 +44,7 @@ class ContactPage extends PureComponent {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: 'favorites',
+            name: WHITE,
             title: null
         });
     }

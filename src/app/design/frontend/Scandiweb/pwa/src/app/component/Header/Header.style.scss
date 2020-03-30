@@ -156,7 +156,8 @@
     }
 
     &_name {
-        &_favorites {
+        &_favorites,
+        &_white {
             --header-background: var(--header-default-background);
         }
 

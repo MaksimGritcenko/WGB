@@ -55,6 +55,7 @@ export {
 } from 'SourceComponent/Header/Header.component';
 
 export const FAVORITES = 'favorites';
+export const WHITE = 'white';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes
@@ -62,11 +63,19 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [WHITE]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
         [FAVORITES]: {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true,
             logo: true
         },

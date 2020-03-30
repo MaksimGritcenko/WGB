@@ -2,7 +2,6 @@ import FieldSource from 'SourceComponent/Field/Field.component';
 import './Field.style';
 
 export default class Field extends FieldSource {
-
     renderTextarea() {
         const {
             id,

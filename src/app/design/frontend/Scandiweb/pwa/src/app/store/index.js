@@ -5,11 +5,13 @@ import {
 import { reducers as SourceReducers } from 'SourceStore/index';
 import { SliderReducer } from 'Store/Slider';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
+import { ContactFormReducer } from 'Store/ContactForm';
 
 export const reducers = {
     ...SourceReducers,
     SliderReducer,
-    HeaderAndFooterReducer
+    HeaderAndFooterReducer,
+    ContactFormReducer
 };
 
 const store = createStore(
