@@ -156,6 +156,10 @@
     }
 
     &_name {
+        &_favorites {
+            --header-background: var(--header-default-background);
+        }
+
         &_category,
         &_filter {
             @include mobile {

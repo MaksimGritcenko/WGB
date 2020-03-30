@@ -3,13 +3,13 @@ import {
 } from 'redux';
 
 import { reducers as SourceReducers } from 'SourceStore/index';
-import { ContactFormReducer } from 'Store/ContactForm';
 import { SliderReducer } from 'Store/Slider';
+import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 
 export const reducers = {
     ...SourceReducers,
-    ContactFormReducer,
-    SliderReducer
+    SliderReducer,
+    HeaderAndFooterReducer
 };
 
 const store = createStore(

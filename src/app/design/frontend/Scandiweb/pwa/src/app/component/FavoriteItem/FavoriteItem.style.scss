@@ -1,0 +1,58 @@
+.FavoriteItem {
+    margin-bottom: 15px;
+
+    @include after-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &-ButtonsDown {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        @include after-mobile {
+            justify-content: center;
+        }
+    }
+
+    .ButtonsDown {
+        &-View,
+        &-Remove {
+            padding: 13px 0 0;
+            border: none;
+            background: none;
+            background-color: unset;
+            color: #000;
+            font-size: 13px;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: -0.5px;
+            text-transform: unset;
+        }
+
+        &-View {
+            &::after {
+                content:'';
+                position: relative;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: 0 9px;
+                height: 5px;
+                border-right: 1px solid var(--link-color);
+            }
+        }
+    }
+
+    &-Row {
+        margin-top: 9px;
+
+        .FavoriteItem-AddToCart {
+            padding: 10px 0;
+            width: 100%;
+            font-size: 15px;
+            max-width: 250px;
+        }
+    }
+}

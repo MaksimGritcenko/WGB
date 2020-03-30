@@ -2,7 +2,7 @@
     &-Main {
         width: 100%;
         height: 100%;
-        padding-top: 15px;
+        overflow: hidden;
     }
 
     &-Slider {
@@ -11,18 +11,28 @@
 
     &-Slide {
         height: 100%;
+        padding-top: 70px;
+        overflow: scroll;
+
+        &_isBottom {
+            padding: 0;
+            overflow: hidden;
+        }
     }
 
     &-GenderSwitcher {
         display: flex;
         justify-content: center;
+        position: fixed;
+        width: 100%;
+        z-index: 10;
+        top: 15px;
 
         &_isBottom {
-            position: fixed;
+            top: unset;
             bottom: 5%;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 10;
         }
     }
 
