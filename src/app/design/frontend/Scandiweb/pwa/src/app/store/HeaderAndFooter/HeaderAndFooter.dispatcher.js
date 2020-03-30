@@ -8,8 +8,14 @@ import {
 export class HeaderAndFooterDispatcher extends SourceHeaderAndFooterDispatcher {
     onSuccess(options, dispatch) {
         if (options) {
-            const { menMenu, womenMenu, cmsBlocks } = options;
-            dispatch(updateMenu(menMenu, womenMenu));
+            const {
+                menMenu,
+                womenMenu,
+                moreInfoMenu,
+                cmsBlocks
+            } = options;
+
+            dispatch(updateMenu(menMenu, womenMenu, moreInfoMenu));
             dispatch(updateCmsBlocks(cmsBlocks));
         }
     }
@@ -17,10 +23,12 @@ export class HeaderAndFooterDispatcher extends SourceHeaderAndFooterDispatcher {
     prepareRequest(options) {
         const menMenu = MenuQuery.getQuery({ identifier: 'men-menu' }).setAlias('menMenu');
         const womenMenu = MenuQuery.getQuery({ identifier: 'women-menu' }).setAlias('womenMenu');
+        const moreInfoMenu = MenuQuery.getQuery({ identifier: 'moreinfo-menu' }).setAlias('moreInfoMenu');
 
         return [
             menMenu,
             womenMenu,
+            moreInfoMenu,
             CmsBlockQuery.getQuery(options.footer)
         ];
     }
