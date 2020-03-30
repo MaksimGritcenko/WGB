@@ -13,6 +13,7 @@ import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Image from 'Component/Image';
+import { MixType } from 'Type/Common';
 import Loader from 'Component/Loader';
 import { ProductType } from 'Type/ProductList';
 import ProductPrice from 'Component/ProductPrice';
@@ -34,7 +35,7 @@ export default class FavoriteItemCard extends PureComponent {
         registerSharedElement: PropTypes.func.isRequired,
         children: PropTypes.array,
         isLoading: PropTypes.bool,
-        mix: PropTypes.shape({})
+        mix: MixType
     };
 
     static defaultProps = {
