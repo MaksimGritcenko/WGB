@@ -125,10 +125,10 @@ export class FavoriteItemContainer extends PureComponent {
             .catch(() => this.showNotification('error', __('Error cleaning wishlist')));
     }
 
-    showNotification(...args) {
+    showNotification(type, message) {
         const { showNotification } = this.props;
         this.setState({ isLoading: false });
-        showNotification(...args);
+        showNotification(type, message);
     }
 
     removeItem(noMessages = true) {
