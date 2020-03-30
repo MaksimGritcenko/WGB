@@ -8,11 +8,11 @@
 .ContactForm {
     &-Wrapper {
         width: 100%;
-        padding: 12px;
 
         @include desktop {
             width: 100%;
             margin: auto;
+            padding-left: 37px;
         }
 
         textarea {

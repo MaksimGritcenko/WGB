@@ -89,7 +89,7 @@ export default class ContactForm extends FieldForm {
                     By clicking the Send message button you accept the VGB terms
                 </p>
                 <button type="submit" block="ContactForm" elem="Button">
-                    { __('Send message') }
+                    { __('Send Your message') }
                 </button>
             </>
         );
