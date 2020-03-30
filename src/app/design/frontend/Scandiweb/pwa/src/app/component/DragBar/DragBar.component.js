@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /* eslint-disable no-else-return */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -10,10 +11,12 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
-import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Component, createRef } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Draggable from 'Component/Draggable';
 import CSS from 'Util/CSS/CSS';
-import { connect } from 'react-redux';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
@@ -23,9 +26,16 @@ import './DragBar.style';
 const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
-})
+});
 
 class DragBar extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        children: PropTypes.array.isRequired
+    };
+
     state = {
         areDetailsOpen: false
     };
@@ -36,9 +46,18 @@ class DragBar extends Component {
         this.touchActionEnabled = false;
         this.animatedTransitionOnce = false;
 
-        this.dragBarRef = React.createRef();
+        this.dragBarRef = createRef();
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onDrag = this.onDrag.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.areDetailsOpen) {
+            // eslint-disable-next-line react/destructuring-assignment
+            if (prevProps.location.pathname !== this.props.location.pathname) {
+                this.closeDetails(true);
+            }
+        }
     }
 
     onDrag({ translateY }) {
@@ -47,24 +66,61 @@ class DragBar extends Component {
         if (!areDetailsOpen && translateY < 0) {
             CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
         } else if (areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
-
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
             CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
         }
     }
 
-    closeDetails(cb, isManualChange = false) { // is manual && is changed
+    onDragEnd(state, callback) {
+        const { translateY } = state;
+        const { areDetailsOpen } = this.state;
+        this.animatedTransitionOnce = false;
+        this.cb = callback;
+
+        if (!areDetailsOpen) {
+            if (translateY > -150) {
+                // details are close and drag is higher than -150px => we close it back
+                this.closeDetails();
+            } else {
+                // details are closed, but drag is lower than -150px => we open it completely
+                this.openDetails();
+            }
+        } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
+            // details are open and drag is higher than 150px => we close it
+            this.closeDetails(true);
+        } else {
+            // details are open and drag is lower than 150px => we open it back
+            this.openDetails();
+        }
+    }
+
+    openDetails() {
+        const { changeHeaderState } = this.props;
+
+        this.cb({
+            originalY: 0,
+            lastTranslateY: this._getScreenSizeWithAdjustment()
+        });
+
+        this.setState(() => ({ areDetailsOpen: true }));
+
+        this._animateAutoMove();
+        CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
+        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
+        CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+
+        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() });
+    }
+
+    closeDetails(isManualChange = false) { // is manual && is changed
         const { goToPreviousHeaderState } = this.props;
 
-        cb({
+        this.cb({
             originalY: 0,
             lastTranslateY: 0
         });
 
-        this.setState({
-            ...this.state,
-            areDetailsOpen: false
-        });
+        this.setState(() => ({ areDetailsOpen: false }));
 
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
@@ -73,49 +129,6 @@ class DragBar extends Component {
 
         if (isManualChange) {
             goToPreviousHeaderState();
-        }
-    }
-
-    openDetails(cb) {
-        const { changeHeaderState } = this.props;
-
-        cb({
-            originalY: 0,
-            lastTranslateY: this._getScreenSizeWithAdjustment()
-        });
-
-        this.setState({
-            ...this.state,
-            areDetailsOpen: true
-        })
-
-        this._animateAutoMove();
-        CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
-        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
-        CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
-
-        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails(cb) })
-    }
-
-    onDragEnd(state, callback) {
-        const { translateY } = state;
-        const { areDetailsOpen } = this.state;
-        this.animatedTransitionOnce = false;
-
-        if (!areDetailsOpen) {
-            if (translateY > -150) {
-                // details are close and drag is higher than -150px => we close it back
-                this.closeDetails(callback);
-            } else {
-                // details are closed, but drag is lower than -150px => we open it completely
-                this.openDetails(callback);
-            }
-        } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
-            // details are open and drag is higher than 150px => we close it
-            this.closeDetails(callback, true);
-        } else {
-            // details are open and drag is lower than 150px => we open it back
-            this.openDetails(callback);
         }
     }
 
@@ -151,4 +164,5 @@ class DragBar extends Component {
     }
 }
 
-export default connect(null, mapDispatchToProps)(DragBar);
+export const DragBarWrapper = connect(null, mapDispatchToProps)(DragBar);
+export default withRouter(DragBarWrapper);

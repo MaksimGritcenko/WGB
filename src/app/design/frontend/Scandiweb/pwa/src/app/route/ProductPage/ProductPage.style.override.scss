@@ -33,15 +33,11 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
 
         svg {
-            flex: 1 1;
-        }
-
-        p {
-            flex: 5 1;
+            margin: 0 15px;
         }
     }
 

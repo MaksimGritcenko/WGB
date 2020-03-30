@@ -1,7 +1,8 @@
+// eslint-disable-next-line max-len
 import SourceProductConfigurableAttributeDropdown from 'SourceComponent/ProductConfigurableAttributeDropdown/ProductConfigurableAttributeDropdown.component';
 import Field from 'Component/Field';
 
-import './ProductConfigurableAttributeDropdown.style.override'
+import './ProductConfigurableAttributeDropdown.style.override';
 
 export default class ProductConfigurableAttributeDropdown extends SourceProductConfigurableAttributeDropdown {
     render() {

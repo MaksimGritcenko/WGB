@@ -18,7 +18,7 @@ import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
 import './SliderVertical.style';
 
-export const ANIMATION_DURATION = 300;
+export const ANIMATION_DURATION = 450;
 export const ACTIVE_SLIDE_PERCENT = 0.1;
 
 /**
@@ -32,6 +32,12 @@ export default class SliderVertical extends Slider {
         this.sliderHeight = sliderHeight;
 
         if (!sliderChildren || !sliderChildren[0]) return;
+
+        CSS.setVariable(
+            this.sliderRef,
+            'slider-height',
+            `calc(${window.innerHeight}px - (var(--header-height) * 2) - 110px)`
+        );
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
@@ -183,12 +189,12 @@ export default class SliderVertical extends Slider {
               ref={ this.sliderRef }
             >
                 <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper', mix: { block: 'SliderVertical', elem: 'Wrapper' }} }
+                  mix={ { block: 'Slider', elem: 'Wrapper', mix: { block: 'SliderVertical', elem: 'Wrapper' } } }
                   draggableRef={ this.draggableRef }
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }
                   onDrag={ this.handleDrag }
-                  shiftY={ -activeImage * this.sliderHeight }
+                  shiftY={ -activeImage * this.sliderHeight || 0 }
                 >
                     { children }
                 </Draggable>

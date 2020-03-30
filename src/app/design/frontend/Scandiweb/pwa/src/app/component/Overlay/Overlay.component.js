@@ -5,6 +5,8 @@ import SourceOverlay from 'SourceComponent/Overlay/Overlay.component';
 import isMobile from 'Util/Mobile';
 import { MixType, ChildrenType } from 'Type/Common';
 
+import './Overlay.style.override.scss';
+
 export default class Overlay extends SourceOverlay {
     static propTypes = {
         mix: MixType,

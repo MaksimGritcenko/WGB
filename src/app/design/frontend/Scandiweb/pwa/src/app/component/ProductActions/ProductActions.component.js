@@ -1,7 +1,6 @@
 import SourceProductActions from 'SourceComponent/ProductActions/ProductActions.component';
 import ProductPrice from 'Component/ProductPrice';
 import TextPlaceholder from 'Component/TextPlaceholder';
-import isMobile from 'Util/Mobile';
 import { GROUPED } from 'Util/Product';
 
 import './ProductActions.style.override';
@@ -29,13 +28,19 @@ export default class ProductActions extends SourceProductActions {
             </p>
         );
 
-        return <>
-            { contentToShow || emptyContent}
-        </>
+        return contentToShow || emptyContent;
     }
 
     renderNameAndPrice() {
-        const { product: { name, price, variants, type_id }, configurableVariantIndex } = this.props;
+        const {
+            product: {
+                name,
+                price,
+                variants,
+                type_id
+            },
+            configurableVariantIndex
+        } = this.props;
 
         if (type_id === GROUPED) return null;
 
@@ -45,22 +50,24 @@ export default class ProductActions extends SourceProductActions {
             ? variants[configurableVariantIndex].price
             : price;
 
-        return <>
+        return (
             <div block="ProductActions" elem="NameAndPrice">
-                <p block="ProductActions" elem="Name">{name}</p>
+                <p block="ProductActions" elem="Name">{ name }</p>
                 <ProductPrice
                   price={ productOrVariantPrice }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>
-        </>
+        );
     }
 
     renderMobile() {
-        return <>
-            { this.renderBrand() }
-            { this.renderNameAndPrice() }
-        </>
+        return (
+            <>
+                { this.renderBrand() }
+                { this.renderNameAndPrice() }
+            </>
+        );
     }
 
     render() {

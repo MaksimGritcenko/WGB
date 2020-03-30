@@ -1,11 +1,8 @@
 import { Fragment, createRef } from 'react';
-import PropTypes from 'prop-types';
-
 import SourceHeader, {
     PDP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
     HOME_PAGE,
     MENU,
@@ -32,17 +29,19 @@ import {
     logoIcon,
     closeIcon,
     backIcon,
-    editIcon
+    editIcon,
+    wishlistIcon
+} from './Header.config';
 
-} from './Header.config.js';
 import './Header.style';
+import 'Component/Popup/Popup.style';
 
 export {
     PDP,
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    CUSTOMER_ACCOUNT_PAGE,    
+    CUSTOMER_ACCOUNT_PAGE,
     CUSTOMER_SUB_ACCOUNT,
     HOME_PAGE,
     MENU,
@@ -52,18 +51,27 @@ export {
     CART,
     CART_EDITING,
     CHECKOUT,
-    CMS_PAGE,
+    CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
+export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
-        ...this.propTypes,
+        ...this.propTypes
         // onSearchBarClick: PropTypes.func.isRequired,
     };
 
     stateMap = {
+        [FAVORITES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
@@ -75,9 +83,10 @@ export default class Header extends SourceHeader {
             dragbar_close: true
         },
         [CATEGORY]: {
-            back: true,
             menu: true,
+            searchButton: true,
             title: true,
+            account: true,
             minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
@@ -92,13 +101,11 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true,
             logo: true
         },
-        [MENU]: {
-            close: true
-        },
+        [MENU]: {},
         [MENU_SUBCATEGORY]: {
             back: true,
             title: true
@@ -117,10 +124,17 @@ export default class Header extends SourceHeader {
             title: true,
             cancel: true
         },
+        // [FILTER]: {
+        //     close: true,
+        //     clear: true,
+        //     title: true
+        // },
         [FILTER]: {
-            close: true,
-            clear: true,
-            title: true
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true
         },
         [CHECKOUT]: {
             back: true,
@@ -147,8 +161,9 @@ export default class Header extends SourceHeader {
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
         dragbar_close: this.renderDragbarCloseButton.bind(this),
-        ...this.renderMap,
-    }
+        wishlist: this.renderWishlistButton.bind(this),
+        ...this.renderMap
+    };
 
     searchBarRef = createRef();
 
@@ -169,7 +184,10 @@ export default class Header extends SourceHeader {
 
         return (
             <ClickOutside onClick={ onMenuOutsideClick } key="menu">
-                <div>
+                <div
+                  block="Header"
+                  elem="MenuWrapper"
+                >
                     <button
                       block="Header"
                       elem="Button"
@@ -226,7 +244,8 @@ export default class Header extends SourceHeader {
     renderSearchField(isSearchVisible = false) {
         const {
             searchCriteria, onSearchOutsideClick,
-            onSearchBarClick, onSearchBarChange
+            onClearSearchButtonClick
+            // onSearchBarClick, onSearchBarChange
         } = this.props;
 
         return (
@@ -237,7 +256,7 @@ export default class Header extends SourceHeader {
                       elem="SearchWrapper"
                       aria-label="Search"
                     >
-                        {/* <input
+                        { /* <input
                             id="search-field"
                             ref={ this.searchBarRef }
                             placeholder={ __('Type a new search') }
@@ -250,9 +269,10 @@ export default class Header extends SourceHeader {
                                 isVisible: isSearchVisible,
                                 type: 'searchField'
                             } }
-                        /> */}
+                        /> */ }
                         <SearchOverlay
-                            searchCriteria={ searchCriteria }
+                          clearSearch={ onClearSearchButtonClick }
+                          searchCriteria={ searchCriteria }
                         />
                     </div>
                 </ClickOutside>
@@ -276,9 +296,9 @@ export default class Header extends SourceHeader {
         return (
             <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
                 <div
-                    block="Header"
-                    elem="AccountWrapper"
-                    aria-label="My account"
+                  block="Header"
+                  elem="AccountWrapper"
+                  aria-label="My account"
                 >
                     <button
                       block="Header"
@@ -334,14 +354,30 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderWishlistButton(isVisible = false) {
+        return (
+            <button
+              key="wishlist"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'wishlist', isVisible } }
+              aria-label="Wishlist"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { wishlistIcon }
+            </button>
+        );
+    }
+
     renderMinicartButton(isVisible = false) {
         const { cartTotals: { items_qty }, onMinicartOutsideClick, onMinicartButtonClick } = this.props;
 
         return (
             <ClickOutside onClick={ onMinicartOutsideClick } key="minicart">
                 <div
-                    block="Header"
-                    elem="MiniCartWrapper"
+                  block="Header"
+                  elem="MiniCartWrapper"
                 >
                     <button
                       block="Header"
@@ -352,9 +388,9 @@ export default class Header extends SourceHeader {
                     >
                         { minicartIcon }
                         <span
-                            aria-label="Items in cart"
-                            block="Header"
-                            elem="MinicartQty"
+                          aria-label="Items in cart"
+                          block="Header"
+                          elem="MinicartQty"
                         >
                             { items_qty || '0' }
                         </span>
@@ -391,11 +427,45 @@ export default class Header extends SourceHeader {
             ? this.stateMap[name]
             : this.stateMap[HOME_PAGE];
 
-
         return Object.entries(this.renderMap).map(
             ([key, renderFunction]) => renderFunction(source[key])
         );
     }
+
+    renderFilterButton() {
+        const { onFilterButtonClick } = this.props;
+
+        return (
+            <div
+              block="Header"
+              elem="Filter"
+            >
+                <button
+                  block="Header"
+                  elem="Filter-Button"
+                  onClick={ onFilterButtonClick }
+                >
+                    { __('Filters') }
+                </button>
+            </div>
+        );
+    }
+
+    renderTitle(isVisible = false) {
+        const { navigationState: { title } } = this.props;
+
+        return (
+            <h2
+              key="title"
+              block="Header"
+              elem="Title"
+              mods={ { isVisible } }
+            >
+                { title }
+            </h2>
+        );
+    }
+
 
     render() {
         const { navigationState: { name } } = this.props;
@@ -405,6 +475,7 @@ export default class Header extends SourceHeader {
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>
+                { this.renderFilterButton() }
             </header>
         );
     }

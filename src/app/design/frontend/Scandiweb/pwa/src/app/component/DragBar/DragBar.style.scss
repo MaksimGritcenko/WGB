@@ -7,6 +7,10 @@
     }
 }
 
+body {
+    overscroll-behavior: none;
+}
+
 .DragBar {
     background-color: var(--header-background);
     width: 100%;
@@ -15,6 +19,7 @@
     position: relative;
 
     &-Close {
+        margin-right: 15px;
         order: 666;
     }
 
@@ -28,11 +33,12 @@
         position: fixed;
         width: 100%;
         will-change: transform, top;
-        top: calc(100vh - 110px);
+
+        top: calc(100% - 110px);
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
-        transform: translate3d(0, var(--draggable-y), 0);
-        max-height: calc(100vh - 50px);
+        transform: translateY(var(--draggable-y));
+        max-height: calc(100% - var(--header-height));
 
         overflow: var(--overflow);
         overscroll-behavior: contain;

@@ -1,0 +1,234 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --category-filter-overlay-desktop-color: #979797;
+    --category-filter-overlay-selected-color: var(--primary-base-color);
+    --category-filter-overlay-hover-color: var(--primary-light-color);
+}
+
+.CategoryFilterOverlay {
+    transition: transform 300ms ease-in-out;
+    transform: translateY(100%);
+    display: block;
+    position: fixed;
+    right: 0;
+    top: calc(var(--header-height) - 17px);
+    padding: 15px;
+    width: 350px;
+    transform: translateX(100%);
+    overflow: scroll;
+    height: calc(100vh - var(--header-height) + 17px);
+
+    @include mobile {
+        width: 55vw;
+        padding: 9px;
+        padding-top: 0;
+        margin-top: 9px;
+    }
+
+    &_isVisible {
+        opacity: 1;
+        display: block;
+        transform: translateX(0%);
+        transition: transform 300ms ease-in-out;
+
+        & .CategoryFilterOverlay {
+            &-FilterButton::before {
+                transform: scale(0);
+            }
+
+            &-Attributes,
+            &-Filter {
+                transition: transform 300ms ease-in-out;
+                transform: translateX(0%);
+            }
+
+            &-Heading {
+                opacity: 1;
+                transition: opacity 300ms ease-in-out;
+            }
+        }
+    }
+
+    &-NoResults {
+        font-size: 15px;
+        margin: 0;
+        padding: 1rem 1rem 0;
+
+        @include desktop {
+            padding: 0 0 1rem 0;
+        }
+    }
+
+    &-Heading {
+        display: flex;
+        margin-bottom: 3rem;
+        flex-direction: row;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 300ms ease-in-out;
+
+        @include mobile {
+            margin: 1rem 0;
+        }
+
+        & > *,
+        & > .ResetButton > .ResetButton {
+            margin-left: auto;
+            text-transform: uppercase;
+            border: none;
+            padding: 0;
+            font-size: 15px;
+        }
+
+        & > .ResetButton {
+            @include mobile {
+                padding: 0;
+            }
+
+            > .ResetButton {
+                background: white;
+                color: var(--option-text-color);
+
+                @include mobile {
+                    text-align: right;
+                    padding-right: 5px;
+                }
+
+                &_isContentFiltered {
+                    --option-text-color: black;
+                }
+
+                &:hover {
+                    background: none;
+                    color: var(--option-text-color);
+                }
+            }
+        }
+    }
+
+    &-FilterButton {
+        margin-left: 15px;
+        margin-right: auto;
+
+        &::after,
+        &::before {
+            content: '';
+            position: absolute;
+            height: 7px;
+            width: 1px;
+            background-color: black;
+            left: -8px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        &::before {
+            transform-origin: 50% 50%;
+            transform: scale(1);
+            transition: 200ms transform;
+            will-change: transform;
+        }
+
+        &::after {
+            transform-origin: 50% 50%;
+            transform: rotate(90deg);
+        }
+    }
+
+    &-Item {
+        margin-right: 1rem;
+
+        &_isSelected {
+            &:not(.Swatch_type_color):not(.Swatch_type_cat) {
+                --category-filter-overlay-desktop-color: var(--category-filter-overlay-selected-color);
+            }
+        }
+
+        &:not(.Swatch_type_color):not(.Swatch_type_cat) {
+            padding: 0 12px;
+            border: 1px solid var(--category-filter-overlay-desktop-color);
+            color: var(--category-filter-overlay-desktop-color);
+            margin-right: 6px;
+
+            &:hover {
+                --category-filter-overlay-desktop-color: var(--category-filter-overlay-hover-color);
+            }
+        }
+
+        &_type_cat {
+            &::before {
+                content: '\2022';
+
+                margin-right: 1rem;
+                margin-left: 2px;
+            }
+        }
+    }
+
+    &-Placeholder {
+        padding: 1rem;
+    }
+
+    &-Attributes,
+    &-Filter {
+        margin-left: 3rem;
+        transform: translateX(100%);
+        transition: transform 300ms ease-in-out;
+
+        @include mobile {
+            margin-left: 20px;
+        }
+    }
+
+    &-Attributes {
+        --option-margin: .5rem;
+        --option-margin: 0 12px 12px 0;
+    }
+
+    &-Filter {
+        order: 50;
+        margin-bottom: 1rem;
+    }
+
+    &-SeeResults,
+    &-ResetButton {
+        @include mobile {
+            position: sticky;
+            padding: 1rem;
+            width: 100%;
+            left: 0;
+        }
+    }
+
+    &-SeeResults {
+        display: none;
+    }
+
+    &-Button.Button {
+        width: 100%;
+    }
+
+    li {
+        padding-left: 0;
+
+        &::before {
+            content: none;
+        }
+    }
+
+    &.Overlay {
+        opacity: 1;
+        z-index: 110;
+    }
+}

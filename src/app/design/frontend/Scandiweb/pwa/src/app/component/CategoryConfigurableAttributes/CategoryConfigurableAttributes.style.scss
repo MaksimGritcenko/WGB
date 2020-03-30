@@ -1,0 +1,144 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --product-configurable-attributes-direction: flex-start;
+    --product-configurable-attributes-margin: 0;
+    --product-configurable-attributes-content-padding: 0;
+
+    @include mobile {
+        --product-configurable-attributes-content-padding: .5rem 1rem 1.5rem;
+    }
+}
+
+.CategoryConfigurableAttributes {
+    &-SwatchList,
+    &-DropDownList {
+        text-align: center;
+
+        @include after-mobile {
+            --option-size: 33px;
+        }
+    }
+
+    &-SwatchList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: var(--product-configurable-attributes-direction);
+        align-items: center;
+        flex-direction: column;
+        align-items: start;
+        font-size: 16px;
+        font-weight: 100;
+        text-transform: uppercase;
+
+        &-More {
+            color: var(--option-text-color);
+            margin-left: 15px;
+            font-size: 15px;
+            text-transform: uppercase;
+
+            @include mobile {
+                margin-bottom: 25px;
+            }
+
+            &::after,
+            &::before {
+                content: '';
+                position: absolute;
+                height: 7px;
+                width: 1px;
+                background-color: var(--option-text-color);
+                left: -8px;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+
+            &::before {
+                transform-origin: 50% 50%;
+                transform: scale(1);
+                transition: 200ms transform;
+                will-change: transform;
+            }
+
+            &::after {
+                transform-origin: 50% 50%;
+                transform: rotate(90deg);
+            }
+
+            &_isOpen::before {
+                transform: scale(0);
+            }
+
+            @include after-mobile {
+                margin-bottom: 12px;
+            }
+        }
+    }
+
+    &-DropDownList {
+        width: 100%;
+        margin-bottom: 20px;
+
+        & > * > * {
+            @include mobile {
+                padding-bottom: 12px;
+            }
+        }
+    }
+
+    &-Expandable {
+        margin: var(--product-configurable-attributes-margin);
+    }
+
+    &-ExpandableContentButton {
+        @include after-mobile {
+            min-height: 30px;
+        }
+    }
+
+    &-ExpandableContentSubHeading {
+        text-transform: capitalize;
+    }
+
+    &-ExpandableContentContent {
+        @include after-mobile {
+            margin-bottom: 1rem;
+        }
+
+        &_isContentExpanded {
+            @include mobile {
+                padding: var(--product-configurable-attributes-content-padding);
+            }
+        }
+    }
+
+    &-SectionHeading {
+        font-size: 1.2em;
+        font-weight: 700;
+        line-height: 1;
+        margin: 0 0 1rem;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Placeholder {
+        animation: var(--placeholder-animation);
+        background-image: var(--placeholder-image);
+        background-size: var(--placeholder-size);
+        height: var(--option-size);
+        width: var(--option-size);
+        margin: var(--option-margin);
+    }
+}
