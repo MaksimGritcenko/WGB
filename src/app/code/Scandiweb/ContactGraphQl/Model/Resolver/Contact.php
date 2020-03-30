@@ -23,11 +23,7 @@ use Magento\Framework\GraphQl\Query\Resolver\Value;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
-/**
- * Class Contact
- *
- * @package Netnutri\ContactGraphQl\Model\Resolver
- */
+
 class Contact implements ResolverInterface
 {
     /**
@@ -61,13 +57,14 @@ class Contact implements ResolverInterface
         $data = [];
 
         $data['name']       = $args['contact']['name']         ?? '';
+        $data['surname']    = $args['contact']['surname']      ?? '';
         $data['telephone']  = $args['contact']['telephone']    ?? '';
         $data['email']      = $args['contact']['email']        ?? '';
         $data['comment']    = $args['contact']['message']      ?? '';
 
         try {
             $this->sendEmail($this->validatedParams($data));
-            $result = ['message' => __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')];
+            $result = ['message' => __('Your message has been sent and we will contact you ASAP')];
         } catch (Exception $e) {
             throw new GraphQlInputException(__($e->getMessage()));
         }
@@ -102,6 +99,9 @@ class Contact implements ResolverInterface
     {
         if (trim($data['name']) === '') {
             throw new LocalizedException(__('Enter the Name and try again.'));
+        }
+        if (trim($data['surname']) === '') {
+            throw new LocalizedException(__('Enter the Surname and try again.'));
         }
         if (trim($data['comment']) === '') {
             throw new LocalizedException(__('Enter the comment and try again.'));

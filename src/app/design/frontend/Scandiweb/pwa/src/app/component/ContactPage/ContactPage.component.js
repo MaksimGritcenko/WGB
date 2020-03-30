@@ -43,7 +43,7 @@ class ContactPage extends PureComponent {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: 'FAVORITES',
+            name: 'favorites',
             title: null
         });
     }
@@ -53,7 +53,7 @@ class ContactPage extends PureComponent {
         return (
             <div block="ContactPage">
                  <div block="ContactPage" elem="Title">
-                { __('GET IN TOUCH WITH VGB') }
+                    { __('GET IN TOUCH WITH VGB') }
                  </div>
                 <div block="ContactPage" elem="Group">
                     <ContactExpandableContent
@@ -90,6 +90,9 @@ class ContactPage extends PureComponent {
                       heading={ __('FORM APPLICATION') }
                       mix={ { block: 'Form' } }
                     >
+                    <p block="ContactExpandableContent" elem="SubContent">
+                        Complete the form and we will contact you ASAP:
+                    </p>
                     <ContactForm />
                     </ContactExpandableContent>
                 </div>

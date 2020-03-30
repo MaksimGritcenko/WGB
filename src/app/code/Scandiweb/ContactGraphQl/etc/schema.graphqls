@@ -4,6 +4,7 @@ type Mutation {
 
 input ContactForm {
     name: String
+    surname: String
     telephone: String
     email: String
     message: String

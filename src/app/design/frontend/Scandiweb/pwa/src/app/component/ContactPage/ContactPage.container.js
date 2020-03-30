@@ -9,11 +9,8 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { changeNavigationState } from 'Store/Navigation';
 import ContactPage from './ContactPage.component';
 
-export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
-});
-
 export const mapDispatchToProps = dispatch => ({
+    showNotification: (type, title, e) => dispatch(showNotification(type, title, e)),
     updateMeta: meta => dispatch(updateMeta(meta)),
     setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
     updateBreadcrumbs: (breadcrumbs) => {
@@ -21,16 +18,18 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
+const NOT_DEFINED = 'Not Defined';
 export class ContactPageContainer extends DataContainer {
     static propTypes = {
-        updateMeta: PropTypes.func.isRequired
+        updateMeta: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     state = {
         ContactInfo: {
-            store_phone: 'Not Defined',
-            store_email: 'Not Defined',
-            store_working_hours: 'Not Defined'
+            store_phone: NOT_DEFINED,
+            store_email: NOT_DEFINED,
+            store_working_hours: NOT_DEFINED
         }
     };
 
@@ -42,10 +41,13 @@ export class ContactPageContainer extends DataContainer {
     }
 
     requestContactInfo() {
+        const { showNotification } = this.props;
+
+
         this.fetchData(
             [ContactInfoQuery.getContactInfoQuery()],
             ({ ContactInfo }) => this.setState({ ContactInfo }),
-            e => console.log(e)
+            e => showNotification('error', 'Error fetching Contact Info!', e)
         );
     }
 
@@ -59,4 +61,4 @@ export class ContactPageContainer extends DataContainer {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactPageContainer);
+export default connect(null, mapDispatchToProps)(ContactPageContainer);

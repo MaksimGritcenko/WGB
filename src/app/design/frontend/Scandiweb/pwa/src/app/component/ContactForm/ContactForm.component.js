@@ -46,26 +46,30 @@ export default class ContactForm extends FieldForm {
     /**
      * Fields map
      *
-     * @return {{name: {label: *, validation: [string]}, telephone: {label: *, validation: [string]}, message: {label: *, type: string, validation: [string]}, email: {label: *, validation: [string]}}}
+     * @return {{name: {label: *, validation: [string]}, surname: {label: *, validation: [string]}  telephone: {label: *, validation: [string]}, message: {label: *, type: string, validation: [string]}, email: {label: *, validation: [string]}}}
      */
     get fieldMap() {
         return {
             name: {
-                label: __('Full name'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                placeholder: __('Name*')
+            },
+            surname: {
+                validation: ['notEmpty'],
+                placeholder: __('Surname*')
             },
             telephone: {
-                label: __('Phone number'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                placeholder: __('Phone number*')
             },
             email: {
-                label: __('Email'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                placeholder: __('E-mail*')
             },
             message: {
                 type: 'textarea',
-                label: __('Message'),
-                validation: ['notEmpty']
+                validation: ['notEmpty'],
+                placeholder: __('Your message*')
             }
         };
     }
@@ -81,7 +85,10 @@ export default class ContactForm extends FieldForm {
         return (
             <>
                 <Loader isLoading={ isLoading } />
-                <button type="submit" block="Button">
+                <p block="ContactForm" elem="Accept">
+                    By clicking the Send message button you accept the VGB terms
+                </p>
+                <button type="submit" block="ContactForm" elem="Button">
                     { __('Send message') }
                 </button>
             </>
@@ -94,17 +101,6 @@ export default class ContactForm extends FieldForm {
      * @return {*}
      */
     render() {
-        const { message, formSent } = this.props;
-
-        if (formSent) {
-            return (
-                <div block="ContactForm" elem="Wrapper">
-                    <h2 block="ContactForm" elem="Header">{ __('Thank you for your message!') }</h2>
-                    <p block="ContactForm" elem="Message">{ message }</p>
-                </div>
-            );
-        }
-
         return (
             <div block="ContactForm" elem="Wrapper">
                 { super.render() }

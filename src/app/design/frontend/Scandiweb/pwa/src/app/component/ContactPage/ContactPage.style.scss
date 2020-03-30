@@ -26,6 +26,7 @@
 
     @include after-mobile {
         font-size: 40px;
+        padding: 41px 0 20px;
 
         &::after {
             content:" STUDIO";

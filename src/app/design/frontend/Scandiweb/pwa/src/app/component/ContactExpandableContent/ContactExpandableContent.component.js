@@ -32,15 +32,15 @@ export default class ContactExpandableContent extends ExpandableContent {
               elem="Heading"
               mix={ { ...mix, elem: 'ContactExpandableContentHeading' } }
             >
-    <TextPlaceholder content={ heading } />
+              <TextPlaceholder content={ heading } />
             </span>
-        <span
-          block="ContactExpandableContent"
-          elem="SubHeading"
-          mix={ { ...mix, elem: 'ContactExpandableContentSubHeading' } }
-        >
-        { subHeading }
-        </span>
+            <span
+              block="ContactExpandableContent"
+              elem="SubHeading"
+              mix={ { ...mix, elem: 'ContactExpandableContentSubHeading' } }
+            >
+              { subHeading }
+            </span>
             </button>
 
         );
@@ -58,7 +58,7 @@ export default class ContactExpandableContent extends ExpandableContent {
               mods={ mods }
               mix={ { ...mix, elem: 'ContactExpandableContentContent', mods } }
             >
-        { children }
+              { children }
             </div>
         );
     }
@@ -71,8 +71,8 @@ export default class ContactExpandableContent extends ExpandableContent {
               block="ContactExpandableContent"
               mix={ mix }
             >
-            { this.renderButton() }
-        { this.renderContent() }
+              { this.renderButton() }
+              { this.renderContent() }
             </article>
         );
     }
