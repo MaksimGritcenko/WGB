@@ -49,7 +49,7 @@ export default class ProductCard extends SourceProductCard {
         const { product_list_content: { attribute_to_display = '' } = {} } = window.contentConfiguration;
         const brand = getAttribute(attribute_to_display);
 
-        if (sku && !isHero) return null;
+        if (!sku || !isHero) return null;
 
         const attribute = brand
             ? (
