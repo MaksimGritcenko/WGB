@@ -1,0 +1,49 @@
+.HomePage {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+
+    .CmsPage {
+        &,
+        &-Wrapper {
+            margin-bottom: 0;
+        }
+    }
+
+    &-Slide {
+        height: 100%;
+    }
+
+    &-VerticalSlider {
+        height: 100vh;
+    }
+
+    &-SliderSwitchArrow {
+        position: fixed;
+        bottom: 1%;
+        left: 50%;
+        transform: translateX(-50%) rotate(-90deg);
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+        transition: 500ms;
+
+        @include after-mobile {
+            bottom: 1.5%;
+        }
+
+        &_isUpside {
+            transform: translateX(-50%) rotate(90deg);
+        }
+    }
+
+    .SliderWidget {
+        &-Figure {
+            height: 100vh;
+        }
+
+        &-FigureImage {
+            height: 100%
+        }
+    }
+}

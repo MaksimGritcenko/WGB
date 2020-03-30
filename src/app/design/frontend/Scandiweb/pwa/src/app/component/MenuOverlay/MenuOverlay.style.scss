@@ -1,20 +1,10 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 :root {
     --menu-overlay-item-figure-background: var(--secondary-base-color);
     --menu-desktop-subitem-arrow-color: #000;
     --menu-overlay-item-banner-color: #fff;
     --menu-overlay-additional-information-divider-color: #dedede;
     --menu-overlay-item-hover-color: var(--primary-base-color);
+    --menu-overlay-bottom-border-color: #d4d4d4;
 }
 
 @mixin subcategory-visible {
@@ -33,22 +23,30 @@
 }
 
 .MenuOverlay {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    transition-property: transform;
+    transform: translateX(-100%);
+    will-change: transform;
+    transition: 350ms;
+    opacity: 1;
+
     @include after-mobile {
         top: var(--header-height);
         left: 0;
         position: fixed;
-        width: 400px;
         height: calc(100% - var(--header-height));
-        transition-property: opacity, transform;
-        transform: translateX(-100%);
-        will-change: transform;
+        width: 400px;
         z-index: -1;
     }
 
+    &-Main {
+        padding-top: 15px;
+    }
+
     &_isVisible {
-        @include after-mobile {
-            transform: translateX(0);
-        }
+        transform: translateX(0);
     }
 
     &-Wrapper {
@@ -65,10 +63,12 @@
     }
 
     &-Menu {
-        padding: 1rem;
+        margin-top: 20px;
+        padding: 0 1rem;
 
         @include after-mobile {
-            padding: 1rem 2rem;
+            padding: 0 2rem;
+            margin-top: 55px;
         }
 
         li {
@@ -119,28 +119,14 @@
         touch-action: pan-y;
         pointer-events: none;
         opacity: 0;
-        transition: transform 200ms ease-in-out;
+        display: none;
         transform: translateX(100%);
         background-color: var(--overlay-background);
 
-        @include mobile {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            padding-top: var(--header-height);
-        }
-
         @include after-mobile {
-            position: absolute;
-            padding: 1rem 1rem 1rem 4rem;
+            position: relative;
             top: 0;
-            left: 100%;
             width: 100%;
-            transition-property: opacity, transform;
-            transition-duration: 200ms;
-            will-change: opacity, transform;
             transform: translateX(-20%);
         }
 
@@ -152,9 +138,8 @@
         }
 
         &_isVisible {
-            @include mobile {
-                @include subcategory-visible;
-            }
+            display: block;
+            @include subcategory-visible;
         }
     }
 
@@ -164,27 +149,9 @@
         &_type {
             &_subcategory {
                 grid-auto-rows: max-content;
-                grid-row-gap: 2rem;
                 padding: 1rem;
                 background: #fff;
-
-                &::before {
-                    @include after-mobile {
-                        content: '';
-                        position: absolute;
-                        width: 10px;
-                        height: 10px;
-                        transform: rotate(-135deg);
-                        top: 45px;
-                        left: -25px;
-                        transition: left 200ms 150ms;
-                        will-change: left;
-                        border: {
-                            left: 1px solid var(--menu-desktop-subitem-arrow-color);
-                            bottom: 1px solid var(--menu-desktop-subitem-arrow-color);
-                        }
-                    }
-                }
+                justify-content: center;
 
                 & & {
                     @include after-mobile {
@@ -212,7 +179,7 @@
     }
 
     &-Item {
-        margin-top: .5rem;
+        margin: 6px 0;
 
         &:first-child {
             margin-top: 0;
@@ -224,11 +191,12 @@
     }
 
     &-ItemCaption {
+        font-family: "Oswald";
         font-size: 38px;
         line-height: 1.4rem;
         font-weight: bold;
         text-transform: uppercase;
-        text-align: left;
+        text-align: center;
 
         &_type {
             &_trending {
@@ -237,22 +205,49 @@
             }
 
             &_subcategory {
-                font-size: 16px;
+                font-family: "Roboto";
+                font-size: 20px;
                 font-weight: normal;
-                text-transform: none;
-                padding-left: 1.5rem;
-
-                @include mobile {
-                    font-size: 15px;
-                }
+                text-transform: uppercase;
             }
 
             &_banner {
-                color: var(--black);
+                color: var(--primary-base-color);
                 font-size: 15px;
                 position: absolute;
                 justify-self: center;
                 color: var(--menu-overlay-item-banner-color);
+            }
+
+            &_main {
+                width: max-content;
+                margin: auto;
+            }
+        }
+
+        &_buttonIcon {
+            &_plus,
+            &_minus {
+                &::before {
+                    position: absolute;
+                    top: 50%;
+                    transition: 150ms;
+                    right: -25px;
+                    transform: translateY(-50%);
+                    font-size: 40px;
+                }
+            }
+
+            &_plus {
+                &::before {
+                    content: '+';
+                }
+            }
+
+            &_minus {
+                &::before {
+                    content: '-';
+                }
             }
         }
     }
@@ -266,21 +261,12 @@
                 --menu-overlay-item-banner-color: var(--menu-overlay-item-hover-color);
                 color: var(--menu-overlay-item-hover-color);
             }
-
-            + .MenuOverlay-SubMenu {
-                @include after-mobile {
-                    @include subcategory-visible;
-                    @include subcategory-desktop-visible;
-                }
-            }
         }
 
         &_type {
             &_main {
-                grid-auto-flow: column;
-                grid-template-columns: 50% 50%;
-                height: 100px;
-                padding-left: 30px;
+                justify-content: center;
+                height: 60px;
                 background-color: var(--menu-overlay-item-figure-background);
 
                 @include after-mobile {
@@ -290,7 +276,8 @@
 
             &_subcategory {
                 display: flex;
-                min-height: 3.2rem;
+                padding: 8px;
+                justify-content: center;
             }
         }
     }
@@ -395,6 +382,29 @@
 
     &-Link + &-Link {
         margin-left: 0;
+    }
+
+    &-BottomContent {
+        display: flex;
+        border-top: 1px solid var(--menu-overlay-bottom-border-color);
+    }
+
+    &-BottomItem {
+        flex: 1;
+        padding: 15px 0;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+
+        @include after-mobile {
+            padding: 20px 0;
+        }
+    }
+
+    &-BottomIcon {
+        height: 18px;
+        width: 18px;
+        margin-right: 10px;
     }
 
     .Image {

@@ -1,0 +1,138 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+
+:root {
+    --filter-height: 35px;
+}
+
+.CategoryPage {
+    overflow-x: hidden;
+    --content-wrapper-width: 100%;
+
+    &-Wrapper {
+        @include after-mobile {
+            display: grid;
+            padding-top: 2rem;
+        }
+
+        @include desktop {
+            grid-column-gap: 4rem;
+        }
+
+        @include tablet {
+            grid-column-gap: 2rem;
+        }
+
+        @include mobile {
+            padding: 0;
+        }
+    }
+
+    &-ProductListWrapper {
+        @include mobile {
+            padding-top: 56px;
+        }
+    }
+
+    &-ItemsCount {
+        display: none;
+        padding: 0;
+
+        @include mobile {
+            order: 1;
+            font-size: .9rem;
+            padding: .3rem 1rem 1rem 0;
+            text-align: center;
+            grid-column: span 2;
+        }
+    }
+
+    &-Filter {
+        text-transform: uppercase;
+        text-align: right;
+        grid-column: 2;
+        font-size: 15px;
+        min-height: var(--filter-height);
+        margin-right: 15px;
+
+        @include mobile {
+            padding: 0;
+        }
+
+        &::after,
+        &::before {
+            content: '';
+            position: absolute;
+            height: 7px;
+            width: 1px;
+            background-color: black;
+            left: -8px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        &::before {
+            transform-origin: 50% 50%;
+            transform: scale(1);
+            transition: 200ms transform;
+            will-change: transform;
+        }
+
+        &::after {
+            transform-origin: 50% 50%;
+            transform: rotate(90deg);
+        }
+
+        &_isOpen::before {
+            transform: scale(0);
+        }
+
+        @include after-mobile {
+            text-align: right;
+        }
+
+    }
+
+    &-Miscellaneous {
+        display: none;
+        position: sticky;
+        order: -1;
+        z-index: 99;
+        align-items: center;
+        min-height: var(--filter-height);
+        transform: translateY(0);
+        transition: transform 200ms cubic-bezier(.47, 0, .745, .715);
+        //fix later
+        padding-top: 4px;
+        font-size: 15px;
+
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        background: transparent;
+
+        @include mobile {
+            display: flex;
+            padding-top: 0;
+            justify-content: flex-end;
+            background: #fff;
+            position: fixed;
+        }
+
+        .hideOnScroll & {
+            @include mobile {
+                transform: translateY(-100%);
+            }
+        }
+    }
+}

@@ -126,7 +126,7 @@ const webpackConfig = ([lang, translation]) => ({
         }),
 
         new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'src', 'public', 'index.production.phtml'),
+            template: path.resolve(projectRoot, 'src', 'public', 'my-index.production.phtml'),
             filename: '../templates/root.phtml',
             inject: false,
             hash: true,

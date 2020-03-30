@@ -74,11 +74,11 @@ $select-arrow-width: 6px !default;
                 position: absolute;
                 right: 20px;
                 bottom: 0;
-                top: 20px;
+                top: 16px;
                 margin: auto;
                 border-left: 4px solid transparent;
                 border-right: 4px solid transparent;
-                border-top: 4px solid var(--black);
+                border-top: 4px solid var(--primary-base-color);
             }
 
             &_isExpanded::after {
@@ -195,8 +195,8 @@ $select-arrow-width: 6px !default;
             position: relative;
             cursor: pointer;
             padding: 0;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 15px;
+            height: 15px;
             background-color: var(--box-color);
             border: 1px solid var(--input-border-color);
             transition-property: background-color, border-color;
@@ -207,7 +207,7 @@ $select-arrow-width: 6px !default;
             &::after {
                 --checkmark-color: transparent;
 
-                content: '';
+                // content: '';
                 position: absolute;
                 pointer-events: none;
                 background: var(--checkmark-color);
@@ -248,6 +248,8 @@ $select-arrow-width: 6px !default;
 
     [type='checkbox'] {
         + label {
+            padding-top: 1px;
+
             &::after {
                 left: .25rem;
                 top: .6rem;
