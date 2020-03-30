@@ -56,6 +56,7 @@ export {
 
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
+export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes
@@ -63,6 +64,14 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [FAVORITES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
