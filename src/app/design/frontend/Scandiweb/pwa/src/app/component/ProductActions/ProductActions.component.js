@@ -9,7 +9,7 @@ import './ProductActions.style.override';
 export default class ProductActions extends SourceProductActions {
     renderNameAndBrand() {
         const {
-            product: { name },
+            product: { name }
         } = this.props;
 
         return (
@@ -27,12 +27,11 @@ export default class ProductActions extends SourceProductActions {
     }
 
     renderBrand() {
-        // TODO replace by const
-        let {
+        const {
             product: { attributes: { brand: { attribute_value: brand } = {} } = {} },
             showOnlyIfLoaded
         } = this.props;
-        
+
         // display content or empty line
         const contentToShow = showOnlyIfLoaded(
             brand,
@@ -49,9 +48,7 @@ export default class ProductActions extends SourceProductActions {
             </p>
         );
 
-        return <>
-            { contentToShow || emptyContent}
-        </>
+        return contentToShow || emptyContent;
     }
 
     renderNameAndPrice() {
@@ -65,29 +62,33 @@ export default class ProductActions extends SourceProductActions {
             ? variants[configurableVariantIndex].price
             : price;
 
-        return <>
+        return (
             <div block="ProductActions" elem="NameAndPrice">
-                <p block="ProductActions" elem="Name">{name}</p>
+                <p block="ProductActions" elem="Name">{ name }</p>
                 <ProductPrice
                   price={ productOrVariantPrice }
                   mix={ { block: 'ProductActions', elem: 'Price' } }
                 />
             </div>
-        </>
+        );
     }
 
     renderMobile() {
-        return <>
+        return (
+        <>
             { this.renderBrand() }
             { this.renderNameAndPrice() }
         </>
+        );
     }
 
     renderDesktop() {
-        return <>
+        return (
+        <>
             { this.renderPrice() }
             { this.renderNameAndBrand() }
         </>
+        );
     }
 
     render() {
