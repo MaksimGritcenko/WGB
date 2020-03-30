@@ -10,6 +10,7 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -27,6 +28,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class DragBar extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        changeHeaderState: PropTypes.func.isRequired,
+        goToPreviousHeaderState: PropTypes.func.isRequired,
+        children: PropTypes.array.isRequired
+    };
+
     state = {
         areDetailsOpen: false
     };
@@ -42,6 +50,15 @@ class DragBar extends Component {
         this.onDrag = this.onDrag.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.areDetailsOpen) {
+            // eslint-disable-next-line react/destructuring-assignment
+            if (prevProps.location.pathname !== this.props.location.pathname) {
+                this.closeDetails(true);
+            }
+        }
+    }
+
     onDrag({ translateY }) {
         const { areDetailsOpen } = this.state;
 
@@ -51,58 +68,6 @@ class DragBar extends Component {
 
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
             CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
-        }
-    }
-
-    closeDetails(isManualChange = false) { // is manual && is changed
-        const { goToPreviousHeaderState } = this.props;
-
-        this.cb({
-            originalY: 0,
-            lastTranslateY: 0
-        });
-
-        this.setState({
-            ...this.state,
-            areDetailsOpen: false
-        });
-
-        this._animateAutoMove();
-        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
-        CSS.setVariable(this.dragBarRef, 'overflow', 'visible');
-        CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
-
-        if (isManualChange) {
-            goToPreviousHeaderState();
-        }
-    }
-
-    openDetails() {
-        const { changeHeaderState } = this.props;
-
-        this.cb({
-            originalY: 0,
-            lastTranslateY: this._getScreenSizeWithAdjustment()
-        });
-
-        this.setState({
-            ...this.state,
-            areDetailsOpen: true
-        })
-
-        this._animateAutoMove();
-        CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
-        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
-        CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
-
-        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() })
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.areDetailsOpen) {
-            if (prevProps.location.pathname !== this.props.location.pathname) {
-                this.closeDetails(true);
-            }
         }
     }
 
@@ -126,6 +91,44 @@ class DragBar extends Component {
         } else {
             // details are open and drag is lower than 150px => we open it back
             this.openDetails();
+        }
+    }
+
+    openDetails() {
+        const { changeHeaderState } = this.props;
+
+        this.cb({
+            originalY: 0,
+            lastTranslateY: this._getScreenSizeWithAdjustment()
+        });
+
+        this.setState(() => ({ areDetailsOpen: true }));
+
+        this._animateAutoMove();
+        CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
+        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
+        CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+
+        changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() });
+    }
+
+    closeDetails(isManualChange = false) { // is manual && is changed
+        const { goToPreviousHeaderState } = this.props;
+
+        this.cb({
+            originalY: 0,
+            lastTranslateY: 0
+        });
+
+        this.setState(() => ({ areDetailsOpen: false }));
+
+        this._animateAutoMove();
+        CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
+        CSS.setVariable(this.dragBarRef, 'overflow', 'visible');
+        CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+
+        if (isManualChange) {
+            goToPreviousHeaderState();
         }
     }
 
