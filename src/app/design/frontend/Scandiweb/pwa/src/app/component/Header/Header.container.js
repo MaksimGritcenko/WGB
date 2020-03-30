@@ -21,6 +21,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
+import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
 
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
@@ -77,6 +78,27 @@ export class HeaderContainer extends SourceHeaderContainer {
             searchCriteria
         };
     };
+
+    handleMobileUrlChange(history) {
+        const { navigationState: { name } } = this.props;
+        const { prevPathname } = this.state;
+        const { pathname } = history;
+        const isClearEnabled = this.getIsClearEnabled();
+
+        // handle dragbar update on select option
+        if (name === DRAGBAR_OPEN && (prevPathname === pathname || !prevPathname)) {
+            return {};
+        }
+
+        if (prevPathname === pathname) {
+            return { isClearEnabled };
+        }
+
+        return {
+            isClearEnabled,
+            ...this.handleMobileRouteChange(history)
+        };
+    }
 
     onFilterButtonClick() {
         const { showOverlay } = this.props;

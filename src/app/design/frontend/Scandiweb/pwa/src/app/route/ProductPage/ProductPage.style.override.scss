@@ -1,0 +1,27 @@
+.ProductPage {
+    &-Header {
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+
+        a {
+            text-transform: uppercase;
+        }
+    }
+
+    &-GoBack {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        svg {
+            margin: 0 15px;
+        }
+    }
+
+    &-Category {
+        text-decoration: underline;
+    }
+}

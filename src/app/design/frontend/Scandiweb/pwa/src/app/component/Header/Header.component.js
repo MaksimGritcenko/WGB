@@ -41,8 +41,8 @@ export {
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_SUB_ACCOUNT,
     HOME_PAGE,
     MENU,
     MENU_SUBCATEGORY,
@@ -54,11 +54,13 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
+
 export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes
-        // onSearchBarClick: PropTypes.func.isRequired
+        // onSearchBarClick: PropTypes.func.isRequired,
     };
 
     stateMap = {
@@ -75,9 +77,10 @@ export default class Header extends SourceHeader {
             close: true
         },
         [PDP]: {
-            back: true,
-            title: true,
-            minicart: true
+            menu: true
+        },
+        [DRAGBAR_OPEN]: {
+            dragbar_close: true
         },
         [CATEGORY]: {
             menu: true,
@@ -157,6 +160,7 @@ export default class Header extends SourceHeader {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
+        dragbar_close: this.renderDragbarCloseButton.bind(this),
         wishlist: this.renderWishlistButton.bind(this),
         ...this.renderMap
     };
@@ -308,6 +312,26 @@ export default class Header extends SourceHeader {
                     <MyAccountOverlay />
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderDragbarCloseButton(isVisible = false) {
+        const { onCloseButtonClick } = this.props;
+
+        return (
+            <button
+              key="dragbar_close"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'close', isVisible } }
+              mix={ { block: 'DragBar', elem: 'Close' } }
+              onClick={ onCloseButtonClick }
+              aria-label="Close"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { closeIcon }
+            </button>
         );
     }
 
