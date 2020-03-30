@@ -109,12 +109,15 @@ export default class GenderSlider extends PureComponent {
         );
     }
 
-    renderSlide(slideContent, index) {
+    renderSlide = (slideContent, index) => {
+        const { isBottomSwitcher } = this.props;
+
         return (
             <div
               key={ index }
               block="GenderSlider"
               elem="Slide"
+              mods={ { isBottom: isBottomSwitcher } }
             >
                 { slideContent }
             </div>
