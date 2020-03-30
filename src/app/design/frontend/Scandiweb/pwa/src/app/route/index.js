@@ -8,7 +8,13 @@ import ContactPage from 'Component/ContactPage';
 
 import NotificationList from 'Component/NotificationList';
 import NavigationTabs from 'Component/NavigationTabs';
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
+import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { ContactInfoDispatcher } from 'Store/ContactInfo';
 
+import Store from 'Store';
 // importing all parts of original header planned to modify
 import {
     BEFORE_ITEMS_TYPE,
@@ -74,6 +80,18 @@ export class AppRouter extends SourceAppRouter {
     ];
 
     [AFTER_ITEMS_TYPE] = [];
+
+    dispatchActions() {
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        CartDispatcher.updateInitialCartData(Store.dispatch);
+        ConfigDispatcher.handleData(Store.dispatch);
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());
+        ContactInfoDispatcher.handleData(Store.dispatch, this.getContactInfoOptions());
+    }
+
+    getContactInfoOptions() {
+        return { identifiers: ['contact-us-social'] };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

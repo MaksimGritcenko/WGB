@@ -23,7 +23,7 @@
 
 .ContactExpandableContent {
     border-top: 1px solid var(--expandable-content-divider-color);
-    margin: 0 13px 0 16px;
+    margin: 0 15px 0 16px;
 
   &-MainContent {
     font-size: 13px;
@@ -77,7 +77,7 @@
       border-style: solid;
       border-width: 5px 3px 0 3px;
       border-color: #000000 transparent transparent transparent;
-      right: 1.5rem;
+      right: 0;
       top: 0;
       transition: transform 330ms ease-in-out;
       bottom: 0;
@@ -159,6 +159,39 @@
 }
 
 .Social {
+  &-ContactExpandableContentContent {
+    .CmsBlock-Wrapper {
+      p {
+        font-size: 13px;
+
+        @include after-mobile {
+          font-size: 15px;
+          padding-left: 37px;
+        }
+      }
+
+      .Image_hasSrc {
+        width: 13px;
+        top: 2px;
+
+        @include after-mobile {
+          width: 15px;
+          height: 15px;
+        }
+
+        img {
+          width: 13px;
+          height: 13px;
+
+          @include after-mobile {
+            width: 15px!important;
+            height: 15px!important;
+          }
+        }
+      }
+    }
+  }
+
   &-ContactExpandableContentHeading {
     &::before{
       content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 13 13'%3E%3Cg%3E%3Cpath d='M6.5 0C3.771 0 1.32 1.731.403 4.308.153 5.01 0 5.748 0 6.5 0 10.084 2.93 13 6.5 13c.956 0 1.88-.21 2.752-.622l2.5.612c.136.035.288-.022.38-.158.09-.132.106-.31.04-.46l-.738-1.68C12.43 9.518 13 8.041 13 6.5 13 2.916 10.07 0 6.5 0zm3.047 7.367c.21 0 .38.193.38.433s-.17.433-.38.433H7.984l-.356 1.419c-.056.224-.261.364-.47.298-.203-.066-.32-.306-.263-.536l.297-1.18H4.937l-.356 1.418c-.056.224-.261.364-.47.298-.203-.066-.32-.306-.263-.536l.297-1.18h-.692c-.21 0-.38-.195-.38-.434 0-.24.17-.433.38-.433h.91l.435-1.734H3.453c-.21 0-.38-.194-.38-.433 0-.24.17-.433.38-.433h1.563l.356-1.42c.058-.23.27-.36.47-.297.203.066.32.306.263.535l-.297 1.182h2.255l.356-1.42c.058-.23.271-.36.47-.297.203.066.32.306.263.535l-.297 1.182h.692c.21 0 .38.193.38.433s-.17.433-.38.433h-.91l-.435 1.734h1.345z'/%3E%3C/g%3E%3C/svg%3E");

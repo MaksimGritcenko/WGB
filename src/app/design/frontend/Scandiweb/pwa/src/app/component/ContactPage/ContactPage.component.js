@@ -84,6 +84,9 @@ class ContactPage extends PureComponent {
                       heading={ __('STAY SOCIAL') }
                       mix={ { block: 'Social' } }
                     >
+                        <p block="ContactExpandableContent" elem="SubContent">
+                        { __('Find us here:') }
+                        </p>
                         <CmsBlock identifiers={ ['contact-us-social'] } />
                     </ContactExpandableContent>
                     <ContactExpandableContent
