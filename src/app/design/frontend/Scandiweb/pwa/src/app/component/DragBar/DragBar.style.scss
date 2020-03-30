@@ -32,11 +32,12 @@ body {
         position: fixed;
         width: 100%;
         will-change: transform, top;
-        top: calc(100vh - 110px);
+
+        top: calc(100% - 110px);
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
         transform: translateY(var(--draggable-y));
-        max-height: calc(100vh - 50px);
+        max-height: calc(100% - 50px);
 
         overflow: var(--overflow);
         overscroll-behavior: contain;
