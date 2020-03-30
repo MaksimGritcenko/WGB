@@ -1,0 +1,86 @@
+@keyframes bounce {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-5px);
+    }
+}
+
+body {
+    overscroll-behavior: none;
+}
+
+.DragBar {
+    background-color: var(--header-background);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    position: relative;
+
+    &-Close {
+        margin-right: 15px;
+        order: 666;
+    }
+
+    &-Draggable {
+        --draggable-y: 0;
+        --open-bounce-speed: 500ms;
+        --overflow: visible;
+        --animation-speed: 0;
+
+        background-color: #fff;
+        position: fixed;
+        width: 100%;
+        will-change: transform, top;
+
+        top: calc(100% - 110px);
+        transition-duration: var(--animation-speed);
+        transition-property: transform, top;
+        transform: translateY(var(--draggable-y));
+        max-height: calc(100% - var(--header-height));
+
+        overflow: var(--overflow);
+        overscroll-behavior: contain;
+        scroll-behavior: smooth;
+
+        &_areDetailsOpen {
+            // TODO figure out without important
+            &::before {
+                content: none !important;
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            height: calc(100% - 50px);
+            width: 100%;
+            left: 0;
+            top: 50px;
+            z-index: 1;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 45px;
+            height: 2px;
+            border-radius: 5px;
+            background: #000;
+            will-change: transform;
+            z-index: 1001;
+            animation: bounce var(--open-bounce-speed) infinite alternate;
+        }
+
+        > * {
+            padding: 0 16px;
+            z-index: 2;
+        }
+    }
+}

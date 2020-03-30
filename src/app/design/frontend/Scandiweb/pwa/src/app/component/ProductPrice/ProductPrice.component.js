@@ -17,7 +17,7 @@ import {
     calculateFinalPrice,
     roundPrice
 } from 'Util/Price';
-import './ProductPrice.style';
+import './ProductPrice.style.override';
 
 /**
  * Product price
@@ -63,8 +63,8 @@ export default class ProductPrice extends SourceProductPrice {
                     <data
                       value={ formatedCurrency }
                     >
-                          <span>{ `${ currency } ` }</span>
                         <span itemProp="lowPrice">{ formatedCurrency }</span>
+                        <span>{ ` ${ currency }` }</span>
                     </data>
                 </PriceSemanticElementName>
 
