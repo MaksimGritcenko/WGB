@@ -1,5 +1,6 @@
 import { withRouter } from 'react-router';
 import SliderVertical from 'Component/SliderVertical';
+import VideoPopup from 'Component/VideoPopup';
 import {
     GALLERY_LENGTH_BEFORE_COLLAPSE,
     MAX_ZOOM_SCALE,
@@ -33,6 +34,16 @@ class ProductGallery extends SourceProductGallery {
                     { gallery.map(this.renderSlide) }
                 </SliderVertical>
                 { this.renderGalleryNotice() }
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div block="ProductGallery">
+                {/* { this.renderAdditionalPictures() } */}
+                { this.renderSlider() }
+                <VideoPopup />
             </div>
         );
     }

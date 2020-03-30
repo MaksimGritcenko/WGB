@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 import SourceProductPage from 'SourceRoute/ProductPage/ProductPage.component';
 
@@ -50,13 +51,13 @@ export default class ProductPage extends SourceProductPage {
         return (
             <>
                 <p
-                block="ProductPage"
-                elem="GoBackText"
+                  block="ProductPage"
+                  elem="GoBackText"
                 >
                     { __('Back to ') }
                     <span
-                    block="ProductPage"
-                    elem="Category"
+                      block="ProductPage"
+                      elem="Category"
                     >
                         { categoryName }
                     </span>
@@ -129,13 +130,14 @@ export default class ProductPage extends SourceProductPage {
             areDetailsLoaded
         } = this.props;
 
-        const ConditionalWrapper = ({ condition, ifTrue, ifFalse, children }) =>
-            condition ? ifTrue(children) : ifFalse(children);
+        const ConditionalWrapper = ({
+            condition, ifTrue, ifFalse, children
+        }) => (condition ? ifTrue(children) : ifFalse(children));
 
         return (
             <ConditionalWrapper
               condition={ isMobile.any() }
-              ifTrue={ children => <DragBar>{ children }</DragBar>}
+              ifTrue={ children => <DragBar>{ children }</DragBar> }
               ifFalse={ children => <ContentWrapper mix={ { block: 'ProductContentWrapper' } } label={ __('Product information') }>{ children }</ContentWrapper> }
             >
                 <ProductActions

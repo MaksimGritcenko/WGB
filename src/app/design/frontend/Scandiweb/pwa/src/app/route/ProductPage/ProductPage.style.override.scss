@@ -8,6 +8,7 @@
 .ProductPage {
     @include after-mobile {
         display: flex;
+        padding-top: 100px;
     }
 
     &-Category {
