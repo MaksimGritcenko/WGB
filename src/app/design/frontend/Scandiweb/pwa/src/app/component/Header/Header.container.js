@@ -65,7 +65,9 @@ export class HeaderContainer extends SourceHeaderContainer {
 
         const {
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         } = this.state;
 
         return {
@@ -75,7 +77,9 @@ export class HeaderContainer extends SourceHeaderContainer {
             logo_alt,
             isLoading,
             isClearEnabled,
-            searchCriteria
+            searchCriteria,
+            isCheckout,
+            showMyAccountLogin
         };
     };
 
