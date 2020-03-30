@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { ProductPageContainer as SourceProductPageContainer } from 'SourceRoute/ProductPage/ProductPage.container';
-import { mapStateToProps, mapDispatchToProps } from 'SourceRoute/ProductPage/ProductPage.container';
+import {
+    ProductPageContainer as SourceProductPageContainer,
+    mapStateToProps,
+    mapDispatchToProps
+} from 'SourceRoute/ProductPage/ProductPage.container';
 
 class ProductPageContainer extends SourceProductPageContainer {
     _onProductUpdate() {
@@ -10,7 +13,7 @@ class ProductPageContainer extends SourceProductPageContainer {
 
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
-            //this._updateHeaderState(dataSource);
+            // this._updateHeaderState(dataSource);
             this._updateNavigationState();
         }
     }

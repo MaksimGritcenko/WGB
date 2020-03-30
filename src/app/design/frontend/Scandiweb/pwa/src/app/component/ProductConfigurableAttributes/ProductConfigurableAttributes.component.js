@@ -1,5 +1,5 @@
+// eslint-disable-next-line max-len
 import SourceProductConfigurableAttributes from 'SourceComponent/ProductConfigurableAttributes/ProductConfigurableAttributes.component';
-import ExpandableContent from 'Component/ExpandableContent';
 
 import './ProductConfigurableAttributes.style.override';
 
@@ -9,10 +9,10 @@ export default class ProductConfigurableAttributes extends SourceProductConfigur
 
         return (
             <p
-                block="ProductConfigurableAttributes"
-                mix={{ block: 'Attribute', elem: 'Name' }}
+              block="ProductConfigurableAttributes"
+              mix={ { block: 'Attribute', elem: 'Name' } }
             >
-                {attribute_label}
+                { attribute_label }
             </p>
         );
     }
@@ -22,13 +22,13 @@ export default class ProductConfigurableAttributes extends SourceProductConfigur
             configurable_options
         } = this.props;
 
-        return Object.values(configurable_options).map(option => {
-            return (
-                <div block="ProductConfigurableAttributes" elem="Attribute" key={option.attribute_label}>
-                    {this.renderDropdownHeading(option)}
-                    {this.renderDropdown(option)}
+        return Object.values(configurable_options).map(
+            option => (
+                <div block="ProductConfigurableAttributes" elem="Attribute" key={ option.attribute_label }>
+                    { this.renderDropdownHeading(option) }
+                    { this.renderDropdown(option) }
                 </div>
-            );
-        });
+            )
+        );
     }
 }

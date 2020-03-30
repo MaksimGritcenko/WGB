@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /* eslint-disable no-else-return */
 /**
  * ScandiPWA - Progressive Web App for Magento
@@ -11,7 +12,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Draggable from 'Component/Draggable';
@@ -45,7 +46,7 @@ class DragBar extends Component {
         this.touchActionEnabled = false;
         this.animatedTransitionOnce = false;
 
-        this.dragBarRef = React.createRef();
+        this.dragBarRef = createRef();
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onDrag = this.onDrag.bind(this);
     }
@@ -65,7 +66,6 @@ class DragBar extends Component {
         if (!areDetailsOpen && translateY < 0) {
             CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
         } else if (areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
-
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
             CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
         }

@@ -52,7 +52,15 @@ export default class ProductActions extends SourceProductActions {
     }
 
     renderNameAndPrice() {
-        const { product: { name, price, variants, type_id }, configurableVariantIndex } = this.props;
+        const {
+            product: {
+                name,
+                price,
+                variants,
+                type_id
+            },
+            configurableVariantIndex
+        } = this.props;
 
         if (type_id === GROUPED) return null;
 
@@ -75,30 +83,28 @@ export default class ProductActions extends SourceProductActions {
 
     renderMobile() {
         return (
-        <>
-            { this.renderBrand() }
-            { this.renderNameAndPrice() }
-        </>
+            <>
+                { this.renderBrand() }
+                { this.renderNameAndPrice() }
+            </>
         );
     }
 
     renderDesktop() {
         return (
-        <>
-            { this.renderPrice() }
-            { this.renderNameAndBrand() }
-        </>
+            <>
+                { this.renderPrice() }
+                { this.renderNameAndBrand() }
+            </>
         );
     }
 
     render() {
         return (
             <article block="ProductActions">
-                {
-                    isMobile.any()
-                        ? this.renderMobile()
-                        : this.renderDesktop()
-                }
+                { isMobile.any()
+                    ? this.renderMobile()
+                    : this.renderDesktop() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderQuantityInput() }

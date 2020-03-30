@@ -1,13 +1,12 @@
 import { withRouter } from 'react-router';
-
 import SliderVertical from 'Component/SliderVertical';
-import { ProductGallery as SourceProductGallery } from 'SourceComponent/ProductGallery/ProductGallery.component';
 import {
     GALLERY_LENGTH_BEFORE_COLLAPSE,
     MAX_ZOOM_SCALE,
     IMAGE_TYPE,
     VIDEO_TYPE,
-    PLACEHOLDER_TYPE
+    PLACEHOLDER_TYPE,
+    ProductGallery as SourceProductGallery
 } from 'SourceComponent/ProductGallery/ProductGallery.component';
 
 import './ProductGallery.override.style';
@@ -35,7 +34,7 @@ class ProductGallery extends SourceProductGallery {
                 </SliderVertical>
                 { this.renderGalleryNotice() }
             </div>
-        );    
+        );
     }
 }
 

@@ -87,7 +87,7 @@ export class HeaderContainer extends SourceHeaderContainer {
 
         // handle dragbar update on select option
         if (name === DRAGBAR_OPEN && (prevPathname === pathname || !prevPathname)) {
-            return {}
+            return {};
         }
 
         if (prevPathname === pathname) {
