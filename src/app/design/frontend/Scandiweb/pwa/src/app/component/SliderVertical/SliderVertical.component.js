@@ -28,8 +28,6 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
 export default class SliderVertical extends Slider {
     componentDidMount() {
         const sliderChildren = this.draggableRef.current.children;
-        const sliderHeight = this.draggableRef.current.offsetHeight;
-        this.sliderHeight = sliderHeight;
 
         if (!sliderChildren || !sliderChildren[0]) return;
 
@@ -46,6 +44,7 @@ export default class SliderVertical extends Slider {
         setTimeout(() => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
         }, ANIMATION_DURATION);
+        this.sliderHeight = this.draggableRef.current.offsetHeight;
     }
 
     componentDidUpdate(prevProps) {
