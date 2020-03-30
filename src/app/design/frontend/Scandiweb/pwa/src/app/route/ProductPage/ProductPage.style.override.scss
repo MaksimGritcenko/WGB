@@ -42,7 +42,9 @@
     }
 
     &-Wrapper {
-        width: 850px;
+        @include after-mobile {
+            width: 850px;
+        }
     }
 
     .ProductContentWrapper {
