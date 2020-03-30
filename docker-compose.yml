@@ -137,6 +137,7 @@ volumes:
   mysql-data:
   redis-data:
   elasticsearch-data:
+  nginx-data:
 
 networks:
   default:

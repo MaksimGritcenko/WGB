@@ -37,6 +37,11 @@ D_COMPOSER_HOME=/var/lib/composer
 # Set version for override, or leave the "latest", updated on each build
 COMPOSER_VERSION=latest
 COMPOSER_ALLOW_SUPERUSER=1
+COMPOSER_AUTH={"http-basic":{"repo.magento.com": {"username": "13615bcb18453223e94e126d37d99a8a", "password": "42dc38c998c9f965bc1172b85fef9bb7"}}}
+
+# Process.yml files for frontend container
+FRONTEND_CORE_PROCESS_FILE=process-core.yml
+FRONTEND_PROCESS_FILE=process.yml
 
 # Node.js is installed via n
 # node versions: `n list` or https://nodejs.org/dist/

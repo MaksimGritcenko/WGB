@@ -13,10 +13,15 @@ services:
         - BASEPATH=${BASEPATH}
         - NODEJS_VERSION=${NODEJS_VERSION}
     volumes:
-      - ./src/localmodules/base-theme:/var/www/public
-    command: ["npm", "run", "dev-server-core"]
-    working_dir: "/var/www/public"
+      - ./src/localmodules/base-theme:/var/www/public/localmodules/base-theme
+      - ./src/vendor:/var/www/public/vendor
+      - app-data:/var/www/public
     env_file: .env
-    command: ["/bin/bash", "/start-core.sh"]
+    environment: 
+      - PROCESS_FILE=${FRONTEND_CORE_PROCESS_FILE}
+    working_dir: "/var/www/public/localmodules/base-theme/"
+    command: ["/bin/bash", "/start.sh"]
     expose:
       - 3003
+  app:
+    command: ["/wait-for-it.sh", "mysql:3306", "--", "/start-when-frontend-serving.sh"]
