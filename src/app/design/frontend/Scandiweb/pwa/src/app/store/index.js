@@ -4,10 +4,12 @@ import {
 
 import { reducers as SourceReducers } from 'SourceStore/index';
 import { SliderReducer } from 'Store/Slider';
+import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 
 export const reducers = {
     ...SourceReducers,
-    SliderReducer
+    SliderReducer,
+    HeaderAndFooterReducer
 };
 
 const store = createStore(
