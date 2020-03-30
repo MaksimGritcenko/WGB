@@ -9,7 +9,8 @@ import { goToPreviousNavigationState } from 'Store/Navigation';
 import GenderSlider from './GenderSlider.component';
 
 export const mapStateToProps = state => ({
-    activeStateIndex: state.SliderReducer.activeStateIndex,
+    activeHorizontalSlideIndex: state.SliderReducer.activeHorizontalSlideIndex,
+    isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite,
     changeState
 });
 
