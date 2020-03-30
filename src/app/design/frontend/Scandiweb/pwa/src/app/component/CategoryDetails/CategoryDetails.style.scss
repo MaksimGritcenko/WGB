@@ -15,7 +15,6 @@
 
 .CategoryDetails {
     display: grid;
-    grid-template-columns: auto minmax(100px, 15rem);
     grid-gap: 1rem;
     background-color: var(--category-details-background);
     margin-bottom: 1rem;
@@ -37,6 +36,7 @@
     }
 
     &-Description {
+        text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -47,14 +47,10 @@
     }
 
     p {
-        max-width: 500px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         height: 2rem;
-
-        @include before-desktop {
-            max-width: 200px;
-        }
+        line-height: 1.5rem;
     }
 }

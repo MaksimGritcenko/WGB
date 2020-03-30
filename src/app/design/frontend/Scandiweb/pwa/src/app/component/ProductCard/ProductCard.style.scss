@@ -20,25 +20,18 @@
     min-width: 0;
 
     &-Hero {
+        margin: auto;
+        width: 104%;
+        left: -2%;
         grid-column: span 2;
         grid-row: span 2;
 
         & .ProductCard {
-            &-Link {
-                position: relative;
-                height: 100.7%;
-            }
-
             &-Content {
                 justify-content: center;
-                margin-top: 5px;
                 display: flex;
                 flex-direction: row;
                 padding-top: 12px;
-            }
-
-            &-Picture {
-                height: 99%;
             }
 
             &-Brand {
@@ -60,12 +53,15 @@
                     margin: 0 10px;
                 }
             }
-        }
-    }
 
-    &_isHero {
-        grid-column: span 2;
-        grid-row: span 2;
+            &-Picture {
+                & > img {
+                    @include after-mobile {
+                        object-fit: contain;
+                    }
+                }
+            }
+        }
     }
 
     &::before {
@@ -77,15 +73,12 @@
     }
 
     &-Content {
+        margin-bottom: 1rem;
         padding: 1rem;
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
         justify-items: center;
-
-        &_isHero {
-            padding-top: 3%;
-        }
     }
 
     &-Name,
@@ -122,15 +115,20 @@
 
         @include mobile {
             line-height: 1;
-            font-size: 12px;
         }
     }
 
     &-Picture {
-        padding-bottom: 120%;
+        @include after-mobile {
+            height: 100vh;
+        }
 
-        &_isHero {
-            height: 99%;
+        @include mobile {
+            padding-bottom: 130%;
+        }
+
+        & > img {
+            object-fit: cover;
         }
     }
 
@@ -212,11 +210,8 @@
         color: inherit;
         display: flex;
         flex-direction: column;
-
-        &_isHero {
-            position: relative;
-            height: 100%;
-        }
+        position: relative;
+        height: 100%;
 
         &:hover,
         &:focus {
