@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { MENU } from 'Component/Header/Header.component';
 import SourceOverlay from 'SourceComponent/Overlay/Overlay.component';
 
 import isMobile from 'Util/Mobile';
@@ -28,6 +29,17 @@ export default class Overlay extends SourceOverlay {
         isFreezeEnabled: true,
         onHide: () => {}
     };
+
+
+    componentDidUpdate(prevProps) {
+        const prevWasVisible = this.getIsVisible(prevProps);
+        const isVisible = this.getIsVisible();
+        if (isVisible && !prevWasVisible) this.onVisible();
+        if (!isVisible && prevWasVisible) {
+            const { navigationState: { name } } = this.props;
+            if (name !== MENU) this.onHide();
+        }
+    }
 
     onVisible() {
         const { onVisible } = this.props;

@@ -93,7 +93,7 @@
 .Header {
     --header-background: transparent;
     --header-icon-stroke-width: 2px;
-    --filter-button-margin: 14px;
+    --filter-button-margin: 20px;
     --filter-button-opacity: 1;
 
     position: fixed;
@@ -114,8 +114,10 @@
     }
 
     &-Filter {
+        margin: auto;
         display: none;
         justify-content: flex-end;
+        max-width: var(--content-wrapper-width);
 
         &-Button {
             font-size: 15px;
@@ -161,6 +163,16 @@
         }
 
         &_category,
+        &_filter,
+        &_menu {
+            @include after-mobile {
+                .Header-Filter {
+                    display: flex;
+                }
+            }
+        }
+
+        &_category,
         &_filter {
             @include mobile {
                 --header-background: var(--header-default-background);
@@ -169,11 +181,6 @@
             @include after-mobile {
                 padding-bottom: 10px;
                 transition: background .4s ease-out;
-
-
-                .Header-Filter {
-                    display: flex;
-                }
 
                 &:hover {
                     --header-background: white;

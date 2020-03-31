@@ -21,8 +21,8 @@
 
     &-Hero {
         margin: auto;
-        width: 104%;
-        left: -2%;
+        width: 108%;
+        left: -4%;
         grid-column: span 2;
         grid-row: span 2;
 
@@ -31,7 +31,6 @@
                 justify-content: center;
                 display: flex;
                 flex-direction: row;
-                padding-top: 12px;
             }
 
             &-Brand {
@@ -78,8 +77,8 @@
     }
 
     &-Content {
-        margin-bottom: 1rem;
-        padding: 1rem;
+        margin-bottom: 10px;
+        padding: 10px;
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -100,11 +99,12 @@
         }
 
         @include after-mobile {
-            line-height: 1.3;
+            font-size: 15px;
         }
     }
 
     &-Name {
+        line-height: 1;
         text-transform: uppercase;
         text-align: center;
         order: 1;
@@ -176,6 +176,7 @@
     }
 
     &-Price {
+        line-height: 1;
         font-size: 14px;
         order: 2;
         text-align: center;
@@ -185,6 +186,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include after-mobile {
+            font-size: 15px;
+        }
 
         & del {
             margin-right: 5px;
