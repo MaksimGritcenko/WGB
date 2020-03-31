@@ -7,8 +7,10 @@
     }
 }
 
-body {
+.overscrollDisabled {
     overscroll-behavior: none;
+    position: fixed;
+    overflow: hidden;
 }
 
 .DragBar {

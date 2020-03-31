@@ -64,10 +64,14 @@ export class DragBar extends Component {
         const { areDetailsOpen } = this.state;
 
         if (!areDetailsOpen && translateY < 0) {
-            CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
+            setTimeout(() => {
+                CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
+            }, 0);
         } else if (areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
             CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
-            CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
+            setTimeout(() => {
+                CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
+            }, 0);
         }
     }
 
@@ -80,17 +84,25 @@ export class DragBar extends Component {
         if (!areDetailsOpen) {
             if (translateY > -150) {
                 // details are close and drag is higher than -150px => we close it back
-                this.closeDetails();
+                setTimeout(() => {
+                    this.closeDetails();
+                }, 0);
             } else {
                 // details are closed, but drag is lower than -150px => we open it completely
-                this.openDetails();
+                setTimeout(() => {
+                    this.openDetails();
+                }, 0);
             }
         } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
             // details are open and drag is higher than 150px => we close it
-            this.closeDetails(true);
+            setTimeout(() => {
+                this.closeDetails(true);
+            }, 0);
         } else {
             // details are open and drag is lower than 150px => we open it back
-            this.openDetails();
+            setTimeout(() => {
+                this.openDetails();
+            }, 0);
         }
     }
 
@@ -107,7 +119,9 @@ export class DragBar extends Component {
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
-        CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+        setTimeout(() => {
+            CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+        }, 0);
 
         changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() });
     }
@@ -125,7 +139,10 @@ export class DragBar extends Component {
         this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
         CSS.setVariable(this.dragBarRef, 'overflow', 'visible');
-        CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+
+        setTimeout(() => {
+            CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
+        }, 0);
 
         if (isManualChange) {
             goToPreviousHeaderState();

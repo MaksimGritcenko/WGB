@@ -102,11 +102,11 @@ export default class ProductPage extends SourceProductPage {
     }
 
     freezeScroll() {
-        document.body.classList.add('scrollDisabled');
+        document.body.classList.add('overscrollDisabled');
     }
 
     unFreezeScroll() {
-        document.body.classList.remove('scrollDisabled');
+        document.body.classList.remove('overscrollDisabled');
     }
 
     componentDidMount() {
