@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  WGB
+ * @package   WGB\SocialLogin
+ * @author    Tornike Bakuradze <info@WGB.com>
+ * @copyright Copyright (c) 2019 WGB, Ltd (http://WGB.com)
+ * @license   OSL-3.0
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Scandiweb\SocialLogin\Controller\Login\Index" type="WGB\SocialLogin\Controller\Login\Index"/>
+    <virtualType name="ScandiPWA\Router\Controller\ConfigurableRouter">
+        <arguments>
+            <argument name="ignoredURLs" xsi:type="array">
+                <item name="sociallogin" xsi:type="string">^/sociallogin/login/.*</item>
+                <item name="socialloginendpoint" xsi:type="string">^/sociallogin/endpoint/.*</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>
