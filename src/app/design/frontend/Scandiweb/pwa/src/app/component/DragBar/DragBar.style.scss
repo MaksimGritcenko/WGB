@@ -38,7 +38,7 @@ body {
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
         transform: translateY(var(--draggable-y));
-        max-height: calc(100% - var(--header-height));
+        height: calc(100% - var(--header-height));
 
         overflow: var(--overflow);
         overscroll-behavior: contain;
