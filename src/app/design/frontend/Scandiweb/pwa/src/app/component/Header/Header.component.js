@@ -225,9 +225,8 @@ export default class Header extends SourceHeader {
         const { onSearchBarFocus } = this.props;
 
         return (
-            <>
+            <Fragment key="searchButton">
                 <button
-                  key="searchButton"
                   block="Header"
                   elem="Button"
                   mods={ { type: 'searchButton', isVisible } }
@@ -239,7 +238,7 @@ export default class Header extends SourceHeader {
                     { searchIcon }
                 </button>
                 <SearchOverlay />
-            </>
+            </Fragment>
         );
     }
 

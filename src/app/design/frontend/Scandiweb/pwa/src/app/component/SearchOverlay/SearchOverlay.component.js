@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import SourceSearchOverlay from 'SourceComponent/SearchOverlay/SearchOverlay.component';
 import Link from 'Component/Link';
 import Overlay from 'Component/Overlay';
 import TextPlaceholder from 'Component/TextPlaceholder';
 import { closeIcon } from 'Component/Header/Header.config';
+import { ItemsType } from 'Type/ProductList';
 import isMobile from 'Util/Mobile';
 
 import './SearchOverlay.style.override';
@@ -14,6 +16,16 @@ export {
 export const AMOUNT_OF_PLACEHOLDERS = 3;
 
 export default class SearchOverlay extends SourceSearchOverlay {
+    static propTypes = {
+        hideActiveOverlay: PropTypes.func.isRequired,
+        searchCriteria: PropTypes.string,
+        searchResults: ItemsType.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        getProductLinkTo: PropTypes.func.isRequired,
+        makeSearchRequest: PropTypes.func.isRequired,
+        clearSearchResults: PropTypes.func.isRequired
+    };
+
     renderNoResults() {
         return (
             <span
