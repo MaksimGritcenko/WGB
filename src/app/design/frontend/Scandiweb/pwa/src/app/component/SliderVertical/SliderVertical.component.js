@@ -11,6 +11,8 @@
  * @link https://github.com/scandipwa/base-theme
  */
 
+import { Children } from 'react';
+
 import CSS from 'Util/CSS';
 import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
@@ -26,10 +28,14 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
 export default class SliderVertical extends Slider {
     componentDidMount() {
         const sliderChildren = this.draggableRef.current.children;
-        const sliderHeight = this.draggableRef.current.offsetHeight;
-        this.sliderHeight = sliderHeight;
 
         if (!sliderChildren || !sliderChildren[0]) return;
+
+        CSS.setVariable(
+            this.sliderRef,
+            'slider-height',
+            `calc(${window.innerHeight}px - (var(--header-height) * 2) - 110px)`
+        );
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
@@ -38,6 +44,7 @@ export default class SliderVertical extends Slider {
         setTimeout(() => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
         }, ANIMATION_DURATION);
+        this.sliderHeight = this.draggableRef.current.offsetHeight;
     }
 
     componentDidUpdate(prevProps) {
@@ -154,6 +161,21 @@ export default class SliderVertical extends Slider {
         });
     }
 
+    renderCrumbs() {
+        const { children } = this.props;
+        if (children.length <= 1) return null;
+
+        return (
+            <div
+              block="Slider"
+              elem="Crumbs"
+              mix={ { block: 'SliderVertical', elem: 'Crumbs' } }
+            >
+                { Children.map(children, this.renderCrumb) }
+            </div>
+        );
+    }
+
     render() {
         const {
             showCrumbs, mix, activeImage, children
@@ -166,7 +188,7 @@ export default class SliderVertical extends Slider {
               ref={ this.sliderRef }
             >
                 <Draggable
-                  mix={ { block: 'Slider', elem: 'Wrapper', mods: { isVertical: true } } }
+                  mix={ { block: 'Slider', elem: 'Wrapper', mix: { block: 'SliderVertical', elem: 'Wrapper' } } }
                   draggableRef={ this.draggableRef }
                   onDragStart={ this.handleDragStart }
                   onDragEnd={ this.handleDragEnd }

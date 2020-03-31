@@ -36,6 +36,8 @@
     }
 
     &-Description {
+        max-width: 70vw;
+        margin: auto;
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -47,9 +49,10 @@
     }
 
     p {
-        overflow: hidden;
+        overflow-x: none;
+        word-wrap: break-word;
+        white-space: pre-wrap;
         text-overflow: ellipsis;
-        white-space: nowrap;
         height: 2rem;
         line-height: 1.5rem;
     }

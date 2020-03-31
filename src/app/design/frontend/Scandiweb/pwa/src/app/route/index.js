@@ -38,7 +38,6 @@ export {
     PasswordChangePage,
     ProductPage,
     SearchPage,
-    SomethingWentWrong,
     UrlRewrites,
     MenuPage,
     BEFORE_ITEMS_TYPE,
