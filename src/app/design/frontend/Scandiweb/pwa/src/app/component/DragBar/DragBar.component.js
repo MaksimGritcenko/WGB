@@ -93,7 +93,7 @@ export class DragBar extends Component {
                     this.openDetails();
                 }, 0);
             }
-        } else if (translateY > 50 && this.dragBarRef.current.scrollTop === 0) {
+        } else if (translateY > 50 && this.dragBarRef.current.scrollTop <= 0) {
             // details are open and drag is higher than 150px => we close it
             setTimeout(() => {
                 this.closeDetails(true);
