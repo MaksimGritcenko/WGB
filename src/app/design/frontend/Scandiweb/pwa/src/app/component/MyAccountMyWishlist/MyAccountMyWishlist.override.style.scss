@@ -1,4 +1,13 @@
 .MyAccountMyWishlist {
+    p:only-of-type {
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+
+        @include mobile {
+            font-size: 13px;
+        }
+    }
 
     &-Title {
         font-size: 20px;
@@ -7,7 +16,7 @@
         text-align: center;
         padding: 63px 0 13px 0px;
 
-        @include after-mobile {
+        @include desktop {
             font-size: 40px;
 
             &::after {
