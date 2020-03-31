@@ -12,7 +12,7 @@
 .FavoriteItemCard {
     padding-left: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 
     &::before {
         content: none;
@@ -32,7 +32,7 @@
         max-width: 250px;
         padding: 0 15px;
 
-        @include after-mobile {
+        @include desktop {
             padding: unset;
         }
     }
@@ -43,8 +43,13 @@
         align-items: center;
         max-width: 220px;
 
-        @include after-mobile {
+        @include desktop {
             align-self: center;
+        }
+
+        @include tablet {
+            align-self: center;
+            justify-content: flex-end;
         }
     }
 
@@ -66,7 +71,7 @@
             text-overflow: ellipsis;
         }
 
-        @include after-mobile {
+        @include desktop {
             text-align: center;
         }
     }
@@ -87,13 +92,19 @@
             border-right: 1px solid var(--link-color);
         }
 
-        @include after-mobile {
+        @include desktop {
             right: 0;
+        }
+
+        @include tablet {
+            width: unset;
+            text-align: unset;
+            right: unset;
         }
     }
 
     &-Name {
-        @include after-mobile {
+        @include desktop {
                 left: 10px;
         }
     }
@@ -103,7 +114,7 @@
         font-weight: 700;
         font-size: 13px;
 
-        @include after-mobile {
+        @include desktop {
             align-self: center;
         }
 
@@ -118,7 +129,7 @@
         padding: unset;
         margin-left: 15px;
 
-        @include after-mobile {
+        @include desktop {
             width: 320px;
             height: 474px;
         }
