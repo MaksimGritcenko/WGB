@@ -73,7 +73,7 @@ export default class ProductPage extends SourceProductPage {
                 <Link
                   block="ProductPage"
                   elem="GoBack"
-                  to={ `/${url_path}` }
+                  to={ `/category/${url_path}` }
                 >
                     { this.renderGoBackIcon() }
                     { this.renderGoBackText(categoryName) }
