@@ -78,10 +78,10 @@ export default class Header extends SourceHeader {
         },
         [PDP]: {
             menu: true,
-            title: true,
-            account: true,
-            minicart: true,
             searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
             logo: true
         },
         [DRAGBAR_OPEN]: {
