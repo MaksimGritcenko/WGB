@@ -13,7 +13,6 @@ class ProductPageContainer extends SourceProductPageContainer {
 
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
-            // this._updateHeaderState(dataSource);
             this._updateNavigationState();
         }
     }
