@@ -10,6 +10,8 @@
  */
 
 import Overlay from 'Component/Overlay';
+import RangeSelector from 'Component/RangeSelector';
+import CategoryExpandableContent from 'Component/CategoryExpandableContent';
 import SourceCategoryFilterOverlay,
 { CATEGORY_FILTER_OVERLAY_ID } from 'SourceComponent/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import './CategoryFilterOverlay.style';
@@ -76,6 +78,41 @@ export default class CategoryFilterOverlay extends SourceCategoryFilterOverlay {
             </Overlay>
         );
     }
+
+    renderPriceRange() {
+        const {
+            updatePriceRange,
+            priceValue,
+            minPriceValue,
+            maxPriceValue
+        } = this.props;
+
+        const { min: minValue, max: maxValue } = priceValue;
+        const min = minValue || minPriceValue;
+        const max = maxValue || maxPriceValue;
+
+        if (maxPriceValue - minPriceValue === 0) return null;
+
+        return (
+            <CategoryExpandableContent
+              heading={ __('Price') }
+              subHeading={ __('From: %s to %s', min, max) }
+              mix={ {
+                  block: 'CategoryFilterOverlay',
+                  elem: 'Filter',
+                  mods: { type: 'price' }
+              } }
+            >
+                <RangeSelector
+                  value={ priceValue }
+                  minValue={ minPriceValue || min }
+                  maxValue={ maxPriceValue || max }
+                  onChangeComplete={ updatePriceRange }
+                />
+            </CategoryExpandableContent>
+        );
+    }
+
 
     renderDefaultFilters() {
         const { onVisible, onHide } = this.props;
