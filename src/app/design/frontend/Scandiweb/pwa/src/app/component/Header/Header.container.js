@@ -21,7 +21,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
-import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
+import { DRAGBAR_OPEN, MENU } from 'Component/Header/Header.component';
 
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
@@ -107,6 +107,19 @@ export class HeaderContainer extends SourceHeaderContainer {
     onFilterButtonClick() {
         const { showOverlay } = this.props;
         showOverlay(CATEGORY_FILTER_OVERLAY_ID);
+    }
+
+    onMenuButtonClick() {
+        const {
+            showOverlay,
+            setNavigationState,
+            navigationState: { name }
+        } = this.props;
+
+        if (name !== MENU) {
+            showOverlay(MENU);
+            setNavigationState({ name: MENU });
+        }
     }
 }
 
