@@ -133,6 +133,12 @@
             width: 320px;
             height: 474px;
         }
+
+        .Image {
+            &-Image {
+                object-fit: cover;
+            }
+        }
     }
 
     &-PictureMissing {
