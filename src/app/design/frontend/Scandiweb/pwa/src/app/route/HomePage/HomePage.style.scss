@@ -46,4 +46,42 @@
             height: 100%
         }
     }
+
+    &-SlideContent {
+        text-align: center;
+        color: #FFF;
+    }
+
+    &-SlideTitle {
+        line-height: 1;
+        font-size: 40px;
+        width: 90%;
+        margin: auto;
+        max-width: 350px;
+
+        @include after-mobile {
+            font-size: 70px;
+            max-width: unset;
+        }
+    }
+
+    &-SlideSubTitle {
+        font-size: 30px;
+        line-height: 1;
+        font-size: 20px;
+        width: 80%;
+        margin: 5px auto 15px;
+        max-width: 350px;
+
+        @include after-mobile {
+            max-width: 550px;
+            font-size: 22px;
+            margin: 10px auto 20px;
+        }
+    }
+
+    &-SlideButton {
+        color: #FFF;
+        border-color: #FFF;
+    }
 }
