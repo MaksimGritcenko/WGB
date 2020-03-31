@@ -1,0 +1,116 @@
+.ProductActions {
+    @include mobile {
+        background: var(--header-background);
+    }
+
+    &-AddToCartWrapper {
+        @include mobile {
+            border-top: none;
+            order: 4;
+            padding: 0 0 0.5rem 0;
+            position: static;
+        }
+    }
+
+    &-AddToCart {
+        @include mobile {
+            width: 110%;
+        }
+    }
+
+    &-Attributes {
+        @include mobile {
+            border-top: none;
+        }
+    }
+
+    &-AttributesWrapper {        
+        @include mobile {
+            margin: 0 0 15px 0;
+            order: 8;
+        }
+    }
+
+    &-Brand {
+        @include mobile {
+            font-size: 13px;
+            margin: 0.5rem 0 0 0;
+            text-align: center;
+            color: #000;
+        }
+    }
+
+    &-NameAndPrice {
+        @include mobile {
+            display: flex;
+            justify-content: center;
+            margin: 5px 0;
+        }
+    }
+
+    &-Name {
+        @include mobile {
+            text-align: right;
+            text-transform: uppercase;
+            max-width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+
+    &-Price {
+        @include mobile {
+            font-size: 13px;
+            order: 3;
+            padding: 0;
+        }
+
+        &::before {
+            @include mobile {
+                margin: 0 5px;
+                position: relative;
+                top: -1px;
+                content: '|';
+            }
+        }
+    }
+
+    &-Price + &-Section_type_short {
+        margin-top: 0;
+    }
+
+    &-Section {
+        &_type {
+            &_name {
+                @include mobile {
+                    display: block;
+                    margin: 0;
+                    order: 2;
+                    padding: 0;
+                }
+            }
+            &_short {
+                @include mobile {
+                    border-bottom: 0;
+                    margin: 15px 0;
+                    order: 6;
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    &-ShortDescription {
+        margin: 0;
+        order: 6;
+    }
+
+    &-Title {
+        @include mobile {
+            font-size: 1rem;
+            font-weight: lighter;
+            text-transform: uppercase;
+        }
+    }
+}

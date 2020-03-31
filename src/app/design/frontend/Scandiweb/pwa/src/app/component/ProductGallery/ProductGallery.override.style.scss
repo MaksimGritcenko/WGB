@@ -1,0 +1,13 @@
+.ProductGallery {
+    &-Slider {
+        @include mobile {
+            min-height: var(--slider-height);
+        }
+    }
+
+    &-SliderImage {
+        img {
+            object-fit: cover;
+        }
+    }
+}

@@ -12,7 +12,7 @@
  */
 
 import {
-    CATEGORY, FILTER, PDP
+    CATEGORY, FILTER, PDP, FAVORITES
 } from 'Component/Header/Header.component';
 import SourceNavigationAbstractContainer from 'SourceComponent/NavigationAbstract/NavigationAbstract.container';
 
@@ -36,7 +36,7 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
         const { name: newName } = newNavigationState;
 
         // Update the state if new name is set
-        if (name !== newName && name !== FILTER) {
+        if (name !== newName && name !== FILTER && name !== FAVORITES) {
             setNavigationState(newNavigationState);
         }
 
@@ -48,11 +48,16 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
     }
 
     handleDesktopRouteChange(history) {
-        const { hideActiveOverlay } = this.props;
+        const { hideActiveOverlay, setNavigationState } = this.props;
+        const { pathname } = history;
 
-        const path = history.pathname.substr(HISTORY_START_CATEGORY_STRING, HISTORY_END_CATEGORY_STRING);
+        const path = pathname.substr(HISTORY_START_CATEGORY_STRING, HISTORY_END_CATEGORY_STRING);
 
         if (path !== CATEGORY) hideActiveOverlay();
+
+        if (pathname === '/') {
+            setNavigationState(this.routeMap[pathname]);
+        }
 
         return {};
     }

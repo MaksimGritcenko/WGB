@@ -4,6 +4,7 @@ import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
 import Header from 'Component/Header';
+import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
 import NavigationTabs from 'Component/NavigationTabs';
 
@@ -29,7 +30,6 @@ export {
     PasswordChangePage,
     ProductPage,
     SearchPage,
-    SomethingWentWrong,
     UrlRewrites,
     MenuPage,
     BEFORE_ITEMS_TYPE,
@@ -48,6 +48,10 @@ export class AppRouter extends SourceAppRouter {
             {
                 component: <Route path="/styleguide" exact component={ StyleGuide } />,
                 position: 11
+            },
+            {
+                component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
+                position: 90
             }
         );
     }
@@ -68,6 +72,12 @@ export class AppRouter extends SourceAppRouter {
     ];
 
     [AFTER_ITEMS_TYPE] = [];
+
+    getHeaderAndFooterOptions() {
+        return {
+            footer: { identifiers: this.getCmsBlocksToRequest() }
+        };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

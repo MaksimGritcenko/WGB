@@ -17,7 +17,7 @@ import {
     calculateFinalPrice,
     roundPrice
 } from 'Util/Price';
-import './ProductPrice.style';
+import './ProductPrice.style.override';
 
 /**
  * Product price
@@ -64,7 +64,7 @@ export default class ProductPrice extends SourceProductPrice {
                       value={ formatedCurrency }
                     >
                         <span itemProp="lowPrice">{ formatedCurrency }</span>
-                        <span>{ currency }</span>
+                        <span>{ ` ${ currency }` }</span>
                     </data>
                 </PriceSemanticElementName>
 
@@ -74,8 +74,8 @@ export default class ProductPrice extends SourceProductPrice {
                   mods={ { isVisible: discountPercentage > 0 } }
                   aria-label={ __('Old product price') }
                 >
+                    <span>{ `${ currency } ` }</span>
                     <span itemProp="highPrice">{ roundedRegularPrice }</span>
-                    <span>{ currency }</span>
                 </del>
 
                 <meta itemProp="priceCurrency" content={ priceCurrency } />

@@ -55,9 +55,14 @@
             }
 
             &-Picture {
+                @include mobile {
+                    padding-bottom: 75%;
+                }
+
                 & > img {
                     @include after-mobile {
-                        object-fit: contain;
+                        // object-fit: contain;
+                        object-fit: cover;
                     }
                 }
             }
@@ -124,7 +129,7 @@
         }
 
         @include mobile {
-            padding-bottom: 130%;
+            padding-bottom: 150%;
         }
 
         & > img {

@@ -1,0 +1,19 @@
+.ProductConfigurableAttributes {
+    display: flex;
+    justify-content: space-between;
+
+    &-Attribute {
+        flex: 1 1;
+        max-width: 48%;
+    }
+
+    &-Placeholder {
+        display:none;
+    }
+
+    .Attribute {
+        &-Name {
+            text-transform: uppercase;
+        }
+    }
+}

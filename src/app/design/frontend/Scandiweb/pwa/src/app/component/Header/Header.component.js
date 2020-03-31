@@ -41,8 +41,8 @@ export {
     POPUP,
     CATEGORY,
     CUSTOMER_ACCOUNT,
-    CUSTOMER_SUB_ACCOUNT,
     CUSTOMER_ACCOUNT_PAGE,
+    CUSTOMER_SUB_ACCOUNT,
     HOME_PAGE,
     MENU,
     MENU_SUBCATEGORY,
@@ -54,21 +54,38 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
+
+export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes
-        // onSearchBarClick: PropTypes.func.isRequired
+        // onSearchBarClick: PropTypes.func.isRequired,
     };
 
     stateMap = {
+        [FAVORITES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            account: true,
+            minicart: true,
+            logo: true
+        },
         [POPUP]: {
             title: true,
             close: true
         },
         [PDP]: {
-            back: true,
+            menu: true,
+            searchButton: true,
             title: true,
-            minicart: true
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
+        [DRAGBAR_OPEN]: {
+            dragbar_close: true
         },
         [CATEGORY]: {
             menu: true,
@@ -112,11 +129,6 @@ export default class Header extends SourceHeader {
             title: true,
             cancel: true
         },
-        // [FILTER]: {
-        //     close: true,
-        //     clear: true,
-        //     title: true
-        // },
         [FILTER]: {
             menu: true,
             searchButton: true,
@@ -148,6 +160,7 @@ export default class Header extends SourceHeader {
         clear: this.renderClearButton.bind(this),
         edit: this.renderEditButton.bind(this),
         ok: this.renderOkButton.bind(this),
+        dragbar_close: this.renderDragbarCloseButton.bind(this),
         wishlist: this.renderWishlistButton.bind(this),
         ...this.renderMap
     };
@@ -299,6 +312,26 @@ export default class Header extends SourceHeader {
                     <MyAccountOverlay />
                 </div>
             </ClickOutside>
+        );
+    }
+
+    renderDragbarCloseButton(isVisible = false) {
+        const { onCloseButtonClick } = this.props;
+
+        return (
+            <button
+              key="dragbar_close"
+              block="Header"
+              elem="Button"
+              mods={ { type: 'close', isVisible } }
+              mix={ { block: 'DragBar', elem: 'Close' } }
+              onClick={ onCloseButtonClick }
+              aria-label="Close"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+            >
+                { closeIcon }
+            </button>
         );
     }
 
