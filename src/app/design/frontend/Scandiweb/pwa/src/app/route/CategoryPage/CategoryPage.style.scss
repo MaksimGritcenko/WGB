@@ -16,6 +16,7 @@
 .CategoryPage {
     overflow-x: hidden;
     --content-wrapper-width: 100%;
+    margin-bottom: 0;
 
     &-Wrapper {
         @include after-mobile {

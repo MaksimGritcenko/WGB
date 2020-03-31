@@ -20,21 +20,37 @@ export default class MenuOverlay extends SourceMenuOverlay {
         changeHeaderState: PropTypes.func.isRequired
     };
 
-    state = { activeCategoryId: null };
+    state = { activeCategoryIdMap: [] };
 
     closeMenuOverlay(e) {
         const { hideActiveOverlay } = this.props;
 
         e.stopPropagation();
 
-        this.setState({ activeCategoryId: null });
+        this.setState({ activeCategoryIdMap: [] });
         hideActiveOverlay();
     }
 
-    handleSubcategoryClick(item_id) {
-        const { activeCategoryId } = this.state;
+    updateActiveCategoryIdMap(item_id) {
+        const { activeCategoryIdMap } = this.state;
 
-        this.setState({ activeCategoryId: activeCategoryId === item_id ? null : item_id });
+        const activeIdMap = Array.from(activeCategoryIdMap);
+
+        const itemIdIndex = activeCategoryIdMap.indexOf(item_id);
+
+        if (itemIdIndex === -1) {
+            activeIdMap.push(item_id);
+
+            return activeIdMap;
+        }
+
+        activeIdMap.splice(itemIdIndex, 1);
+
+        return activeIdMap;
+    }
+
+    handleSubcategoryClick(item_id) {
+        this.setState({ activeCategoryIdMap: this.updateActiveCategoryIdMap(item_id) });
     }
 
     renderSubLevelItemList(children, subcategoryMods) {
@@ -82,9 +98,9 @@ export default class MenuOverlay extends SourceMenuOverlay {
     }
 
     renderSubLevel(category) {
-        const { activeCategoryId } = this.state;
+        const { activeCategoryIdMap } = this.state;
         const { item_id, children } = category;
-        const isVisible = activeCategoryId === item_id;
+        const isVisible = activeCategoryIdMap.indexOf(item_id) !== -1;
         const subcategoryMods = { type: 'subcategory' };
 
         return (
@@ -130,10 +146,10 @@ export default class MenuOverlay extends SourceMenuOverlay {
     }
 
     renderFirstLevelButton(item, itemMods) {
-        const { activeCategoryId } = this.state;
+        const { activeCategoryIdMap } = this.state;
         const { item_id } = item;
 
-        const buttonIcon = activeCategoryId === item_id ? 'minus' : 'plus';
+        const buttonIcon = activeCategoryIdMap.indexOf(item_id) === -1 ? 'plus' : 'minus';
 
         return (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
