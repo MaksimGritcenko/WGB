@@ -342,10 +342,6 @@
 
             &_wishlist {
                 order: 1;
-
-                @include after-mobile {
-                    order: 1;
-                }
             }
         }
     }
