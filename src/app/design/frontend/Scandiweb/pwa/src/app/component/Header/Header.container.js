@@ -90,7 +90,10 @@ export class HeaderContainer extends SourceHeaderContainer {
         const isClearEnabled = this.getIsClearEnabled();
 
         // handle dragbar update on select option
-        if (name === DRAGBAR_OPEN && (prevPathname === pathname || !prevPathname)) {
+        if (
+            name === DRAGBAR_OPEN
+            && (prevPathname === pathname || !prevPathname)
+        ) {
             return {};
         }
 
