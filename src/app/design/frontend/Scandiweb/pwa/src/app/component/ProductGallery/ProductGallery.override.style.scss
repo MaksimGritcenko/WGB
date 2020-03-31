@@ -4,4 +4,10 @@
             min-height: var(--slider-height);
         }
     }
+
+    &-SliderImage {
+        img {
+            object-fit: cover;
+        }
+    }
 }

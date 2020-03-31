@@ -290,6 +290,11 @@
             @include mobile {
                 @include button-visible;
             }
+
+            svg {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         &_isDisabled {
