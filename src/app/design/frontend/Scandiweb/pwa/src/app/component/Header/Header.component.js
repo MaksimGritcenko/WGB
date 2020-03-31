@@ -115,10 +115,7 @@ export default class Header extends SourceHeader {
             back: true,
             title: true
         },
-        [SEARCH]: {
-            back: true,
-            search: true
-        },
+        [SEARCH]: {},
         [CART]: {
             close: true,
             title: true,
@@ -225,66 +222,34 @@ export default class Header extends SourceHeader {
     }
 
     renderSearchButton(isVisible = false) {
+        const { onSearchBarFocus } = this.props;
+
         return (
-            <button
-              key="searchButton"
-              block="Header"
-              elem="Button"
-              mods={ { type: 'searchButton', isVisible } }
-              onClick={ () => {} }
-              aria-label="Search"
-              aria-hidden={ !isVisible }
-              tabIndex={ isVisible ? 0 : -1 }
-            >
-                { searchIcon }
-            </button>
+            <>
+                <button
+                  key="searchButton"
+                  block="Header"
+                  elem="Button"
+                  mods={ { type: 'searchButton', isVisible } }
+                  onClick={ onSearchBarFocus }
+                  aria-label="Search"
+                  aria-hidden={ !isVisible }
+                  tabIndex={ isVisible ? 0 : -1 }
+                >
+                    { searchIcon }
+                </button>
+                <SearchOverlay />
+            </>
         );
     }
 
-    renderSearchField(isSearchVisible = false) {
-        const {
-            searchCriteria, onSearchOutsideClick,
-            onClearSearchButtonClick
-            // onSearchBarClick, onSearchBarChange
-        } = this.props;
-
+    renderSearchField() {
         return (
             <Fragment key="search">
-                <ClickOutside onClick={ onSearchOutsideClick }>
-                    <div
-                      block="Header"
-                      elem="SearchWrapper"
-                      aria-label="Search"
-                    >
-                        { /* <input
-                            id="search-field"
-                            ref={ this.searchBarRef }
-                            placeholder={ __('Type a new search') }
-                            block="Header"
-                            elem="SearchField"
-                            onClick={ onSearchBarClick }
-                            onChange={ onSearchBarChange }
-                            value={ searchCriteria }
-                            mods={ {
-                                isVisible: isSearchVisible,
-                                type: 'searchField'
-                            } }
-                        /> */ }
-                        <SearchOverlay
-                          clearSearch={ onClearSearchButtonClick }
-                          searchCriteria={ searchCriteria }
-                        />
-                    </div>
-                </ClickOutside>
-                <button
+                <div
                   block="Header"
-                  elem="Button"
-                  onClick={ this.onClearSearchButtonClick }
-                  mods={ {
-                      type: 'searchClear',
-                      isVisible: isSearchVisible
-                  } }
-                  aria-label="Clear search"
+                  elem="SearchWrapper"
+                  aria-label="Search"
                 />
             </Fragment>
         );
