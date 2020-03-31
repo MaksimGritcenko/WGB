@@ -15,6 +15,7 @@ atlassian*
 /app/autoload.php
 /app/functions.php
 /app/etc/di.xml
+/app/etc/env.php
 /app/etc/vendor_path.php
 /app/etc/NonComposerComponentRegistration.php
 # Files re-generated through composer

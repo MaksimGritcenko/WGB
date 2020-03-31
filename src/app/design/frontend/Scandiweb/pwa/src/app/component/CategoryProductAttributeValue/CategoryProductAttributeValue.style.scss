@@ -146,13 +146,14 @@
 
             &:last-child {
                 border-color: var(--option-border-color);
+                display: none;
             }
 
             &:first-of-type {
-                padding-left: 1rem;
                 padding-bottom: 0;
                 order: 1;
                 text-align: left;
+                font-size: 15px;
 
                 ~ label {
                     margin: 0;

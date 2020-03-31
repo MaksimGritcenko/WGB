@@ -17,6 +17,10 @@
         }
     }
 
+    &-Placeholder {
+        display:none;
+    }
+
     .Attribute {
         &-Name {
             text-transform: uppercase;

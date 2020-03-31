@@ -23,12 +23,12 @@ import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
 
 import './DragBar.style';
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
 });
 
-class DragBar extends Component {
+export class DragBar extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
