@@ -18,7 +18,6 @@ export const mapDispatchToProps = dispatch => ({
     }
 });
 
-const NOT_DEFINED = 'Not Defined';
 export class ContactPageContainer extends DataContainer {
     static propTypes = {
         updateMeta: PropTypes.func.isRequired,
@@ -27,9 +26,9 @@ export class ContactPageContainer extends DataContainer {
 
     state = {
         ContactInfo: {
-            store_phone: NOT_DEFINED,
-            store_email: NOT_DEFINED,
-            store_working_hours: NOT_DEFINED
+            store_phone: 'Phone is not provided',
+            store_email: 'E-Mail is not provided',
+            store_working_hours: 'Working hours:'
         }
     };
 
