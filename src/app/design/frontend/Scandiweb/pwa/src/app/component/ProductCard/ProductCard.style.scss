@@ -61,7 +61,8 @@
 
                 & > img {
                     @include after-mobile {
-                        object-fit: contain;
+                        // object-fit: contain;
+                        object-fit: cover;
                     }
                 }
             }

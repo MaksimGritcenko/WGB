@@ -124,11 +124,6 @@ export default class Header extends SourceHeader {
             title: true,
             cancel: true
         },
-        // [FILTER]: {
-        //     close: true,
-        //     clear: true,
-        //     title: true
-        // },
         [FILTER]: {
             menu: true,
             searchButton: true,

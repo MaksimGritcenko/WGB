@@ -48,11 +48,16 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
     }
 
     handleDesktopRouteChange(history) {
-        const { hideActiveOverlay } = this.props;
+        const { hideActiveOverlay, setNavigationState } = this.props;
+        const { pathname } = history;
 
-        const path = history.pathname.substr(HISTORY_START_CATEGORY_STRING, HISTORY_END_CATEGORY_STRING);
+        const path = pathname.substr(HISTORY_START_CATEGORY_STRING, HISTORY_END_CATEGORY_STRING);
 
         if (path !== CATEGORY) hideActiveOverlay();
+
+        if (pathname === '/') {
+            setNavigationState(this.routeMap[pathname]);
+        }
 
         return {};
     }
