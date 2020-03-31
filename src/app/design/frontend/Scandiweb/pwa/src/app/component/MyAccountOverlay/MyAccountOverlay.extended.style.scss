@@ -1,0 +1,58 @@
+:root {
+    --social-login-provider-backgrdoun-color: var(--primary-base-color);
+    --social-login-provider-hover-background-color: var(--primary-light-color);
+}
+
+.MyAccountOverlay {
+    justify-self: flex-end;
+    grid-column: 3;
+    right: 0;
+    padding-top: 1rem;
+
+    @include after-mobile {
+        position: absolute;
+        top: var(--header-nav-height);
+        right: -35px;
+        padding: 0;
+    }
+
+    &_isVisible {
+        top: var(--header-overlay-offset-top);
+    }
+
+    &-Additional {
+        padding-top: 1.5rem;
+    }
+
+    &-SocialButtons {
+        display: flex;
+        justify-content: space-evenly;
+        padding-top: 1.5rem
+    }
+
+    &-Provider {
+        background-color: var(--social-login-provider-backgrdoun-color);
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+
+        &_loading {
+            background: var(--image-default-background);
+            animation: var(--placeholder-animation);
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+        }
+
+        &:hover {
+            background-color: var(--social-login-provider-hover-background-color);
+        }
+
+        img {
+            transform: scale(0.7);
+        }
+
+        a {
+            display: block;
+        }
+    }
+}

@@ -247,8 +247,10 @@ return [
         'ScandiPWA_Customization' => 1,
         'Scandiweb_LocaleResolverFix' => 1,
         'ScandiPWA_SliderGraphQl' => 1,
+        'Scandiweb_SocialLogin' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
+        'WGB_SocialLogin' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];
