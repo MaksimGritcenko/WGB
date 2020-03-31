@@ -138,7 +138,10 @@ export class DragBar extends Component {
 
     _animateAutoMove() {
         CSS.setVariable(this.dragBarRef, 'animation-speed', '150ms');
-        this.timedOutAnimation = setTimeout(() => CSS.setVariable(this.dragBarRef, 'animation-speed', '0'), 150);
+        this.timedOutAnimation = setTimeout(
+            () => CSS.setVariable(this.dragBarRef, 'animation-speed', 'var(--initial-animation-speed)'),
+            150
+        );
     }
 
     render() {

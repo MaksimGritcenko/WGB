@@ -27,7 +27,8 @@ body {
         --draggable-y: 0;
         --open-bounce-speed: 500ms;
         --overflow: visible;
-        --animation-speed: 0;
+        --initial-animation-speed: 40ms;
+        --animation-speed: var(--initial-animation-speed);
 
         background-color: #fff;
         position: fixed;
