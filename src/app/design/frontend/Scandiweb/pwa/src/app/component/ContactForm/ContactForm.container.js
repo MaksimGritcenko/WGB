@@ -16,7 +16,6 @@ import { ContactFormDispatcher } from 'Store/ContactForm';
 import ContactForm from './ContactForm.component';
 
 export const mapStateToProps = state => ({
-    isLoading: state.ContactFormReducer.isLoading,
     formSent: state.ContactFormReducer.formSent,
     message: state.ContactFormReducer.message
 });

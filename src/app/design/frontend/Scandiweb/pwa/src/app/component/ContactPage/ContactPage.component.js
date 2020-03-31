@@ -1,6 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import Loader from 'Component/Loader';
 import CmsBlock from 'Component/CmsBlock';
 import ContactForm from 'Component/ContactForm';
 import ContactExpandableContent from 'Component/ContactExpandableContent';
@@ -16,7 +17,12 @@ class ContactPage extends PureComponent {
             store_working_hours: PropTypes.string
         }).isRequired,
         updateBreadcrumbs: PropTypes.func.isRequired,
-        setHeaderState: PropTypes.func.isRequired
+        setHeaderState: PropTypes.func.isRequired,
+        isLoading: PropTypes.bool
+    };
+
+    static defaultProps = {
+        isLoading: false
     };
 
     componentDidMount() {
@@ -51,11 +57,13 @@ class ContactPage extends PureComponent {
 
     render() {
         const { ContactInfo: { store_email, store_phone, store_working_hours } } = this.props;
+        const { isLoading } = this.props;
         return (
             <div block="ContactPage">
-                 <div block="ContactPage" elem="Title">
-                    { __('GET IN TOUCH WITH VGB') }
-                 </div>
+                <Loader isLoading={ isLoading } />
+                <div block="ContactPage" elem="Title">
+                   { __('GET IN TOUCH WITH VGB') }
+                </div>
                 <div block="ContactPage" elem="Group">
                     <ContactExpandableContent
                       heading={ __('CALL CENTER VAGABOND') }

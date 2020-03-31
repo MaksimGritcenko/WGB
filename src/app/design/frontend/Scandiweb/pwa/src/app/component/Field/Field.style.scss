@@ -29,6 +29,14 @@ $select-arrow-width: 6px !default;
         font-size: 1.05rem;
     }
 
+    input,
+    textarea {
+        &::placeholder {
+            color: var(--field-note);
+            font-size: 13px;
+        }
+    }
+
     &-Message {
         margin-bottom: -.1em;
         font-size: 10px; // How good?
@@ -143,14 +151,14 @@ $select-arrow-width: 6px !default;
     &_hasError {
         input,
         textarea {
-            border: 1px solid var(--primary-error-color);
+            border: 1px solid var(--input-border-color);
             color: var(--primary-error-color);
         }
     }
 
     &::placeholder {
         color: var(--field-note);
-        font-size: .9rem;
+        font-size: 13px;
     }
 
     input:focus + .Field-Note {
