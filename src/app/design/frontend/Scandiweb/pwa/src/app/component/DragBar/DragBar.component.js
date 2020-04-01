@@ -23,6 +23,9 @@ import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
 
 import './DragBar.style';
 
+export const SMALLER_DRAGBAR_SIZE = 80;
+export const BIGGER_DRAGBAR_SIZE = 110;
+
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
@@ -56,13 +59,17 @@ export class DragBar extends Component {
         const { shouldBeSmaller } = this.props;
 
         if (shouldBeSmaller) {
-            CSS.setVariable(this.dragBarRef, 'initial-offset-y', '80px');
+            CSS.setVariable(this.dragBarRef, 'initial-offset-y', `${SMALLER_DRAGBAR_SIZE}px`);
+        } else {
+            CSS.setVariable(this.dragBarRef, 'initial-offset-y', `${BIGGER_DRAGBAR_SIZE}px`);
         }
 
         if (prevState.areDetailsOpen) {
             // eslint-disable-next-line react/destructuring-assignment
             if (prevProps.location.pathname !== this.props.location.pathname) {
-                this.closeDetails(true);
+                setTimeout(() => {
+                    this.closeDetails(true);
+                }, 0);
             }
         }
     }
@@ -104,19 +111,16 @@ export class DragBar extends Component {
                     this.openDetails();
                 }, 0);
             }
-        } else { // details are opened
-            // eslint-disable-next-line no-lonely-if
-            if (translateY > 50 && this.dragBarRef.current.scrollTop <= 0) {
-                // details are open and drag is higher than 150px => we close it
-                setTimeout(() => {
-                    this.closeDetails(true);
-                }, 0);
-            } else {
-                // details are open and drag is lower than 150px => we open it back
-                setTimeout(() => {
-                    this.openDetails();
-                }, 0);
-            }
+        } else if (translateY > 50 && this.dragBarRef.current.scrollTop <= 0) {
+            // details are open and drag is higher than 150px => we close it
+            setTimeout(() => {
+                this.closeDetails(true);
+            }, 0);
+        } else {
+            // details are open and drag is lower than 150px => we open it back
+            setTimeout(() => {
+                this.openDetails();
+            }, 0);
         }
     }
 
@@ -134,7 +138,7 @@ export class DragBar extends Component {
         CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
         setTimeout(() => {
-            CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
+            CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + var(--initial-offset-y))');
         }, 0);
 
         changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() });
@@ -150,11 +154,11 @@ export class DragBar extends Component {
 
         this.setState(() => ({ areDetailsOpen: false }));
 
-        this._animateAutoMove();
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '500ms');
         CSS.setVariable(this.dragBarRef, 'overflow', 'visible');
 
         setTimeout(() => {
+            this._animateAutoMove();
             CSS.setVariable(this.dragBarRef, 'draggable-y', '0');
         }, 0);
 
