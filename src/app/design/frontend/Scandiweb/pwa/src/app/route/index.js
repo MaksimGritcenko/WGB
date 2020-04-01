@@ -5,7 +5,6 @@ import { Route } from 'react-router-dom';
 import Header from 'Component/Header';
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
-import NavigationTabs from 'Component/NavigationTabs';
 
 import {
     BEFORE_ITEMS_TYPE,
