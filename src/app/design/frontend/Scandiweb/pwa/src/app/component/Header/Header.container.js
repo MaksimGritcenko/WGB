@@ -22,16 +22,15 @@ import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 
-import isMobile from 'Util/Mobile';
-
-export const HISTORY_START_CATEGORY_STRING = 1;
-export const HISTORY_END_CATEGORY_STRING = 8;
-
 import Header, {
-  DRAGBAR_OPEN, MENU, SEARCH
+    DRAGBAR_OPEN, MENU, SEARCH
 } from 'Component/Header/Header.component';
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import { history } from 'Route';
+
+
+export const HISTORY_START_CATEGORY_STRING = 1;
+export const HISTORY_END_CATEGORY_STRING = 8;
 
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
