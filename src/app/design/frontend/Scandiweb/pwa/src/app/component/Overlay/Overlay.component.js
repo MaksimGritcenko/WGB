@@ -29,6 +29,17 @@ export default class Overlay extends SourceOverlay {
         onHide: () => {}
     };
 
+
+    componentDidUpdate(prevProps) {
+        const prevWasVisible = this.getIsVisible(prevProps);
+        const isVisible = this.getIsVisible();
+        if (isVisible && !prevWasVisible) this.onVisible();
+        if (!isVisible && prevWasVisible) {
+            const { areOtherOverlaysOpen } = this.props;
+            if (!areOtherOverlaysOpen) this.onHide();
+        }
+    }
+
     onVisible() {
         const { onVisible } = this.props;
         if (isMobile.any()) this.freezeScroll();

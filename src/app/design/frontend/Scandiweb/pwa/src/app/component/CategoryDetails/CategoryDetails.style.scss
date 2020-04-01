@@ -30,8 +30,9 @@
     }
 
     &-Heading {
+        padding-bottom: 1rem;
         font-family: "Oswald";
-        font-size: 38px;
+        font-size: 40px;
         text-transform: uppercase;
     }
 
@@ -49,6 +50,7 @@
     }
 
     p {
+        font-size: 15px;
         overflow-x: none;
         word-wrap: break-word;
         white-space: pre-wrap;
