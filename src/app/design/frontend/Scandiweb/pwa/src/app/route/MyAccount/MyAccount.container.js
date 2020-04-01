@@ -1,85 +1,60 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-import { connect } from 'react-redux';
-
-import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { HistoryType } from 'Type/Common';
-import { changeNavigationState } from 'Store/Navigation';
-import { MyAccountDispatcher } from 'Store/MyAccount';
-import { toggleOverlayByKey } from 'Store/Overlay';
-import { updateMeta } from 'Store/Meta';
-
 import {
-    ADDRESS_BOOK,
-    DASHBOARD,
-    MY_WISHLIST,
-    MY_ORDERS,
-    NEWSLETTER_SUBSCRIPTION
-} from 'Type/Account';
+    MyAccountContainer,
+    mapDispatchToProps as sourceMapDispatchToProps,
+    mapStateToProps as sourceMapStateToProps
+} from 'SourceRoute/MyAccount/MyAccount.container';
+import { setAuthorizationToken, getAuthorizationToken } from 'Util/Auth';
+import { convertQueryStringToKeyValuePairs } from 'Util/Url';
+import { updateCustomerSignInStatus } from 'Store/MyAccount';
+import { connect } from 'react-redux';
+import { DASHBOARD } from 'Type/Account';
+import isMobile from 'Util/Mobile';
 
-import { MyAccountContainer as SourceMyAccountContainer }
-    from 'SourceRoute/MyAccount/MyAccount.container';
 
 export const MY_ACCOUNT_URL = '/my-account';
 
-export const mapStateToProps = state => ({
-    isSignedIn: state.MyAccountReducer.isSignedIn
-});
-
 export const mapDispatchToProps = dispatch => ({
-    updateBreadcrumbs: breadcrumbs => BreadcrumbsDispatcher.update(breadcrumbs, dispatch),
-    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
-    requestCustomerData: () => MyAccountDispatcher.requestCustomerData(dispatch),
-    toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
-    updateMeta: meta => dispatch(updateMeta(meta))
+    ...sourceMapDispatchToProps(dispatch),
+    updateIsSignedIn: state => dispatch(updateCustomerSignInStatus(state))
 });
 
-export class MyAccountContainer extends SourceMyAccountContainer {
-    static propTypes = {
-        history: HistoryType.isRequired
-    };
+const mapStateToProps = state => ({
+    ...sourceMapStateToProps(state)
+});
 
-    tabMap = {
-        [DASHBOARD]: {
-            url: '/dashboard',
-            name: __('Dashboard')
-        },
-        [ADDRESS_BOOK]: {
-            url: '/address-book',
-            name: __('Address book')
-        },
-        [MY_WISHLIST]: {
-            url: '/my-favorites',
-            name: __('My Favorites')
-        },
-        [MY_ORDERS]: {
-            url: '/my-orders',
-            name: __('My orders')
-        },
-        [NEWSLETTER_SUBSCRIPTION]: {
-            url: '/newsletter-subscription',
-            name: __('Newsletter Subscription')
+class MyAccount extends MyAccountContainer {
+    constructor(props) {
+        super(props);
+        this.updateBreadcrumbs();
+    }
+
+    updateBreadcrumbs() {
+        const { updateBreadcrumbs } = this.props;
+        const { activeTab } = this.state;
+        if (!this.tabMap[activeTab]) return;
+        const { url, name } = this.tabMap[activeTab];
+
+        updateBreadcrumbs([
+            { url: `${ MY_ACCOUNT_URL }${ url }`, name },
+            { name: __('My Account'), url: `${ MY_ACCOUNT_URL }/${ DASHBOARD }` }
+        ]);
+    }
+
+    redirectIfNotSignedIn() {
+        const {
+            isSignedIn, history: { location: { search } }, history, updateIsSignedIn
+        } = this.props;
+        const { token } = convertQueryStringToKeyValuePairs(search);
+        if (token) {
+            setAuthorizationToken(token);
+            updateIsSignedIn(true);
+            history.replace(`${ MY_ACCOUNT_URL }`);
         }
-    };
 
-    changeActiveTab(activeTab) {
-        const { history } = this.props;
-        const { [activeTab]: { url } } = this.tabMap;
-        if (activeTab === MY_WISHLIST) {
-            history.push(`${ url }`);
-        } else {
-            history.push(`${ MY_ACCOUNT_URL }${ url }`);
+        if (!isSignedIn && !getAuthorizationToken()) {
+            history.push('/');
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);

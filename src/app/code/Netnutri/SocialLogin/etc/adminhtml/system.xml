@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Netnutri
+ * @package     Netnutri_SocialLogin
+ * @author      Tornike Bakuradze <info@scandiweb.com>
+ * @copyright   Copyright (c) 2020 Scandiweb, Ltd (http://scandiweb.com)
+ */
+-->
+
+<config>
+    <system>
+        <section id="social_login" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="amazon" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="15">
+                <label>Amazon</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="api_key" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>App ID</label>
+                </field>
+
+                <field id="api_secret" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>App Secret</label>
+                </field>
+
+                <field id="sort_order" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

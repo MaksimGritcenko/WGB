@@ -1,15 +1,15 @@
 <?php
 /**
- * @category  WGB
- * @package   WGB\SocialLoginStatusResolver
- * @author    Tornike Bakuradze <info@WGB.com>
- * @copyright Copyright (c) 2020 WGB, Inc (https://WGB.com)
+ * @category  Netnutri
+ * @package   Netnutri\SocialLoginStatusResolver
+ * @author    Tornike Bakuradze <info@scandiweb.com>
+ * @copyright Copyright (c) 2020 Scandiweb, Inc (https://scandiweb.com)
  * @license   http://opensource.org/licenses/OSL-3.0 The Open Software License 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace WGB\SocialLogin\Model\Resolver;
+namespace Netnutri\SocialLogin\Model\Resolver;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
@@ -23,7 +23,7 @@ use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class SocialLoginStatusResolver
- * @package WGB\SocialLogin\Model\Resolver
+ * @package Netnutri\SocialLogin\Model\Resolver
  */
 class SocialLoginStatusResolver implements ResolverInterface
 {

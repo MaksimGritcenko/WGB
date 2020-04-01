@@ -224,6 +224,7 @@ return [
         'Klarna_Kp' => 1,
         'Magento_PaypalReCaptcha' => 1,
         'MSP_TwoFactorAuth' => 1,
+        'Netnutri_SocialLogin' => 1,
         'ScandiPWA_Cache' => 1,
         'ScandiPWA_CatalogGraphQl' => 1,
         'ScandiPWA_CmsGraphQl' => 1,
@@ -250,7 +251,6 @@ return [
         'Scandiweb_SocialLogin' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
-        'WGB_SocialLogin' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];

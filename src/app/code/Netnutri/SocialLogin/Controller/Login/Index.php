@@ -1,13 +1,13 @@
 <?php
 /**
- * @category  WGB
- * @package   WGB\SocialLogin
- * @author    Tornike Bakuradze <info@WGB.com>
- * @copyright Copyright (c) 2020 WGB, Inc (https://WGB.com)
+ * @category  Netnutri
+ * @package   Netnutri\SocialLogin
+ * @author    Tornike Bakuradze <info@scandiweb.com>
+ * @copyright Copyright (c) 2020 Scandiweb, Inc (https://scandiweb.com)
  * @license   http://opensource.org/licenses/OSL-3.0 The Open Software License 3.0 (OSL-3.0)
  */
 
-namespace WGB\SocialLogin\Controller\Login;
+namespace Netnutri\SocialLogin\Controller\Login;
 
 use Exception;
 use Magento\Framework\Exception\LocalizedException;

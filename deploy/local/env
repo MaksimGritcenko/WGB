@@ -58,8 +58,8 @@ D_RBENV_VERSION=2.5.1
 # Increase wait time given to docker to respond under heavy load
 COMPOSE_HTTP_TIMEOUT=360
 
-GRAPHQL_ENDPOINT=https://scandipwa.local/graphql
-MEDIA_ENDPOINT=https://scandipwa.local/media
+GRAPHQL_ENDPOINT=https://c4bfc7db.ngrok.io/graphql
+MEDIA_ENDPOINT=https://c4bfc7db.ngrok.io/media
 STATIC_ASSET_PATH=/static/frontend/Scandiweb/pwa/en_US/Magento_Theme/
 MAIN_MENU_ID=1
 SMART_STREET_KEY=''

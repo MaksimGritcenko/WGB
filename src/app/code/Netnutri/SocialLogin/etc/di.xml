@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @category  WGB
- * @package   WGB\SocialLogin
- * @author    Tornike Bakuradze <info@WGB.com>
- * @copyright Copyright (c) 2019 WGB, Ltd (http://WGB.com)
+ * @category  Netnutri
+ * @package   Netnutri\SocialLogin
+ * @author    Tornike Bakuradze <info@scandiweb.com>
+ * @copyright Copyright (c) 2019 Scandiweb, Ltd (http://scandiweb.com)
  * @license   OSL-3.0
  */
 -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Scandiweb\SocialLogin\Controller\Login\Index" type="WGB\SocialLogin\Controller\Login\Index"/>
+    <preference for="Scandiweb\SocialLogin\Controller\Login\Index" type="Netnutri\SocialLogin\Controller\Login\Index"/>
+    <preference for="Scandiweb\SocialLogin\HybridAuth\HybridAuth" type="Netnutri\SocialLogin\HybridAuth\HybridAuth"/>
     <virtualType name="ScandiPWA\Router\Controller\ConfigurableRouter">
         <arguments>
             <argument name="ignoredURLs" xsi:type="array">
