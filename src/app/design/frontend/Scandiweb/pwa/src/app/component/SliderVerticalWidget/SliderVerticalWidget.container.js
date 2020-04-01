@@ -20,7 +20,8 @@ export const mapDispatchToProps = dispatch => ({
 export class SliderVerticalWidgetContainer extends SliderWidgetContainer {
     static propTypes = {
         ...this.propTypes,
-        getSliderCount: PropTypes.func
+        getSliderCount: PropTypes.func,
+        sliderId: PropTypes.string.isRequired
     };
 
     static defaultProps = {

@@ -142,6 +142,7 @@ export default class GenderSlider extends PureComponent {
                   mix={ { block: 'GenderSlider', elem: 'Slider' } }
                   onActiveImageChange={ this.handleSlideChange }
                   activeImage={ activeImageIndex }
+                  animationDuration={ 1000 }
                 >
                     { children.map(this.renderSlide) }
                 </Slider>
