@@ -6,6 +6,7 @@ import Slider from 'Component/Slider';
 import './SliderVertical.style';
 
 export const ACTIVE_SLIDE_PERCENT = 0.1;
+const SCROLL_START_INDEX = 20;
 
 /**
  * Slider component
@@ -13,10 +14,12 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  */
 export default class SliderVertical extends Slider {
     componentDidMount() {
-        const { animationDuration } = this.props;
+        const { animationDuration, isScrollEnabled } = this.props;
         const sliderChildren = this.draggableRef.current.children;
 
         if (!sliderChildren || !sliderChildren[0]) return;
+
+        if (isScrollEnabled) this.enableScroll();
 
         CSS.setVariable(
             this.sliderRef,
@@ -52,6 +55,27 @@ export default class SliderVertical extends Slider {
                 'translateY',
                 `${ newTranslate }px`
             );
+
+            this.disableGestures();
+        }
+    }
+
+    handleScroll = ({ deltaY }) => {
+        const { isGesturesEnabled } = this.state;
+
+        if (!isGesturesEnabled) return;
+
+        const { onActiveImageChange, activeImage, children } = this.props;
+        const slideCount = children.length;
+
+        if (deltaY < -SCROLL_START_INDEX && activeImage > 0) {
+            onActiveImageChange(activeImage - 1);
+            this.disableGestures();
+        }
+
+        if (deltaY > SCROLL_START_INDEX && activeImage < slideCount - 1) {
+            onActiveImageChange(activeImage + 1);
+            this.disableGestures();
         }
     }
 

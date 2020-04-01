@@ -5,6 +5,8 @@ import CSS from 'Util/CSS';
 
 import './Slider.style.override.style';
 
+const SCROLL_START_INDEX = 20;
+
 export {
     ANIMATION_DURATION,
     ACTIVE_SLIDE_PERCENT
@@ -14,22 +16,31 @@ export default class Slider extends SourceSlider {
     static propTypes = {
         ...this.propTypes,
         isSideClick: PropTypes.bool,
-        animationDuration: PropTypes.number
+        animationDuration: PropTypes.number,
+        isScrollEnabled: PropTypes.bool
     };
 
     static defaultProps = {
         ...this.defaultProps,
         isSideClick: false,
-        animationDuration: ANIMATION_DURATION
+        animationDuration: ANIMATION_DURATION,
+        isScrollEnabled: true
     };
 
+    state = {
+        ...this.state,
+        isGesturesEnabled: true
+    }
+
     componentDidMount() {
-        const { animationDuration } = this.props;
+        const { animationDuration, isScrollEnabled } = this.props;
         const sliderChildren = this.draggableRef.current.children;
         const sliderWidth = this.draggableRef.current.offsetWidth;
         this.sliderWidth = sliderWidth;
 
         if (!sliderChildren || !sliderChildren[0]) return;
+
+        if (isScrollEnabled) this.enableScroll();
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-height', `${sliderChildren[0].offsetHeight}px`);
@@ -57,6 +68,60 @@ export default class Slider extends SourceSlider {
                 this.draggableRef,
                 'translateX',
                 `${newTranslate}px`
+            );
+
+            this.disableGestures();
+        }
+    }
+
+    disableGestures() {
+        const { animationDuration } = this.props;
+
+        this.setState({ isGesturesEnabled: false });
+
+        setTimeout(() => {
+            this.setState({ isGesturesEnabled: true });
+        }, animationDuration);
+    }
+
+    enableScroll() {
+        window.addEventListener('wheel', this.handleScroll, true);
+    }
+
+    handleScroll = ({ deltaX }) => {
+        const { isGesturesEnabled } = this.state;
+
+        if (!isGesturesEnabled) return;
+
+        const { onActiveImageChange, activeImage, children } = this.props;
+        const slideCount = children.length;
+
+        if (deltaX < -SCROLL_START_INDEX && activeImage > 0) {
+            onActiveImageChange(activeImage - 1);
+            this.disableGestures();
+        }
+
+        if (deltaX > SCROLL_START_INDEX && activeImage < slideCount - 1) {
+            onActiveImageChange(activeImage + 1);
+            this.disableGestures();
+        }
+    }
+
+    handleDrag = (state) => {
+        const { isGesturesEnabled } = this.state;
+        const { translateX } = state;
+
+        if (!isGesturesEnabled) return;
+
+        const translate = translateX;
+
+        const fullSliderSize = this.getFullSliderWidth();
+
+        if (translate < 0 && translate > -fullSliderSize && isGesturesEnabled) {
+            CSS.setVariable(
+                this.draggableRef,
+                'translateX',
+                `${translate}px`
             );
         }
     }
@@ -111,7 +176,7 @@ export default class Slider extends SourceSlider {
         return activeSlide;
     }
 
-    handleDragEnd(state, callback) {
+    handleDragEnd = (state, callback) => {
         const { animationDuration } = this.props;
         const activeSlide = this.calculateNextSlide(state);
 
@@ -126,6 +191,8 @@ export default class Slider extends SourceSlider {
             'translateX',
             `${newTranslate}px`
         );
+
+        this.setState({ isGesturesEnabled: false });
 
         callback({
             originalX: newTranslate,
