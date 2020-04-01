@@ -23,9 +23,6 @@ import {
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import { DRAGBAR_OPEN, MENU } from 'Component/Header/Header.component';
 
-export const HISTORY_START_CATEGORY_STRING = 1;
-export const HISTORY_END_CATEGORY_STRING = 8;
-
 export const mapDispatchToProps = dispatch => ({
     showOverlay: overlayKey => dispatch(toggleOverlayByKey(overlayKey)),
     hideActiveOverlay: () => dispatch(hideActiveOverlay()),
