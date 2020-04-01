@@ -18,6 +18,7 @@ import {
     FAVORITES, CATEGORY
 } from 'Component/Header/Header.component';
 import SourceNavigationAbstractContainer from 'SourceComponent/NavigationAbstract/NavigationAbstract.container';
+import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
 
 export const CATEGORY_STRING_END = 9;
 
@@ -83,7 +84,10 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
         const path = pathname.substring(1, CATEGORY_STRING_END);
 
         // leave filters open when filter attributes change / get cleared
-        if (!(path === CATEGORY && activeOverlay === CATEGORY_FILTER_OVERLAY_ID)) {
+        if (
+            this.default_state.name === DEFAULT_STATE_NAME
+            && !(path === CATEGORY && activeOverlay === CATEGORY_FILTER_OVERLAY_ID)
+        ) {
             hideActiveOverlay();
         }
 
