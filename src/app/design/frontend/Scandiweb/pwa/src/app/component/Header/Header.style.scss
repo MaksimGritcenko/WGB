@@ -350,9 +350,7 @@
             }
 
             &_wishlist {
-                @include after-mobile {
-                    order: 2
-                }
+                order: 1;
             }
         }
     }
@@ -467,7 +465,7 @@
     }
 
     &-MiniCartWrapper {
-        order: 1;
+        order: 2;
 
         @include after-mobile {
             order: 3;
