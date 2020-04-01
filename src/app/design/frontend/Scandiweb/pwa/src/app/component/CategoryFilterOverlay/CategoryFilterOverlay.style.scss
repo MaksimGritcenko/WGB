@@ -19,14 +19,12 @@
     --padding-right: 0px;
 
     transition: transform 300ms ease-in-out;
-    transform: translateY(100%);
+    transform: translateX(100%);
     display: block;
     position: fixed;
     right: 0;
     top: calc(var(--header-height) - 17px);
     padding: 15px;
-    width: 350px;
-    transform: translateX(100%);
     overflow: scroll;
     height: calc(100vh - var(--header-height) + 17px);
     width: calc(var(--padding-right) + 350px);
