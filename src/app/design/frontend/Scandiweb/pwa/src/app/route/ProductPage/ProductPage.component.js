@@ -13,11 +13,9 @@ import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import './ProductPage.style.override';
 
 export default class ProductPage extends SourceProductPage {
-    getCategory() {
-        const { product: { categories = [] } } = this.props;
-
-        return categories[categories.length - 1] || {};
-    }
+    state = {
+        isPDPHeaderPresent: false
+    };
 
     renderGoBackIcon() {
         return (
@@ -65,9 +63,14 @@ export default class ProductPage extends SourceProductPage {
     }
 
     renderPDPHeader() {
-        const { name: categoryName, url_path } = this.getCategory() || '';
+        const { currentCategory: { name, url_path } } = this.props;
 
-        if (!url_path) return null;
+        if (!name || !url_path) {
+            this.setState(() => ({ isPDPHeaderPresent: false }));
+            return null;
+        }
+        this.setState(() => ({ isPDPHeaderPresent: true }));
+
         return (
             <div block="ProductPage" elem="Header">
                 <Link
@@ -76,7 +79,7 @@ export default class ProductPage extends SourceProductPage {
                   to={ `/category/${url_path}` }
                 >
                     { this.renderGoBackIcon() }
-                    { this.renderGoBackText(categoryName) }
+                    { this.renderGoBackText(name) }
                 </Link>
             </div>
         );
@@ -84,8 +87,11 @@ export default class ProductPage extends SourceProductPage {
 
     renderProductGallery() {
         const { productOrVariant, areDetailsLoaded } = this.props;
+        const { isPDPHeaderPresent } = this.state;
+
         return (
             <ProductGallery
+              isPDPHeaderPresent={ isPDPHeaderPresent }
               product={ productOrVariant }
               areDetailsLoaded={ areDetailsLoaded }
             />

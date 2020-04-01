@@ -3,9 +3,14 @@ import { withRouter } from 'react-router';
 
 import {
     ProductPageContainer as SourceProductPageContainer,
-    mapStateToProps,
+    mapStateToProps as sourceMapStateToProps,
     mapDispatchToProps
 } from 'SourceRoute/ProductPage/ProductPage.container';
+
+const mapStateToProps = state => ({
+    ...sourceMapStateToProps(state),
+    currentCategory: state.CategoryReducer.category
+});
 
 class ProductPageContainer extends SourceProductPageContainer {
     _onProductUpdate() {
