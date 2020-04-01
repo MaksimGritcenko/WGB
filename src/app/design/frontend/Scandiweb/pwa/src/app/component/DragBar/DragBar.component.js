@@ -33,7 +33,8 @@ export class DragBar extends Component {
         location: PropTypes.object.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
-        children: PropTypes.array.isRequired
+        children: PropTypes.array.isRequired,
+        shouldBeSmaller: PropTypes.bool.isRequired
     };
 
     state = {
@@ -52,6 +53,12 @@ export class DragBar extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { shouldBeSmaller } = this.props;
+
+        if (shouldBeSmaller) {
+            CSS.setVariable(this.dragBarRef, 'initial-offset-y', '80px');
+        }
+
         if (prevState.areDetailsOpen) {
             // eslint-disable-next-line react/destructuring-assignment
             if (prevProps.location.pathname !== this.props.location.pathname) {
@@ -70,7 +77,11 @@ export class DragBar extends Component {
         } else if (areDetailsOpen && this.dragBarRef.current.scrollTop <= 0 && translateY > 0) {
             setTimeout(() => {
                 CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
-                CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
+                CSS.setVariable(
+                    this.dragBarRef,
+                    'draggable-y',
+                    `calc(-100% + var(--initial-offset-y) + ${translateY}px)`
+                );
             }, 0);
         }
     }
