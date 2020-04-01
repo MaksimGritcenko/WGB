@@ -54,10 +54,6 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <Header />,
             position: 20
-        },
-        {
-            component: <NavigationTabs />,
-            position: 25
         }
     ];
 

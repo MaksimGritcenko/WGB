@@ -13,6 +13,7 @@
 
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
+import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import {
     FAVORITES, CATEGORY
 } from 'Component/Header/Header.component';
@@ -38,9 +39,6 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
     }
 
     onRouteChanged(history) {
-        const { hideActiveOverlay } = this.props;
-        hideActiveOverlay();
-
         const { location: { pathname: startPathname } = {}, pathname = '' } = history || {};
         const isCategory = (startPathname || pathname).substring(1, CATEGORY_STRING_END) === CATEGORY;
 
@@ -78,8 +76,16 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
     }
 
     handleDesktopRouteChange(history) {
-        const { setNavigationState } = this.props;
-        const { pathname } = history;
+        const { setNavigationState, activeOverlay } = this.props;
+        const { pathname = '' } = history;
+
+        const { hideActiveOverlay } = this.props;
+        const path = pathname.substring(1, CATEGORY_STRING_END);
+
+        // leave filters open when filter attributes change / get cleared
+        if (!(path === CATEGORY && activeOverlay === CATEGORY_FILTER_OVERLAY_ID)) {
+            hideActiveOverlay();
+        }
 
         if (pathname === '/') {
             setNavigationState(this.routeMap[pathname]);
