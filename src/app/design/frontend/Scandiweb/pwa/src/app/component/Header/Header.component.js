@@ -21,6 +21,8 @@ import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 
+import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
+
 import {
     menuIcon,
     searchIcon,
@@ -53,6 +55,9 @@ export {
     CHECKOUT,
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
+
+export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
+export const MOBILE_OVERLAYS = [FILTER];
 
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
@@ -468,10 +473,10 @@ export default class Header extends SourceHeader {
 
 
     render() {
-        const { navigationState: { name } } = this.props;
+        const { navigationState: { name }, isCategory } = this.props;
 
         return (
-            <header block="Header" mods={ { name } }>
+            <header block="Header" mods={ { name, isCategory } }>
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>

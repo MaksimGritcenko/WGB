@@ -165,9 +165,11 @@
         &_category,
         &_filter,
         &_menu {
-            @include after-mobile {
-                .Header-Filter {
-                    display: flex;
+            &.Header_isCategory {
+                @include after-mobile {
+                    .Header-Filter {
+                        display: flex;
+                    }
                 }
             }
         }
