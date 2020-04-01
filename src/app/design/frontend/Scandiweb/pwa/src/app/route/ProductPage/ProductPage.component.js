@@ -151,10 +151,11 @@ export default class ProductPage extends SourceProductPage {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductReviews
+                { /** Hide it for now */ }
+                { /* <ProductReviews
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                />
+                /> */ }
                 <ProductLinks
                   linkType={ RELATED }
                   title={ __('Recommended for you') }
