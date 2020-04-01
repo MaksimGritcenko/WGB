@@ -135,7 +135,7 @@ export default class SliderVertical extends Slider {
         return activeSlide;
     }
 
-    handleDrag(state) {
+    handleDrag = (state) => {
         const { translateY } = state;
 
         const translate = translateY;
@@ -151,7 +151,7 @@ export default class SliderVertical extends Slider {
         }
     }
 
-    handleDragEnd(state, callback) {
+    handleDragEnd = (state, callback) => {
         const { animationDuration } = this.props;
         const activeSlide = this.calculateNextSlide(state);
 
