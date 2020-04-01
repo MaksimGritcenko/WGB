@@ -93,7 +93,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
@@ -135,7 +135,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true
         },
         [CHECKOUT]: {
