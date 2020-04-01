@@ -24,7 +24,7 @@ export default class Slider extends SourceSlider {
         ...this.defaultProps,
         isSideClick: false,
         animationDuration: ANIMATION_DURATION,
-        isScrollEnabled: true
+        isScrollEnabled: false
     };
 
     state = {

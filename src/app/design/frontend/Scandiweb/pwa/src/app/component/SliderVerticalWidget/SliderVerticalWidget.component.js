@@ -24,7 +24,7 @@ export default class SliderVerticalWidget extends SourceSliderWidget {
 
     render() {
         const { activeImage } = this.state;
-        const { slider: { slides, title: block } } = this.props;
+        const { slider: { slides, title: block }, isScrollEnabled } = this.props;
 
         return (
             <SliderVertical
@@ -33,6 +33,7 @@ export default class SliderVerticalWidget extends SourceSliderWidget {
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
               animationDuration={ 1000 }
+              isScrollEnabled={ isScrollEnabled }
             >
                 { slides.map(this.renderSlide) }
             </SliderVertical>

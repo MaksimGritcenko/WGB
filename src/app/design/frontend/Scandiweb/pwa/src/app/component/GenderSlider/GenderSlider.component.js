@@ -15,11 +15,13 @@ export default class GenderSlider extends PureComponent {
         onCloseButtonClick: PropTypes.func.isRequired,
         activeHorizontalSlideIndex: PropTypes.number.isRequired,
         changeState: PropTypes.func.isRequired,
-        isActiveSlideWhite: PropTypes.bool.isRequired
+        isActiveSlideWhite: PropTypes.bool.isRequired,
+        isScrollEnabled: PropTypes.bool
     };
 
     static defaultProps = {
-        isBottomSwitcher: false
+        isBottomSwitcher: false,
+        isScrollEnabled: false
     };
 
     constructor(props) {
@@ -129,7 +131,7 @@ export default class GenderSlider extends PureComponent {
     };
 
     render() {
-        const { children } = this.props;
+        const { children, isScrollEnabled } = this.props;
         const { activeImageIndex } = this.state;
 
         return (
@@ -143,6 +145,7 @@ export default class GenderSlider extends PureComponent {
                   onActiveImageChange={ this.handleSlideChange }
                   activeImage={ activeImageIndex }
                   animationDuration={ 1000 }
+                  isScrollEnabled={ isScrollEnabled }
                 >
                     { children.map(this.renderSlide) }
                 </Slider>
