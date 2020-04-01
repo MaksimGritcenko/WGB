@@ -93,7 +93,7 @@
 .Header {
     --header-background: transparent;
     --header-icon-stroke-width: 2px;
-    --filter-button-margin: 14px;
+    --filter-button-margin: 20px;
     --filter-button-opacity: 1;
 
     position: fixed;
@@ -107,6 +107,7 @@
         display: flex;
         flex-direction: column;
         padding-bottom: 0;
+        transition: background 400ms ease-in-out, padding 400ms ease-out;
     }
 
     & > * {
@@ -114,8 +115,10 @@
     }
 
     &-Filter {
+        margin: auto;
         display: none;
         justify-content: flex-end;
+        max-width: var(--content-wrapper-width);
 
         &-Button {
             font-size: 15px;
@@ -161,23 +164,29 @@
         }
 
         &_category,
+        &_filter,
+        &_menu {
+            &.Header_isCategory {
+                @include after-mobile {
+                    padding-bottom: 10px;
+
+                    .Header-Filter {
+                        display: flex;
+                    }
+                }
+            }
+        }
+
+        &_category,
         &_filter {
             @include mobile {
                 --header-background: var(--header-default-background);
             }
 
             @include after-mobile {
-                padding-bottom: 10px;
-                transition: background .4s ease-out;
-
-
-                .Header-Filter {
-                    display: flex;
-                }
-
                 &:hover {
                     --header-background: white;
-                    transition: background .5s ease-out;
+                    transition: background 400ms ease-in-out, padding 0s ease-in-out;
                 }
             }
         }
@@ -341,9 +350,7 @@
             }
 
             &_wishlist {
-                @include after-mobile {
-                    order: 2
-                }
+                order: 1;
             }
         }
     }
@@ -458,7 +465,7 @@
     }
 
     &-MiniCartWrapper {
-        order: 1;
+        order: 2;
 
         @include after-mobile {
             order: 3;
