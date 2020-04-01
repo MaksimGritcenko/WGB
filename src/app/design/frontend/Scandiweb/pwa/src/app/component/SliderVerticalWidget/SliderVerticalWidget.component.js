@@ -32,6 +32,7 @@ export default class SliderVerticalWidget extends SourceSliderWidget {
               showCrumbs
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
+              animationDuration={ 1000 }
             >
                 { slides.map(this.renderSlide) }
             </SliderVertical>
