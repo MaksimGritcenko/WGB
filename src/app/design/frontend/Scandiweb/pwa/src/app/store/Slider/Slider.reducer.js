@@ -1,5 +1,5 @@
 import { WOMEN } from 'Component/GenderSlider/GenderSlider.component';
-import { WOMEN_SLIDER_ID, MEN_SLIDER_ID } from 'Route/HomePage/HomePage.component';
+import { WOMEN_SLIDER_ID } from 'Route/HomePage/HomePage.component';
 
 import {
     CHANGE_STATE,
