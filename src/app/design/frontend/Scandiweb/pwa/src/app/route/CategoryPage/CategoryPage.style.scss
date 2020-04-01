@@ -15,22 +15,10 @@
 
 .CategoryPage {
     overflow-x: hidden;
-    --content-wrapper-width: 100%;
     margin-bottom: 0;
 
     &-Wrapper {
-        @include after-mobile {
-            display: grid;
-            padding-top: 2rem;
-        }
-
-        @include desktop {
-            grid-column-gap: 4rem;
-        }
-
-        @include tablet {
-            grid-column-gap: 2rem;
-        }
+        padding: 60px 0 0;
 
         @include mobile {
             padding: 0;
@@ -39,7 +27,7 @@
 
     &-ProductListWrapper {
         @include mobile {
-            padding-top: 56px;
+            padding-top: var(--filter-height);
         }
     }
 
