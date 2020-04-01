@@ -124,5 +124,12 @@
                 transform: translateY(-100%);
             }
         }
+
+        .scrollDisabled & {
+            @include mobile {
+                display: none;
+                transform: translateY(-100%);
+            }
+        }
     }
 }

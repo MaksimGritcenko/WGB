@@ -23,6 +23,7 @@ import {
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import Header, { DRAGBAR_OPEN, MENU } from 'Component/Header/Header.component';
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
+import { history } from 'Route';
 
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,

@@ -57,13 +57,6 @@
                 @include mobile {
                     padding-bottom: 75%;
                 }
-
-                & > img {
-                    @include after-mobile {
-                        // object-fit: contain;
-                        object-fit: cover;
-                    }
-                }
             }
         }
     }
@@ -77,8 +70,7 @@
     }
 
     &-Content {
-        margin-bottom: 10px;
-        padding: 10px;
+        padding: 5px 10px 20px;
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -108,10 +100,6 @@
         text-transform: uppercase;
         text-align: center;
         order: 1;
-
-        @include after-mobile {
-            margin-top: .5rem;
-        }
     }
 
     &-Brand {
@@ -134,6 +122,10 @@
 
         & > img {
             object-fit: cover;
+        }
+
+        &.Image {
+            display: block;
         }
     }
 
