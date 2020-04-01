@@ -67,9 +67,9 @@ export class DragBar extends Component {
             setTimeout(() => {
                 CSS.setVariable(this.dragBarRef, 'draggable-y', `${translateY}px`);
             }, 0);
-        } else if (areDetailsOpen && this.dragBarRef.current.scrollTop === 0 && translateY > 0) {
-            CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
+        } else if (areDetailsOpen && this.dragBarRef.current.scrollTop <= 0 && translateY > 0) {
             setTimeout(() => {
+                CSS.setVariable(this.dragBarRef, 'overflow', 'hidden');
                 CSS.setVariable(this.dragBarRef, 'draggable-y', `calc(-100% + ${110 + translateY}px)`);
             }, 0);
         }
@@ -81,28 +81,31 @@ export class DragBar extends Component {
         this.animatedTransitionOnce = false;
         this.cb = callback;
 
-        if (!areDetailsOpen) {
+        if (!areDetailsOpen) { // details are closed
             if (translateY > -150) {
-                // details are close and drag is higher than -150px => we close it back
+                // drag is higher than -150px => we close it back
                 setTimeout(() => {
                     this.closeDetails();
                 }, 0);
             } else {
-                // details are closed, but drag is lower than -150px => we open it completely
+                // drag is lower than -150px => we open it completely
                 setTimeout(() => {
                     this.openDetails();
                 }, 0);
             }
-        } else if (translateY > 50 && this.dragBarRef.current.scrollTop <= 0) {
-            // details are open and drag is higher than 150px => we close it
-            setTimeout(() => {
-                this.closeDetails(true);
-            }, 0);
-        } else {
-            // details are open and drag is lower than 150px => we open it back
-            setTimeout(() => {
-                this.openDetails();
-            }, 0);
+        } else { // details are opened
+            // eslint-disable-next-line no-lonely-if
+            if (translateY > 50 && this.dragBarRef.current.scrollTop <= 0) {
+                // details are open and drag is higher than 150px => we close it
+                setTimeout(() => {
+                    this.closeDetails(true);
+                }, 0);
+            } else {
+                // details are open and drag is lower than 150px => we open it back
+                setTimeout(() => {
+                    this.openDetails();
+                }, 0);
+            }
         }
     }
 
@@ -155,7 +158,7 @@ export class DragBar extends Component {
 
     _animateAutoMove() {
         CSS.setVariable(this.dragBarRef, 'animation-speed', '150ms');
-        this.timedOutAnimation = setTimeout(
+        setTimeout(
             () => CSS.setVariable(this.dragBarRef, 'animation-speed', 'var(--initial-animation-speed)'),
             150
         );
