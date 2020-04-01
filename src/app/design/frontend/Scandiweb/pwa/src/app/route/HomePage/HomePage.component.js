@@ -7,12 +7,14 @@ import { WOMEN, MEN } from 'Component/GenderSlider/GenderSlider.component';
 
 import './HomePage.style.scss';
 
-const WOMEN_SLIDER_ID = 5;
-const MEN_SLIDER_ID = 6;
+export const WOMEN_SLIDER_ID = 5;
+export const MEN_SLIDER_ID = 6;
 
 export default class HomePage extends PureComponent {
     static propTypes = {
-        genderSwitchIndex: PropTypes.number.isRequired
+        genderSwitchIndex: PropTypes.number.isRequired,
+        changeVerticalSlideIndex: PropTypes.func.isRequired,
+        isActiveSlideWhite: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -38,7 +40,7 @@ export default class HomePage extends PureComponent {
     }
 
     handleArrowClick() {
-        const { genderSwitchIndex } = this.props;
+        const { genderSwitchIndex, changeVerticalSlideIndex } = this.props;
         const {
             activeSlide,
             activeSlide: {
@@ -47,18 +49,24 @@ export default class HomePage extends PureComponent {
             slideCount
         } = this.state;
 
+        const nextActiveIndex = activeSlideIndex + (slideCount - 1 === activeSlideIndex ? -1 : 1);
+
         this.setState({
             activeSlide: {
                 ...activeSlide,
-                [genderSwitchIndex]: activeSlideIndex + (slideCount - 1 === activeSlideIndex ? -1 : 1)
+                [genderSwitchIndex]: nextActiveIndex
             }
         });
+
+        changeVerticalSlideIndex(genderSwitchIndex, nextActiveIndex);
     }
 
     handleActiveImageChange(activeSlideIndex, sliderIndex) {
+        const { changeVerticalSlideIndex } = this.props;
         const { activeSlide } = this.state;
 
         this.setState({ activeSlide: { ...activeSlide, [sliderIndex]: activeSlideIndex } });
+        changeVerticalSlideIndex(sliderIndex, activeSlideIndex);
     }
 
     renderSlider(sliderId, sliderIndex) {
@@ -76,14 +84,19 @@ export default class HomePage extends PureComponent {
     }
 
     renderSlideSwitchArrow() {
-        const { genderSwitchIndex } = this.props;
+        const { genderSwitchIndex, isActiveSlideWhite } = this.props;
         const { activeSlide: { [genderSwitchIndex]: activeSlideIndex }, slideCount } = this.state;
+
+        const mods = {
+            isUpside: slideCount && activeSlideIndex + 1 === slideCount,
+            isWhite: isActiveSlideWhite
+        }
 
         return (
             <button
               block="HomePage"
               elem="SliderSwitchArrow"
-              mods={ { isUpside: slideCount && activeSlideIndex + 1 === slideCount } }
+              mods={ mods }
               onClick={ this.handleArrowClick }
             >
                 { backIcon }
