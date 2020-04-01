@@ -50,16 +50,22 @@
 
         &::after {
             content: '';
+            transition: 200ms;
             display: block;
             pointer-events: none;
             position: absolute;
             right: 5px;
-            bottom: 0;
             top: 23px;
             margin: auto;
             border-left: 4px solid transparent;
             border-right: 4px solid transparent;
             border-top: 4px solid var(--primary-base-color);
+        }
+
+        &_isContentExpanded {
+            &::after {
+                transform: rotate(180deg);
+            }
         }
     }
 
