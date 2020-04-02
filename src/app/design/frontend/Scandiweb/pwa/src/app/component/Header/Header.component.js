@@ -85,7 +85,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            wishlist: true,
+            account: true,
             minicart: true,
             logo: true
         },
