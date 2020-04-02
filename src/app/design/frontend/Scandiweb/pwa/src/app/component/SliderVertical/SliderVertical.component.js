@@ -21,11 +21,7 @@ export default class SliderVertical extends Slider {
 
         if (isScrollEnabled) this.enableScroll();
 
-        CSS.setVariable(
-            this.sliderRef,
-            'slider-height',
-            `calc(${window.innerHeight}px - (var(--header-height) * 2) - 110px)`
-        );
+        this.updateSliderHeight();
 
         sliderChildren[0].onload = () => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
@@ -37,9 +33,30 @@ export default class SliderVertical extends Slider {
         this.sliderHeight = this.draggableRef.current.offsetHeight;
     }
 
+    updateSliderHeight() {
+        const { isPDPHeaderPresent } = this.props;
+        const headerAmount = isPDPHeaderPresent ? 2 : 1;
+        CSS.setVariable(
+            this.sliderRef,
+            'slider-height',
+            `calc(${window.innerHeight}px - (var(--header-height) * ${headerAmount}) - 110px)`
+        );
+    }
+
     componentDidUpdate(prevProps) {
-        const { activeImage: prevActiveImage } = prevProps;
-        const { activeImage, animationDuration } = this.props;
+        const {
+            activeImage: prevActiveImage,
+            isPDPHeaderPresent: prevIsPDPHeaderPresent
+        } = prevProps;
+        const {
+            activeImage,
+            isPDPHeaderPresent,
+            animationDuration
+        } = this.props;
+
+        if (isPDPHeaderPresent !== prevIsPDPHeaderPresent) {
+            this.updateSliderHeight();
+        }
 
         if (activeImage !== prevActiveImage) {
             const newTranslate = -activeImage * this.sliderHeight;
