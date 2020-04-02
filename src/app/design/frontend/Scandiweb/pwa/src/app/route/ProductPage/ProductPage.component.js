@@ -133,7 +133,7 @@ export default class ProductPage extends SourceProductPage {
         const { attributes: { brand: { attribute_value: brand } = {} } = {} } = productOrVariant;
 
         return (
-            <DragBar shouldBeSmaller={ !!areDetailsLoaded && !brand }>
+            <DragBar isSmall={ !!areDetailsLoaded && !brand }>
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
