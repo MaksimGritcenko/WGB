@@ -20,6 +20,7 @@ import Header, {
 
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
+import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
 
 import GoogleTagManagerRouteWrapperComponent from 'Component/GoogleTagManager/GoggleTagManagerRouteWrapper.component';
@@ -77,6 +78,10 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <NavigationTabs />,
             position: 25
+        },
+        {
+            component: <GoogleTagManager />,
+            position: 40
         }
     ];
 
