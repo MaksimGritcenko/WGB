@@ -70,7 +70,7 @@
     }
 
     &-Content {
-        padding: 5px 10px 20px;
+        padding: 10px 10px 20px;
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -78,7 +78,9 @@
     }
 
     &-Name,
-    &-Brand {
+    &-Brand,
+    &-Brand > * {
+        line-height: 1.1;
         width: 100%;
         max-width: 100%;
         overflow: hidden;
@@ -96,15 +98,14 @@
     }
 
     &-Name {
-        line-height: 1;
         text-transform: uppercase;
         text-align: center;
         order: 1;
     }
 
-    &-Brand {
-        font-weight: 300;
-        opacity: .5;
+    &-Brand > * {
+        font-weight: bold;
+        margin: 0;
 
         @include mobile {
             line-height: 1;
