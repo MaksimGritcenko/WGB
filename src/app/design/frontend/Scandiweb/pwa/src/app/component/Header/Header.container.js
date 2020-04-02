@@ -1,14 +1,3 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 import PropTypes from 'prop-types';
 import isMobile from 'Util/Mobile';
 import { connect } from 'react-redux';
@@ -39,7 +28,8 @@ export const mapStateToProps = state => ({
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    isLoading: state.ConfigReducer.isLoading,
+    isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -75,7 +65,8 @@ export class HeaderContainer extends SourceHeaderContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
-            isLoading
+            isLoading,
+            isActiveSlideWhite
         } = this.props;
 
         const {
@@ -93,6 +84,7 @@ export class HeaderContainer extends SourceHeaderContainer {
             isLoading,
             isClearEnabled,
             searchCriteria,
+            isActiveSlideWhite,
             isCheckout,
             showMyAccountLogin
         };

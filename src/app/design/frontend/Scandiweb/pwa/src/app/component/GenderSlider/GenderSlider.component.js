@@ -13,8 +13,9 @@ export default class GenderSlider extends PureComponent {
         children: PropTypes.array.isRequired,
         isBottomSwitcher: PropTypes.bool,
         onCloseButtonClick: PropTypes.func.isRequired,
-        activeStateIndex: PropTypes.number.isRequired,
-        changeState: PropTypes.func.isRequired
+        activeHorizontalSlideIndex: PropTypes.number.isRequired,
+        changeState: PropTypes.func.isRequired,
+        isActiveSlideWhite: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -30,11 +31,11 @@ export default class GenderSlider extends PureComponent {
     }
 
     componentDidUpdate(prevState) {
-        const { activeStateIndex: prevactiveStateIndex } = prevState;
-        const { activeStateIndex } = this.props;
+        const { activeHorizontalSlideIndex: prevActiveHorizontalSlideIndex } = prevState;
+        const { activeHorizontalSlideIndex } = this.props;
 
-        if (prevactiveStateIndex !== activeStateIndex) {
-            this.updateActiveImageIndex(activeStateIndex);
+        if (prevActiveHorizontalSlideIndex !== activeHorizontalSlideIndex) {
+            this.updateActiveImageIndex(activeHorizontalSlideIndex);
         }
     }
 
@@ -74,7 +75,10 @@ export default class GenderSlider extends PureComponent {
 
     renderButton(title, index) {
         const { activeImageIndex } = this.state;
-        const { isBottomSwitcher } = this.props;
+        const {
+            isBottomSwitcher,
+            isActiveSlideWhite
+        } = this.props;
 
         const mods = isBottomSwitcher ? { isBottom: true, isActive: activeImageIndex === index } : {};
         const mix = !isBottomSwitcher ? { block: 'Button', mods: { isHollow: activeImageIndex !== index } } : {};
@@ -84,7 +88,7 @@ export default class GenderSlider extends PureComponent {
               block="GenderSlider"
               elem="GenderButton"
               mix={ mix }
-              mods={ mods }
+              mods={ { ...mods, isWhite: isActiveSlideWhite } }
               onClick={ () => this.handleGenderSwitch(index) }
               aria-label={ title }
             >
