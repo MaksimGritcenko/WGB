@@ -54,6 +54,10 @@
     }
 
     &-NameAndPrice {
+        @include after-mobile {
+            padding-top: 50px;
+        }
+
         @include mobile {
             display: flex;
             justify-content: center;
