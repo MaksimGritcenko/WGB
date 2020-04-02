@@ -15,12 +15,11 @@ export default class GenderSlider extends PureComponent {
         onCloseButtonClick: PropTypes.func.isRequired,
         activeHorizontalSlideIndex: PropTypes.number.isRequired,
         changeState: PropTypes.func.isRequired,
-        isActiveSlideWhite: PropTypes.bool
+        isActiveSlideWhite: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        isBottomSwitcher: false,
-        isActiveSlideWhite: false
+        isBottomSwitcher: false
     };
 
     constructor(props) {
