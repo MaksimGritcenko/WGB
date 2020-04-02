@@ -50,9 +50,6 @@
         }
 
         @include after-mobile {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 4rem;
             justify-content: center;
             align-items: flex-start;
         }
