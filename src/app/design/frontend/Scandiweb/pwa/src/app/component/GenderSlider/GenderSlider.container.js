@@ -9,6 +9,8 @@ import { goToPreviousNavigationState } from 'Store/Navigation';
 import GenderSlider from './GenderSlider.component';
 
 export const mapStateToProps = state => ({
+    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    navigationStateHistory: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationStateHistory,
     activeStateIndex: state.SliderReducer.activeStateIndex,
     changeState
 });
@@ -22,6 +24,11 @@ export const mapDispatchToProps = dispatch => ({
 export class GenderSliderContainer extends PureComponent {
     static propTypes = {
         goToPreviousNavigationState: PropTypes.func.isRequired,
+        navigationStateHistory: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string
+            })
+        ).isRequired,
         hideActiveOverlay: PropTypes.func.isRequired
     };
 
@@ -30,7 +37,10 @@ export class GenderSliderContainer extends PureComponent {
     };
 
     onCloseButtonClick() {
-        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
+        const {
+            hideActiveOverlay,
+            goToPreviousNavigationState
+        } = this.props;
 
         hideActiveOverlay();
         goToPreviousNavigationState();

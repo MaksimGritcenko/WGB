@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import isMobile from 'Util/Mobile';
 import { withRouter } from 'react-router';
 
 import {
@@ -19,6 +20,8 @@ class ProductPageContainer extends SourceProductPageContainer {
         if (Object.keys(dataSource).length) {
             this._updateBreadcrumbs(dataSource);
             this._updateNavigationState();
+
+            if (!isMobile.any()) this._updateHeaderState(dataSource);
         }
     }
 }
