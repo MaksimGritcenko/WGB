@@ -439,11 +439,15 @@ export default class Header extends SourceHeader {
 
 
     render() {
-        const { navigationState: { name }, isCategory } = this.props;
+        const { navigationState: { name }, isCategory, isActiveSlideWhite } = this.props;
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
-                <nav block="Header" elem="Nav">
+                <nav
+                  block="Header"
+                  elem="Nav"
+                  mods={ { isWhite: isActiveSlideWhite } }
+                >
                     { this.renderHeaderState() }
                 </nav>
                 { this.renderFilterButton() }

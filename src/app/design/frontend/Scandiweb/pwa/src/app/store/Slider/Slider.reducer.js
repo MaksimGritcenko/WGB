@@ -67,7 +67,7 @@ const SliderReducer = (state = initialState, action) => {
         return {
             ...state,
             sliderColors,
-            isActiveSlideWhite: sliderColors[INITIAL_VERTICAL_STATE][INITIAL_HORIZONTAL_STATE]
+            isActiveSlideWhite: sliderColors[INITIAL_VERTICAL_STATE][INITIAL_HORIZONTAL_STATE] || false
         };
 
     default:

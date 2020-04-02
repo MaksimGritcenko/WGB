@@ -124,28 +124,6 @@ class Slide extends \Magento\Backend\Block\Widget\Form\Generic implements
             \IntlDateFormatter::SHORT
         );
 
-        // $general->addField(
-        //     'start_time',
-        //     'date',
-        //     [
-        //         'name' => 'start_time',
-        //         'label' => __('Start Time'),
-        //         'date_format' => $dateFormat,
-        //         'class' => 'validate-date validate-date-range date-range-custom_theme-from'
-        //     ]
-        // );
-
-        // $general->addField(
-        //     'end_time',
-        //     'date',
-        //     [
-        //         'name' => 'end_time',
-        //         'label' => __('End Time'),
-        //         'date_format' => $dateFormat,
-        //         'class' => 'validate-date validate-date-range date-range-custom_theme-to'
-        //     ]
-        // );
-
         $general->addField(
             'position',
             'text',
@@ -179,41 +157,6 @@ class Slide extends \Magento\Backend\Block\Widget\Form\Generic implements
             ]
         );
 
-        // $block->addField(
-        //     'embed_code',
-        //     'text',
-        //     [
-        //         'label' => __('Video Embed Code'),
-        //         'title' => __('Video Embed Code'),
-        //         'name' => 'embed_code',
-        //         'note' => __(
-        //             'Copy youtube or vimeo or any iframe code from "share" '
-        //             . 'tab here if you want to display video in this block.'
-        //         )
-        //     ]
-        // );
-
-        // $block->addField(
-        //     'slide_link',
-        //     'text',
-        //     [
-        //         'label' => __('Block Link'),
-        //         'title' => __('Block Link'),
-        //         'name' => 'slide_link',
-        //         'note' => __('Full URL where block should redirect after click on it.')
-        //     ]
-        // );
-
-        // $block->addField(
-        //     'display_title',
-        //     'text',
-        //     [
-        //         'label' => __('Display Title'),
-        //         'title' => __('Display Title'),
-        //         'name' => 'display_title',
-        //     ]
-        // );
-
         $block->addField(
             'slide_text',
             'editor',
@@ -236,17 +179,6 @@ class Slide extends \Magento\Backend\Block\Widget\Form\Generic implements
                 'options' => ['0' => __('Left'), '1' => __('Right'), '2' => __('Center')]
             ]
         );
-
-        // $block->addField(
-        //     'slide_width_class',
-        //     'select',
-        //     [
-        //         'label' => __('Block Width in 2 block mode'),
-        //         'title' => __('Block Width in 2 block mode'),
-        //         'name' => 'slide_width_class',
-        //         'options' => ['' => __('Normal'), 'wide' => __('Wide')]
-        //     ]
-        // );
 
         $block->addField(
             'slide_content_is_white',
