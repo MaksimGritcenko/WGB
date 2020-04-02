@@ -7,16 +7,12 @@ import ProductLinks from 'Component/ProductLinks';
 import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
-import ProductReviews from 'Component/ProductReviews';
+// import ProductReviews from 'Component/ProductReviews';
 import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style.override';
 
 export default class ProductPage extends SourceProductPage {
-    state = {
-        isPDPHeaderPresent: false
-    };
-
     renderGoBackIcon() {
         return (
             <svg
@@ -66,10 +62,10 @@ export default class ProductPage extends SourceProductPage {
         const { currentCategory: { name, url_path } } = this.props;
 
         if (!name || !url_path) {
-            this.setState(() => ({ isPDPHeaderPresent: false }));
+            this.isPDPHeaderPresent = false;
             return null;
         }
-        this.setState(() => ({ isPDPHeaderPresent: true }));
+        this.isPDPHeaderPresent = true;
 
         return (
             <div block="ProductPage" elem="Header">
@@ -87,7 +83,7 @@ export default class ProductPage extends SourceProductPage {
 
     renderProductGallery() {
         const { productOrVariant, areDetailsLoaded } = this.props;
-        const { isPDPHeaderPresent } = this.state;
+        const { isPDPHeaderPresent } = this;
 
         return (
             <ProductGallery
