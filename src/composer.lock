@@ -11775,6 +11775,92 @@
             "time": "2020-03-26T10:07:32+00:00"
         },
         {
+            "name": "scandipwa/gtm",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmitrijs-voronovs/GTM.git",
+                "reference": "884544a4373c01bc301b45ba4215ab3c351c06d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmitrijs-voronovs/GTM/zipball/884544a4373c01bc301b45ba4215ab3c351c06d6",
+                "reference": "884544a4373c01bc301b45ba4215ab3c351c06d6",
+                "shasum": ""
+            },
+            "require": {
+                "magento/magento2-base": "^2.3.2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "src/registration.php"
+                ],
+                "psr-4": {
+                    "ScandiPWA\\Gtm\\": "src/"
+                }
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Magneto 2 Store related functionality extension",
+            "keywords": [
+                "magento2",
+                "module",
+                "pwa",
+                "scandipwa"
+            ],
+            "support": {
+                "email": "info@scandiweb.com",
+                "source": "https://github.com/dmitrijs-voronovs/GTM/tree/1.0.0",
+                "issues": "https://github.com/dmitrijs-voronovs/GTM/issues"
+            },
+            "time": "2020-02-07T17:26:41+00:00"
+        },
+        {
+            "name": "scandipwa/gtm-graphql",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmitrijs-voronovs/GTM-graphql.git",
+                "reference": "d20b95e2060b6ba2bb2807dda937c91b504078f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmitrijs-voronovs/GTM-graphql/zipball/d20b95e2060b6ba2bb2807dda937c91b504078f9",
+                "reference": "d20b95e2060b6ba2bb2807dda937c91b504078f9",
+                "shasum": ""
+            },
+            "require": {
+                "magento/magento2-base": "^2.3.2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "src/registration.php"
+                ],
+                "psr-4": {
+                    "ScandiPWA\\GtmGraphQl\\": "src/"
+                }
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Magneto 2 Store related functionality extension",
+            "keywords": [
+                "magento2",
+                "module",
+                "pwa",
+                "scandipwa"
+            ],
+            "support": {
+                "email": "info@scandiweb.com",
+                "source": "https://github.com/dmitrijs-voronovs/GTM-graphql/tree/1.0.0",
+                "issues": "https://github.com/dmitrijs-voronovs/GTM-graphql/issues"
+            },
+            "time": "2020-02-07T17:37:16+00:00"
+        },
+        {
             "name": "scandipwa/installer",
             "version": "2.0.1",
             "source": {
