@@ -28,17 +28,6 @@ export const mapStateToProps = state => ({
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
-});
-
-export const HISTORY_START_CATEGORY_STRING = 1;
-export const HISTORY_END_CATEGORY_STRING = 8;
-
-export const mapStateToProps = state => ({
-    navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
-    cartTotals: state.CartReducer.cartTotals,
-    header_logo_src: state.ConfigReducer.header_logo_src,
-    logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading,
     isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite
 });
