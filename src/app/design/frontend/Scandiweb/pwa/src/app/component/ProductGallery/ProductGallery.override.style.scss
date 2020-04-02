@@ -1,6 +1,7 @@
 .ProductGallery {
     @include after-mobile {
         display: block;
+        max-height: unset;
     }
 
     &-Slider {

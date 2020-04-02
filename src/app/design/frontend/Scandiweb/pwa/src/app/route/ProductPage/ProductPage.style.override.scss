@@ -8,7 +8,7 @@
 .ProductPage {
     @include after-mobile {
         display: flex;
-        padding-top: 100px;
+        padding-top: var(--header-height);
     }
 
     &-Category {
@@ -56,6 +56,12 @@
     }
 
     .ProductContentWrapper {
+        @include after-mobile {
+            align-self: flex-start;
+            position: sticky;
+            top: var(--header-height);
+        }
+
         .ExpandableContent {
             &-Button {
                 &::after,
