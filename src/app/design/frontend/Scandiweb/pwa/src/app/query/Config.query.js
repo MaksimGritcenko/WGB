@@ -25,6 +25,41 @@ export class ConfigQuery extends SourceConfigQuery {
             'gtm_id'
         ];
     }
+
+
+    getQuery() {
+        return new Field('storeConfig')
+            .addFieldList([
+                'code',
+                'locale',
+                'is_active',
+                'cms_home_page',
+                'cms_no_route',
+                'copyright',
+                'timezone',
+                'header_logo_src',
+                'timezone',
+                'title_prefix',
+                'title_suffix',
+                'default_display_currency_code',
+                'default_keywords',
+                'default_title',
+                'default_country',
+                'secure_base_media_url',
+                'paypal_sandbox_flag',
+                'paypal_client_id',
+                'logo_alt',
+                'cookie_text',
+                'cookie_link',
+                'terms_are_enabled',
+                'base_url',
+                'pagination_frame',
+                'pagination_frame_skip',
+                'anchor_text_for_previous',
+                'anchor_text_for_next',
+                'demo_notice'
+            ]);
+    }
 }
 
 export default new ConfigQuery();

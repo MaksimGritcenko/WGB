@@ -10,6 +10,7 @@
  */
 
 import { ProductListQuery as SourceProductListQuery } from 'SourceQuery/ProductList.query';
+import { Field } from 'Util/Query';
 
 /**
  * Product List Query
@@ -37,13 +38,16 @@ export class ProductListQuery extends SourceProductListQuery {
             ...(!isVariant
                 ? [
                     'url_key',
+                    this._getProdcutCategoriesField(),
                     this._getReviewSummaryField(),
                     this._getConfigurableProductFragment()
                 ]
                 : []
             ),
             ...(isForLinkedProducts
-                ? [this._getProductLinksField()]
+                ? [
+                    this._getProductLinksField()
+                ]
                 : []
             ),
             ...(isSingleProduct
@@ -68,6 +72,11 @@ export class ProductListQuery extends SourceProductListQuery {
                 : []
             )
         ];
+    }
+
+    _getProdcutCategoriesField() {
+        return new Field('categories')
+            .addField('url_path');
     }
 }
 
