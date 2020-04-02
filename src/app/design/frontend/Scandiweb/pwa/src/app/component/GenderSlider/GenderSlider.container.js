@@ -41,14 +41,10 @@ export class GenderSliderContainer extends PureComponent {
     onCloseButtonClick() {
         const {
             hideActiveOverlay,
-            navigationStateHistory,
             goToPreviousNavigationState
         } = this.props;
 
-        const len = Object.keys(navigationStateHistory).length;
-
         hideActiveOverlay();
-        if (navigationStateHistory[len - 2].name === 'filter') goToPreviousNavigationState();
         goToPreviousNavigationState();
     }
 
