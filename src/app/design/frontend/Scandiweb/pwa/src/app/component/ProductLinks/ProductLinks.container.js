@@ -13,7 +13,7 @@ export class ProductLinksContainer extends SourceProductLinksContainer {
         const { areDetailsLoaded } = this.props;
         const { areDetailsLoaded: wereDetailsLoaded } = prevProps;
 
-        if (areDetailsLoaded && !wereDetailsLoaded) {
+        if (areDetailsLoaded && wereDetailsLoaded) {
             const { linkType = '', linkedProducts = {} } = this.props;
             const { items = {} } = linkedProducts[linkType] || {};
 

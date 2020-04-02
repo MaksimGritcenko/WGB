@@ -53,7 +53,6 @@ class ProductClickEvent extends BaseEvent {
                     products: [
                         {
                             ...ProductHelper.getProductData(product),
-                            list,
                             position
                         }
                     ]
@@ -73,7 +72,6 @@ class ProductClickEvent extends BaseEvent {
         const id = ProductHelper.getSku(clickedProduct);
         const { sku } = clickedProduct;
 
-        console.log(clickedProduct, impressions);
         return impressions.find(({ id: impressionId }) => (
             impressionId === id || impressionId === sku
         ));
