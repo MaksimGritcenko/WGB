@@ -1,4 +1,6 @@
 import { Fragment, createRef } from 'react';
+import PropTypes from 'prop-types';
+
 import SourceHeader, {
     PDP,
     CATEGORY,
@@ -64,8 +66,8 @@ export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
-        ...this.propTypes
-        // onSearchBarClick: PropTypes.func.isRequired,
+        ...this.propTypes,
+        isActiveSlideWhite: PropTypes.bool.isRequired
     };
 
     stateMap = {
@@ -85,7 +87,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            wishlist: true,
+            account: true,
             minicart: true,
             logo: true
         },
@@ -437,11 +439,19 @@ export default class Header extends SourceHeader {
 
 
     render() {
-        const { navigationState: { name }, isCategory } = this.props;
+        const {
+            navigationState: { name },
+            isActiveSlideWhite,
+            isCategory
+        } = this.props;
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
-                <nav block="Header" elem="Nav">
+                <nav
+                  block="Header"
+                  elem="Nav"
+                  mods={ { isWhite: isActiveSlideWhite } }
+                >
                     { this.renderHeaderState() }
                 </nav>
                 { this.renderFilterButton() }

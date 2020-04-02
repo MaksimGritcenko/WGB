@@ -6,6 +6,10 @@ import { GROUPED } from 'Util/Product';
 import './ProductActions.style.override';
 
 export default class ProductActions extends SourceProductActions {
+    state = {
+        isBrandRendered: false
+    };
+
     renderNameAndBrand() {
         const {
             product: { name }
@@ -27,12 +31,11 @@ export default class ProductActions extends SourceProductActions {
 
     renderBrand() {
         const {
-            product: { attributes: { brand: { attribute_value: brand } = {} } = {} },
+            productOrVariant: { attributes: { brand: { attribute_value: brand } = {} } = {} },
             showOnlyIfLoaded
         } = this.props;
 
-        // display content or empty line
-        const contentToShow = showOnlyIfLoaded(
+        return showOnlyIfLoaded(
             brand,
             (
                 <p block="ProductActions" elem="Brand" itemProp="brand">
@@ -40,14 +43,6 @@ export default class ProductActions extends SourceProductActions {
                 </p>
             )
         );
-
-        const emptyContent = (
-            <p block="ProductActions" elem="Brand" itemProp="brand">
-                <br />
-            </p>
-        );
-
-        return contentToShow || emptyContent;
     }
 
     renderNameAndPrice() {

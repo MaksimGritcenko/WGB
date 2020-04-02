@@ -11,7 +11,7 @@
 
 import ProductPrice from 'Component/ProductPrice';
 import PropTypes from 'prop-types';
-import ProductAttributeValue from 'Component/ProductAttributeValue';
+import CategoryProductAttributeValue from 'Component/CategoryProductAttributeValue';
 import SourceProductCard from 'SourceComponent/ProductCard/ProductCard.component';
 import './ProductCard.style';
 
@@ -53,7 +53,7 @@ export default class ProductCard extends SourceProductCard {
 
         const attribute = brand
             ? (
-                <ProductAttributeValue
+                <CategoryProductAttributeValue
                   attribute={ brand }
                   isFormattedAsText
                 />

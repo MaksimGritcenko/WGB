@@ -14,12 +14,12 @@
 }
 
 .CategoryPage {
-    max-width: 100vw;
     overflow-x: hidden;
     margin-bottom: 0;
 
     &-Wrapper {
         padding: 60px 0 0;
+        max-width: 100vw;
 
         @include mobile {
             padding: 0;

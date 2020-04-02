@@ -1,0 +1,22 @@
+{
+    "name": "wgb/module-slidergraphql",
+    "description": "",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Mage2Gen",
+            "email": "info@mage2gen.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "WGB\\SliderGraphQl\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}
