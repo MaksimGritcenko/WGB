@@ -4,14 +4,14 @@ import SourceProductPage from 'SourceRoute/ProductPage/ProductPage.component';
 
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
-import ProductLinks from 'Component/ProductLinks';
+// import ProductLinks from 'Component/ProductLinks';
 import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
 // import ProductReviews from 'Component/ProductReviews';
 import ContentWrapper from 'Component/ContentWrapper';
 import isMobile from 'Util/Mobile';
-import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
+// import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style.override';
 
@@ -162,11 +162,11 @@ export default class ProductPage extends SourceProductPage {
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
                 /> */ }
-                <ProductLinks
+                { /* <ProductLinks
                   linkType={ RELATED }
                   title={ __('Recommended for you') }
                   areDetailsLoaded={ areDetailsLoaded }
-                />
+                /> */ }
             </ConditionalWrapper>
         );
     }
