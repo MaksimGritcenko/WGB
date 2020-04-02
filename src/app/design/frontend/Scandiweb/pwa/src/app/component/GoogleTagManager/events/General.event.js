@@ -121,7 +121,7 @@ class General extends BaseEvent {
      * @return {string}
      */
     getCustomerId() {
-        return this.isSignedIn() ? this.getAppState().MyAccountReducer.customer.id : '';
+        return this.isSignedIn() ? this.getAppState().MyAccountReducer.customer.id || '' : '';
     }
 
     /**
