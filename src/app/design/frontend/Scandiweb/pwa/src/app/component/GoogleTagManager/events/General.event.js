@@ -80,15 +80,12 @@ class General extends BaseEvent {
         Event.dispatch(EVENT_GTM_GENERAL_INIT, {});
 
         this.pushEventData({
-            cart: this.prepareCartData(),
             country: this.getCountryName(),
             pageType: this.getPageType(),
             language: this.getLanguage(),
             storeView: this.getStoreView(),
             customerId: this.getCustomerId(),
-            portalName: this.getPortalName(),
-            categoryName: this.getCategoryName(),
-            categoryGroupName: this.getCategoryGroupName()
+            cart: this.prepareCartData()
         });
     }
 
@@ -134,39 +131,6 @@ class General extends BaseEvent {
      */
     getCountryName() {
         return this.getAppState().ConfigReducer.default_country;
-    }
-
-    /**
-     * Get portal name (first category name)
-     *
-     * @return {string}
-     */
-    getPortalName() {
-        const { breadcrumbs, areBreadcrumbsVisible } = this.getAppState().BreadcrumbsReducer;
-
-        return areBreadcrumbsVisible ? (breadcrumbs.slice(0).pop() || { name: '' }).name : '';
-    }
-
-    /**
-     * Should be 2'nd category name
-     *
-     * @return {string}
-     */
-    getCategoryGroupName() {
-        const { breadcrumbs, areBreadcrumbsVisible } = this.getAppState().BreadcrumbsReducer;
-
-        return areBreadcrumbsVisible ? (breadcrumbs.slice(0, -1).pop() || { name: '' }).name : '';
-    }
-
-    /**
-     * Last category name
-     *
-     * @return {string}
-     */
-    getCategoryName() {
-        const { breadcrumbs, areBreadcrumbsVisible } = this.getAppState().BreadcrumbsReducer;
-
-        return areBreadcrumbsVisible ? (breadcrumbs.slice(0).shift() || { name: '' }).name : '';
     }
 }
 
