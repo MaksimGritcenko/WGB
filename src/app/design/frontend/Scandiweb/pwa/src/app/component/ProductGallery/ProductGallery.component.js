@@ -18,7 +18,8 @@ class ProductGallery extends SourceProductGallery {
             gallery,
             activeImage,
             isZoomEnabled,
-            onActiveImageChange
+            onActiveImageChange,
+            isPDPHeaderPresent
         } = this.props;
 
         return (
@@ -27,6 +28,7 @@ class ProductGallery extends SourceProductGallery {
                   ref={ this.sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
                   showCrumbs
+                  isPDPHeaderPresent={ isPDPHeaderPresent }
                   activeImage={ activeImage }
                   onActiveImageChange={ onActiveImageChange }
                   isInteractionDisabled={ isZoomEnabled }
