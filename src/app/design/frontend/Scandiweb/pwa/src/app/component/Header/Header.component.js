@@ -58,6 +58,9 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const URL_REWRITE = 'url-rewrite';
+export const PASSWORD_CHANGE = 'password-change';
+
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
 
