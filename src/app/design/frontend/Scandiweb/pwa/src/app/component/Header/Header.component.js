@@ -21,6 +21,8 @@ import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 
+import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
+
 import {
     menuIcon,
     searchIcon,
@@ -54,6 +56,9 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
+export const MOBILE_OVERLAYS = [FILTER];
+
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
 export const FAVORITES = 'favorites';
@@ -80,7 +85,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            wishlist: true,
+            account: true,
             minicart: true,
             logo: true
         },
@@ -91,7 +96,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true
         },
         [CUSTOMER_ACCOUNT]: {
@@ -115,10 +120,7 @@ export default class Header extends SourceHeader {
             back: true,
             title: true
         },
-        [SEARCH]: {
-            back: true,
-            search: true
-        },
+        [SEARCH]: {},
         [CART]: {
             close: true,
             title: true,
@@ -133,7 +135,7 @@ export default class Header extends SourceHeader {
             menu: true,
             searchButton: true,
             title: true,
-            account: true,
+            wishlist: true,
             minicart: true
         },
         [CHECKOUT]: {
@@ -225,66 +227,33 @@ export default class Header extends SourceHeader {
     }
 
     renderSearchButton(isVisible = false) {
-        return (
-            <button
-              key="searchButton"
-              block="Header"
-              elem="Button"
-              mods={ { type: 'searchButton', isVisible } }
-              onClick={ () => {} }
-              aria-label="Search"
-              aria-hidden={ !isVisible }
-              tabIndex={ isVisible ? 0 : -1 }
-            >
-                { searchIcon }
-            </button>
-        );
-    }
-
-    renderSearchField(isSearchVisible = false) {
-        const {
-            searchCriteria, onSearchOutsideClick,
-            onClearSearchButtonClick
-            // onSearchBarClick, onSearchBarChange
-        } = this.props;
+        const { onSearchBarFocus } = this.props;
 
         return (
-            <Fragment key="search">
-                <ClickOutside onClick={ onSearchOutsideClick }>
-                    <div
-                      block="Header"
-                      elem="SearchWrapper"
-                      aria-label="Search"
-                    >
-                        { /* <input
-                            id="search-field"
-                            ref={ this.searchBarRef }
-                            placeholder={ __('Type a new search') }
-                            block="Header"
-                            elem="SearchField"
-                            onClick={ onSearchBarClick }
-                            onChange={ onSearchBarChange }
-                            value={ searchCriteria }
-                            mods={ {
-                                isVisible: isSearchVisible,
-                                type: 'searchField'
-                            } }
-                        /> */ }
-                        <SearchOverlay
-                          clearSearch={ onClearSearchButtonClick }
-                          searchCriteria={ searchCriteria }
-                        />
-                    </div>
-                </ClickOutside>
+            <Fragment key="searchButton">
                 <button
                   block="Header"
                   elem="Button"
-                  onClick={ this.onClearSearchButtonClick }
-                  mods={ {
-                      type: 'searchClear',
-                      isVisible: isSearchVisible
-                  } }
-                  aria-label="Clear search"
+                  mods={ { type: 'searchButton', isVisible } }
+                  onClick={ onSearchBarFocus }
+                  aria-label="Search"
+                  aria-hidden={ !isVisible }
+                  tabIndex={ isVisible ? 0 : -1 }
+                >
+                    { searchIcon }
+                </button>
+                <SearchOverlay />
+            </Fragment>
+        );
+    }
+
+    renderSearchField() {
+        return (
+            <Fragment key="search">
+                <div
+                  block="Header"
+                  elem="SearchWrapper"
+                  aria-label="Search"
                 />
             </Fragment>
         );
@@ -468,10 +437,10 @@ export default class Header extends SourceHeader {
 
 
     render() {
-        const { navigationState: { name } } = this.props;
+        const { navigationState: { name }, isCategory } = this.props;
 
         return (
-            <header block="Header" mods={ { name } }>
+            <header block="Header" mods={ { name, isCategory } }>
                 <nav block="Header" elem="Nav">
                     { this.renderHeaderState() }
                 </nav>

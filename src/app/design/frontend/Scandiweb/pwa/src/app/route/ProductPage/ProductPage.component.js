@@ -7,18 +7,12 @@ import ProductLinks from 'Component/ProductLinks';
 import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
-import ProductReviews from 'Component/ProductReviews';
+// import ProductReviews from 'Component/ProductReviews';
 import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style.override';
 
 export default class ProductPage extends SourceProductPage {
-    getCategory() {
-        const { product: { categories = [] } } = this.props;
-
-        return categories[categories.length - 1] || {};
-    }
-
     renderGoBackIcon() {
         return (
             <svg
@@ -65,9 +59,14 @@ export default class ProductPage extends SourceProductPage {
     }
 
     renderPDPHeader() {
-        const { name: categoryName, url_path } = this.getCategory() || '';
+        const { currentCategory: { name, url_path } } = this.props;
 
-        if (!url_path) return null;
+        if (!name || !url_path) {
+            this.isPDPHeaderPresent = false;
+            return null;
+        }
+        this.isPDPHeaderPresent = true;
+
         return (
             <div block="ProductPage" elem="Header">
                 <Link
@@ -76,7 +75,7 @@ export default class ProductPage extends SourceProductPage {
                   to={ `/category/${url_path}` }
                 >
                     { this.renderGoBackIcon() }
-                    { this.renderGoBackText(categoryName) }
+                    { this.renderGoBackText(name) }
                 </Link>
             </div>
         );
@@ -84,8 +83,11 @@ export default class ProductPage extends SourceProductPage {
 
     renderProductGallery() {
         const { productOrVariant, areDetailsLoaded } = this.props;
+        const { isPDPHeaderPresent } = this;
+
         return (
             <ProductGallery
+              isPDPHeaderPresent={ isPDPHeaderPresent }
               product={ productOrVariant }
               areDetailsLoaded={ areDetailsLoaded }
             />
@@ -102,11 +104,11 @@ export default class ProductPage extends SourceProductPage {
     }
 
     freezeScroll() {
-        document.body.classList.add('scrollDisabled');
+        document.body.classList.add('overscrollDisabled');
     }
 
     unFreezeScroll() {
-        document.body.classList.remove('scrollDisabled');
+        document.body.classList.remove('overscrollDisabled');
     }
 
     componentDidMount() {
@@ -128,8 +130,10 @@ export default class ProductPage extends SourceProductPage {
             areDetailsLoaded
         } = this.props;
 
+        const { attributes: { brand: { attribute_value: brand } = {} } = {} } = productOrVariant;
+
         return (
-            <DragBar>
+            <DragBar isSmall={ !!areDetailsLoaded && !brand }>
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
@@ -143,10 +147,11 @@ export default class ProductPage extends SourceProductPage {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                <ProductReviews
+                { /** Hide it for now */ }
+                { /* <ProductReviews
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
-                />
+                /> */ }
                 <ProductLinks
                   linkType={ RELATED }
                   title={ __('Recommended for you') }

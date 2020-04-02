@@ -30,13 +30,13 @@
     }
 
     &-Heading {
+        padding-bottom: 10px;
         font-family: "Oswald";
-        font-size: 38px;
+        font-size: 40px;
         text-transform: uppercase;
     }
 
     &-Description {
-        max-width: 70vw;
         margin: auto;
         text-align: center;
         display: flex;
@@ -45,15 +45,13 @@
         font-size: 14px;
         font-weight: 300;
         padding: 2rem;
-        height: 10rem;
     }
 
     p {
-        overflow-x: none;
+        width: 75vw;
+        max-width: 900px;
+        font-size: 15px;
         word-wrap: break-word;
         white-space: pre-wrap;
-        text-overflow: ellipsis;
-        height: 2rem;
-        line-height: 1.5rem;
     }
 }

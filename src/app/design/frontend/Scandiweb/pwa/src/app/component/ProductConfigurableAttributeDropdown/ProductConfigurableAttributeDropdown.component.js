@@ -18,6 +18,7 @@ export default class ProductConfigurableAttributeDropdown extends SourceProductC
               id={ selectName }
               name={ selectName }
               type="select"
+              placeholder=" "
               mix={ { block: 'ProductConfigurableAttributeDropdown' } }
               selectOptions={ selectOptions }
               value={ selectValue }
