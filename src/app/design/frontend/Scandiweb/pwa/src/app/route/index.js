@@ -1,6 +1,5 @@
-// importing the necessary module to implement the "default export"
 import { connect } from 'react-redux';
-import React, { lazy } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 
 import Header from 'Component/Header';
@@ -16,7 +15,7 @@ import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
 
 import Store from 'Store';
-// importing all parts of original header planned to modify
+
 import {
     BEFORE_ITEMS_TYPE,
     AFTER_ITEMS_TYPE,
@@ -26,7 +25,6 @@ import {
     AppRouter as SourceAppRouter
 } from 'SourceRoute';
 
-// export all unmodified exports from original file
 export {
     CartPage,
     CategoryPage,
@@ -45,18 +43,11 @@ export {
     history
 } from 'SourceRoute';
 
-export const StyleGuide = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/StyleGuide'));
-
-// modify the intended part of the logic, notice, the class is also exported!
 export class AppRouter extends SourceAppRouter {
     constructor(props) {
         super(props);
 
         this[SWITCH_ITEMS_TYPE].push(
-            {
-                component: <Route path="/styleguide" exact component={ StyleGuide } />,
-                position: 11
-            },
             {
                 component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
                 position: 90

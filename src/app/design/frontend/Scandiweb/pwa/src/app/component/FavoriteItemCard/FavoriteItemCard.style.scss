@@ -45,9 +45,11 @@
 
         @include desktop {
             align-self: center;
+            margin-top: 9px;
         }
 
         @include tablet {
+            margin-top: 9px;
             align-self: center;
             justify-content: flex-end;
         }
@@ -115,11 +117,12 @@
         font-size: 13px;
 
         @include desktop {
+            margin-top: 6px;
             align-self: center;
         }
 
         .ProductAttributeValue {
-            margin: auto 0 6px;
+            margin: auto 0;
         }
     }
 
