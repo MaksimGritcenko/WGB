@@ -130,6 +130,35 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
         );
     }
 
+    renderPlaceholders() {
+        const { numberOfPlaceholders, isContentExpanded } = this.props;
+
+        return numberOfPlaceholders.map((length, i) => (
+            <CategoryExpandableContent
+              // eslint-disable-next-line react/no-array-index-key
+              key={ i }
+              mix={ { block: 'CategoryConfigurableAttributes' } }
+              isContentExpanded={ isContentExpanded }
+            >
+                <div
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                  block="CategoryConfigurableAttributes"
+                  elem="SwatchList"
+                >
+                    { Array.from({ length }, (_, i) => (
+                        <div
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={ i }
+                          block="CategoryConfigurableAttributes"
+                          elem="Placeholder"
+                        />
+                    )) }
+                </div>
+            </CategoryExpandableContent>
+        ));
+    }
+
     render() {
         const { isReady, mix } = this.props;
 
