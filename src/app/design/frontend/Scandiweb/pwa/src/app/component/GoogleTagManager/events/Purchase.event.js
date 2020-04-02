@@ -33,7 +33,7 @@ class Purchase extends BaseEvent {
      * Bind on product detail
      */
     bindEvent() {
-        Event.observer(EVENT_GTM_PURCHASE, ({ orderId, totals }) => {
+        Event.observer(EVENT_GTM_PURCHASE, ({ orderID: orderId, totals }) => {
             this.handle(
                 orderId,
                 totals
@@ -69,8 +69,8 @@ class Purchase extends BaseEvent {
      *
      * @return {{revenue: number, coupon_discount_abs: string, coupon: string, shipping: number, affiliation: string, coupon_discount_amount: string, tax: number, id: *}}
      */
-    getActionFields(orderId, {
-        tax_amount, grand_total, shipping_amount, discount_amount, coupon_code
+    getActionFields(orderId = '', {
+        tax_amount, grand_total, shipping_amount, discount_amount, coupon_code = ''
     }) {
         return {
             id: orderId,

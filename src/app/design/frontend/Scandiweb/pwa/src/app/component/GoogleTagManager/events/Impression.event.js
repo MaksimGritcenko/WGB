@@ -59,8 +59,8 @@ class Impression extends BaseEvent {
      */
     bindEvent() {
         // PLP
-        Event.observer(EVENT_GTM_IMPRESSIONS_PLP, ({ items, filters }) => {
-            this.handle(PLP_IMPRESSIONS, items, filters);
+        Event.observer(EVENT_GTM_IMPRESSIONS_PLP, ({ items, filters, category }) => {
+            this.handle(PLP_IMPRESSIONS, items, filters, category);
         });
 
         // Home
@@ -100,8 +100,8 @@ class Impression extends BaseEvent {
      * @param products Product list
      * @param filters Category filters
      */
-    handler(productCollectionType = PLP_IMPRESSIONS, products = [], filters = {}) {
-        const impressions = this.getImpressions(productCollectionType, products, filters);
+    handler(productCollectionType = PLP_IMPRESSIONS, products = [], filters = {}, category = '') {
+        const impressions = this.getImpressions(productCollectionType, products, filters, category);
         const storage = this.getStorage();
         const impressionUID = this.getImpressionUID(impressions);
 
@@ -139,7 +139,7 @@ class Impression extends BaseEvent {
      *
      * @return {{price: string, name: string, variant: string, id: string, position: number, list: string, category: string, brand: string}[]}
      */
-    getImpressions(productCollectionType = PLP_IMPRESSIONS, products, filters) {
+    getImpressions(productCollectionType = PLP_IMPRESSIONS, products, filters, category) {
         const productCollection = this.getProductCollection(productCollectionType, products);
         const productCount = Object.values(productCollection || []).length;
         const offset = PRODUCT_IMPRESSION_COUNT - productCount < 0
@@ -152,7 +152,7 @@ class Impression extends BaseEvent {
             .map((product, index) => {
                 const configurableVariantIndex = getCurrentVariantIndexFromFilters(product, filters);
                 return {
-                    ...ProductHelper.getProductData({ ...product, configurableVariantIndex }),
+                    ...ProductHelper.getProductData({ ...product, configurableVariantIndex, category }),
                     position: offset + index + 1,
                     list: this.getProductCollectionList(productCollectionType, product)
                 };

@@ -56,16 +56,6 @@ class Product {
     }
 
     /**
-     * Get Product Availability from product object
-     *
-     * @param product
-     * @return {boolean|string}
-     */
-    static getAvailability({ stock_status } = {}) {
-        return stock_status === 'IN_STOCK';
-    }
-
-    /**
      * Get product url
      *
      * @param item
@@ -129,6 +119,11 @@ class Product {
         return {};
     }
 
+    static getCategory(categories = []) {
+        const { url_path = '' } = categories.slice(-1)[0] || {};
+        return url_path;
+    }
+
     /**
      * Get product data as object
      *
@@ -139,7 +134,9 @@ class Product {
     static getProductData(product) {
         const {
             sku,
+            category = '',
             variants = [],
+            categories = [],
             configurableVariantIndex = this.getSelectedVariantIndex(product, sku)
         } = product;
         const selectedVariant = variants[configurableVariantIndex] || product;
@@ -147,10 +144,14 @@ class Product {
             name,
             sku: variantSku,
             price: {
+                minimalPrice: {
+                    amount: {
+                        value: discountValue = null
+                    } = {}
+                } = {},
                 regularPrice: {
                     amount: {
-                        value = '',
-                        currency = ''
+                        value = ''
                     } = {}
                 } = {}
             } = {}
@@ -160,11 +161,10 @@ class Product {
             id: sku,
             url: this.getUrl(product, selectedVariant) || '',
             name,
-            price: roundPrice(value) || '',
+            price: roundPrice(discountValue || value) || '',
             brand: this.getBrand(selectedVariant) || '',
-            variant: variantSku,
-            currency,
-            availability: this.getAvailability(product)
+            variant: variantSku === sku ? '' : variantSku,
+            category: this.getCategory(categories) || category
         };
     }
 }

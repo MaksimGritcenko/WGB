@@ -42,7 +42,7 @@ class ProductClickEvent extends BaseEvent {
         const {
             position = 1,
             list = ''
-        } = this.getProductFromImpression(product);
+        } = this.getProductFromImpression(product) || {};
 
         this.pushEventData({
             ecommerce: {
@@ -71,10 +71,12 @@ class ProductClickEvent extends BaseEvent {
     getProductFromImpression(clickedProduct) {
         const { impressions = [] } = this.getStorage(EVENT_IMPRESSION);
         const id = ProductHelper.getSku(clickedProduct);
+        const { sku } = clickedProduct;
 
-        return impressions.reduce((acc, product) => (
-            Object.keys(acc).length === 0 && id === product.id ? product : acc
-        ), {});
+        console.log(clickedProduct, impressions);
+        return impressions.find(({ id: impressionId }) => (
+            impressionId === id || impressionId === sku
+        ));
     }
 }
 
