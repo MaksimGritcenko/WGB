@@ -19,6 +19,7 @@
 
     &-Wrapper {
         padding: 60px 0 0;
+        max-width: 100vw;
 
         @include mobile {
             padding: 0;
@@ -120,6 +121,13 @@
 
         .hideOnScroll & {
             @include mobile {
+                transform: translateY(-100%);
+            }
+        }
+
+        .scrollDisabled & {
+            @include mobile {
+                display: none;
                 transform: translateY(-100%);
             }
         }

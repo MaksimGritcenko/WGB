@@ -7,8 +7,10 @@
     }
 }
 
-body {
+.overscrollDisabled {
     overscroll-behavior: none;
+    position: fixed;
+    overflow: hidden;
 }
 
 .DragBar {
@@ -27,14 +29,16 @@ body {
         --draggable-y: 0;
         --open-bounce-speed: 500ms;
         --overflow: visible;
-        --animation-speed: 0;
+        --initial-animation-speed: 40ms;
+        --initial-offset-y: 110px;
+        --animation-speed: var(--initial-animation-speed);
 
         background-color: #fff;
         position: fixed;
         width: 100%;
         will-change: transform, top;
 
-        top: calc(100% - 110px);
+        top: calc(100% - var(--initial-offset-y));
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
         transform: translateY(var(--draggable-y));
