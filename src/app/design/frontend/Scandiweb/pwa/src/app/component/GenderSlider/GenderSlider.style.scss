@@ -59,6 +59,13 @@
 
         &.Button {
             border: none;
+
+            &:not([disabled]):focus {
+                @include after-mobile {
+                    background-color: var(--button-background);
+                    color: var(--button-color);
+                }
+            }
         }
     }
 
