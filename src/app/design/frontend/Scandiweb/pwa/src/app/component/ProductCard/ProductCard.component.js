@@ -46,7 +46,7 @@ export default class ProductCard extends SourceProductCard {
 
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute, isHero } = this.props;
-        const { product_list_content: { attribute_to_display = 'random' } = {} } = window.contentConfiguration;
+        const { product_list_content: { attribute_to_display = '' } = {} } = window.contentConfiguration;
         const brand = getAttribute(attribute_to_display);
 
         if (!sku || !isHero) return null;
