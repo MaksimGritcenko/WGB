@@ -49,6 +49,12 @@
         }
     }
 
+    .ExpandableContent {
+        @include after-mobile {
+            border-bottom: 1px solid #dcdcdc6e;
+        }
+    }
+
     .ProductContentWrapper {
         .ExpandableContent {
             &-Button {
@@ -71,7 +77,7 @@
 
             &-Heading {
                 @include after-mobile {
-                    cursor: auto;
+                    cursor: inherit;
                     font-size: 13px;
                     font-weight: bold;
                     text-transform: none;
