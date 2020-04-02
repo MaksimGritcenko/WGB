@@ -55,17 +55,6 @@ export {
 } from 'SourceRoute';
 
 export class AppRouter extends SourceAppRouter {
-    constructor(props) {
-        super(props);
-
-        this[SWITCH_ITEMS_TYPE].push(
-            {
-                component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
-                position: 90
-            }
-        );
-    }
-
     [BEFORE_ITEMS_TYPE] = [
         {
             component: <NotificationList />,
