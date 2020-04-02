@@ -17,6 +17,11 @@ import {
 } from 'SourceComponent/AddToCart/AddToCart.container';
 import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 
+export {
+    mapDispatchToProps,
+    mapStateToProps
+};
+
 export class AddToCartContainer extends SourceAddToCartContainer {
     buttonClick() {
         const {
@@ -50,10 +55,9 @@ export class AddToCartContainer extends SourceAddToCartContainer {
             }, {}
         );
 
-
         Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
             product,
-            quantity: 1,
+            quantity,
             configurableVariantIndex,
             parameters
         });

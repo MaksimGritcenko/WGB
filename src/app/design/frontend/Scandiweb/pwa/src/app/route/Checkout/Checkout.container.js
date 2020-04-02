@@ -30,6 +30,11 @@ export {
     STRIPE_AUTH_REQUIRED
 } from 'SourceRoute/Checkout/Checkout.container';
 
+export {
+    mapStateToProps,
+    mapDispatchToProps
+};
+
 export const CHECKOUT_EVENT_DELAY = 500;
 
 export class CheckoutContainer extends SourceCheckoutContainer {
@@ -78,14 +83,15 @@ export class CheckoutContainer extends SourceCheckoutContainer {
             BrowserDatabase.deleteItem(GUEST_QUOTE_ID);
         }
 
-        BrowserDatabase.deleteItem(PAYMENT_TOTALS);
-        resetCart();
-
         const { paymentTotals: totals } = this.state;
+
         Event.dispatch(
             EVENT_GTM_PURCHASE,
             { orderID, totals: { ...totals, items } }
         );
+
+        BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+        resetCart();
 
         this.setState({
             isLoading: false,

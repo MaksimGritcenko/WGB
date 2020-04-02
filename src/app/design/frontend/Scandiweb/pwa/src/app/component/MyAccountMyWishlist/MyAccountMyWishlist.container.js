@@ -19,6 +19,7 @@ import { showNotification } from 'Store/Notification';
 import { ProductType } from 'Type/ProductList';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { updateMeta } from 'Store/Meta';
+import Event, { EVENT_GTM_IMPRESSIONS_WISHLIST } from 'Util/Event';
 import { MyAccountMyWishlistContainer as SourceMyAccountMyWishlistContainer }
     from 'SourceComponent/MyAccountMyWishlist/MyAccountMyWishlist.container';
 
@@ -57,6 +58,20 @@ export class MyAccountMyWishlistContainer extends SourceMyAccountMyWishlistConta
         updateMeta({ title: __('My Favorites') });
     }
 
+    _gtmImpressions() {
+        const { wishlistItems, isWishlistLoading } = this.props;
+
+        if (!isWishlistLoading && Object.keys(wishlistItems).length > 0) {
+            const items = Object.values(wishlistItems).reduce((acc, item) => {
+                if (!Object.keys(item).length) return acc;
+                const { sku, wishlist: { sku: variantSku = sku, quantity } = {} } = item;
+                return [...acc, { ...item, sku: variantSku, quantity }];
+            }, []);
+
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_WISHLIST, { items });
+        }
+    }
+
     addAllToCart = () => {
         const { moveWishlistToCart } = this.props;
 
@@ -66,6 +81,12 @@ export class MyAccountMyWishlistContainer extends SourceMyAccountMyWishlistConta
             () => this.showNotificationAndRemoveLoading('Favorite Item moved to cart')
         );
     };
+
+    render() {
+        this._gtmImpressions();
+
+        return super.render();
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyWishlistContainer);
