@@ -4,16 +4,13 @@
 
     @include after-mobile {
         flex-flow: column;
+        width:40%;
     }
 
     &-Attribute {
         @include mobile {
             flex: 1 1;
             max-width: 48%;
-        }
-
-        @include after-mobile {
-            width: 60%;
         }
     }
 
