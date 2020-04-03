@@ -1,16 +1,3 @@
-/* eslint-disable react/no-unused-state */
-
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 import { Children } from 'react';
 
 import CSS from 'Util/CSS';
@@ -18,8 +5,8 @@ import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
 import './SliderVertical.style';
 
-export const ANIMATION_DURATION = 450;
 export const ACTIVE_SLIDE_PERCENT = 0.1;
+const SCROLL_START_INDEX = 20;
 
 /**
  * Slider component
@@ -27,29 +14,49 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  */
 export default class SliderVertical extends Slider {
     componentDidMount() {
+        const { animationDuration, isScrollEnabled } = this.props;
         const sliderChildren = this.draggableRef.current.children;
 
         if (!sliderChildren || !sliderChildren[0]) return;
 
-        CSS.setVariable(
-            this.sliderRef,
-            'slider-height',
-            `calc(${window.innerHeight}px - (var(--header-height) * 2) - 110px)`
-        );
+        if (isScrollEnabled) this.enableScroll();
+
+        this.updateSliderHeight();
 
         sliderChildren[0].onload = () => {
-            CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
+            CSS.setVariable(this.sliderRef, 'slider-width', `${ (sliderChildren[0] || {}).offsetWidth }px`);
         };
 
         setTimeout(() => {
-            CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
-        }, ANIMATION_DURATION);
+            CSS.setVariable(this.sliderRef, 'slider-width', `${ (sliderChildren[0] || {}).offsetWidth }px`);
+        }, animationDuration);
         this.sliderHeight = this.draggableRef.current.offsetHeight;
     }
 
+    updateSliderHeight() {
+        const { isPDPHeaderPresent } = this.props;
+        const headerAmount = isPDPHeaderPresent ? 2 : 1;
+        CSS.setVariable(
+            this.sliderRef,
+            'slider-height',
+            `calc(${window.innerHeight}px - (var(--header-height) * ${headerAmount}) - 110px)`
+        );
+    }
+
     componentDidUpdate(prevProps) {
-        const { activeImage: prevActiveImage } = prevProps;
-        const { activeImage } = this.props;
+        const {
+            activeImage: prevActiveImage,
+            isPDPHeaderPresent: prevIsPDPHeaderPresent
+        } = prevProps;
+        const {
+            activeImage,
+            isPDPHeaderPresent,
+            animationDuration
+        } = this.props;
+
+        if (isPDPHeaderPresent !== prevIsPDPHeaderPresent) {
+            this.updateSliderHeight();
+        }
 
         if (activeImage !== prevActiveImage) {
             const newTranslate = -activeImage * this.sliderHeight;
@@ -57,7 +64,7 @@ export default class SliderVertical extends Slider {
             CSS.setVariable(
                 this.draggableRef,
                 'animation-speed',
-                `${ Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION) }ms`
+                `${ Math.abs((prevActiveImage - activeImage) * animationDuration) }ms`
             );
 
             CSS.setVariable(
@@ -65,8 +72,29 @@ export default class SliderVertical extends Slider {
                 'translateY',
                 `${ newTranslate }px`
             );
+
+            this.disableGestures();
         }
     }
+
+    handleScroll = ({ deltaY }) => {
+        const { isGesturesEnabled } = this.state;
+
+        if (!isGesturesEnabled) return;
+
+        const { onActiveImageChange, activeImage, children } = this.props;
+        const slideCount = children.length;
+
+        if (deltaY < -SCROLL_START_INDEX && activeImage > 0) {
+            onActiveImageChange(activeImage - 1);
+            this.disableGestures();
+        }
+
+        if (deltaY > SCROLL_START_INDEX && activeImage < slideCount - 1) {
+            onActiveImageChange(activeImage + 1);
+            this.disableGestures();
+        }
+    };
 
     onClickChangeSlide() {
         const { prevActiveImage } = this.state;
@@ -124,7 +152,7 @@ export default class SliderVertical extends Slider {
         return activeSlide;
     }
 
-    handleDrag(state) {
+    handleDrag = (state) => {
         const { translateY } = state;
 
         const translate = translateY;
@@ -138,16 +166,17 @@ export default class SliderVertical extends Slider {
                 `${ translate }px`
             );
         }
-    }
+    };
 
-    handleDragEnd(state, callback) {
+    handleDragEnd = (state, callback) => {
+        const { animationDuration } = this.props;
         const activeSlide = this.calculateNextSlide(state);
 
         const slideSize = this.sliderHeight;
 
         const newTranslate = activeSlide * slideSize;
 
-        CSS.setVariable(this.draggableRef, 'animation-speed', '300ms');
+        CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
 
         CSS.setVariable(
             this.draggableRef,
@@ -159,7 +188,7 @@ export default class SliderVertical extends Slider {
             originalY: newTranslate,
             lastTranslateY: newTranslate
         });
-    }
+    };
 
     renderCrumbs() {
         const { children } = this.props;

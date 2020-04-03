@@ -9,6 +9,8 @@ import { goToPreviousNavigationState } from 'Store/Navigation';
 import GenderSlider from './GenderSlider.component';
 
 export const mapStateToProps = state => ({
+    activeHorizontalSlideIndex: state.SliderReducer.activeHorizontalSlideIndex,
+    isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite,
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     navigationStateHistory: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationStateHistory,
     activeStateIndex: state.SliderReducer.activeStateIndex,
@@ -39,14 +41,10 @@ export class GenderSliderContainer extends PureComponent {
     onCloseButtonClick() {
         const {
             hideActiveOverlay,
-            navigationStateHistory,
             goToPreviousNavigationState
         } = this.props;
 
-        const len = Object.keys(navigationStateHistory).length;
-
         hideActiveOverlay();
-        if (navigationStateHistory[len - 2].name === 'filter') goToPreviousNavigationState();
         goToPreviousNavigationState();
     }
 

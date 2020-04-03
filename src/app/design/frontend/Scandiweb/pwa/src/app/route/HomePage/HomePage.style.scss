@@ -26,7 +26,7 @@
         width: 30px;
         height: 30px;
         padding: 5px;
-        transition: 500ms;
+        transition: var(--header-icons-white-transition);
 
         @include after-mobile {
             bottom: 1.5%;
@@ -34,6 +34,10 @@
 
         &_isUpside {
             transform: translateX(-50%) rotate(90deg);
+        }
+
+        &_isWhite {
+            fill: var(--header-icons-white-color);
         }
     }
 

@@ -2,6 +2,7 @@
     &-Slider {
         @include mobile {
             min-height: var(--slider-height);
+            width: 100vw;
         }
     }
 
