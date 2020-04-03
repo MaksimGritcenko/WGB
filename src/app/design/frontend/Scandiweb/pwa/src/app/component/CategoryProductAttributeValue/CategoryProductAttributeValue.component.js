@@ -13,7 +13,6 @@
 
 import PropTypes from 'prop-types';
 import Field from 'Component/Field/Field.component';
-import { HERO_ATTRIBUTE } from 'Component/ProductCard/ProductCard.component';
 import './CategoryProductAttributeValue.style';
 import ProductAttributeValue from 'Component/ProductAttributeValue/ProductAttributeValue.component';
 
@@ -50,7 +49,12 @@ export default class CategoryProductAttributeValue extends ProductAttributeValue
     }
 
     renderPlaceholder() {
-        return HERO_ATTRIBUTE;
+        return (
+            <div
+              block="CategoryProductAttributeValue"
+              elem="Placeholder"
+            />
+        );
     }
 
     renderColorValue(color, label) {
@@ -180,7 +184,7 @@ export default class CategoryProductAttributeValue extends ProductAttributeValue
             isFormattedAsText
         } = this.props;
 
-        if (attribute_code && !attribute_value) return HERO_ATTRIBUTE;
+        if (attribute_code && !attribute_value) return null;
 
         const href = getLink(attribute);
         // Invert to apply css rule without using not()
