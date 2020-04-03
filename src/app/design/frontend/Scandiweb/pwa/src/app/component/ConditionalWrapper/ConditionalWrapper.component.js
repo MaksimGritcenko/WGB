@@ -5,8 +5,12 @@ class ConditionalWrapper extends PureComponent {
     static propTypes = {
         condition: PropTypes.bool.isRequired,
         ifTrue: PropTypes.func.isRequired,
-        ifFalse: PropTypes.func.isRequired,
+        ifFalse: PropTypes.func,
         children: PropTypes.arrayOf(PropTypes.element).isRequired
+    };
+
+    static defaultProps = {
+        ifFalse: children => children
     };
 
     render() {

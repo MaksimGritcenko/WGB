@@ -162,11 +162,6 @@ export default class ProductPage extends SourceProductPage {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                { /** Hide it for now */ }
-                { /* <ProductReviews
-                  product={ dataSource }
-                  areDetailsLoaded={ areDetailsLoaded }
-                /> */ }
                 { isMobile.any() ? this.renderProductLinks() : null }
             </ConditionalWrapper>
         );
@@ -185,15 +180,9 @@ export default class ProductPage extends SourceProductPage {
                     <ConditionalWrapper
                       condition={ !isMobile.any() }
                       ifTrue={ children => <div block="ProductPage" elem="UpperPartWrapper">{ children }</div> }
-                      ifFalse={ children => children }
                     >
-                        <ContentWrapper
-                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
-                          label={ __('Product gallery') }
-                        >
-                            { this.renderPDPHeader() }
-                            { this.renderProductGallery() }
-                        </ContentWrapper>
+                        { this.renderPDPHeader() }
+                        { this.renderProductGallery() }
                         { this.renderAdditionalSections() }
                     </ConditionalWrapper>
                     { isMobile.any() ? null : this.renderProductLinks() }
