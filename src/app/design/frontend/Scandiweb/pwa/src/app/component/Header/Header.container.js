@@ -21,9 +21,6 @@ import { history } from 'Route';
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
 
-export const HISTORY_START_CATEGORY_STRING = 1;
-export const HISTORY_END_CATEGORY_STRING = 8;
-
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     activeOverlay: state.OverlayReducer.activeOverlay,
