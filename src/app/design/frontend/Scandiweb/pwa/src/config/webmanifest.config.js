@@ -16,9 +16,9 @@ module.exports = (projectRoot) => {
     const pathToFaviconDir = path.resolve(projectRoot, 'src/public/assets/favicon');
 
     return {
-        name: 'ScandiPWA',
-        short_name: 'ScandiPWA',
-        description: 'ScandiPWA theme DEMO store',
+        name: 'Vagabond',
+        short_name: 'VGB',
+        description: 'Vagabond fashion store',
         background_color: '#ffffff',
         lang: 'en-US',
         theme_color: '#ffffff',

@@ -37,6 +37,8 @@
     }
 
     &-GenderButton {
+        transition: var(--header-icons-white-transition);
+
         &:first-of-type {
             margin-right: 15px;
         }
@@ -49,6 +51,10 @@
 
         &_isActive {
             text-decoration: underline;
+        }
+
+        &_isWhite {
+            color: var(--header-icons-white-color);
         }
 
         &.Button {

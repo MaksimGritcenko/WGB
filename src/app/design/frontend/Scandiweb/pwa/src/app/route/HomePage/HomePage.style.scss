@@ -26,7 +26,7 @@
         width: 30px;
         height: 30px;
         padding: 5px;
-        transition: 500ms;
+        transition: var(--header-icons-white-transition);
 
         @include after-mobile {
             bottom: 1.5%;
@@ -34,6 +34,10 @@
 
         &_isUpside {
             transform: translateX(-50%) rotate(90deg);
+        }
+
+        &_isWhite {
+            fill: var(--header-icons-white-color);
         }
     }
 
@@ -70,18 +74,23 @@
         line-height: 1;
         font-size: 20px;
         width: 80%;
-        margin: 5px auto 15px;
+        margin: 5px auto 0;
         max-width: 350px;
 
         @include after-mobile {
             max-width: 550px;
             font-size: 22px;
-            margin: 10px auto 20px;
+            margin: 10px auto 0;
         }
     }
 
     &-SlideButton {
         color: #FFF;
         border-color: #FFF;
+        margin-top: 15px;
+
+        @include after-mobile {
+            margin-top: 20px;
+        }
     }
 }
