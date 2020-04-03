@@ -260,6 +260,19 @@
                 }
             }
         }
+
+        &_pdp {
+            .Header-NotTransparentPart {
+                // Not transparent right part of header only for desktop
+                @include after-mobile {
+                    height: var(--header-height);
+                    width: 40vw;
+                    position: fixed;
+                    background: #FFF;
+                    right: 0;
+                }
+            }
+        }
     }
 
     &-Banner {
@@ -273,17 +286,6 @@
 
         strong {
             margin-left: 3px;
-        }
-    }
-
-    &-NotTransparentPart {
-        // Not transparent right part of header only for desktop
-        @include after-mobile {
-            height: var(--header-height);
-            width: 40vw;
-            position: fixed;
-            background: #FFF;
-            right: 0;
         }
     }
 
@@ -333,7 +335,6 @@
                     @include button-visible;
                 }
             }
-
 
             &_searchClear {
                 @include clear-search-button;
