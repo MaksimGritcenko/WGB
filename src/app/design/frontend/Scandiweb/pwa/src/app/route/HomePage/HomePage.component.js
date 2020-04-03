@@ -76,6 +76,7 @@ export default class HomePage extends PureComponent {
             <SliderVerticalWidget
               activeImage={ activeSlideIndex }
               sliderId={ sliderId }
+              isScrollEnabled
               // eslint-disable-next-line react/jsx-no-bind
               onActiveImageChange={ activeSlide => this.handleActiveImageChange(activeSlide, sliderIndex) }
               getSlideCount={ this.getSlideCount }
@@ -110,6 +111,7 @@ export default class HomePage extends PureComponent {
                 <GenderSlider
                   isGenderSwitcher
                   isBottomSwitcher
+                  isScrollEnabled
                 >
                     { this.renderSlider(WOMEN_SLIDER_ID, WOMEN) }
                     { this.renderSlider(MEN_SLIDER_ID, MEN) }
