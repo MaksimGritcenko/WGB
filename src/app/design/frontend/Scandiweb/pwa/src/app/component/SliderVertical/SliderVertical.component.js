@@ -24,11 +24,11 @@ export default class SliderVertical extends Slider {
         this.updateSliderHeight();
 
         sliderChildren[0].onload = () => {
-            CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
+            CSS.setVariable(this.sliderRef, 'slider-width', `${ (sliderChildren[0] || {}).offsetWidth }px`);
         };
 
         setTimeout(() => {
-            CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
+            CSS.setVariable(this.sliderRef, 'slider-width', `${ (sliderChildren[0] || {}).offsetWidth }px`);
         }, animationDuration);
         this.sliderHeight = this.draggableRef.current.offsetHeight;
     }

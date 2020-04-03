@@ -71,7 +71,12 @@ export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes,
-        isActiveSlideWhite: PropTypes.bool.isRequired
+        isActiveSlideWhite: PropTypes.bool
+    };
+
+    static defaultProps = {
+        ...this.defaultProps,
+        isActiveSlideWhite: false
     };
 
     stateMap = {
