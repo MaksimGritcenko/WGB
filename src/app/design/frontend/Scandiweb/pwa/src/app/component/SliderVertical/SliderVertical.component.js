@@ -24,11 +24,11 @@ export default class SliderVertical extends Slider {
         this.updateSliderHeight();
 
         sliderChildren[0].onload = () => {
-            CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
+            CSS.setVariable(this.sliderRef, 'slider-width', `${ (sliderChildren[0] || {}).offsetWidth }px`);
         };
 
         setTimeout(() => {
-            CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
+            CSS.setVariable(this.sliderRef, 'slider-width', `${ (sliderChildren[0] || {}).offsetWidth }px`);
         }, animationDuration);
         this.sliderHeight = this.draggableRef.current.offsetHeight;
     }
@@ -94,7 +94,7 @@ export default class SliderVertical extends Slider {
             onActiveImageChange(activeImage + 1);
             this.disableGestures();
         }
-    }
+    };
 
     onClickChangeSlide() {
         const { prevActiveImage } = this.state;
@@ -166,7 +166,7 @@ export default class SliderVertical extends Slider {
                 `${ translate }px`
             );
         }
-    }
+    };
 
     handleDragEnd = (state, callback) => {
         const { animationDuration } = this.props;
@@ -188,7 +188,7 @@ export default class SliderVertical extends Slider {
             originalY: newTranslate,
             lastTranslateY: newTranslate
         });
-    }
+    };
 
     renderCrumbs() {
         const { children } = this.props;

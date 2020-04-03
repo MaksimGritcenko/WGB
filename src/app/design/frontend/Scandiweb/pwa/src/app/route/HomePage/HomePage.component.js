@@ -14,10 +14,11 @@ export default class HomePage extends PureComponent {
     static propTypes = {
         genderSwitchIndex: PropTypes.number.isRequired,
         changeVerticalSlideIndex: PropTypes.func.isRequired,
-        isActiveSlideWhite: PropTypes.bool.isRequired
+        isActiveSlideWhite: PropTypes.bool
     };
 
     static defaultProps = {
+        isActiveSlideWhite: false
     };
 
     constructor(props) {
@@ -91,7 +92,7 @@ export default class HomePage extends PureComponent {
         const mods = {
             isUpside: slideCount && activeSlideIndex + 1 === slideCount,
             isWhite: isActiveSlideWhite
-        }
+        };
 
         return (
             <button
