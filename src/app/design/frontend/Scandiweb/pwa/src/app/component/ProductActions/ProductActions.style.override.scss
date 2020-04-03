@@ -82,6 +82,9 @@
         & del {
             margin-right: 5px;
             font-size: 14px;
+            @include after-mobile {
+                font-size: 24px;
+            }
             order: 1;
             opacity: 1;
         }
