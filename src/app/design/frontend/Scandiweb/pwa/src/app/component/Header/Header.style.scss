@@ -277,11 +277,14 @@
     }
 
     &-NotTransparentPart {
-        height: var(--header-height);
-        width: 45vw;
-        position: fixed;
-        background: #FFF;
-        right: 0;
+        // Not transparent right part of header only for desktop
+        @include after-mobile {
+            height: var(--header-height);
+            width: 45vw;
+            position: fixed;
+            background: #FFF;
+            right: 0;
+        }
     }
 
     &-Nav {
