@@ -177,6 +177,21 @@ export default class Header extends SourceHeader {
 
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
 
+    componentDidUpdate() {
+        this.disableScrollBehavior();
+    }
+
+    disableScrollBehavior() {
+        const { location: { pathname } } = history;
+        if (pathname === '/') {
+            document.body.style.overscrollBehaviorX = 'none';
+
+            return;
+        }
+
+        document.body.style.overscrollBehaviorX = 'auto';
+    }
+
     onClearSearchButtonClick() {
         const { onClearSearchButtonClick } = this.props;
         this.searchBarRef.current.focus();
