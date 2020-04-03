@@ -25,7 +25,10 @@ import StaleWhileRevalidateHandler from './handler/StaleWhileRevalidateHandler';
  */
 const BUYPASS_CACHE_URLS = [
     '(?!^.*sociallogin/login/.*)',
-    '(?!^.*sociallogin/endpoint/.*)'
+    '(?!^.*sociallogin/endpoint/.*)',
+    '(?!^.*/media/.*)',
+    '(?!^.*googletagmanager.*)',
+    '(?!^.*tagmanager.google.com.*)'
 ];
 
 /**
@@ -44,19 +47,18 @@ const getCacheUrlMatchRegex = () => {
 self.CACHE_NAME = 'app-runtime-static';
 
 self.addEventListener('fetch', (event) => {
-    const { request: { url, cache } } = event;
-    const useCache = cache !== 'no-cache';
+    const { request: { url } } = event;
 
     // eslint-disable-next-line max-len
     if (url.match(getCacheUrlMatchRegex())) {
         event.respondWith(caches.open(self.CACHE_NAME)
             .then(cache => cache.match('/')
-                .then(r => (!r || !useCache
-                        ? fetch('/').then((r) => {
-                            if (r.status === 200 && useCache) cache.put('/', r.clone()); // if status 200 – cache
-                            return r; // return true response
-                        })
-                        : r
+                .then(r => (!r
+                    ? fetch('/').then((r) => {
+                        if (r.status === 200) cache.put('/', r.clone()); // if status 200 – cache
+                        return r; // return true response
+                    })
+                    : r
                 ))));
     }
 

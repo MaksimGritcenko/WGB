@@ -132,7 +132,7 @@ module.exports = {
         inline: true,
         hot: true,
         host: '0.0.0.0',
-        public: 'c4bfc7db.ngrok.io',
+        public: 'scandipwa.local',
         allowedHosts: [
             '.local'
         ]
@@ -160,6 +160,7 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
+            template: path.resolve(projectRoot, 'src', 'public', 'index.development.html'),
             template: path.resolve(projectRoot, 'src', 'public', 'my-index.development.html'),
             filename: 'index.html',
             inject: false,
@@ -176,3 +177,4 @@ module.exports = {
         new MiniCssExtractPlugin()
     ]
 };
+

@@ -5,6 +5,10 @@ import {
 } from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.container';
 import { SocialLoginDispatcher } from 'Store/SocialLogins';
 import { connect } from 'react-redux';
+import { STATE_LOGGED_IN } from "Component/MyAccountOverlay/MyAccountOverlay.component";
+import { isSignedIn } from 'Util/Auth';
+import { history } from 'Route';
+
 
 const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
@@ -19,7 +23,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
-    componentDidUpdate() {
+    componentDidUpdate(_, prevState) {
+        const { state: oldMyAccountState } = prevState;
+        const { state: newMyAccountState } = this.state;
+        const { hideActiveOverlay } = this.props;
+        const currentPage = window.location.pathname;
         const {
             isSocialLoginsLoading,
             logins,
@@ -28,6 +36,14 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
 
         if (isSocialLoginsLoading && !logins.length) {
             requestLogins();
+        }
+
+        if (oldMyAccountState === newMyAccountState) return;
+
+        if (isSignedIn()) hideActiveOverlay();
+
+        if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
+            history.push({ pathname: '/my-account/dashboard' });
         }
     }
 }

@@ -132,7 +132,7 @@ module.exports = {
         inline: true,
         hot: true,
         host: '0.0.0.0',
-        public: 'c4bfc7db.ngrok.io',
+        public: 'scandipwa.local',
         allowedHosts: [
             '.local'
         ]

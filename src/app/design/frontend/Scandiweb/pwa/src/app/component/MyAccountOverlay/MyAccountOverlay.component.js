@@ -12,7 +12,7 @@ export * from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
 const SOCIAL_LOGIN_PROVIDERS = {
     facebook: Asset.image('facebook.png'),
     google: Asset.image('google.svg'),
-    instagram: Asset.image('facebook.png')
+    instagram: Asset.image('google.svg')
 };
 
 class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
@@ -85,7 +85,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
                     <section>
-                        <h4 id="forgot-password-label">{ __('New to WGB?') }</h4>
+                        <h4 id="forgot-password-label">{ __('New to Netnutri?') }</h4>
                         <button
                           block="Button"
                           onClick={ handleCreateAccount }
