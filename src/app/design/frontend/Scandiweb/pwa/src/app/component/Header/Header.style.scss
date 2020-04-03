@@ -292,13 +292,17 @@
 
         &_isWhite {
             .MenuOverlay {
-                svg {
-                    fill: var(--header-icons-black-color);
+                .Header-Button {
+                    svg {
+                        fill: var(--header-icons-black-color);
+                    }
                 }
             }
 
-            svg {
-                fill: var(--header-icons-white-color);
+            .Header-Button {
+                svg {
+                    fill: var(--header-icons-white-color);
+                }
             }
         }
 
