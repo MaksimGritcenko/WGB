@@ -7,7 +7,7 @@ export default class SearchPage extends CategoryPage {
         return (
             <main block="CategoryPage">
                 <ContentWrapper
-                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper' } }
+                  wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper', mods: { isSearchPage: true }} }
                   label="Category page"
                 >
                     { this.renderFilterOverlay() }
