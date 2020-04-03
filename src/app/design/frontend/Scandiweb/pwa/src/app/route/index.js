@@ -20,6 +20,7 @@ import Header, {
 } from 'Component/Header';
 
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
+import MyAccountSignIn from 'Route/MyAccountSignIn';
 import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
@@ -48,6 +49,7 @@ export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefe
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
+
 
 export {
     BEFORE_ITEMS_TYPE,
@@ -198,6 +200,17 @@ export class AppRouter extends SourceAppRouter {
               ) }
             />,
             position: 90
+        },
+        {
+            component: <Route
+              path="/signin"
+              render={ props => (
+                <GoogleTagManagerRouteWrapperComponent route={ MyAccountSignIn }>
+                     <MyAccountSignIn { ...props } />
+                </GoogleTagManagerRouteWrapperComponent>
+              ) }
+            />,
+            position: 96
         },
         {
             component: <Route

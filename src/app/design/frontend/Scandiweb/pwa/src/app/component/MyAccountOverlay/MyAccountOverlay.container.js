@@ -5,10 +5,11 @@ import {
 } from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.container';
 import { SocialLoginDispatcher } from 'Store/SocialLogins';
 import { connect } from 'react-redux';
-import {STATE_LOGGED_IN, STATE_SIGN_IN} from "Component/MyAccountOverlay/MyAccountOverlay.component";
+import { STATE_LOGGED_IN, STATE_SIGN_IN } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { isSignedIn } from 'Util/Auth';
 import { history } from 'Route';
-import isMobile from "Util/Mobile";
+import isMobile from 'Util/Mobile';
+import { CUSTOMER_ACCOUNT } from 'Component/Header';
 
 
 const mapStateToProps = state => ({
@@ -46,6 +47,25 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
+    }
+
+    onVisible() {
+        const { setHeaderState } = this.props;
+
+        if (isMobile.any()) {
+            setHeaderState({ name: CUSTOMER_ACCOUNT });
+        }
+    }
+
+    handleSignIn(e) {
+        const { setHeaderState } = this.props;
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ state: STATE_SIGN_IN });
+
+        setHeaderState({
+            name: CUSTOMER_ACCOUNT
+        });
     }
 
     static getDerivedStateFromProps(props, state) {

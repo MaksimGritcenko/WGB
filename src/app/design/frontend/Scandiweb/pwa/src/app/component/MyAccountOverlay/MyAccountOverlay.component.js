@@ -1,6 +1,5 @@
 import React from 'react';
 import SourceMyAccountOverlay from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
-import Asset from 'Util/Resources';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 import { withRouter } from 'react-router-dom';
@@ -9,10 +8,6 @@ import './MyAccountOverlay.extended.style.scss';
 
 export * from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
 
-const SOCIAL_LOGIN_PROVIDERS = {
-    facebook: Asset.image('facebook.png'),
-    google: Asset.image('google.svg')
-};
 
 class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
     getSocialLogins() {
@@ -29,8 +24,8 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
 
         return logins.map(({ url, provider }) => (
             <div block="MyAccountOverlay" elem="Provider" key={ provider }>
-                <a href={ url }>
-                    <img src={ SOCIAL_LOGIN_PROVIDERS[provider] } alt={ provider } />
+                <a href={ url } block="MyAccountOverlay" elem={ provider }>
+                    <p>{ provider }</p>
                 </a>
             </div>
         ));
@@ -48,6 +43,14 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
 
         return (
             <>
+                <div block="MyAccountOverlay" elem="Header">
+                    <h2>{ __('SIGN IN / SIGN UP') }</h2>
+                </div>
+                <div block="MyAccountOverlay" elem="Form">
+                    <h4 block="Form" elem="Header">
+                        { __('I’m already a member of VGB family') }
+                    </h4>
+                </div>
                 <Form
                   key="sign-in"
                   onSubmit={ onSignInAttempt }
@@ -56,35 +59,33 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                 >
                     <Field
                       type="text"
-                      label={ __('Login or Email') }
+                      placeholder={ __('Email*') }
                       id="email"
                       name="email"
                       validation={ ['notEmpty', 'email'] }
                     />
                     <Field
                       type="password"
-                      label={ __('Password') }
+                      placeholder={ __('Password*') }
                       id="password"
                       name="password"
                       validation={ ['notEmpty', 'password'] }
                     />
-                    <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button">{ __('Sign in') }</button>
-                    </div>
                     <button
                       block="Button"
+                      elem="Forgot"
                       mods={ { likeLink: true } }
                       onClick={ handleForgotPassword }
                     >
-                        { __('Forgot password?') }
+                        { __('Did you forget your password?') }
                     </button>
-                    <div block="MyAccountOverlay" elem="SocialButtons">
-                        { this.getSocialLogins() }
+                    <div block="MyAccountOverlay" elem="Buttons">
+                        <button block="Button">{ __('Sign in') }</button>
                     </div>
                 </Form>
                 <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
                     <section>
-                        <h4 id="forgot-password-label">{ __('New to Netnutri?') }</h4>
+                        <h4 id="forgot-password-label">{ __('New User') }</h4>
                         <button
                           block="Button"
                           onClick={ handleCreateAccount }
@@ -93,6 +94,10 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                         </button>
                     </section>
                 </article>
+                <div block="MyAccountOverlay" elem="Social">
+                    <h4 id="social-login">{ __('Or sign in using') }</h4>
+                    { this.getSocialLogins() }
+                </div>
             </>
         );
     }

@@ -72,7 +72,6 @@ class MyAccount extends MyAccountContainer {
         }
 
         if (!isSignedIn && !getAuthorizationToken()) {
-            history.push('/');
         }
     }
 

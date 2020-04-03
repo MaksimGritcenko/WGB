@@ -1,4 +1,5 @@
 export { default as SliderQuery } from 'Query/Slider.query';
+export { default as SocialLoginQuery } from './SocialLoginQuery.query';
 
 export {
     CategoryQuery,
