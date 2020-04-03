@@ -35,16 +35,20 @@
             }
 
             &-Brand {
+                padding-bottom: 5px;
                 text-align: center;
                 font-weight: bold;
                 opacity: 1;
                 width: 100%;
             }
 
+            &-Price {
+                padding-top: 0;
+            }
+
             &-Name {
                 width: auto;
                 margin-top: 0px;
-                padding-top: 5px;
                 font-size: 14px;
 
                 &::after {

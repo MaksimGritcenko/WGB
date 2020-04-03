@@ -24,7 +24,6 @@ import SearchPage from './SearchPage.component';
 
 const WOMEN_CATEGORY = 'women';
 const MEN_CATEGORY = 'men';
-const SEARCH_PAGE = `/${ SEARCH }`;
 
 export const mapStateToProps = state => ({
     category: state.CategoryReducer.category,
@@ -63,19 +62,12 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     componentDidMount() {
         const {
-            location: { pathname },
             updateBreadcrumbs,
             isOnlyPlaceholder,
-            updateLoadStatus,
-            history
+            updateLoadStatus
         } = this.props;
 
         if (isOnlyPlaceholder) updateLoadStatus(true);
-
-        if (pathname === SEARCH_PAGE || pathname === `${ SEARCH_PAGE }/`) {
-            history.push('/');
-            return;
-        }
 
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {

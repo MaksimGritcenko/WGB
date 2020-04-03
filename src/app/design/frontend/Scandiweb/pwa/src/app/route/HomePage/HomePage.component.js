@@ -14,10 +14,11 @@ export default class HomePage extends PureComponent {
     static propTypes = {
         genderSwitchIndex: PropTypes.number.isRequired,
         changeVerticalSlideIndex: PropTypes.func.isRequired,
-        isActiveSlideWhite: PropTypes.bool.isRequired
+        isActiveSlideWhite: PropTypes.bool
     };
 
     static defaultProps = {
+        isActiveSlideWhite: false
     };
 
     constructor(props) {
@@ -76,6 +77,7 @@ export default class HomePage extends PureComponent {
             <SliderVerticalWidget
               activeImage={ activeSlideIndex }
               sliderId={ sliderId }
+              isScrollEnabled
               // eslint-disable-next-line react/jsx-no-bind
               onActiveImageChange={ activeSlide => this.handleActiveImageChange(activeSlide, sliderIndex) }
               getSlideCount={ this.getSlideCount }
@@ -90,7 +92,7 @@ export default class HomePage extends PureComponent {
         const mods = {
             isUpside: slideCount && activeSlideIndex + 1 === slideCount,
             isWhite: isActiveSlideWhite
-        }
+        };
 
         return (
             <button
@@ -110,6 +112,7 @@ export default class HomePage extends PureComponent {
                 <GenderSlider
                   isGenderSwitcher
                   isBottomSwitcher
+                  isScrollEnabled
                 >
                     { this.renderSlider(WOMEN_SLIDER_ID, WOMEN) }
                     { this.renderSlider(MEN_SLIDER_ID, MEN) }

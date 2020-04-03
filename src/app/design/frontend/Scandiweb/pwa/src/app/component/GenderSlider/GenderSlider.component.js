@@ -7,6 +7,7 @@ import { closeIcon } from 'Component/Header/Header.config';
 
 export const WOMEN = 0;
 export const MEN = 1;
+export const GENDER_SLIDER_ANIMATION_DURATION = 1000;
 
 export default class GenderSlider extends PureComponent {
     static propTypes = {
@@ -15,11 +16,13 @@ export default class GenderSlider extends PureComponent {
         onCloseButtonClick: PropTypes.func.isRequired,
         activeHorizontalSlideIndex: PropTypes.number.isRequired,
         changeState: PropTypes.func.isRequired,
-        isActiveSlideWhite: PropTypes.bool
+        isActiveSlideWhite: PropTypes.bool,
+        isScrollEnabled: PropTypes.bool
     };
 
     static defaultProps = {
         isBottomSwitcher: false,
+        isScrollEnabled: false,
         isActiveSlideWhite: false
     };
 
@@ -130,7 +133,7 @@ export default class GenderSlider extends PureComponent {
     };
 
     render() {
-        const { children } = this.props;
+        const { children, isScrollEnabled } = this.props;
         const { activeImageIndex } = this.state;
 
         return (
@@ -143,6 +146,8 @@ export default class GenderSlider extends PureComponent {
                   mix={ { block: 'GenderSlider', elem: 'Slider' } }
                   onActiveImageChange={ this.handleSlideChange }
                   activeImage={ activeImageIndex }
+                  animationDuration={ GENDER_SLIDER_ANIMATION_DURATION }
+                  isScrollEnabled={ isScrollEnabled }
                 >
                     { children.map(this.renderSlide) }
                 </Slider>
