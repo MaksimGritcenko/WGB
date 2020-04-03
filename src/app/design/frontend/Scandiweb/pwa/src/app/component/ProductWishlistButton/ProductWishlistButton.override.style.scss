@@ -2,6 +2,10 @@
     width: 20px;
 
     &.Button {
+        --button-hover-border: none;
+        --button-hover-background: none;
+        --button-hover-color: none;
+
         border-style: hidden;
     }
 }
