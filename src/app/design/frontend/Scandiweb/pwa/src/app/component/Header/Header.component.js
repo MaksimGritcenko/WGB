@@ -87,7 +87,8 @@ export default class Header extends SourceHeader {
             title: true,
             account: true,
             minicart: true,
-            logo: true
+            logo: true,
+            not_transparent_part: true
         },
         [DRAGBAR_OPEN]: {
             dragbar_close: true
@@ -164,12 +165,17 @@ export default class Header extends SourceHeader {
         ok: this.renderOkButton.bind(this),
         dragbar_close: this.renderDragbarCloseButton.bind(this),
         wishlist: this.renderWishlistButton.bind(this),
+        not_transparent_part: this.renderNotTransparentPart.bind(this),
         ...this.renderMap
     };
 
     searchBarRef = createRef();
 
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
+
+    renderNotTransparentPart() {
+        return <div block="Header" elem="NotTransparentPart" />;
+    }
 
     onClearSearchButtonClick() {
         const { onClearSearchButtonClick } = this.props;

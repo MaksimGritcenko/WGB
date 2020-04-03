@@ -1,4 +1,4 @@
- :root {
+:root {
     --header-default-background: #fff;
     --header-background: var(--header-default-background);
     --header-color: #000;
@@ -113,6 +113,8 @@
     & > * {
         width: 100%;
     }
+
+
 
     &-Filter {
         margin: auto;
@@ -272,6 +274,14 @@
         strong {
             margin-left: 3px;
         }
+    }
+
+    &-NotTransparentPart {
+        height: var(--header-height);
+        width: 45vw;
+        position: fixed;
+        background: #FFF;
+        right: 0;
     }
 
     &-Nav {
