@@ -1,0 +1,6 @@
+type Mutation {
+    logout: LogoutStatus! @doc(description: "Return true in status if logout was successful") @resolver(class: "\\Netnutri\\CustomerGraphQl\\Model\\Resolver\\Logout")
+}
+type LogoutStatus {
+    status: String
+}

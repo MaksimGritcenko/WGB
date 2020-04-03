@@ -5,9 +5,10 @@ import {
 } from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.container';
 import { SocialLoginDispatcher } from 'Store/SocialLogins';
 import { connect } from 'react-redux';
-import { STATE_LOGGED_IN } from "Component/MyAccountOverlay/MyAccountOverlay.component";
+import {STATE_LOGGED_IN, STATE_SIGN_IN} from "Component/MyAccountOverlay/MyAccountOverlay.component";
 import { isSignedIn } from 'Util/Auth';
 import { history } from 'Route';
+import isMobile from "Util/Mobile";
 
 
 const mapStateToProps = state => ({
@@ -45,6 +46,53 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
         if (currentPage !== '/checkout' && newMyAccountState === STATE_LOGGED_IN) {
             history.push({ pathname: '/my-account/dashboard' });
         }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const {
+            isSignedIn,
+            isPasswordForgotSend,
+            showNotification,
+            isOverlayVisible,
+            isSocialLoginsLoading
+        } = props;
+
+        const {
+            isPasswordForgotSend: currentIsPasswordForgotSend,
+            state: myAccountState
+        } = state;
+
+        const stateToBeUpdated = {};
+
+        if (!isMobile.any()) {
+            if (!isOverlayVisible && !isSignedIn) {
+                stateToBeUpdated.state = STATE_SIGN_IN;
+            } else if (!isOverlayVisible && isSignedIn) {
+                stateToBeUpdated.state = STATE_LOGGED_IN;
+            }
+        }
+
+        if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
+            stateToBeUpdated.isLoading = false;
+            showNotification('success', __('You are successfully logged in!'));
+            stateToBeUpdated.state = STATE_LOGGED_IN;
+        }
+
+        if (myAccountState === STATE_LOGGED_IN && !isSignedIn) {
+            stateToBeUpdated.state = STATE_SIGN_IN;
+            showNotification('success', __('You are successfully logged out!'));
+            history.push('/');
+        }
+
+        if (isPasswordForgotSend !== currentIsPasswordForgotSend) {
+            stateToBeUpdated.isLoading = false;
+            stateToBeUpdated.isPasswordForgotSend = isPasswordForgotSend;
+            // eslint-disable-next-line max-len
+            showNotification('success', __('If there is an account associated with the provided address you will receive an email with a link to reset your password.'));
+            stateToBeUpdated.state = STATE_SIGN_IN;
+        }
+
+        return Object.keys(stateToBeUpdated).length ? stateToBeUpdated : null;
     }
 }
 

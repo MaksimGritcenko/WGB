@@ -224,6 +224,7 @@ return [
         'Klarna_Kp' => 1,
         'Magento_PaypalReCaptcha' => 1,
         'MSP_TwoFactorAuth' => 1,
+        'Netnutri_CustomerGraphQl' => 1,
         'Netnutri_SocialLogin' => 1,
         'ScandiPWA_Cache' => 1,
         'ScandiPWA_CatalogGraphQl' => 1,

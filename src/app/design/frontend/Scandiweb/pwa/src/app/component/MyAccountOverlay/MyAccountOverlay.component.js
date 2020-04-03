@@ -11,8 +11,7 @@ export * from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
 
 const SOCIAL_LOGIN_PROVIDERS = {
     facebook: Asset.image('facebook.png'),
-    google: Asset.image('google.svg'),
-    instagram: Asset.image('google.svg')
+    google: Asset.image('google.svg')
 };
 
 class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
