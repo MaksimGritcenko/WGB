@@ -92,7 +92,7 @@ export default class HomePage extends PureComponent {
         const mods = {
             isUpside: slideCount && activeSlideIndex + 1 === slideCount,
             isWhite: isActiveSlideWhite
-        }
+        };
 
         return (
             <button
