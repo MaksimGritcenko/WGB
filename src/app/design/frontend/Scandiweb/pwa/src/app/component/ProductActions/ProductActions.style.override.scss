@@ -3,6 +3,10 @@
         background: var(--header-background);
     }
 
+    @include after-mobile {
+        z-index: 1000;
+    }
+
     &-AddToCartWrapper {
         @include mobile {
             border-top: none;
