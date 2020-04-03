@@ -1,4 +1,6 @@
 import { Fragment, createRef } from 'react';
+import PropTypes from 'prop-types';
+
 import SourceHeader, {
     PDP,
     CATEGORY,
@@ -56,6 +58,9 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const URL_REWRITE = 'url-rewrite';
+export const PASSWORD_CHANGE = 'password-change';
+
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
 
@@ -65,8 +70,8 @@ export const FAVORITES = 'favorites';
 export const WHITE = 'white';
 export default class Header extends SourceHeader {
     static propTypes = {
-        ...this.propTypes
-        // onSearchBarClick: PropTypes.func.isRequired,
+        ...this.propTypes,
+        isActiveSlideWhite: PropTypes.bool.isRequired
     };
 
     stateMap = {
@@ -446,11 +451,19 @@ export default class Header extends SourceHeader {
 
 
     render() {
-        const { navigationState: { name }, isCategory } = this.props;
+        const {
+            navigationState: { name },
+            isActiveSlideWhite,
+            isCategory
+        } = this.props;
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
-                <nav block="Header" elem="Nav">
+                <nav
+                  block="Header"
+                  elem="Nav"
+                  mods={ { isWhite: isActiveSlideWhite } }
+                >
                     { this.renderHeaderState() }
                 </nav>
                 { this.renderFilterButton() }

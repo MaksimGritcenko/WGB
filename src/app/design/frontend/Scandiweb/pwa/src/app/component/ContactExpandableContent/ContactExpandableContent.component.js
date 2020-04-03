@@ -24,20 +24,20 @@ export default class ContactExpandableContent extends ExpandableContent {
               block="ContactExpandableContent"
               elem="Button"
               mods={ { isContentExpanded } }
-              mix={ { ...mix, elem: 'ContactExpandableContentButton' } }
+              mix={ { ...mix, block: 'ContactExpandableContent', elem: 'Button' } }
               onClick={ this.toggleExpand }
             >
             <span
               block="ContactExpandableContent"
               elem="Heading"
-              mix={ { ...mix, elem: 'ContactExpandableContentHeading' } }
+              mix={ { ...mix, block: 'ContactExpandableContent', elem: 'Heading' } }
             >
               <TextPlaceholder content={ heading } />
             </span>
             <span
               block="ContactExpandableContent"
               elem="SubHeading"
-              mix={ { ...mix, elem: 'ContactExpandableContentSubHeading' } }
+              mix={ { ...mix, block: 'ContactExpandableContent', elem: 'SubHeading' } }
             >
               { subHeading }
             </span>
@@ -56,7 +56,9 @@ export default class ContactExpandableContent extends ExpandableContent {
               block="ContactExpandableContent"
               elem="Content"
               mods={ mods }
-              mix={ { ...mix, elem: 'ContactExpandableContentContent', mods } }
+              mix={ {
+                  ...mix, block: 'ContactExpandableContent', elem: 'Content', mods
+              } }
             >
               { children }
             </div>

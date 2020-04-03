@@ -14,6 +14,9 @@
     --header-nav-height: 50px;
     --header-logo-width: 200px;
     --header-logo-height: calc(var(--header-height) - 30px);
+    --header-icons-white-color: #FFF;
+    --header-icons-black-color: #000;
+    --header-icons-white-transition: 300ms;
 
     --navigation-tabs-background: var(--secondary-light-color);
 
@@ -286,6 +289,22 @@
 
         @include after-mobile {
             padding: 0;
+        }
+
+        &_isWhite {
+            .MenuOverlay {
+                svg {
+                    fill: var(--header-icons-black-color);
+                }
+            }
+
+            svg {
+                fill: var(--header-icons-white-color);
+            }
+        }
+
+        svg {
+            transition: var(--header-icons-white-transition);
         }
     }
 

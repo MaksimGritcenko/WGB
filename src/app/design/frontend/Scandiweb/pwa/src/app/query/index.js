@@ -1,14 +1,23 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
-export * from 'SourceQuery';
+export { default as SliderQuery } from 'Query/Slider.query';
 export { default as ContactFormQuery } from 'Query/ContactForm.query';
 export { default as ContactInfoQuery } from 'Query/ContactInfo.query';
+
+export {
+    CategoryQuery,
+    ProductListQuery,
+    CmsPageQuery,
+    CmsBlockQuery,
+    MenuQuery,
+    MyAccountQuery,
+    WishlistQuery,
+    CartQuery,
+    RegionQuery,
+    CheckEmailQuery,
+    ReviewQuery,
+    UrlRewritesQuery,
+    ConfigQuery,
+    PayPalQuery,
+    KlarnaQuery,
+    CheckoutQuery,
+    OrderQuery
+} from 'SourceQuery';
