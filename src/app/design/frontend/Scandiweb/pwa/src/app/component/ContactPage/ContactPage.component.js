@@ -55,8 +55,69 @@ class ContactPage extends PureComponent {
         });
     }
 
+    renderPhone() {
+        const { ContactInfo: { store_phone, store_working_hours } } = this.props;
+        return (
+            <ContactExpandableContent
+              heading={ __('CALL CENTER VAGABOND') }
+              mix={ { block: 'Phone' } }
+            >
+            <p block="ContactExpandableContent" elem="SubContent">
+                { store_phone }
+            </p>
+                <p block="ContactExpandableContent" elem="SubContent">
+                { store_working_hours }
+                </p>
+            </ContactExpandableContent>
+        );
+    }
+
+    renderEmail() {
+        const { ContactInfo: { store_email } } = this.props;
+        return (
+            <ContactExpandableContent
+              heading={ __('E-MAIL SUPPORT') }
+              mix={ { block: 'Email' } }
+            >
+            <p block="ContactExpandableContent" elem="SubContent">
+                Send us an e-mail and we will contact you ASAP
+            </p>
+            <p block="ContactExpandableContent" elem="MainContent">
+                { store_email }
+            </p>
+            </ContactExpandableContent>
+        );
+    }
+
+    renderSocial() {
+        return (
+            <ContactExpandableContent
+              heading={ __('STAY SOCIAL') }
+              mix={ { block: 'Social' } }
+            >
+              <p block="ContactExpandableContent" elem="SubContent">
+              { __('Find us here:') }
+              </p>
+              <CmsBlock identifiers={ ['contact-us-social'] } />
+            </ContactExpandableContent>
+        );
+    }
+
+    renderForm() {
+        return (
+            <ContactExpandableContent
+              heading={ __('FORM APPLICATION') }
+              mix={ { block: 'Form' } }
+            >
+            <p block="ContactExpandableContent" elem="SubContent">
+                Complete the form and we will contact you ASAP:
+            </p>
+            <ContactForm />
+            </ContactExpandableContent>
+        );
+    }
+
     render() {
-        const { ContactInfo: { store_email, store_phone, store_working_hours } } = this.props;
         const { isLoading } = this.props;
         return (
             <div block="ContactPage">
@@ -65,48 +126,12 @@ class ContactPage extends PureComponent {
                    { __('GET IN TOUCH WITH VGB') }
                 </div>
                 <div block="ContactPage" elem="Group">
-                    <ContactExpandableContent
-                      heading={ __('CALL CENTER VAGABOND') }
-                      mix={ { block: 'Phone' } }
-                    >
-                        <p block="ContactExpandableContent" elem="SubContent">
-                            { store_phone }
-                        </p>
-                        <p block="ContactExpandableContent" elem="SubContent">
-                            { store_working_hours }
-                        </p>
-                    </ContactExpandableContent>
-                    <ContactExpandableContent
-                      heading={ __('E-MAIL SUPPORT') }
-                      mix={ { block: 'Email' } }
-                    >
-                        <p block="ContactExpandableContent" elem="SubContent">
-                            Send us an e-mail and we will contact you ASAP
-                        </p>
-                        <p block="ContactExpandableContent" elem="MainContent">
-                            { store_email }
-                        </p>
-                    </ContactExpandableContent>
+                    { this.renderPhone() }
+                    { this.renderEmail() }
                 </div>
                 <div block="ContactPage" elem="Group">
-                    <ContactExpandableContent
-                      heading={ __('STAY SOCIAL') }
-                      mix={ { block: 'Social' } }
-                    >
-                        <p block="ContactExpandableContent" elem="SubContent">
-                        { __('Find us here:') }
-                        </p>
-                        <CmsBlock identifiers={ ['contact-us-social'] } />
-                    </ContactExpandableContent>
-                    <ContactExpandableContent
-                      heading={ __('FORM APPLICATION') }
-                      mix={ { block: 'Form' } }
-                    >
-                    <p block="ContactExpandableContent" elem="SubContent">
-                        Complete the form and we will contact you ASAP:
-                    </p>
-                    <ContactForm />
-                    </ContactExpandableContent>
+                    { this.renderSocial() }
+                    { this.renderForm() }
                 </div>
             </div>
         );
