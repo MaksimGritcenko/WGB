@@ -105,6 +105,23 @@ class ProductGallery extends SourceProductGallery {
         );
     }
 
+    componentDidUpdate(prevProps) {
+        const { productId, location: { pathname } } = this.props;
+        const { productId: prevProductId, location: { pathname: prevPathname } } = prevProps;
+
+        if (productId !== prevProductId) {
+            this.updateSharedDestinationElement();
+        }
+
+        if (this.sliderRef.current && pathname !== prevPathname) {
+            CSS.setVariable(
+                this.sliderRef.current.draggableRef,
+                'animation-speed',
+                0
+            );
+        }
+    }
+
     render() {
         if (isMobile.any()) {
             return (
