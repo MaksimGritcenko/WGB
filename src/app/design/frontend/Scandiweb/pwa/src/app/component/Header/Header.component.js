@@ -174,7 +174,7 @@ export default class Header extends SourceHeader {
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
 
     renderNotTransparentPart() {
-        return <div block="Header" elem="NotTransparentPart" />;
+        return <div block="Header" elem="NotTransparentPart" key="NotTransparentPart" />;
     }
 
     onClearSearchButtonClick() {
