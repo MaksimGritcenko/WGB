@@ -21,9 +21,6 @@ import { debounce } from 'Util/Request';
 
 import SearchPage from './SearchPage.component';
 
-
-const SEARCH_PAGE = '/search';
-
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
@@ -49,19 +46,12 @@ export class SearchPageContainer extends CategoryPageContainer {
 
     componentDidMount() {
         const {
-            location: { pathname },
             updateBreadcrumbs,
             isOnlyPlaceholder,
-            updateLoadStatus,
-            history
+            updateLoadStatus
         } = this.props;
 
         if (isOnlyPlaceholder) updateLoadStatus(true);
-
-        if (pathname === SEARCH_PAGE || pathname === `${ SEARCH_PAGE }/`) {
-            history.push('/');
-            return;
-        }
 
         // request data only if URL does not match loaded category
         if (this.getIsNewCategory()) {
