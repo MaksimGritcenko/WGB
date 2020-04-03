@@ -7,6 +7,7 @@ import { closeIcon } from 'Component/Header/Header.config';
 
 export const WOMEN = 0;
 export const MEN = 1;
+export const GENDER_SLIDER_ANIMATION_DURATION = 1000;
 
 export default class GenderSlider extends PureComponent {
     static propTypes = {
@@ -145,7 +146,7 @@ export default class GenderSlider extends PureComponent {
                   mix={ { block: 'GenderSlider', elem: 'Slider' } }
                   onActiveImageChange={ this.handleSlideChange }
                   activeImage={ activeImageIndex }
-                  animationDuration={ 1000 }
+                  animationDuration={ GENDER_SLIDER_ANIMATION_DURATION }
                   isScrollEnabled={ isScrollEnabled }
                 >
                     { children.map(this.renderSlide) }
