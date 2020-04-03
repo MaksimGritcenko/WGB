@@ -1,5 +1,6 @@
 import { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { history } from 'Route';
 
 import SourceHeader, {
     PDP,
@@ -57,6 +58,9 @@ export {
     CHECKOUT,
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
+
+export const URL_REWRITE = 'url-rewrite';
+export const PASSWORD_CHANGE = 'password-change';
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -437,16 +441,22 @@ export default class Header extends SourceHeader {
         );
     }
 
-
     render() {
-        const { navigationState: { name }, isCategory, isActiveSlideWhite } = this.props;
+        const {
+            navigationState: { name },
+            isActiveSlideWhite,
+            isCategory
+        } = this.props;
+        const { pathname } = history.location;
+
+        const isWhite = isActiveSlideWhite && pathname === '/';
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
                 <nav
                   block="Header"
                   elem="Nav"
-                  mods={ { isWhite: isActiveSlideWhite } }
+                  mods={ { isWhite } }
                 >
                     { this.renderHeaderState() }
                 </nav>

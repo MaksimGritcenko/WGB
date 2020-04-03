@@ -17,7 +17,6 @@ import Header, {
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import { history } from 'Route';
 
-
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
 
@@ -84,9 +83,9 @@ export class HeaderContainer extends SourceHeaderContainer {
             isLoading,
             isClearEnabled,
             searchCriteria,
+            isActiveSlideWhite,
             isCheckout,
-            showMyAccountLogin,
-            isActiveSlideWhite
+            showMyAccountLogin
         };
     };
 
