@@ -94,7 +94,7 @@ export default class SliderVertical extends Slider {
             onActiveImageChange(activeImage + 1);
             this.disableGestures();
         }
-    }
+    };
 
     onClickChangeSlide() {
         const { prevActiveImage } = this.state;
@@ -166,7 +166,7 @@ export default class SliderVertical extends Slider {
                 `${ translate }px`
             );
         }
-    }
+    };
 
     handleDragEnd = (state, callback) => {
         const { animationDuration } = this.props;
@@ -188,7 +188,7 @@ export default class SliderVertical extends Slider {
             originalY: newTranslate,
             lastTranslateY: newTranslate
         });
-    }
+    };
 
     renderCrumbs() {
         const { children } = this.props;
