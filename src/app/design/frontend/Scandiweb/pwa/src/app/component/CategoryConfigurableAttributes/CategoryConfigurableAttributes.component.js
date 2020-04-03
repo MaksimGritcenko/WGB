@@ -17,6 +17,8 @@ import './CategoryConfigurableAttributes.style.scss';
 
 export const VIEW_MORE_ITEMS_LIMIT = 3;
 
+export const MAX_NUMBER_OF_PLACEHOLDERS = 3;
+
 class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttributes {
     state = {};
 
@@ -131,7 +133,10 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
     }
 
     renderPlaceholders() {
-        const { numberOfPlaceholders, isContentExpanded } = this.props;
+        const { isContentExpanded } = this.props;
+
+        // eslint-disable-next-line no-magic-numbers
+        const numberOfPlaceholders = [3, 4, 3];
 
         return numberOfPlaceholders.map((length, i) => (
             <CategoryExpandableContent

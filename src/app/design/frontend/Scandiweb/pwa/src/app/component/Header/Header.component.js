@@ -1,5 +1,6 @@
 import { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { history } from 'Route';
 
 import SourceHeader, {
     PDP,
@@ -58,6 +59,7 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const FAVORITES = 'favorites';
 export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
 
@@ -66,28 +68,23 @@ export const MOBILE_OVERLAYS = [FILTER];
 
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
-export const FAVORITES = 'favorites';
-export const WHITE = 'white';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes,
-        isActiveSlideWhite: PropTypes.bool.isRequired
+        isActiveSlideWhite: PropTypes.bool
+    };
+
+    static defaultProps = {
+        ...this.defaultProps,
+        isActiveSlideWhite: false
     };
 
     stateMap = {
-        [WHITE]: {
-            menu: true,
-            searchButton: true,
-            title: true,
-            wishlist: true,
-            minicart: true,
-            logo: true
-        },
         [FAVORITES]: {
             menu: true,
             searchButton: true,
             title: true,
-            wishlist: true,
+            account: true,
             minicart: true,
             logo: true
         },
@@ -101,7 +98,8 @@ export default class Header extends SourceHeader {
             title: true,
             account: true,
             minicart: true,
-            logo: true
+            logo: true,
+            not_transparent_part: true
         },
         [DRAGBAR_OPEN]: {
             dragbar_close: true
@@ -178,12 +176,32 @@ export default class Header extends SourceHeader {
         ok: this.renderOkButton.bind(this),
         dragbar_close: this.renderDragbarCloseButton.bind(this),
         wishlist: this.renderWishlistButton.bind(this),
+        not_transparent_part: this.renderNotTransparentPart.bind(this),
         ...this.renderMap
     };
 
     searchBarRef = createRef();
 
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
+
+    renderNotTransparentPart() {
+        return <div block="Header" elem="NotTransparentPart" key="NotTransparentPart" />;
+    }
+
+    componentDidUpdate() {
+        this.disableScrollBehavior();
+    }
+
+    disableScrollBehavior() {
+        const { location: { pathname } } = history;
+        if (pathname === '/') {
+            document.body.style.overscrollBehaviorX = 'none';
+
+            return;
+        }
+
+        document.body.style.overscrollBehaviorX = 'auto';
+    }
 
     onClearSearchButtonClick() {
         const { onClearSearchButtonClick } = this.props;
@@ -449,20 +467,22 @@ export default class Header extends SourceHeader {
         );
     }
 
-
     render() {
         const {
             navigationState: { name },
             isActiveSlideWhite,
             isCategory
         } = this.props;
+        const { pathname } = history.location;
+
+        const isWhite = isActiveSlideWhite && pathname === '/';
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
                 <nav
                   block="Header"
                   elem="Nav"
-                  mods={ { isWhite: isActiveSlideWhite } }
+                  mods={ { isWhite } }
                 >
                     { this.renderHeaderState() }
                 </nav>

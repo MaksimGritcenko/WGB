@@ -1,4 +1,4 @@
- :root {
+:root {
     --header-default-background: #fff;
     --header-background: var(--header-default-background);
     --header-color: #000;
@@ -116,6 +116,8 @@
     & > * {
         width: 100%;
     }
+
+
 
     &-Filter {
         margin: auto;
@@ -262,6 +264,19 @@
                 }
             }
         }
+
+        &_pdp {
+            .Header-NotTransparentPart {
+                // Not transparent right part of header only for desktop
+                @include after-mobile {
+                    height: var(--header-height);
+                    width: 40vw;
+                    position: fixed;
+                    background: #FFF;
+                    right: 0;
+                }
+            }
+        }
     }
 
     &-Banner {
@@ -293,13 +308,17 @@
 
         &_isWhite {
             .MenuOverlay {
-                svg {
-                    fill: var(--header-icons-black-color);
+                .Header-Button {
+                    svg {
+                        fill: var(--header-icons-black-color);
+                    }
                 }
             }
 
-            svg {
-                fill: var(--header-icons-white-color);
+            .Header-Button {
+                svg {
+                    fill: var(--header-icons-white-color);
+                }
             }
         }
 
@@ -340,7 +359,6 @@
                     @include button-visible;
                 }
             }
-
 
             &_searchClear {
                 @include clear-search-button;

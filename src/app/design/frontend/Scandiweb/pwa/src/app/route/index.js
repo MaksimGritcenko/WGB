@@ -14,6 +14,7 @@ import Header, {
     CART,
     CHECKOUT,
     CMS_PAGE,
+    FAVORITES,
     URL_REWRITE,
     PASSWORD_CHANGE
 } from 'Component/Header';
@@ -197,7 +198,14 @@ export class AppRouter extends SourceAppRouter {
             position: 80
         },
         {
-            component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
+            component: <Route
+              path="/my-favorites"
+              render={ props => (
+                <GoogleTagManagerRouteWrapperComponent route={ FAVORITES }>
+                    <MyAccountWishlist { ...props } />
+                </GoogleTagManagerRouteWrapperComponent>
+              ) }
+            />,
             position: 90
         },
         {

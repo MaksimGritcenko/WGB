@@ -58,8 +58,12 @@ export class SearchOverlayContainer extends PureComponent {
 
     onSearchEnterPress = (e) => {
         if (e.key === 'Enter') {
+            const { searchCriteria } = this.state;
+            const search = searchCriteria.replace(/\s\s+/g, '%20');
+
             this.closeSearchOverlay();
-            history.push('/searchpage');
+
+            history.push(`/search/${ search }`);
         }
     };
 
@@ -111,7 +115,6 @@ export class SearchOverlayContainer extends PureComponent {
                 <input
                   id="search-field"
                   autoComplete="off"
-                  placeholder={ __('Type a new search') }
                   block="SearchOverlay"
                   elem="Input"
                   onKeyDown={ this.onSearchEnterPress }
