@@ -17,8 +17,6 @@ import CategoryProductAttributeValue from 'Component/CategoryProductAttributeVal
 import SourceProductCard from 'SourceComponent/ProductCard/ProductCard.component';
 import './ProductCard.style';
 
-export const HERO_ATTRIBUTE = 'NEW';
-
 /**
  * Product card
  * @class ProductCard
@@ -74,28 +72,21 @@ export default class ProductCard extends SourceProductCard {
 
     renderAdditionalProductDetails() {
         const { product: { sku }, getAttribute, isHero } = this.props;
-        const { product_list_content: { attribute_to_display = '' } = {} } = window.contentConfiguration;
-        const brand = getAttribute(attribute_to_display);
+        const { product_list_content: { attribute_to_display = 'random' } = {} } = window.contentConfiguration;
+        const brand = getAttribute(attribute_to_display) || {};
 
-        if (!sku || !isHero) return null;
-
-        const attribute = brand
-            ? (
-                <CategoryProductAttributeValue
-                  attribute={ brand }
-                  isFormattedAsText
-                />
-            )
-            : HERO_ATTRIBUTE;
+        if (!isHero || !sku || !brand) return null;
 
         return (
             <div
               block="ProductCard"
               elem="Brand"
               mods={ { isLoaded: !!brand } }
-              itemProp="brand"
             >
-                { attribute }
+                <CategoryProductAttributeValue
+                  attribute={ brand }
+                  isFormattedAsText
+                />
             </div>
         );
     }
