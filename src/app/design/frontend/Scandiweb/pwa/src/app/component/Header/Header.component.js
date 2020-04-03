@@ -58,6 +58,7 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const FAVORITES = 'favorites';
 export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
 
@@ -66,7 +67,6 @@ export const MOBILE_OVERLAYS = [FILTER];
 
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
-export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
         ...this.propTypes,
