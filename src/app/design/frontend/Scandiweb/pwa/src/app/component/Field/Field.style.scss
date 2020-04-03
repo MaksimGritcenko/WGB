@@ -84,6 +84,12 @@ $select-arrow-width: 6px !default;
                 border-top: 4px solid var(--primary-base-color);
             }
 
+            &[aria-expanded="true"]::after {
+                transform: rotate(180deg);
+                top: 0;
+                bottom: 17px;
+            }
+
             &_isExpanded::after {
                 @include after-mobile {
                     width: 100px;

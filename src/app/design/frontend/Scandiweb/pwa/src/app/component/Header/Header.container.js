@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import isMobile from 'Util/Mobile';
 import { connect } from 'react-redux';
 import { toggleOverlayByKey, hideActiveOverlay } from 'Store/Overlay';
 import { changeNavigationState, goToPreviousNavigationState } from 'Store/Navigation';
@@ -9,15 +10,26 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import {
     CATEGORY_FILTER_OVERLAY_ID
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
-import { DRAGBAR_OPEN, MENU } from 'Component/Header/Header.component';
+
+import Header, {
+    DRAGBAR_OPEN, MENU, SEARCH
+} from 'Component/Header/Header.component';
+import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
+import { history } from 'Route';
+
+
+export const HISTORY_START_CATEGORY_STRING = 1;
+export const HISTORY_END_CATEGORY_STRING = 8;
 
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
 
 export const mapStateToProps = state => ({
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
+    activeOverlay: state.OverlayReducer.activeOverlay,
     cartTotals: state.CartReducer.cartTotals,
     header_logo_src: state.ConfigReducer.header_logo_src,
+    isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading,
     isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite
@@ -75,9 +87,9 @@ export class HeaderContainer extends SourceHeaderContainer {
             isLoading,
             isClearEnabled,
             searchCriteria,
+            isActiveSlideWhite,
             isCheckout,
-            showMyAccountLogin,
-            isActiveSlideWhite
+            showMyAccountLogin
         };
     };
 
@@ -121,6 +133,62 @@ export class HeaderContainer extends SourceHeaderContainer {
             showOverlay(MENU);
             setNavigationState({ name: MENU });
         }
+    }
+
+    onSearchBarFocus() {
+        const {
+            setNavigationState,
+            showOverlay,
+            navigationState: { name }
+        } = this.props;
+
+        if (!isMobile.any() && name === SEARCH) return;
+
+        showOverlay(SEARCH);
+
+        setNavigationState({
+            name: SEARCH
+        });
+    }
+
+    onSearchOutsideClick() {}
+
+    onMinicartOutsideClick() {
+        const {
+            goToPreviousNavigationState,
+            hideActiveOverlay,
+            navigationState: { name }
+        } = this.props;
+
+        if (isMobile.any() || name !== CART_OVERLAY_ID) return;
+
+        goToPreviousNavigationState();
+        hideActiveOverlay();
+    }
+
+    onMinicartButtonClick() {
+        const {
+            goToPreviousNavigationState,
+            activeOverlay,
+            showOverlay
+        } = this.props;
+
+        if (!isMobile.any()) {
+            if (activeOverlay === CART_OVERLAY_ID) goToPreviousNavigationState();
+            return showOverlay(CART_OVERLAY_ID);
+        }
+
+        return history.push('/cart');
+    }
+
+    render() {
+        return (
+            <Header
+              { ...this.state }
+              { ...this.containerProps() }
+              { ...this.containerFunctions }
+            />
+        );
     }
 }
 
