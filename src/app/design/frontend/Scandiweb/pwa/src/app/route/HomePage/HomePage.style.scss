@@ -74,23 +74,18 @@
         line-height: 1;
         font-size: 20px;
         width: 80%;
-        margin: 5px auto 0;
+        margin: 5px auto 15px;
         max-width: 350px;
 
         @include after-mobile {
             max-width: 550px;
             font-size: 22px;
-            margin: 10px auto 0;
+            margin: 10px auto 20px;
         }
     }
 
     &-SlideButton {
         color: #FFF;
         border-color: #FFF;
-        margin-top: 15px;
-
-        @include after-mobile {
-            margin-top: 20px;
-        }
     }
 }

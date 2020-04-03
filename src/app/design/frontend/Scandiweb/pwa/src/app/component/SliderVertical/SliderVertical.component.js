@@ -1,16 +1,3 @@
-/* eslint-disable react/no-unused-state */
-
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 import { Children } from 'react';
 
 import CSS from 'Util/CSS';
@@ -18,7 +5,6 @@ import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
 import './SliderVertical.style';
 
-export const ANIMATION_DURATION = 450;
 export const ACTIVE_SLIDE_PERCENT = 0.1;
 
 /**
@@ -27,6 +13,7 @@ export const ACTIVE_SLIDE_PERCENT = 0.1;
  */
 export default class SliderVertical extends Slider {
     componentDidMount() {
+        const { animationDuration } = this.props;
         const sliderChildren = this.draggableRef.current.children;
 
         if (!sliderChildren || !sliderChildren[0]) return;
@@ -39,7 +26,7 @@ export default class SliderVertical extends Slider {
 
         setTimeout(() => {
             CSS.setVariable(this.sliderRef, 'slider-width', `${ sliderChildren[0].offsetWidth }px`);
-        }, ANIMATION_DURATION);
+        }, animationDuration);
         this.sliderHeight = this.draggableRef.current.offsetHeight;
     }
 
@@ -60,7 +47,8 @@ export default class SliderVertical extends Slider {
         } = prevProps;
         const {
             activeImage,
-            isPDPHeaderPresent
+            isPDPHeaderPresent,
+            animationDuration
         } = this.props;
 
         if (isPDPHeaderPresent !== prevIsPDPHeaderPresent) {
@@ -73,7 +61,7 @@ export default class SliderVertical extends Slider {
             CSS.setVariable(
                 this.draggableRef,
                 'animation-speed',
-                `${ Math.abs((prevActiveImage - activeImage) * ANIMATION_DURATION) }ms`
+                `${ Math.abs((prevActiveImage - activeImage) * animationDuration) }ms`
             );
 
             CSS.setVariable(
@@ -157,13 +145,14 @@ export default class SliderVertical extends Slider {
     }
 
     handleDragEnd(state, callback) {
+        const { animationDuration } = this.props;
         const activeSlide = this.calculateNextSlide(state);
 
         const slideSize = this.sliderHeight;
 
         const newTranslate = activeSlide * slideSize;
 
-        CSS.setVariable(this.draggableRef, 'animation-speed', '300ms');
+        CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
 
         CSS.setVariable(
             this.draggableRef,

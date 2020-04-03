@@ -1,5 +1,6 @@
 import { Fragment, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { history } from 'Route';
 
 import SourceHeader, {
     PDP,
@@ -447,13 +448,16 @@ export default class Header extends SourceHeader {
             isActiveSlideWhite,
             isCategory
         } = this.props;
+        const { pathname } = history.location;
+
+        const isWhite = isActiveSlideWhite && pathname === '/';
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
                 <nav
                   block="Header"
                   elem="Nav"
-                  mods={ { isWhite: isActiveSlideWhite } }
+                  mods={ { isWhite } }
                 >
                     { this.renderHeaderState() }
                 </nav>

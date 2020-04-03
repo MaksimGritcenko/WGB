@@ -21,8 +21,12 @@
     position: relative;
 
     &-Close {
-        margin-right: 15px;
-        order: 666;
+        &.Header-Button_isVisible {
+            @include mobile {
+                margin-right: 15px;
+                order: 666;
+            }
+        }
     }
 
     &-Draggable {
