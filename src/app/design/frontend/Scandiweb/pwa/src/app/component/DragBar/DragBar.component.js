@@ -39,8 +39,7 @@ export class DragBar extends Component {
         location: PropTypes.object.isRequired,
         changeHeaderState: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
-        children: PropTypes.array.isRequired,
-        isSmall: PropTypes.bool.isRequired
+        children: PropTypes.array.isRequired
     };
 
     state = {
@@ -59,14 +58,6 @@ export class DragBar extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { isSmall } = this.props;
-
-        if (isSmall) {
-            CSS.setVariable(this.dragBarRef, 'initial-offset-y', `${SMALLER_DRAGBAR_SIZE}px`);
-        } else {
-            CSS.setVariable(this.dragBarRef, 'initial-offset-y', `${BIGGER_DRAGBAR_SIZE}px`);
-        }
-
         if (prevState.areDetailsOpen) {
             // eslint-disable-next-line react/destructuring-assignment
             if (prevProps.location.pathname !== this.props.location.pathname) {
@@ -90,7 +81,7 @@ export class DragBar extends Component {
                 CSS.setVariable(
                     this.dragBarRef,
                     'draggable-y',
-                    `calc(-100% + var(--initial-offset-y) + ${translateY}px)`
+                    `calc(-100% + ${110 + translateY}px)`
                 );
             }, 0);
         }
@@ -129,6 +120,7 @@ export class DragBar extends Component {
 
     openDetails() {
         const { changeHeaderState } = this.props;
+        console.log('opening...')
 
         this.cb({
             originalY: 0,
@@ -141,7 +133,7 @@ export class DragBar extends Component {
         CSS.setVariable(this.dragBarRef, 'overflow', 'scroll');
         CSS.setVariable(this.dragBarRef, 'open-bounce-speed', '0');
         setTimeout(() => {
-            CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + var(--initial-offset-y))');
+            CSS.setVariable(this.dragBarRef, 'draggable-y', 'calc(-100% + 110px)');
         }, 0);
 
         changeHeaderState({ name: DRAGBAR_OPEN, onCloseClick: () => this.closeDetails() });
@@ -149,6 +141,7 @@ export class DragBar extends Component {
 
     closeDetails(isManualChange = false) { // is manual && is changed
         const { goToPreviousHeaderState } = this.props;
+        console.log('closing...');
 
         this.cb({
             originalY: 0,

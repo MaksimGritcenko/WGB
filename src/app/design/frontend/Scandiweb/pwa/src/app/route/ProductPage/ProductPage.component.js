@@ -164,12 +164,10 @@ export default class ProductPage extends SourceProductPage {
             areDetailsLoaded
         } = this.props;
 
-        const { attributes: { brand: { attribute_value: brand } = {} } = {} } = productOrVariant;
-
         return (
             <ConditionalWrapper
               condition={ !!isMobile.any() }
-              ifTrue={ children => <DragBar shouldBeSmaller={ !!areDetailsLoaded && !brand }>{ children }</DragBar> }
+              ifTrue={ children => <DragBar>{ children }</DragBar> }
               ifFalse={ children => <ContentWrapper mix={ { block: 'ProductContentWrapper' } } label={ __('Product information') }>{ children }</ContentWrapper> }
             >
                 <ProductActions

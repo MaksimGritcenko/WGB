@@ -11,7 +11,7 @@ export default class ProductActions extends SourceProductActions {
             showOnlyIfLoaded
         } = this.props;
 
-        return showOnlyIfLoaded(
+        const contentToShow = showOnlyIfLoaded(
             brand,
             (
                 <p block="ProductActions" elem="Brand" itemProp="brand">
@@ -19,6 +19,10 @@ export default class ProductActions extends SourceProductActions {
                 </p>
             )
         );
+
+        const emptyPlace = <br />;
+
+        return contentToShow || emptyPlace;
     }
 
     renderNameAndPrice() {
