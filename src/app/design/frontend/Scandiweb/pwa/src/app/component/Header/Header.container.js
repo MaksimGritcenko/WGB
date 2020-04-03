@@ -12,7 +12,10 @@ import {
 } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 
 import Header, {
-    DRAGBAR_OPEN, MENU, SEARCH
+    DRAGBAR_OPEN,
+    MENU,
+    SEARCH,
+    FILTER
 } from 'Component/Header/Header.component';
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import { history } from 'Route';
@@ -115,8 +118,10 @@ export class HeaderContainer extends SourceHeaderContainer {
     }
 
     onFilterButtonClick() {
-        const { showOverlay } = this.props;
+        const { showOverlay, setNavigationState } = this.props;
+
         showOverlay(CATEGORY_FILTER_OVERLAY_ID);
+        setNavigationState({ name: FILTER });
     }
 
     onMenuButtonClick() {

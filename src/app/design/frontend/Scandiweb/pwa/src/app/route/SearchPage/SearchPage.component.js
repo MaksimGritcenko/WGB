@@ -1,5 +1,6 @@
 import CategoryPage from 'SourceRoute/CategoryPage/CategoryPage.component';
 import ContentWrapper from 'Component/ContentWrapper';
+import GenderSliderButtons from 'Component/GenderSliderButtons';
 
 export default class SearchPage extends CategoryPage {
     render() {
@@ -11,6 +12,7 @@ export default class SearchPage extends CategoryPage {
                 >
                     { this.renderFilterOverlay() }
                     <aside block="CategoryPage" elem="Miscellaneous">
+                        <GenderSliderButtons />
                         { this.renderItemsCount() }
                         { this.renderCategorySort() }
                         { this.renderFilterButton() }
