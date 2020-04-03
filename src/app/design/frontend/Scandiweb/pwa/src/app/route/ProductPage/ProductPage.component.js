@@ -9,14 +9,37 @@ import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
 import ConditionalWrapper from 'Component/ConditionalWrapper';
-// import ProductReviews from 'Component/ProductReviews';
 import ContentWrapper from 'Component/ContentWrapper';
 import isMobile from 'Util/Mobile';
+import Event, { EVENT_GTM_PRODUCT_DETAIL } from 'Util/Event';
 import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style.override';
 
 export default class ProductPage extends SourceProductPage {
+    componentDidUpdate(prevProps) {
+        const { areDetailsLoaded, location: { pathname } } = this.props;
+        const { areDetailsLoaded: prevAreDetailsLoaded, location: { pathname: prevPathname } } = prevProps;
+
+        if (
+            (areDetailsLoaded && areDetailsLoaded !== prevAreDetailsLoaded)
+            || (areDetailsLoaded && pathname !== prevPathname)
+        ) {
+            this._gtmProductDetail();
+        }
+    }
+
+    _gtmProductDetail() {
+        const { product, location: { pathname }, configurableVariantIndex } = this.props;
+
+        if (product && product.price && product.attributes) {
+            Event.dispatch(EVENT_GTM_PRODUCT_DETAIL, {
+                product: { ...product, configurableVariantIndex },
+                pathname
+            });
+        }
+    }
+
     renderGoBackIcon() {
         return (
             <svg

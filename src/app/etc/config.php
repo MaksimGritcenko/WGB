@@ -229,6 +229,8 @@ return [
         'ScandiPWA_CmsGraphQl' => 1,
         'ScandiPWA_CustomerGraphQl' => 1,
         'ScandiPWA_Locale' => 1,
+        'ScandiPWA_Gtm' => 1,
+        'ScandiPWA_GtmGraphQl' => 1,
         'ScandiPWA_Installer' => 1,
         'ScandiPWA_KlarnaGraphQl' => 1,
         'Scandiweb_Core' => 1,
@@ -249,6 +251,8 @@ return [
         'ScandiPWA_SliderGraphQl' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
+        'WGB_Slider' => 1,
+        'WGB_SliderGraphQl' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];

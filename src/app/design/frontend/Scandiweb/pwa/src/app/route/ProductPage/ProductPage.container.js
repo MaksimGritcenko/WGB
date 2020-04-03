@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
     currentCategory: state.CategoryReducer.category
 });
 
-class ProductPageContainer extends SourceProductPageContainer {
+export class ProductPageContainer extends SourceProductPageContainer {
     _onProductUpdate() {
         const dataSource = this._getDataSource();
 

@@ -1,4 +1,7 @@
 import { Fragment, createRef } from 'react';
+import PropTypes from 'prop-types';
+import { history } from 'Route';
+
 import SourceHeader, {
     PDP,
     CATEGORY,
@@ -56,16 +59,24 @@ export {
     CMS_PAGE
 } from 'SourceComponent/Header/Header.component';
 
+export const FAVORITES = 'favorites';
+export const URL_REWRITE = 'url-rewrite';
+export const PASSWORD_CHANGE = 'password-change';
+
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
 
 export const DRAGBAR_OPEN = 'DRAGBAR_OPEN';
 
-export const FAVORITES = 'favorites';
 export default class Header extends SourceHeader {
     static propTypes = {
-        ...this.propTypes
-        // onSearchBarClick: PropTypes.func.isRequired,
+        ...this.propTypes,
+        isActiveSlideWhite: PropTypes.bool
+    };
+
+    static defaultProps = {
+        ...this.defaultProps,
+        isActiveSlideWhite: false
     };
 
     stateMap = {
@@ -175,6 +186,21 @@ export default class Header extends SourceHeader {
 
     renderNotTransparentPart() {
         return <div block="Header" elem="NotTransparentPart" key="NotTransparentPart" />;
+    }
+
+    componentDidUpdate() {
+        this.disableScrollBehavior();
+    }
+
+    disableScrollBehavior() {
+        const { location: { pathname } } = history;
+        if (pathname === '/') {
+            document.body.style.overscrollBehaviorX = 'none';
+
+            return;
+        }
+
+        document.body.style.overscrollBehaviorX = 'auto';
     }
 
     onClearSearchButtonClick() {
@@ -441,13 +467,23 @@ export default class Header extends SourceHeader {
         );
     }
 
-
     render() {
-        const { navigationState: { name }, isCategory } = this.props;
+        const {
+            navigationState: { name },
+            isActiveSlideWhite,
+            isCategory
+        } = this.props;
+        const { pathname } = history.location;
+
+        const isWhite = isActiveSlideWhite && pathname === '/';
 
         return (
             <header block="Header" mods={ { name, isCategory } }>
-                <nav block="Header" elem="Nav">
+                <nav
+                  block="Header"
+                  elem="Nav"
+                  mods={ { isWhite } }
+                >
                     { this.renderHeaderState() }
                 </nav>
                 { this.renderFilterButton() }

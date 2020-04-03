@@ -26,6 +26,9 @@ import './DragBar.style';
 export const SMALLER_DRAGBAR_SIZE = 80;
 export const BIGGER_DRAGBAR_SIZE = 110;
 
+const DRAGBAR_OPEN_OFFSET = -150;
+const DRAGBAR_CLOSE_OFFSET = 50;
+
 export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state)),
     goToPreviousHeaderState: () => dispatch(goToPreviousNavigationState(TOP_NAVIGATION_TYPE))
@@ -37,7 +40,7 @@ export class DragBar extends Component {
         changeHeaderState: PropTypes.func.isRequired,
         goToPreviousHeaderState: PropTypes.func.isRequired,
         children: PropTypes.array.isRequired,
-        shouldBeSmaller: PropTypes.bool.isRequired
+        isSmall: PropTypes.bool.isRequired
     };
 
     state = {
@@ -56,9 +59,9 @@ export class DragBar extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { shouldBeSmaller } = this.props;
+        const { isSmall } = this.props;
 
-        if (shouldBeSmaller) {
+        if (isSmall) {
             CSS.setVariable(this.dragBarRef, 'initial-offset-y', `${SMALLER_DRAGBAR_SIZE}px`);
         } else {
             CSS.setVariable(this.dragBarRef, 'initial-offset-y', `${BIGGER_DRAGBAR_SIZE}px`);
@@ -100,18 +103,18 @@ export class DragBar extends Component {
         this.cb = callback;
 
         if (!areDetailsOpen) { // details are closed
-            if (translateY > -150) {
-                // drag is higher than -150px => we close it back
+            if (translateY > DRAGBAR_OPEN_OFFSET) {
+                // drag is higher than x => we close it back
                 setTimeout(() => {
                     this.closeDetails();
                 }, 0);
             } else {
-                // drag is lower than -150px => we open it completely
+                // drag is lower than x => we open it completely
                 setTimeout(() => {
                     this.openDetails();
                 }, 0);
             }
-        } else if (translateY > 50 && this.dragBarRef.current.scrollTop <= 0) {
+        } else if (translateY > DRAGBAR_CLOSE_OFFSET && this.dragBarRef.current.scrollTop <= 0) {
             // details are open and drag is higher than 150px => we close it
             setTimeout(() => {
                 this.closeDetails(true);

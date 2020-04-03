@@ -1,14 +1,3 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 import PropTypes from 'prop-types';
 import isMobile from 'Util/Mobile';
 import { connect } from 'react-redux';
@@ -28,7 +17,6 @@ import Header, {
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import { history } from 'Route';
 
-
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
 
@@ -39,7 +27,8 @@ export const mapStateToProps = state => ({
     header_logo_src: state.ConfigReducer.header_logo_src,
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
-    isLoading: state.ConfigReducer.isLoading
+    isLoading: state.ConfigReducer.isLoading,
+    isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -75,7 +64,8 @@ export class HeaderContainer extends SourceHeaderContainer {
             cartTotals,
             header_logo_src,
             logo_alt,
-            isLoading
+            isLoading,
+            isActiveSlideWhite
         } = this.props;
 
         const {
@@ -93,6 +83,7 @@ export class HeaderContainer extends SourceHeaderContainer {
             isLoading,
             isClearEnabled,
             searchCriteria,
+            isActiveSlideWhite,
             isCheckout,
             showMyAccountLogin
         };

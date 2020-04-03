@@ -17,6 +17,8 @@ import './CategoryConfigurableAttributes.style.scss';
 
 export const VIEW_MORE_ITEMS_LIMIT = 3;
 
+export const MAX_NUMBER_OF_PLACEHOLDERS = 3;
+
 class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttributes {
     state = {};
 
@@ -128,6 +130,38 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
               isFormattedAsLink
             />
         );
+    }
+
+    renderPlaceholders() {
+        const { isContentExpanded } = this.props;
+
+        // eslint-disable-next-line no-magic-numbers
+        const numberOfPlaceholders = [3, 4, 3];
+
+        return numberOfPlaceholders.map((length, i) => (
+            <CategoryExpandableContent
+              // eslint-disable-next-line react/no-array-index-key
+              key={ i }
+              mix={ { block: 'CategoryConfigurableAttributes' } }
+              isContentExpanded={ isContentExpanded }
+            >
+                <div
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={ i }
+                  block="CategoryConfigurableAttributes"
+                  elem="SwatchList"
+                >
+                    { Array.from({ length }, (_, i) => (
+                        <div
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={ i }
+                          block="CategoryConfigurableAttributes"
+                          elem="Placeholder"
+                        />
+                    )) }
+                </div>
+            </CategoryExpandableContent>
+        ));
     }
 
     render() {

@@ -1,0 +1,3 @@
+type Slide {
+    slide_content_is_white: Boolean @doc(description: "Slide content is white")
+}
