@@ -4,14 +4,15 @@ import SourceProductPage from 'SourceRoute/ProductPage/ProductPage.component';
 
 import ProductGallery from 'Component/ProductGallery';
 import ProductActions from 'Component/ProductActions';
-// import ProductLinks from 'Component/ProductLinks';
+import ProductLinks from 'Component/ProductLinks';
 import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
+import ConditionalWrapper from 'Component/ConditionalWrapper';
 // import ProductReviews from 'Component/ProductReviews';
 import ContentWrapper from 'Component/ContentWrapper';
 import isMobile from 'Util/Mobile';
-// import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style.override';
 
@@ -97,15 +98,6 @@ export default class ProductPage extends SourceProductPage {
         );
     }
 
-    renderProductPageContent() {
-        return (
-        <>
-            { this.renderPDPHeader() }
-            { this.renderProductGallery() }
-        </>
-        );
-    }
-
     freezeScroll() {
         if (isMobile.any()) {
             document.body.classList.add('overscrollDisabled');
@@ -126,6 +118,18 @@ export default class ProductPage extends SourceProductPage {
         this.unFreezeScroll();
     }
 
+    renderProductLinks() {
+        const { areDetailsLoaded } = this.props;
+
+        return (
+            <ProductLinks
+              linkType={ RELATED }
+              title={ __('Recommended for you') }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
+    }
+
     renderAdditionalSections() {
         const {
             productOrVariant,
@@ -137,14 +141,11 @@ export default class ProductPage extends SourceProductPage {
             areDetailsLoaded
         } = this.props;
 
-        const ConditionalWrapper = ({
-            condition, ifTrue, ifFalse, children
-        }) => (condition ? ifTrue(children) : ifFalse(children));
         const { attributes: { brand: { attribute_value: brand } = {} } = {} } = productOrVariant;
 
         return (
             <ConditionalWrapper
-              condition={ isMobile.any() }
+              condition={ !!isMobile.any() }
               ifTrue={ children => <DragBar shouldBeSmaller={ !!areDetailsLoaded && !brand }>{ children }</DragBar> }
               ifFalse={ children => <ContentWrapper mix={ { block: 'ProductContentWrapper' } } label={ __('Product information') }>{ children }</ContentWrapper> }
             >
@@ -166,12 +167,39 @@ export default class ProductPage extends SourceProductPage {
                   product={ dataSource }
                   areDetailsLoaded={ areDetailsLoaded }
                 /> */ }
-                { /* <ProductLinks
-                  linkType={ RELATED }
-                  title={ __('Recommended for you') }
-                  areDetailsLoaded={ areDetailsLoaded }
-                /> */ }
+                { isMobile.any() ? this.renderProductLinks() : null }
             </ConditionalWrapper>
         );
     }
+
+    render() {
+        return (
+            <>
+                <main
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
+                >
+                    { /* Wrap to ensure proper scrolling on desktop */ }
+                    <ConditionalWrapper
+                      condition={ !isMobile.any() }
+                      ifTrue={ children => <div block="ProductPage" elem="UpperPartWrapper">{ children }</div> }
+                      ifFalse={ children => children }
+                    >
+                        <ContentWrapper
+                          wrapperMix={ { block: 'ProductPage', elem: 'Wrapper' } }
+                          label={ __('Product gallery') }
+                        >
+                            { this.renderPDPHeader() }
+                            { this.renderProductGallery() }
+                        </ContentWrapper>
+                        { this.renderAdditionalSections() }
+                    </ConditionalWrapper>
+                    { isMobile.any() ? null : this.renderProductLinks() }
+                </main>
+            </>
+        );
+    }
+
 }

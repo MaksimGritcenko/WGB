@@ -7,8 +7,12 @@
 
 .ProductPage {
     @include after-mobile {
-        display: flex;
         padding-top: var(--header-height);
+    }
+
+    &-UpperPartWrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 
     &-Category {
