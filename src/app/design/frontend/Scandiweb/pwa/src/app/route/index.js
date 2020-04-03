@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { lazy } from 'react';
 import { Route } from 'react-router-dom';
 
 import Header from 'Component/Header';
@@ -16,6 +16,8 @@ import {
     AppRouter as SourceAppRouter
 } from 'SourceRoute';
 
+export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SearchPage'));
+
 export {
     CartPage,
     CategoryPage,
@@ -26,7 +28,6 @@ export {
     NoMatchHandler,
     PasswordChangePage,
     ProductPage,
-    SearchPage,
     UrlRewrites,
     MenuPage,
     BEFORE_ITEMS_TYPE,
@@ -42,6 +43,10 @@ export class AppRouter extends SourceAppRouter {
             {
                 component: <Route path="/my-favorites" exact component={ MyAccountWishlist } />,
                 position: 90
+            },
+            {
+                component: <Route path="/search/:query/" exact component={ SearchPage } />,
+                position: 100
             }
         );
     }
