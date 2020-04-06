@@ -64,7 +64,7 @@ export {
 export const FAVORITES = 'favorites';
 export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
-export const WHITE = 'white';
+export const CONTACT_US = 'contact-us';
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -83,7 +83,7 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
-        [WHITE]: {
+        [CONTACT_US]: {
             menu: true,
             searchButton: true,
             title: true,

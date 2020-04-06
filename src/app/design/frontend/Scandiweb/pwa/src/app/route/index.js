@@ -15,6 +15,7 @@ import Header, {
     CHECKOUT,
     CMS_PAGE,
     FAVORITES,
+    CONTACT_US,
     URL_REWRITE,
     PASSWORD_CHANGE
 } from 'Component/Header';
@@ -209,7 +210,14 @@ export class AppRouter extends SourceAppRouter {
             position: 90
         },
         {
-            component: <Route path="/contact-us" exact component={ ContactPage } />,
+            component: <Route
+              path="/contact-us"
+              render={ props => (
+                <GoogleTagManagerRouteWrapperComponent route={ CONTACT_US }>
+                    <ContactPage { ...props } />
+                </GoogleTagManagerRouteWrapperComponent>
+              ) }
+            />,
             position: 95
         },
         {

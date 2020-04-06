@@ -5,7 +5,7 @@ import Loader from 'Component/Loader';
 import CmsBlock from 'Component/CmsBlock';
 import ContactForm from 'Component/ContactForm';
 import ContactExpandableContent from 'Component/ContactExpandableContent';
-import { WHITE } from 'Component/Header';
+import { CONTACT_US } from 'Component/Header';
 
 import './ContactPage.style';
 
@@ -50,7 +50,7 @@ class ContactPage extends PureComponent {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: WHITE,
+            name: CONTACT_US,
             title: null
         });
     }
@@ -79,12 +79,12 @@ class ContactPage extends PureComponent {
               heading={ __('E-MAIL SUPPORT') }
               mix={ { block: 'Email' } }
             >
-            <p block="ContactExpandableContent" elem="SubContent">
-                Send us an e-mail and we will contact you ASAP
-            </p>
-            <p block="ContactExpandableContent" elem="MainContent">
-                { store_email }
-            </p>
+                <p block="ContactExpandableContent" elem="SubContent">
+                    Send us an e-mail and we will contact you ASAP
+                </p>
+                <p block="ContactExpandableContent" elem="MainContent">
+                    { store_email }
+                </p>
             </ContactExpandableContent>
         );
     }
@@ -95,10 +95,10 @@ class ContactPage extends PureComponent {
               heading={ __('STAY SOCIAL') }
               mix={ { block: 'Social' } }
             >
-              <p block="ContactExpandableContent" elem="SubContent">
-              { __('Find us here:') }
-              </p>
-              <CmsBlock identifiers={ ['contact-us-social'] } />
+                <p block="ContactExpandableContent" elem="SubContent">
+                { __('Find us here:') }
+                </p>
+                <CmsBlock identifiers={ ['contact-us-social'] } />
             </ContactExpandableContent>
         );
     }
@@ -109,10 +109,10 @@ class ContactPage extends PureComponent {
               heading={ __('FORM APPLICATION') }
               mix={ { block: 'Form' } }
             >
-            <p block="ContactExpandableContent" elem="SubContent">
-                Complete the form and we will contact you ASAP:
-            </p>
-            <ContactForm />
+                <p block="ContactExpandableContent" elem="SubContent">
+                    Complete the form and we will contact you ASAP:
+                </p>
+                <ContactForm />
             </ContactExpandableContent>
         );
     }
