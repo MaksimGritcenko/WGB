@@ -23,6 +23,8 @@ import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import GenderSliderButtons from 'Component/GenderSliderButtons';
+import Link from 'Component/Link';
 
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 
@@ -421,6 +423,25 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderLogo(isVisible = false) {
+        const { isLoading } = this.props;
+
+        return (
+            <Link
+              to="/"
+              aria-label="Go to homepage by clicking on ScandiPWA logo"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+              block="Header"
+              elem="LogoWrapper"
+              mods={ { isVisible } }
+              key="logo"
+            >
+                { this.renderLogoImage() }
+            </Link>
+        );
+    }
+
     renderHeaderState() {
         const { navigationState: { name } } = this.props;
 
@@ -433,6 +454,14 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderGenderSwitcherButtons() {
+        const { headerType } = this.props;
+
+        if (!headerType || !headerType.isSearch) return null;
+
+        return <GenderSliderButtons />;
+    }
+
     renderFilterButton() {
         const { onFilterButtonClick } = this.props;
 
@@ -441,6 +470,7 @@ export default class Header extends SourceHeader {
               block="Header"
               elem="Filter"
             >
+                { this.renderGenderSwitcherButtons() }
                 <button
                   block="Header"
                   elem="Filter-Button"
@@ -471,14 +501,14 @@ export default class Header extends SourceHeader {
         const {
             navigationState: { name },
             isActiveSlideWhite,
-            isCategory
+            headerType
         } = this.props;
         const { pathname } = history.location;
 
         const isWhite = isActiveSlideWhite && pathname === '/';
 
         return (
-            <header block="Header" mods={ { name, isCategory } }>
+            <header block="Header" mods={ { name, ...headerType } }>
                 <nav
                   block="Header"
                   elem="Nav"

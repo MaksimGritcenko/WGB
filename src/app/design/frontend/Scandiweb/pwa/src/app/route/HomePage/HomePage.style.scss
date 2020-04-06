@@ -60,12 +60,13 @@
         line-height: 1;
         font-size: 40px;
         width: 90%;
-        margin: auto;
+        margin: 0 auto 5px;
         max-width: 350px;
 
         @include after-mobile {
             font-size: 70px;
             max-width: unset;
+            margin-bottom: 10px;
         }
     }
 
@@ -74,18 +75,24 @@
         line-height: 1;
         font-size: 20px;
         width: 80%;
-        margin: 5px auto 15px;
+        margin: 5px auto 10px;
         max-width: 350px;
 
         @include after-mobile {
             max-width: 550px;
             font-size: 22px;
-            margin: 10px auto 20px;
         }
     }
 
     &-SlideButton {
-        color: #FFF;
-        border-color: #FFF;
+        &.Button {
+            margin-top: 5px;
+            color: #FFF;
+            border-color: #FFF;
+
+            @include after-mobile {
+                margin-top: 10px;
+            }
+        }
     }
 }
