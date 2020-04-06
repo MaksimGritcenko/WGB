@@ -311,10 +311,7 @@ export default class Header extends SourceHeader {
     }
 
     renderAccountButton() {
-        return (
-            // eslint-disable-next-line react/self-closing-comp
-            <div block="Empty"></div>
-        );
+        return <div key="Account" block="Empty" />;
     }
 
     renderDragbarCloseButton(isVisible = false) {

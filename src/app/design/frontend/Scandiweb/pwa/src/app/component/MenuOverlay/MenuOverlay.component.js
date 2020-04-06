@@ -238,7 +238,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
               to={ link }
               block="MenuOverlay"
               elem="BottomItem"
-              key="logo"
+              key={ title }
             >
                 <div
                   block="MenuOverlay"
