@@ -1,0 +1,8 @@
+type Query {
+    socialLogins: [SocialLogin] @resolver(class: "WGB\\SocialLogin\\Model\\Resolver\\SocialLoginStatusResolver")
+}
+
+type SocialLogin {
+    url: String
+    provider: String
+}

@@ -15,10 +15,10 @@
 
 .ProductInformation {
     top: -1px;
-    border-top: 1px solid var(--expandable-content-divider-color);
 
     @include mobile {
         border-top: none;
+        border-top: 1px solid var(--expandable-content-divider-color);
     }
 
     @include after-mobile {
@@ -45,7 +45,7 @@
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1rem;
+                padding: 0;
             }
         }
 

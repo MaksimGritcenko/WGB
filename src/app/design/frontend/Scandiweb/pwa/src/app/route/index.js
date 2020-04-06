@@ -13,6 +13,7 @@ import Header, {
     SEARCH,
     CART,
     CHECKOUT,
+    SIGN_IN,
     CMS_PAGE,
     FAVORITES,
     CONTACT_US,
@@ -24,7 +25,9 @@ import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
+import MyAccountSignIn from 'Route/MyAccountSignIn';
 import ContactPage from 'Component/ContactPage';
+import CookiePopup from 'Component/CookiePopup';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
@@ -218,7 +221,18 @@ export class AppRouter extends SourceAppRouter {
                 </GoogleTagManagerRouteWrapperComponent>
               ) }
             />,
-            position: 95
+            position: 100
+        },
+        {
+            component: <Route
+              path="/signin"
+              render={ props => (
+                <GoogleTagManagerRouteWrapperComponent route={ SIGN_IN }>
+                      <MyAccountSignIn { ...props } />
+                </GoogleTagManagerRouteWrapperComponent>
+              ) }
+            />,
+            position: 110
         },
         {
             component: <Route
@@ -232,7 +246,12 @@ export class AppRouter extends SourceAppRouter {
         }
     ];
 
-    [AFTER_ITEMS_TYPE] = [];
+    [AFTER_ITEMS_TYPE] = [
+        {
+            component: <CookiePopup />,
+            position: 20
+        }
+    ];
 
     getHeaderAndFooterOptions() {
         return {

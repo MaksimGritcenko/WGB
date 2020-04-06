@@ -422,6 +422,10 @@
         align-items: center;
         display: flex;
 
+        &:hover {
+            text-decoration: none;
+        }
+
         @include after-mobile {
             padding: 20px 0;
         }
