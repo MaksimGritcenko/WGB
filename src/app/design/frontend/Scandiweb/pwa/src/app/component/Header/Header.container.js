@@ -19,7 +19,6 @@ import Header, {
 } from 'Component/Header/Header.component';
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import { history } from 'Route';
-import { isSignedIn } from 'Util/Auth';
 
 export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
