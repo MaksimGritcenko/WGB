@@ -3,11 +3,20 @@ import SourceMyAccountOverlay from 'SourceComponent/MyAccountOverlay/MyAccountOv
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 import { withRouter } from 'react-router-dom';
+import { history } from 'Route';
 import 'SourceComponent/MyAccountOverlay/MyAccountOverlay.style.scss';
 import './MyAccountOverlay.extended.style.scss';
 
+import Loader from 'Component/Loader';
+
 export * from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
 
+export const STATE_SIGN_IN = 'signIn';
+export const STATE_FORGOT_PASSWORD = 'forgotPassword';
+export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
+export const STATE_CREATE_ACCOUNT = 'createAccount';
+export const STATE_LOGGED_IN = 'loggedIn';
+export const STATE_CONFIRM_EMAIL = 'confirmEmail';
 
 class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
     getSocialLogins() {
@@ -31,74 +40,278 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
         ));
     }
 
-    renderSignIn() {
+    renderMap = {
+        [STATE_SIGN_IN]: {
+            render: () => this.renderSignIn(),
+            title: null
+        },
+        [STATE_FORGOT_PASSWORD]: {
+            render: () => this.renderForgotPassword()
+        },
+        [STATE_FORGOT_PASSWORD_SUCCESS]: {
+            render: () => this.renderForgotPasswordSuccess()
+        },
+        [STATE_CREATE_ACCOUNT]: {
+            render: () => this.renderCreateAccount()
+        },
+        [STATE_LOGGED_IN]: {
+            render: () => {}
+        },
+        [STATE_CONFIRM_EMAIL]: {
+            render: () => this.renderConfirmEmail()
+        }
+    };
+
+    renderNewUser() {
         const {
             state,
-            onSignInAttempt,
-            onSignInSuccess,
-            onFormError,
-            handleForgotPassword,
             handleCreateAccount
         } = this.props;
 
+        return (
+        <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
+            <section>
+                <h4 id="forgot-password-label">{ __('New User') }</h4>
+                <button
+                  block="Button"
+                  onClick={ handleCreateAccount }
+                    >
+                    { __('Create an account') }
+                </button>
+            </section>
+        </article>
+        );
+    }
+
+    renderSignInForm() {
+        const {
+            onSignInAttempt,
+            onSignInSuccess,
+            onFormError,
+            handleForgotPassword
+        } = this.props;
+
+        return (
+             <Form
+               key="sign-in"
+               onSubmit={ onSignInAttempt }
+               onSubmitSuccess={ onSignInSuccess }
+               onSubmitError={ onFormError }
+             >
+                   <h4 block="MyAccountOverlay" elem="SubHeader">
+                     { __('I’m already a member of VGB family') }
+                   </h4>
+                <Field
+                  type="text"
+                  placeholder={ __('Email*') }
+                  id="email"
+                  name="email"
+                  validation={ ['notEmpty', 'email'] }
+                />
+                <Field
+                  type="password"
+                  placeholder={ __('Password*') }
+                  id="password"
+                  name="password"
+                  validation={ ['notEmpty', 'password'] }
+                />
+                <button
+                  block="Button"
+                  elem="Forgot"
+                  mods={ { likeLink: true } }
+                  onClick={ handleForgotPassword }
+                >
+                    { __('Did you forget your password?') }
+                </button>
+                <div block="MyAccountOverlay" elem="Buttons">
+                    <button block="Button">{ __('Sign in') }</button>
+                </div>
+             </Form>
+        );
+    }
+
+    renderCreateAccountForm() {
+        const {
+            onCreateAccountAttempt,
+            onCreateAccountSuccess
+        } = this.props;
+
+        return (
+            <Form
+              key="create-account"
+              onSubmit={ onCreateAccountAttempt }
+              onSubmitSuccess={ onCreateAccountSuccess }
+              onSubmitError={ onCreateAccountAttempt }
+            >
+              <fieldset block="MyAccountOverlay" elem="Legend">
+                  <Field
+                    type="text"
+                    placeholder={ __('*Name') }
+                    id="firstname"
+                    name="firstname"
+                    validation={ ['notEmpty'] }
+                  />
+                  <Field
+                    type="text"
+                    placeholder={ __('Surname*') }
+                    id="lastname"
+                    name="lastname"
+                    validation={ ['notEmpty'] }
+                  />
+              </fieldset>
+              <fieldset block="MyAccountOverlay" elem="Legend">
+                  <Field
+                    type="text"
+                    placeholder="Email"
+                    id="email"
+                    name="email"
+                    validation={ ['notEmpty', 'email'] } />
+                  <Field
+                    type="password"
+                    placeholder={ __('Password*') }
+                    id="password"
+                    name="password"
+                    validation={ ['notEmpty', 'password'] }
+                  />
+                  <Field
+                    type="password"
+                    placeholder={ __('Confirm password*') }
+                    id="confirm_password"
+                    name="confirm_password"
+                    validation={ ['notEmpty', 'password', 'password_match'] }
+                  />
+                    <Field
+                      type="checkbox"
+                      value="is_subscribed"
+                      label={ __('I want to receive personalized commercial communications from Vagabond Studio') }
+                      id="is_subscribed"
+                      mix={ { block: 'MyAccountOverlay', elem: 'Checkbox' } }
+                      name="is_subscribed"
+                    />
+              </fieldset>
+              <p block="MyAccountOverlay" elem="Confirm">
+                    { __('* I have read and understand the ') }
+                    <a href="/page/privacy-policy-cookie-restriction-mode">Privacy and Cookies Policy</a>
+              </p>
+              <div block="MyAccountOverlay" elem="Buttons">
+                  <button
+                    block="Button"
+                    type="submit"
+                  >
+                      { __('Sign up') }
+                  </button>
+              </div>
+            </Form>
+        );
+    }
+
+    privacy() {
+        history.push('/page/privacy-policy-cookie-restriction-mode');
+    }
+
+    renderCreateAccount() {
+        return (
+            <>
+                <div block="MyAccountOverlay" elem="Header">
+                    { this.renderBackToSignIn() }
+                    <h2>{ __('CREATE AN ACCOUNT') }</h2>
+                </div>
+                <div block="MyAccountOverlay" elem="Column">
+                    <div block="MyAccountOverlay" elem="Column_left">
+                    { this.renderCreateAccountForm() }
+                    </div>
+                </div>
+                <div block="MyAccountOverlay" elem="Column">
+                    <div block="MyAccountOverlay" elem="Column_right">
+                        { this.renderAlreadyMember() }
+                    </div>
+                </div>
+            </>
+        );
+    }
+
+    renderAlreadyMember() {
+        const {
+            handleSignIn
+        } = this.props;
+
+        return (
+            <article block="MyAccountOverlay" elem="Additional">
+                <section>
+                    <h4>{ __('I’M ALREADY A MEMBER OF VGB FAMILY') }</h4>
+                    <button
+                      block="Button"
+                      onClick={ handleSignIn }
+                    >
+                        { __('Sign in here') }
+                    </button>
+                </section>
+            </article>
+        );
+    }
+
+    renderBackToSignIn() {
+        const {
+            handleSignIn
+        } = this.props;
+
+        return (
+            <article block="MyAccountOverlay" elem="Back">
+                <section>
+                    <button
+                      block="Button"
+                      onClick={ handleSignIn }
+                    />
+                </section>
+            </article>
+        );
+    }
+
+    renderSignIn() {
         return (
             <>
                 <div block="MyAccountOverlay" elem="Header">
                     <h2>{ __('SIGN IN / SIGN UP') }</h2>
                 </div>
-                <div block="MyAccountOverlay" elem="Form">
-                    <h4 block="Form" elem="Header">
-                        { __('I’m already a member of VGB family') }
-                    </h4>
-                </div>
-                <Form
-                  key="sign-in"
-                  onSubmit={ onSignInAttempt }
-                  onSubmitSuccess={ onSignInSuccess }
-                  onSubmitError={ onFormError }
-                >
-                    <Field
-                      type="text"
-                      placeholder={ __('Email*') }
-                      id="email"
-                      name="email"
-                      validation={ ['notEmpty', 'email'] }
-                    />
-                    <Field
-                      type="password"
-                      placeholder={ __('Password*') }
-                      id="password"
-                      name="password"
-                      validation={ ['notEmpty', 'password'] }
-                    />
-                    <button
-                      block="Button"
-                      elem="Forgot"
-                      mods={ { likeLink: true } }
-                      onClick={ handleForgotPassword }
-                    >
-                        { __('Did you forget your password?') }
-                    </button>
-                    <div block="MyAccountOverlay" elem="Buttons">
-                        <button block="Button">{ __('Sign in') }</button>
+                <div block="MyAccountOverlay" elem="Column">
+                    <div block="MyAccountOverlay" elem="Column_left">
+                        { this.renderSignInForm() }
+                        { this.renderNewUser() }
+                        <div block="MyAccountOverlay" elem="Social">
+                            <h4 id="social-login">{ __('Or sign in using') }</h4>
+                            { this.getSocialLogins() }
+                        </div>
                     </div>
-                </Form>
-                <article block="MyAccountOverlay" elem="Additional" mods={ { state } }>
-                    <section>
-                        <h4 id="forgot-password-label">{ __('New User') }</h4>
-                        <button
-                          block="Button"
-                          onClick={ handleCreateAccount }
-                        >
-                            { __('Create an account') }
-                        </button>
-                    </section>
-                </article>
-                <div block="MyAccountOverlay" elem="Social">
-                    <h4 id="social-login">{ __('Or sign in using') }</h4>
-                    { this.getSocialLogins() }
+                </div>
+                <div block="MyAccountOverlay" elem="Column">
+                    <div block="MyAccountOverlay" elem="Column_right">
+                        { this.renderNewUser() }
+                    </div>
                 </div>
             </>
+        );
+    }
+
+    renderMyAccount() {
+        const { state } = this.props;
+        const { render, title } = this.renderMap[state];
+
+        return (
+            <div block="MyAccountOverlay" elem="Action" mods={ { state } }>
+                <p block="MyAccountOverlay" elem="Heading">{ title }</p>
+                { render() }
+            </div>
+        );
+    }
+
+    render() {
+        const { isLoading } = this.props;
+
+        return (
+            <div block="MyAccountOverlay" elem="Content">
+            <Loader isLoading={ isLoading } />
+                { this.renderMyAccount() }
+            </div>
         );
     }
 }

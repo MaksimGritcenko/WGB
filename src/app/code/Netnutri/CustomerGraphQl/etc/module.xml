@@ -5,6 +5,7 @@
     <module name="Netnutri_CustomerGraphQl" setup_version="0.1.0">
         <sequence>
             <module name="Magento_CustomerGraphQl"/>
+            <module name="ScandiPWA_Route717"/>
         </sequence>
     </module>
 </config>

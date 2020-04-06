@@ -5,12 +5,14 @@ import {
 } from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.container';
 import { SocialLoginDispatcher } from 'Store/SocialLogins';
 import { connect } from 'react-redux';
-import { STATE_LOGGED_IN, STATE_SIGN_IN } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
+import {
+    STATE_CREATE_ACCOUNT,
+    STATE_LOGGED_IN,
+    STATE_SIGN_IN
+} from 'Component/MyAccountOverlay/MyAccountOverlay.component';
 import { isSignedIn } from 'Util/Auth';
 import { history } from 'Route';
-import isMobile from 'Util/Mobile';
-import { CUSTOMER_ACCOUNT } from 'Component/Header';
-
+import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 
 const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
@@ -25,6 +27,18 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
+    componentDidMount() {
+        const {
+            isSocialLoginsLoading,
+            logins,
+            requestLogins
+        } = this.props;
+
+        if (isSocialLoginsLoading && !logins.length) {
+            requestLogins();
+        }
+    }
+
     componentDidUpdate(_, prevState) {
         const { state: oldMyAccountState } = prevState;
         const { state: newMyAccountState } = this.state;
@@ -50,11 +64,18 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
     }
 
     onVisible() {
-        const { setHeaderState } = this.props;
+        return true;
+    }
 
-        if (isMobile.any()) {
-            setHeaderState({ name: CUSTOMER_ACCOUNT });
-        }
+    handleCreateAccount(e) {
+        const { setHeaderState } = this.props;
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ state: STATE_CREATE_ACCOUNT });
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT
+        });
     }
 
     handleSignIn(e) {
@@ -64,7 +85,7 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
         this.setState({ state: STATE_SIGN_IN });
 
         setHeaderState({
-            name: CUSTOMER_ACCOUNT
+            name: STATE_SIGN_IN
         });
     }
 
@@ -72,9 +93,7 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
         const {
             isSignedIn,
             isPasswordForgotSend,
-            showNotification,
-            isOverlayVisible,
-            isSocialLoginsLoading
+            showNotification
         } = props;
 
         const {
@@ -83,14 +102,6 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
         } = state;
 
         const stateToBeUpdated = {};
-
-        if (!isMobile.any()) {
-            if (!isOverlayVisible && !isSignedIn) {
-                stateToBeUpdated.state = STATE_SIGN_IN;
-            } else if (!isOverlayVisible && isSignedIn) {
-                stateToBeUpdated.state = STATE_LOGGED_IN;
-            }
-        }
 
         if (myAccountState !== STATE_LOGGED_IN && isSignedIn) {
             stateToBeUpdated.isLoading = false;

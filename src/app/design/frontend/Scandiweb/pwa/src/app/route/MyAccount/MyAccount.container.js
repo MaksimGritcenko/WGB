@@ -5,9 +5,11 @@ import {
     mapStateToProps as sourceMapStateToProps,
     MY_ACCOUNT_URL
 } from 'SourceRoute/MyAccount/MyAccount.container';
+import PropTypes from 'prop-types';
 import { setAuthorizationToken, getAuthorizationToken } from 'Util/Auth';
 import { convertQueryStringToKeyValuePairs } from 'Util/Url';
 import { updateCustomerSignInStatus } from 'Store/MyAccount';
+import { showNotification } from 'Store/Notification';
 import { connect } from 'react-redux';
 import {
     ADDRESS_BOOK,
@@ -18,12 +20,14 @@ import {
 } from 'Type/Account';
 
 import isMobile from 'Util/Mobile';
+import {CUSTOMER_ACCOUNT_PAGE} from "Component/Header";
 
 export * from 'SourceRoute/MyAccount/MyAccount.container';
 
 const mapDispatchToProps = dispatch => ({
     ...sourceMapDispatchToProps(dispatch),
-    updateIsSignedIn: state => dispatch(updateCustomerSignInStatus(state))
+    updateIsSignedIn: state => dispatch(updateCustomerSignInStatus(state)),
+    showNotification: (type, message) => dispatch(showNotification(type, message)),
 });
 
 const mapStateToProps = state => ({
@@ -33,7 +37,8 @@ const mapStateToProps = state => ({
 class MyAccount extends MyAccountContainer {
     static propTypes = {
         ...super.propTypes,
-        history: HistoryType.isRequired
+        history: HistoryType.isRequired,
+        showNotification: PropTypes.func.isRequired
     };
 
     tabMap = {
@@ -59,6 +64,25 @@ class MyAccount extends MyAccountContainer {
         }
     };
 
+    onSignIn() {
+        const {
+            requestCustomerData,
+            changeHeaderState,
+            isSignedIn,
+            showNotification,
+            history
+        } = this.props;
+
+        if (isSignedIn) {
+            requestCustomerData();
+        }
+
+        changeHeaderState({
+            name: CUSTOMER_ACCOUNT_PAGE,
+            onBackClick: () => history.push('/')
+        });
+    }
+
     redirectIfNotSignedIn() {
         const {
             isSignedIn, requestCustomerData, history: { location: { search } }, history, updateIsSignedIn
@@ -69,9 +93,11 @@ class MyAccount extends MyAccountContainer {
             setAuthorizationToken(token);
             updateIsSignedIn(true);
             requestCustomerData();
+            history.push(`${ MY_ACCOUNT_URL }/${ DASHBOARD }`);
         }
 
         if (!isSignedIn && !getAuthorizationToken()) {
+            history.push('/');
         }
     }
 

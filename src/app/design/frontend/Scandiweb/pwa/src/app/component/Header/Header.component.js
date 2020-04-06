@@ -286,27 +286,9 @@ export default class Header extends SourceHeader {
     }
 
     renderAccountButton(isVisible = false) {
-        const { onMyAccountOutsideClick, onMyAccountButtonClick } = this.props;
 
         return (
-            <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
-                <div
-                  block="Header"
-                  elem="AccountWrapper"
-                  aria-label="My account"
-                >
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'account' } }
-                      onClick={ onMyAccountButtonClick }
-                      aria-label="Open my account"
-                    >
-                        { accountIcon }
-                    </button>
-                    <MyAccountOverlay />
-                </div>
-            </ClickOutside>
+            <div block="Empty"></div>
         );
     }
 

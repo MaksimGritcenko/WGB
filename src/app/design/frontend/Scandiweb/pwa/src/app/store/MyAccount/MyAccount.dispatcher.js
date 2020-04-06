@@ -10,8 +10,8 @@
  */
 
 import { updateCustomerSignInStatus, updateCustomerDetails } from 'Store/MyAccount';
-import { executeGet, executePost } from 'Util/Request';
-import { deleteAuthorizationToken } from 'Util/Auth';
+import {executeGet, executePost, fetchMutation} from 'Util/Request';
+import {deleteAuthorizationToken, setAuthorizationToken} from 'Util/Auth';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { prepareMutation, prepareQuery } from 'Util/Query';
@@ -65,6 +65,22 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         history.push('/');
+    }
+
+    async signIn(options = {}, dispatch) {
+        const mutation = MyAccountQuery.getSignInMutation(options);
+        try {
+            const result = await fetchMutation(mutation);
+            const { generateCustomerToken: { token } } = result;
+            setAuthorizationToken(token);
+            dispatch(updateCustomerSignInStatus(true));
+            CartDispatcher.updateInitialCartData(dispatch);
+            WishlistDispatcher.updateInitialWishlistData(dispatch);
+
+            return true;
+        } catch ([e]) {
+            throw e;
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import { FAVORITES } from 'Component/Header';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 
 import './MyAccountSignIn.style';
+import isMobile from "Util/Mobile";
 
 class MyAccountSignIn extends PureComponent {
     static propTypes = {
