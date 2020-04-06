@@ -24,6 +24,10 @@
         @include mobile {
             padding: 0;
         }
+
+        &_isSearchPage {
+            padding-top: 100px;
+        }
     }
 
     &-ProductListWrapper {

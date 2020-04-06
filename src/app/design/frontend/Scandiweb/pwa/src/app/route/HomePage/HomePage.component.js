@@ -63,11 +63,13 @@ export default class HomePage extends PureComponent {
     }
 
     handleActiveImageChange(activeSlideIndex, sliderIndex) {
-        const { changeVerticalSlideIndex } = this.props;
+        const { changeVerticalSlideIndex, genderSwitchIndex } = this.props;
         const { activeSlide } = this.state;
 
-        this.setState({ activeSlide: { ...activeSlide, [sliderIndex]: activeSlideIndex } });
-        changeVerticalSlideIndex(sliderIndex, activeSlideIndex);
+        if (genderSwitchIndex === sliderIndex) {
+            this.setState({ activeSlide: { ...activeSlide, [sliderIndex]: activeSlideIndex } });
+            changeVerticalSlideIndex(sliderIndex, activeSlideIndex);
+        }
     }
 
     renderSlider(sliderId, sliderIndex) {
