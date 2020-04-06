@@ -6,6 +6,8 @@ import CSS from 'Util/CSS';
 import './Slider.style.override.style';
 
 const SCROLL_START_INDEX = 20;
+export const ANIMATION_DRAG_EASING = 'cubic-bezier(0.25, 1, 0.5, 1)';
+export const ANIMATION_SCROLL_EASING = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
 export {
     ANIMATION_DURATION,
@@ -54,6 +56,7 @@ export default class Slider extends SourceSlider {
     componentDidUpdate(prevProps) {
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage, animationDuration } = this.props;
+        const { isGesturesEnabled } = this.state;
 
         if (activeImage !== prevActiveImage) {
             const newTranslate = -activeImage * this.sliderWidth;
@@ -70,7 +73,11 @@ export default class Slider extends SourceSlider {
                 `${newTranslate}px`
             );
 
-            this.disableGestures();
+            if (!isGesturesEnabled) {
+                setTimeout(() => {
+                    this.setState({ isGesturesEnabled: true });
+                }, animationDuration);
+            }
         }
     }
 
@@ -98,33 +105,37 @@ export default class Slider extends SourceSlider {
 
         if (deltaX < -SCROLL_START_INDEX && activeImage > 0) {
             onActiveImageChange(activeImage - 1);
+            this.setAnimationEasing();
             this.disableGestures();
         }
 
         if (deltaX > SCROLL_START_INDEX && activeImage < slideCount - 1) {
             onActiveImageChange(activeImage + 1);
+            this.setAnimationEasing();
             this.disableGestures();
         }
+    };
+
+
+    setAnimationEasing() {
+        CSS.setVariable(this.draggableRef, 'animation-easing', ANIMATION_SCROLL_EASING);
     }
 
     handleDrag = (state) => {
-        const { isGesturesEnabled } = this.state;
         const { translateX } = state;
-
-        if (!isGesturesEnabled) return;
 
         const translate = translateX;
 
         const fullSliderSize = this.getFullSliderWidth();
 
-        if (translate < 0 && translate > -fullSliderSize && isGesturesEnabled) {
+        if (translate < 0 && translate > -fullSliderSize) {
             CSS.setVariable(
                 this.draggableRef,
                 'translateX',
                 `${translate}px`
             );
         }
-    }
+    };
 
     calculateNextSlide(state) {
         const {
@@ -185,24 +196,18 @@ export default class Slider extends SourceSlider {
         const newTranslate = activeSlide * slideSize;
 
         CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
-
-        CSS.setVariable(
-            this.draggableRef,
-            'translateX',
-            `${newTranslate}px`
-        );
-
-        this.setState({ isGesturesEnabled: false });
+        CSS.setVariable(this.draggableRef, 'translateX', `${ newTranslate }px`);
+        CSS.setVariable(this.draggableRef, 'animation-easing', ANIMATION_DRAG_EASING);
 
         callback({
             originalX: newTranslate,
             lastTranslateX: newTranslate
         });
-    }
+    };
 
     handleDragStart = () => {
         CSS.setVariable(this.draggableRef, 'animation-speed', '0');
-    }
+    };
 
     render() {
         const {
