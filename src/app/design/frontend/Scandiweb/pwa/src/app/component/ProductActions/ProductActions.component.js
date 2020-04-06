@@ -1,24 +1,38 @@
 import SourceProductActions from 'SourceComponent/ProductActions/ProductActions.component';
-import TextPlaceholder from 'Component/TextPlaceholder';
+import ProductAttributeValue from 'Component/ProductAttributeValue';
 import { GROUPED } from 'Util/Product';
 
 import './ProductActions.style.override';
 
 export default class ProductActions extends SourceProductActions {
     renderBrand() {
-        const {
-            productOrVariant: { attributes: { brand: { attribute_value: brand } = {} } = {} },
-            showOnlyIfLoaded
-        } = this.props;
+        const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration || {};
+        const attributeToShow = this.getAttribute(attribute_to_display || 'brand');
+        const contentToShow = attributeToShow
+            ? (
+                <ProductAttributeValue
+                  mix={ { block: 'ProductActions', elem: 'Brand' } }
+                  attribute={ attributeToShow }
+                  isFormattedAsText
+                />
+            ) : <br />;
 
-        return showOnlyIfLoaded(
-            brand,
-            (
-                <p block="ProductActions" elem="Brand" itemProp="brand">
-                    <TextPlaceholder content={ brand } />
-                </p>
-            )
-        );
+        return contentToShow;
+    }
+
+    getAttribute(code) {
+        const { product: { attributes: parentAttributes = {} } } = this.props;
+        const { productOrVariant: { attributes = {} } } = this.props;
+        const { attribute_options = {} } = parentAttributes[code] || {};
+
+        if (attributes[code]) {
+            return {
+                ...attributes[code],
+                attribute_options
+            };
+        }
+
+        return null;
     }
 
     renderNameAndPrice() {
