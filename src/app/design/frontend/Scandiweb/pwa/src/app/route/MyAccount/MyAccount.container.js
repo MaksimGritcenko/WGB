@@ -26,7 +26,7 @@ export * from 'SourceRoute/MyAccount/MyAccount.container';
 const mapDispatchToProps = dispatch => ({
     ...sourceMapDispatchToProps(dispatch),
     updateIsSignedIn: state => dispatch(updateCustomerSignInStatus(state)),
-    showNotification: (type, message) => dispatch(showNotification(type, message)),
+    showNotification: (type, message) => dispatch(showNotification(type, message))
 });
 
 const mapStateToProps = state => ({
