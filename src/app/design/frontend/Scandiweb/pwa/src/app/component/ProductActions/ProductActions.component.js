@@ -23,6 +23,16 @@ export default class ProductActions extends SourceProductActions {
         return contentToShow;
     }
 
+    onProductError(ref) {
+        if (!ref) return;
+        const { current } = ref;
+
+        current.classList.remove('animate');
+        // eslint-disable-next-line no-unused-expressions
+        current.offsetWidth; // trigger a DOM reflow
+        current.classList.add('animate');
+    }
+
     getAttribute(code) {
         const { product: { attributes: parentAttributes = {} } } = this.props;
         const { productOrVariant: { attributes = {} } } = this.props;
