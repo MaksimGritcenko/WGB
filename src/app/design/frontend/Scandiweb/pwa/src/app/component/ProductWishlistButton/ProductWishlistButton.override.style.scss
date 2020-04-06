@@ -1,6 +1,12 @@
 .ProductWishlistButton {
     width: 20px;
 
+    @include after-mobile {
+        // TODO figure out without important
+        display: inline-flex !important;
+        margin-left: 1.5rem;
+    }
+
     &.Button {
         --button-hover-border: none;
         --button-hover-background: none;
