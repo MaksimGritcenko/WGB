@@ -315,6 +315,7 @@
 
         &_isWhite {
             .MenuOverlay {
+                .Header-LogoWrapper,
                 .Header-Button {
                     svg {
                         fill: var(--header-icons-black-color);
@@ -322,6 +323,7 @@
                 }
             }
 
+            .Header-LogoWrapper,
             .Header-Button {
                 svg {
                     fill: var(--header-icons-white-color);
