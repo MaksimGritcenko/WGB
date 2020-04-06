@@ -25,6 +25,7 @@ import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
 import ContactPage from 'Component/ContactPage';
+import CookiePopup from 'Component/CookiePopup';
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
@@ -232,7 +233,12 @@ export class AppRouter extends SourceAppRouter {
         }
     ];
 
-    [AFTER_ITEMS_TYPE] = [];
+    [AFTER_ITEMS_TYPE] = [
+        {
+            component: <CookiePopup />,
+            position: 20
+        }
+    ];
 
     getHeaderAndFooterOptions() {
         return {
