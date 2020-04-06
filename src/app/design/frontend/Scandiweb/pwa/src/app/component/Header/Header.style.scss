@@ -180,6 +180,12 @@
                     }
                 }
             }
+
+            &.Header_isSearch {
+                .Header-LogoWrapper {
+                    @include logo-visible;
+                }
+            }
         }
 
         &_category,
@@ -319,6 +325,10 @@
                 svg {
                     fill: var(--header-icons-white-color);
                 }
+            }
+
+            .Header-MinicartQty {
+                color: var(--header-icons-white-color);
             }
         }
 
@@ -516,6 +526,7 @@
         left: 49%;
         transform: translate(-50%, -50%);
         font-size: 10px;
+        transition: color var(--header-icons-white-transition);
     }
 
     &-AccountWrapper {
