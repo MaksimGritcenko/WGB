@@ -57,7 +57,8 @@ export class ConfigQuery extends SourceConfigQuery {
                 'pagination_frame_skip',
                 'anchor_text_for_previous',
                 'anchor_text_for_next',
-                'demo_notice'
+                'demo_notice',
+                'guest_checkout'
             ]);
     }
 }
