@@ -23,7 +23,7 @@ export {
 };
 
 export class AddToCartContainer extends SourceAddToCartContainer {
-    buttonClick() {
+    buttonClick(buttonRef) {
         const {
             product,
             onProductValidationError,
@@ -36,6 +36,7 @@ export class AddToCartContainer extends SourceAddToCartContainer {
         const { variants, type_id, configurable_options = {} } = product;
 
         if (!this._validateAddToCart()) {
+            buttonRef.current.blur();
             onProductValidationError(type_id);
             return;
         }
