@@ -15,11 +15,16 @@ import isMobile from 'Util/Mobile';
 import { CART, CART_EDITING } from 'Component/Header';
 import {
     CartOverlayContainer as SourceCartOverlayContainer,
-    mapStateToProps,
+    mapStateToProps as sourceMapStateToProps,
     mapDispatchToProps
 } from 'SourceComponent/CartOverlay/CartOverlay.container';
 
-export { mapStateToProps, mapDispatchToProps };
+export { mapDispatchToProps };
+
+export const mapStateToProps = state => ({
+    ...sourceMapStateToProps(state),
+    guest_checkout: state.ConfigReducer.guest_checkout
+});
 
 export const CART_OVERLAY_ID = 'cart-overlay';
 
