@@ -45,7 +45,7 @@
     &-ExpandableContentContent {
         &_isContentExpanded {
             @include mobile {
-                padding: 0 1rem;
+                padding: 0;
             }
         }
 
