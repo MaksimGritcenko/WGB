@@ -23,9 +23,6 @@ import { DRAGBAR_OPEN } from 'Component/Header/Header.component';
 
 import './DragBar.style';
 
-export const SMALLER_DRAGBAR_SIZE = 80;
-export const BIGGER_DRAGBAR_SIZE = 110;
-
 const DRAGBAR_OPEN_OFFSET = -150;
 const DRAGBAR_CLOSE_OFFSET = 50;
 
@@ -120,7 +117,6 @@ export class DragBar extends Component {
 
     openDetails() {
         const { changeHeaderState } = this.props;
-        console.log('opening...')
 
         this.cb({
             originalY: 0,
@@ -141,7 +137,6 @@ export class DragBar extends Component {
 
     closeDetails(isManualChange = false) { // is manual && is changed
         const { goToPreviousHeaderState } = this.props;
-        console.log('closing...');
 
         this.cb({
             originalY: 0,
