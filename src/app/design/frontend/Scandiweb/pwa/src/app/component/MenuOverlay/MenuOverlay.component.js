@@ -254,11 +254,12 @@ export default class MenuOverlay extends SourceMenuOverlay {
     renderBottomContent() {
         const { isSignedIn } = this.props;
 
-        const destination = isSignedIn ? '/my-favorites' : '/signin';
+        const destinationForMyAccount = isSignedIn ? '/my-account' : '/signin';
+        const destinationForWishlist = isSignedIn ? '/my-favorites' : '/signin';
         return (
             <div block="MenuOverlay" elem="BottomContent">
-                { this.renderBottomItem(accountIcon, 'My account', '/my-account') }
-                { this.renderBottomItem(wishlistIcon, 'Favorites', destination) }
+                { this.renderBottomItem(accountIcon, 'My account', destinationForMyAccount) }
+                { this.renderBottomItem(wishlistIcon, 'Favorites', destinationForWishlist) }
             </div>
         );
     }
