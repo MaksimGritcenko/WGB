@@ -18,6 +18,11 @@ export const STATE_CREATE_ACCOUNT = 'createAccount';
 export const STATE_LOGGED_IN = 'loggedIn';
 export const STATE_CONFIRM_EMAIL = 'confirmEmail';
 
+const SOCIAL_LOGIN_PROVIDERS = {
+    facebook: 'FACEBOOK',
+    google: 'GOOGLE ACCOUNT'
+};
+
 class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
     getSocialLogins() {
         const { logins, isSocialLoginsLoading } = this.props;
@@ -34,7 +39,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
         return logins.map(({ url, provider }) => (
             <div block="MyAccountOverlay" elem="Provider" key={ provider }>
                 <a href={ url } block="MyAccountOverlay" elem={ provider }>
-                    <p>{ provider }</p>
+                    <p>{ SOCIAL_LOGIN_PROVIDERS[provider] }</p>
                 </a>
             </div>
         ));
@@ -75,7 +80,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                 <button
                   block="Button"
                   onClick={ handleCreateAccount }
-                    >
+                >
                     { __('Create an account') }
                 </button>
             </section>
@@ -146,7 +151,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
               <fieldset block="MyAccountOverlay" elem="Legend">
                   <Field
                     type="text"
-                    placeholder={ __('*Name') }
+                    placeholder={ __('Name*') }
                     id="firstname"
                     name="firstname"
                     validation={ ['notEmpty'] }
@@ -158,14 +163,15 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                     name="lastname"
                     validation={ ['notEmpty'] }
                   />
-              </fieldset>
-              <fieldset block="MyAccountOverlay" elem="Legend">
                   <Field
                     type="text"
-                    placeholder="Email"
+                    placeholder="Email*"
                     id="email"
                     name="email"
-                    validation={ ['notEmpty', 'email'] } />
+                    validation={ ['notEmpty', 'email'] }
+                  />
+              </fieldset>
+              <fieldset block="MyAccountOverlay" elem="Legend">
                   <Field
                     type="password"
                     placeholder={ __('Password*') }
@@ -190,7 +196,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                     />
               </fieldset>
               <p block="MyAccountOverlay" elem="Confirm">
-                    { __('* I have read and understand the ') }
+                        { __('* I have read and understand the ') }
                     <a href="/page/privacy-policy-cookie-restriction-mode">Privacy and Cookies Policy</a>
               </p>
               <div block="MyAccountOverlay" elem="Buttons">

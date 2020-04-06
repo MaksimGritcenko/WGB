@@ -1,11 +1,10 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { FAVORITES } from 'Component/Header';
+import { SIGN_IN } from 'Component/Header';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
 
 import './MyAccountSignIn.style';
-import isMobile from "Util/Mobile";
 
 class MyAccountSignIn extends PureComponent {
     static propTypes = {
@@ -38,7 +37,7 @@ class MyAccountSignIn extends PureComponent {
         const { setHeaderState } = this.props;
 
         setHeaderState({
-            name: FAVORITES
+            name: SIGN_IN
         });
     }
 

@@ -1,12 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
- * @category    Netnutri
- * @package     Netnutri_SocialLogin
- * @author      Tornike Bakuradze <info@scandiweb.com>
- * @copyright   Copyright (c) 2020 Scandiweb, Ltd (http://scandiweb.com)
- */
--->
 
 <config>
     <system>

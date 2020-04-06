@@ -1,13 +1,8 @@
 <?php
-/**
- * @category Netnutri
- * @package Netnutri_CustomerGraphQl
- * @author Tornike Bakuradze <info@scandiweb.com>
- * @license Copyright (c) 2020 Scandiweb, Ltd (https://scandiweb.com)
- */
+
 declare(strict_types=1);
 
-namespace Netnutri\CustomerGraphQl\Model\Resolver;
+namespace WGB\CustomerGraphQl\Model\Resolver;
 
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;

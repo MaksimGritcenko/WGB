@@ -1,16 +1,9 @@
 <?php
-/**
- * @category Netnutri
- * @package  Netnutri_SocialLogin
- * @author   Tornike Bakuradze <info@scandiweb.com>
- * @copyright Copyright (c) 2020 Scandiweb, Inc (https://scandiweb.com)
- * @license   http://opensource.org/licenses/OSL-3.0 The Open Software License 3.0 (OSL-3.0)
- */
 
-namespace Netnutri\SocialLogin\HybridAuth;
+namespace WGB\SocialLogin\HybridAuth;
 
 use Scandiweb\SocialLogin\HybridAuth\HybridAuth as SourceHybridAuth;
-use Netnutri\SocialLogin\HybridAuth\AdditionalProviders\Amazon\Amazon;
+use WGB\SocialLogin\HybridAuth\AdditionalProviders\Amazon\Amazon;
 
 /**
  * Class HybridAuth

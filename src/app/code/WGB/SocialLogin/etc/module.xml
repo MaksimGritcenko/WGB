@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
-<!--
-/**
- * @category Netnutri
- * @package  Netnutri/SocialLogin
- */
--->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Netnutri_SocialLogin" setup_version="1.0.0"/>
+    <module name="WGB_SocialLogin" setup_version="1.0.0"/>
     <sequence>
         <module name="ScandiPWA_Router717"/>
         <module name="Scandiweb_SocialLogin"/>

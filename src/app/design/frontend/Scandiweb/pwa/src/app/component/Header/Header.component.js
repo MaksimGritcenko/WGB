@@ -22,7 +22,6 @@ import MenuOverlay from 'Component/MenuOverlay';
 import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
 import GenderSliderButtons from 'Component/GenderSliderButtons';
 import Link from 'Component/Link';
 
@@ -31,7 +30,6 @@ import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import {
     menuIcon,
     searchIcon,
-    accountIcon,
     minicartIcon,
     logoIcon,
     closeIcon,
@@ -65,6 +63,8 @@ export const FAVORITES = 'favorites';
 export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
 export const CONTACT_US = 'contact-us';
+export const SIGN_IN = 'sign-in';
+
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -83,6 +83,14 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [SIGN_IN]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
         [CONTACT_US]: {
             menu: true,
             searchButton: true,
@@ -302,9 +310,9 @@ export default class Header extends SourceHeader {
         );
     }
 
-    renderAccountButton(isVisible = false) {
-
+    renderAccountButton() {
         return (
+            // eslint-disable-next-line react/self-closing-comp
             <div block="Empty"></div>
         );
     }

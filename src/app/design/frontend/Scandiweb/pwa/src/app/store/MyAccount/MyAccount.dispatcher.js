@@ -10,8 +10,8 @@
  */
 
 import { updateCustomerSignInStatus, updateCustomerDetails } from 'Store/MyAccount';
-import {executeGet, executePost, fetchMutation} from 'Util/Request';
-import {deleteAuthorizationToken, setAuthorizationToken} from 'Util/Auth';
+import { executeGet, executePost, fetchMutation } from 'Util/Request';
+import { deleteAuthorizationToken, setAuthorizationToken } from 'Util/Auth';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { showNotification } from 'Store/Notification';
 import { prepareMutation, prepareQuery } from 'Util/Query';
@@ -38,8 +38,8 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
         if (customer.id) dispatch(updateCustomerDetails(customer));
 
-        return executePost({...prepareQuery([query]), cache: 'no-cache'}).then(
-            ({customer}) => {
+        return executePost({ ...prepareQuery([query]), cache: 'no-cache' }).then(
+            ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
             },

@@ -25,6 +25,8 @@ import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
 import ContactPage from 'Component/ContactPage';
+import MyAccountSignIn from 'Route/MyAccountSignIn';
+
 
 import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
 import { ConfigDispatcher } from 'Store/Config';
@@ -219,6 +221,17 @@ export class AppRouter extends SourceAppRouter {
               ) }
             />,
             position: 95
+        },
+        {
+            component: <Route
+            path="/signin"
+            render={ props => (
+              <GoogleTagManagerRouteWrapperComponent route={ CONTACT_US }>
+                    <MyAccountSignIn { ...props } />
+              </GoogleTagManagerRouteWrapperComponent>
+            ) }
+            />,
+            position: 96
         },
         {
             component: <Route

@@ -72,10 +72,15 @@
 
             .MyAccountOverlay {
                 &-Additional {
-                    width: 100%;
-
                     .Button{
                         width: 345px;
+
+                        &:focus {
+                            border-style: solid;
+                            border-color: var(--button-border);
+                            color: var(--button-color);
+                            background-color: var(--button-background);
+                        }
                     }
 
                     section:first-of-type {
@@ -93,6 +98,11 @@
 
         &_left {
             width: 100%;
+
+            .Form {
+                margin: 0 auto;
+                padding-bottom: unset;
+            }
 
             .MyAccountOverlay {
                 &-Additional {
@@ -139,6 +149,12 @@
                     margin-bottom: 20px;
                 }
             }
+
+            &_createAccount {
+                .Field {
+                    padding-bottom: 10px;
+                }
+            }
         }
     }
 
@@ -169,7 +185,7 @@
         width: 100%;
         margin-bottom: 20px;
 
-        @include after-mobile {
+        @include desktop {
             width: 150%;
         }
     }
@@ -192,6 +208,7 @@
 
             label:first-of-type {
                 font-size: 10px;
+                letter-spacing: 0.15px;
 
                 @include after-mobile {
                     font-size: 15px;
@@ -210,12 +227,20 @@
         }
 
     &-Confirm {
-        font-size: 15px;
+        font-size: 13px;
         margin-bottom: 20px;
 
-        a {
+        @include after-mobile {
             font-size: 15px;
+        }
+
+        a {
+            font-size: 13px;
             text-decoration: underline;
+
+            @include after-mobile {
+                font-size: 15px;
+            }
         }
     }
 
@@ -226,6 +251,7 @@
 
     &-Additional {
         padding: 21px 15px 35px 15px;
+        margin: auto;
 
         @include after-mobile {
             display: block;
@@ -297,6 +323,8 @@
     &-Social {
         padding: 0 15px;
         max-width: 375px;
+        margin: auto;
+
         h4 {
             text-align: left;
             margin-bottom: 20px;

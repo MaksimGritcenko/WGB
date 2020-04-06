@@ -19,8 +19,7 @@ import {
     NEWSLETTER_SUBSCRIPTION
 } from 'Type/Account';
 
-import isMobile from 'Util/Mobile';
-import {CUSTOMER_ACCOUNT_PAGE} from "Component/Header";
+import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
 
 export * from 'SourceRoute/MyAccount/MyAccount.container';
 
@@ -69,7 +68,6 @@ class MyAccount extends MyAccountContainer {
             requestCustomerData,
             changeHeaderState,
             isSignedIn,
-            showNotification,
             history
         } = this.props;
 
