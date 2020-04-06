@@ -12,6 +12,7 @@
 
     &-UpperPartWrapper {
         display: grid;
+        grid-column-gap: 15px;
         grid-template-columns: 6fr 4fr;
     }
 
