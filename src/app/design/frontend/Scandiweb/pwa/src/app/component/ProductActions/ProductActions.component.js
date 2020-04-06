@@ -8,8 +8,10 @@ import './ProductActions.style.override';
 export default class ProductActions extends SourceProductActions {
     renderBrand() {
         const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration || {};
-        const attributeToShow = this.getAttribute(attribute_to_display || 'size');
-        const contentToShow = attributeToShow
+        const attributeToShow = this.getAttribute(attribute_to_display || 'brand');
+        const { attribute_value } = (attributeToShow || {});
+
+        const contentToShow = attribute_value
             ? (
                 <ProductAttributeValue
                   mix={ { block: 'ProductActions', elem: 'Brand' } }
