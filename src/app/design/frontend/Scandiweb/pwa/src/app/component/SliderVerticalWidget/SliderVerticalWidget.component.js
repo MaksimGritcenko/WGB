@@ -12,7 +12,6 @@ export default class SliderVerticalWidget extends SourceSliderWidget {
     onActiveImageChange = (activeImage) => {
         const { onActiveImageChange } = this.props;
 
-        this.setState({ activeImage });
         onActiveImageChange(activeImage);
     };
 
@@ -32,7 +31,7 @@ export default class SliderVerticalWidget extends SourceSliderWidget {
               showCrumbs
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
-              animationDuration={ 1000 }
+              animationDuration={ 700 }
               isScrollEnabled={ isScrollEnabled }
             >
                 { slides.map(this.renderSlide) }

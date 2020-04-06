@@ -12,7 +12,7 @@
 import isMobile from 'Util/Mobile';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { FILTER } from 'Component/Header';
+import { FILTER, CATEGORY } from 'Component/Header';
 import { hideActiveOverlay, toggleOverlayByKey } from 'Store/Overlay';
 import { goToPreviousNavigationState, changeNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
@@ -45,8 +45,9 @@ export class CategoryFilterOverlayContainer extends SourceCategoryFilterOverlayC
     };
 
     onFilterButtonClick() {
-        const { showOverlay } = this.props;
+        const { showOverlay, changeHeaderState } = this.props;
         showOverlay(CATEGORY_FILTER_OVERLAY_ID);
+        changeHeaderState({ name: CATEGORY });
     }
 
     onSeeResultsClick() {

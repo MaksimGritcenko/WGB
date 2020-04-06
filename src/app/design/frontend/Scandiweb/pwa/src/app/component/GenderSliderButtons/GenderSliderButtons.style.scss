@@ -1,0 +1,30 @@
+.GenderSliderButtons {
+    &-Main {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -55%);
+        z-index: 30;
+    }
+
+    &-Button {
+        font-size: 15px;
+
+        @include after-mobile {
+            font-size: 18px;
+        }
+
+        &:first-of-type {
+            margin-right: 15px;
+
+            @include after-mobile {
+                margin-right: 45px;
+            }
+        }
+
+        &_isActive {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+}

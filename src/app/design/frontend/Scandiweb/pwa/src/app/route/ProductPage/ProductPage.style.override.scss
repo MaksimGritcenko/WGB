@@ -12,6 +12,7 @@
 
     &-UpperPartWrapper {
         display: grid;
+        grid-column-gap: 55px;
         grid-template-columns: 6fr 4fr;
     }
 
@@ -90,7 +91,6 @@
                     cursor: inherit;
                     font-size: 13px;
                     font-weight: bold;
-                    text-transform: none;
                 }
             }
         }
