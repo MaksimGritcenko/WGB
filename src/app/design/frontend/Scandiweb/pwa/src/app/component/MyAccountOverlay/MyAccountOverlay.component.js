@@ -3,7 +3,6 @@ import SourceMyAccountOverlay from 'SourceComponent/MyAccountOverlay/MyAccountOv
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 import { withRouter } from 'react-router-dom';
-import { history } from 'Route';
 import 'SourceComponent/MyAccountOverlay/MyAccountOverlay.style.scss';
 import './MyAccountOverlay.extended.style.scss';
 
@@ -209,10 +208,6 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
               </div>
             </Form>
         );
-    }
-
-    privacy() {
-        history.push('/page/privacy-policy-cookie-restriction-mode');
     }
 
     renderCreateAccount() {
