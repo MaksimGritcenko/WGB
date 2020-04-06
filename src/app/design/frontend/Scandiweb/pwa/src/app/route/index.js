@@ -15,15 +15,24 @@ import Header, {
     CHECKOUT,
     CMS_PAGE,
     FAVORITES,
+    CONTACT_US,
     URL_REWRITE,
     PASSWORD_CHANGE
 } from 'Component/Header';
 
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
-import MyAccountSignIn from 'Route/MyAccountSignIn';
 import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
+import ContactPage from 'Component/ContactPage';
+
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
+import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { ContactInfoDispatcher } from 'Store/ContactInfo';
+
+import Store from 'Store';
 
 import GoogleTagManagerRouteWrapperComponent from 'Component/GoogleTagManager/GoggleTagManagerRouteWrapper.component';
 
@@ -49,7 +58,6 @@ export const SearchPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefe
 export const SomethingWentWrong = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/SomethingWentWrong'));
 export const UrlRewrites = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/UrlRewrites'));
 export const MenuPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/MenuPage'));
-
 
 export {
     BEFORE_ITEMS_TYPE,
@@ -203,14 +211,14 @@ export class AppRouter extends SourceAppRouter {
         },
         {
             component: <Route
-              path="/signin"
+              path="/contact-us"
               render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ MyAccountSignIn }>
-                     <MyAccountSignIn { ...props } />
+                <GoogleTagManagerRouteWrapperComponent route={ CONTACT_US }>
+                    <ContactPage { ...props } />
                 </GoogleTagManagerRouteWrapperComponent>
               ) }
             />,
-            position: 96
+            position: 95
         },
         {
             component: <Route
@@ -230,6 +238,18 @@ export class AppRouter extends SourceAppRouter {
         return {
             footer: { identifiers: this.getCmsBlocksToRequest() }
         };
+    }
+
+    dispatchActions() {
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        CartDispatcher.updateInitialCartData(Store.dispatch);
+        ConfigDispatcher.handleData(Store.dispatch);
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());
+        ContactInfoDispatcher.handleData(Store.dispatch, this.getContactInfoOptions());
+    }
+
+    getContactInfoOptions() {
+        return { identifiers: ['contact-us-social'] };
     }
 }
 

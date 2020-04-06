@@ -1,4 +1,10 @@
 .ProductGallery {
+    @include after-mobile {
+        display: block;
+        margin-top: calc(var(--header-height) * -1);
+        max-height: unset;
+    }
+
     &-Slider {
         @include mobile {
             min-height: var(--slider-height);

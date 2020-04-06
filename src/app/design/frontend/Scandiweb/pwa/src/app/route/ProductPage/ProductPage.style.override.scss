@@ -1,11 +1,37 @@
-.ProductPage {
-    &-Header {
-        height: var(--header-height);
-        display: flex;
-        align-items: center;
+@mixin expanded-content {
+    padding: 1rem;
+    opacity: 1;
+    max-height: 100%;
+}
 
-        a {
-            text-transform: uppercase;
+
+.ProductPage {
+    @include after-mobile {
+        padding-top: var(--header-height);
+    }
+
+    &-UpperPartWrapper {
+        display: grid;
+        grid-column-gap: 55px;
+        grid-template-columns: 6fr 4fr;
+    }
+
+    &-Category {
+        text-decoration: underline;
+    }
+
+    &-Header {
+        @include after-mobile {
+            display: none;
+        }
+        @include mobile {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+
+            a {
+                text-transform: uppercase;
+            }
         }
     }
 
@@ -21,7 +47,52 @@
         }
     }
 
-    &-Category {
-        text-decoration: underline;
+    &-Wrapper {
+        @include after-mobile {
+            width: 60vw;
+            display: block;
+        }
+    }
+
+    .ExpandableContent {
+        @include after-mobile {
+            border-bottom: 1px solid #dcdcdc6e;
+        }
+    }
+
+    .ProductContentWrapper {
+        @include after-mobile {
+            align-self: flex-start;
+            position: sticky;
+            top: var(--header-height);
+        }
+
+        .ExpandableContent {
+            &-Button {
+                &::after,
+                &::before {
+                    content: '';
+                }
+            }
+
+            &-Content {
+                padding: 0 1rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+
+                &_isContentExpanded {
+                    @include expanded-content;
+                }
+            }
+
+            &-Heading {
+                @include after-mobile {
+                    cursor: inherit;
+                    font-size: 13px;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 }

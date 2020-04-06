@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable max-len */
 import SourceProductPage from 'SourceRoute/ProductPage/ProductPage.component';
 
@@ -7,7 +8,9 @@ import ProductLinks from 'Component/ProductLinks';
 import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
-// import ProductReviews from 'Component/ProductReviews';
+import ConditionalWrapper from 'Component/ConditionalWrapper';
+import ContentWrapper from 'Component/ContentWrapper';
+import isMobile from 'Util/Mobile';
 import Event, { EVENT_GTM_PRODUCT_DETAIL } from 'Util/Event';
 import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
@@ -118,21 +121,16 @@ export default class ProductPage extends SourceProductPage {
         );
     }
 
-    renderProductPageContent() {
-        return (
-        <>
-            { this.renderPDPHeader() }
-            { this.renderProductGallery() }
-        </>
-        );
-    }
-
     freezeScroll() {
-        document.body.classList.add('overscrollDisabled');
+        if (isMobile.any()) {
+            document.body.classList.add('overscrollDisabled');
+        }
     }
 
     unFreezeScroll() {
-        document.body.classList.remove('overscrollDisabled');
+        if (isMobile.any()) {
+            document.body.classList.remove('overscrollDisabled');
+        }
     }
 
     componentDidMount() {
@@ -141,6 +139,18 @@ export default class ProductPage extends SourceProductPage {
 
     componentWillUnmount() {
         this.unFreezeScroll();
+    }
+
+    renderProductLinks() {
+        const { areDetailsLoaded } = this.props;
+
+        return (
+            <ProductLinks
+              linkType={ RELATED }
+              title={ __('Recommended for you') }
+              areDetailsLoaded={ areDetailsLoaded }
+            />
+        );
     }
 
     renderAdditionalSections() {
@@ -154,10 +164,12 @@ export default class ProductPage extends SourceProductPage {
             areDetailsLoaded
         } = this.props;
 
-        const { attributes: { brand: { attribute_value: brand } = {} } = {} } = productOrVariant;
-
         return (
-            <DragBar isSmall={ !!areDetailsLoaded && !brand }>
+            <ConditionalWrapper
+              condition={ !!isMobile.any() }
+              ifTrue={ children => <DragBar>{ children }</DragBar> }
+              ifFalse={ children => <ContentWrapper mix={ { block: 'ProductContentWrapper' } } label={ __('Product information') }>{ children }</ContentWrapper> }
+            >
                 <ProductActions
                   getLink={ getLink }
                   updateConfigurableVariant={ updateConfigurableVariant }
@@ -171,17 +183,33 @@ export default class ProductPage extends SourceProductPage {
                   product={ { ...dataSource, parameters } }
                   areDetailsLoaded={ areDetailsLoaded }
                 />
-                { /** Hide it for now */ }
-                { /* <ProductReviews
-                  product={ dataSource }
-                  areDetailsLoaded={ areDetailsLoaded }
-                /> */ }
-                <ProductLinks
-                  linkType={ RELATED }
-                  title={ __('Recommended for you') }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
-            </DragBar>
+                { isMobile.any() ? this.renderProductLinks() : null }
+            </ConditionalWrapper>
         );
     }
+
+    render() {
+        return (
+            <>
+                <main
+                  block="ProductPage"
+                  aria-label="Product page"
+                  itemScope
+                  itemType="http://schema.org/Product"
+                >
+                    { /* Wrap to ensure proper scrolling on desktop */ }
+                    <ConditionalWrapper
+                      condition={ !isMobile.any() }
+                      ifTrue={ children => <div block="ProductPage" elem="UpperPartWrapper">{ children }</div> }
+                    >
+                        { this.renderPDPHeader() }
+                        { this.renderProductGallery() }
+                        { this.renderAdditionalSections() }
+                    </ConditionalWrapper>
+                    { isMobile.any() ? null : this.renderProductLinks() }
+                </main>
+            </>
+        );
+    }
+
 }

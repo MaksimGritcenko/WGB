@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { SEARCH } from 'Component/Header/Header.component';
 import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
@@ -7,19 +8,34 @@ import { toggleOverlayByKey } from 'Store/Overlay';
 import { setBigOfflineNotice } from 'Store/Offline';
 import { NoMatchDispatcher } from 'Store/NoMatch';
 import { MetaDispatcher } from 'Store/Meta';
+
 import {
     ProductListInfoDispatcher,
     updateInfoLoadStatus
 } from 'Store/ProductListInfo';
 import {
     CategoryPageContainer,
-    mapStateToProps,
     LOADING_TIME
 } from 'SourceRoute/CategoryPage/CategoryPage.container';
 import { getUrlParam } from 'Util/Url';
 import { debounce } from 'Util/Request';
 
 import SearchPage from './SearchPage.component';
+
+const WOMEN_CATEGORY = 'women';
+const MEN_CATEGORY = 'men';
+
+export const mapStateToProps = state => ({
+    category: state.CategoryReducer.category,
+    isOffline: state.OfflineReducer.isOffline,
+    filters: state.ProductListInfoReducer.filters,
+    sortFields: state.ProductListInfoReducer.sortFields,
+    minPriceRange: state.ProductListInfoReducer.minPrice,
+    maxPriceRange: state.ProductListInfoReducer.maxPrice,
+    isInfoLoading: state.ProductListInfoReducer.isLoading,
+    totalPages: state.ProductListReducer.totalPages,
+    activeHorizontalSlideIndex: state.SliderReducer.activeHorizontalSlideIndex
+});
 
 export const mapDispatchToProps = dispatch => ({
     toggleOverlayByKey: key => dispatch(toggleOverlayByKey(key)),
@@ -93,18 +109,40 @@ export class SearchPageContainer extends CategoryPageContainer {
         this._updateHeaderState();
     }
 
+    getGenderCategoryUrlPath() {
+        const { activeHorizontalSlideIndex } = this.props;
+
+        return activeHorizontalSlideIndex === 0 ? WOMEN_CATEGORY : MEN_CATEGORY;
+    }
+
     _getProductListOptions(currentPage) {
         const { match: { params: { query } } } = this.props;
         const customFilters = this._getSelectedFiltersFromUrl();
+        const categoryUrlPath = this.getGenderCategoryUrlPath();
 
         return {
             args: {
                 filter: {
+                    categoryUrlPath,
                     customFilters
                 },
                 search: query
             },
             currentPage
+        };
+    }
+
+    _getFilter() {
+        const { categoryIds } = this.props;
+        const customFilters = this._getSelectedFiltersFromUrl();
+        const priceRange = this._getSelectedPriceRangeFromUrl();
+        const categoryUrlPath = this.getGenderCategoryUrlPath();
+
+        return {
+            priceRange,
+            categoryIds,
+            customFilters,
+            categoryUrlPath
         };
     }
 
@@ -119,7 +157,6 @@ export class SearchPageContainer extends CategoryPageContainer {
 
         const { location, match } = this.props;
         const path = getUrlParam(match, location);
-
 
         return `search/${ url_path }` !== path;
     }

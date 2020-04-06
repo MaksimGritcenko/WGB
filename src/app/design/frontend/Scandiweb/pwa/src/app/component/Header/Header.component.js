@@ -23,6 +23,8 @@ import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
 import MyAccountOverlay from 'Component/MyAccountOverlay';
+import GenderSliderButtons from 'Component/GenderSliderButtons';
+import Link from 'Component/Link';
 
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 
@@ -62,6 +64,7 @@ export {
 export const FAVORITES = 'favorites';
 export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
+export const CONTACT_US = 'contact-us';
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -80,6 +83,14 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [CONTACT_US]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
         [FAVORITES]: {
             menu: true,
             searchButton: true,
@@ -98,7 +109,8 @@ export default class Header extends SourceHeader {
             title: true,
             account: true,
             minicart: true,
-            logo: true
+            logo: true,
+            not_transparent_part: true
         },
         [DRAGBAR_OPEN]: {
             dragbar_close: true
@@ -175,12 +187,17 @@ export default class Header extends SourceHeader {
         ok: this.renderOkButton.bind(this),
         dragbar_close: this.renderDragbarCloseButton.bind(this),
         wishlist: this.renderWishlistButton.bind(this),
+        not_transparent_part: this.renderNotTransparentPart.bind(this),
         ...this.renderMap
     };
 
     searchBarRef = createRef();
 
     onClearSearchButtonClick = this.onClearSearchButtonClick.bind(this);
+
+    renderNotTransparentPart() {
+        return <div block="Header" elem="NotTransparentPart" key="NotTransparentPart" />;
+    }
 
     componentDidUpdate() {
         this.disableScrollBehavior();
@@ -397,6 +414,25 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderLogo(isVisible = false) {
+        const { isLoading } = this.props;
+
+        return (
+            <Link
+              to="/"
+              aria-label="Go to homepage by clicking on ScandiPWA logo"
+              aria-hidden={ !isVisible }
+              tabIndex={ isVisible ? 0 : -1 }
+              block="Header"
+              elem="LogoWrapper"
+              mods={ { isVisible } }
+              key="logo"
+            >
+                { this.renderLogoImage() }
+            </Link>
+        );
+    }
+
     renderHeaderState() {
         const { navigationState: { name } } = this.props;
 
@@ -409,6 +445,14 @@ export default class Header extends SourceHeader {
         );
     }
 
+    renderGenderSwitcherButtons() {
+        const { headerType } = this.props;
+
+        if (!headerType || !headerType.isSearch) return null;
+
+        return <GenderSliderButtons />;
+    }
+
     renderFilterButton() {
         const { onFilterButtonClick } = this.props;
 
@@ -417,6 +461,7 @@ export default class Header extends SourceHeader {
               block="Header"
               elem="Filter"
             >
+                { this.renderGenderSwitcherButtons() }
                 <button
                   block="Header"
                   elem="Filter-Button"
@@ -447,14 +492,14 @@ export default class Header extends SourceHeader {
         const {
             navigationState: { name },
             isActiveSlideWhite,
-            isCategory
+            headerType
         } = this.props;
         const { pathname } = history.location;
 
         const isWhite = isActiveSlideWhite && pathname === '/';
 
         return (
-            <header block="Header" mods={ { name, isCategory } }>
+            <header block="Header" mods={ { name, ...headerType } }>
                 <nav
                   block="Header"
                   elem="Nav"

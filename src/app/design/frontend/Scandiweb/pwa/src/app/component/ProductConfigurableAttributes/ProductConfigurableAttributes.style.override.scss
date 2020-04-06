@@ -2,9 +2,16 @@
     display: flex;
     justify-content: space-between;
 
+    @include after-mobile {
+        flex-flow: column;
+        width: 45%;
+    }
+
     &-Attribute {
-        flex: 1 1;
-        max-width: 48%;
+        @include mobile {
+            flex: 1 1;
+            max-width: 48%;
+        }
     }
 
     &-Placeholder {

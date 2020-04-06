@@ -17,7 +17,7 @@
     background-color: var(--header-background);
     width: 100%;
     height: 100%;
-    z-index: 1000;
+    z-index: 109;
     position: relative;
 
     &-Close {
@@ -34,7 +34,6 @@
         --open-bounce-speed: 500ms;
         --overflow: visible;
         --initial-animation-speed: 40ms;
-        --initial-offset-y: 110px;
         --animation-speed: var(--initial-animation-speed);
 
         background-color: #fff;
@@ -42,7 +41,7 @@
         width: 100%;
         will-change: transform, top;
 
-        top: calc(100% - var(--initial-offset-y));
+        top: calc(100% - 110px);
         transition-duration: var(--animation-speed);
         transition-property: transform, top;
         transform: translateY(var(--draggable-y));

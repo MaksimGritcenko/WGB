@@ -3,6 +3,7 @@ import { Children } from 'react';
 import CSS from 'Util/CSS';
 import Draggable from 'Component/Draggable';
 import Slider from 'Component/Slider';
+import { ANIMATION_DRAG_EASING } from 'Component/Slider/Slider.component';
 import './SliderVertical.style';
 
 export const ACTIVE_SLIDE_PERCENT = 0.1;
@@ -87,11 +88,13 @@ export default class SliderVertical extends Slider {
 
         if (deltaY < -SCROLL_START_INDEX && activeImage > 0) {
             onActiveImageChange(activeImage - 1);
+            this.setAnimationEasing();
             this.disableGestures();
         }
 
         if (deltaY > SCROLL_START_INDEX && activeImage < slideCount - 1) {
             onActiveImageChange(activeImage + 1);
+            this.setAnimationEasing();
             this.disableGestures();
         }
     };
@@ -177,12 +180,8 @@ export default class SliderVertical extends Slider {
         const newTranslate = activeSlide * slideSize;
 
         CSS.setVariable(this.draggableRef, 'animation-speed', `${ animationDuration }ms`);
-
-        CSS.setVariable(
-            this.draggableRef,
-            'translateY',
-            `${ newTranslate }px`
-        );
+        CSS.setVariable(this.draggableRef, 'translateY', `${ newTranslate }px`);
+        CSS.setVariable(this.draggableRef, 'animation-easing', ANIMATION_DRAG_EASING);
 
         callback({
             originalY: newTranslate,

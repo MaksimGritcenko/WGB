@@ -35,6 +35,24 @@ export class ProductList extends SourceProductList {
         isForCategory: false
     };
 
+    renderNoProducts() {
+        return (
+            <div block="CategoryProductList">
+                <div
+                  block="CategoryProductList"
+                  elem="ProductsMissing"
+                >
+                    <p
+                      block="CategoryProductList"
+                      elem="ProductsMissingText"
+                    >
+                        { __('Unfortunately there are no items matching your request.') }
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     renderPages() {
         const {
             selectedFilters,

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { PureComponent } from 'react';
+import { PureComponent, createRef } from 'react';
 import { history } from 'Route';
 import { SearchBarDispatcher } from 'Store/SearchBar';
 import { hideActiveOverlay } from 'Store/Overlay';
@@ -39,6 +39,17 @@ export class SearchOverlayContainer extends PureComponent {
         makeSearchRequest: this.makeSearchRequest.bind(this),
         onCloseButtonClick: this.closeSearchOverlay.bind(this)
     };
+
+    searchInputRef = createRef();
+
+    componentDidUpdate(prevProps) {
+        const { navigationState: { name: prevName } } = prevProps;
+        const { navigationState: { name } } = this.props;
+
+        if (prevName !== name && name === SEARCH) {
+            this.searchInputRef.current.focus();
+        }
+    }
 
     onSearchBarChange = ({ target: { value: searchCriteria } }) => {
         this.setState({ searchCriteria });
@@ -113,6 +124,7 @@ export class SearchOverlayContainer extends PureComponent {
                     { searchIcon }
                 </div>
                 <input
+                  ref={ this.searchInputRef }
                   id="search-field"
                   autoComplete="off"
                   block="SearchOverlay"
