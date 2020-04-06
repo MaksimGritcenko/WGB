@@ -232,11 +232,13 @@ export default class MenuOverlay extends SourceMenuOverlay {
         );
     }
 
-    renderBottomItem(icon, title) {
+    renderBottomItem(icon, title, link) {
         return (
-            <button
+            <Link
+              to={ link }
               block="MenuOverlay"
               elem="BottomItem"
+              key="logo"
             >
                 <div
                   block="MenuOverlay"
@@ -245,15 +247,18 @@ export default class MenuOverlay extends SourceMenuOverlay {
                     <span>{ icon }</span>
                 </div>
                 <span>{ title }</span>
-            </button>
+            </Link>
         );
     }
 
     renderBottomContent() {
+        const { isSignedIn } = this.props;
+
+        const destination = isSignedIn ? '/my-favorites' : '/signin';
         return (
             <div block="MenuOverlay" elem="BottomContent">
-                { this.renderBottomItem(accountIcon, 'My account') }
-                { this.renderBottomItem(wishlistIcon, 'Favorites') }
+                { this.renderBottomItem(accountIcon, 'My account', '/my-account') }
+                { this.renderBottomItem(wishlistIcon, 'Favorites', destination) }
             </div>
         );
     }
