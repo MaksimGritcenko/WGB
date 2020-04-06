@@ -16,7 +16,8 @@
         "scandipwa/sample-data": "^1.0",
         "scandipwa/gtm": "1.0.0",
         "scandipwa/gtm-graphql": "1.0.0",
-        "scandipwa/source": "^2.1"
+        "scandipwa/source": "^2.1",
+        "scandiweb/social-login": "~1.1.6"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.13.0",
@@ -68,6 +69,10 @@
         {
             "type": "composer",
             "url": "https://repo.magento.com/"
+        },
+        {
+            "type": "composer",
+            "url": "https://packages.indvp.com"
         },
         {
             "type": "vcs",

@@ -1,5 +1,6 @@
 import SourceProductActions from 'SourceComponent/ProductActions/ProductActions.component';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import isMobile from 'Util/Mobile';
 import { GROUPED } from 'Util/Product';
 
 import './ProductActions.style.override';
@@ -8,7 +9,9 @@ export default class ProductActions extends SourceProductActions {
     renderBrand() {
         const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration || {};
         const attributeToShow = this.getAttribute(attribute_to_display || 'brand');
-        const contentToShow = attributeToShow
+        const { attribute_value } = (attributeToShow || {});
+
+        const contentToShow = attribute_value
             ? (
                 <ProductAttributeValue
                   mix={ { block: 'ProductActions', elem: 'Brand' } }
@@ -18,6 +21,16 @@ export default class ProductActions extends SourceProductActions {
             ) : <br />;
 
         return contentToShow;
+    }
+
+    onProductError(ref) {
+        if (!ref) return;
+        const { current } = ref;
+
+        current.classList.remove('animate');
+        // eslint-disable-next-line no-unused-expressions
+        current.offsetWidth; // trigger a DOM reflow
+        current.classList.add('animate');
     }
 
     getAttribute(code) {
@@ -65,7 +78,7 @@ export default class ProductActions extends SourceProductActions {
     render() {
         return (
             <article block="ProductActions">
-                { this.renderBrand() }
+                { isMobile.any() ? this.renderBrand() : null }
                 { this.renderNameAndPrice() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
