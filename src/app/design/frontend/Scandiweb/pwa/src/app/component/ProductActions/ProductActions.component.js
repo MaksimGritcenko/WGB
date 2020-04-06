@@ -1,5 +1,6 @@
 import SourceProductActions from 'SourceComponent/ProductActions/ProductActions.component';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import isMobile from 'Util/Mobile';
 import { GROUPED } from 'Util/Product';
 
 import './ProductActions.style.override';
@@ -7,7 +8,7 @@ import './ProductActions.style.override';
 export default class ProductActions extends SourceProductActions {
     renderBrand() {
         const { product_list_content: { attribute_to_display } = {} } = window.contentConfiguration || {};
-        const attributeToShow = this.getAttribute(attribute_to_display || 'brand');
+        const attributeToShow = this.getAttribute(attribute_to_display || 'size');
         const contentToShow = attributeToShow
             ? (
                 <ProductAttributeValue
@@ -65,7 +66,7 @@ export default class ProductActions extends SourceProductActions {
     render() {
         return (
             <article block="ProductActions">
-                { this.renderBrand() }
+                { isMobile.any() ? this.renderBrand() : null }
                 { this.renderNameAndPrice() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
