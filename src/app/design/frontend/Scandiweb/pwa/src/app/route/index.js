@@ -15,6 +15,7 @@ import Header, {
     CHECKOUT,
     CMS_PAGE,
     FAVORITES,
+    CONTACT_US,
     URL_REWRITE,
     PASSWORD_CHANGE
 } from 'Component/Header';
@@ -23,6 +24,15 @@ import MyAccountWishlist from 'Component/MyAccountMyWishlist';
 import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
+import ContactPage from 'Component/ContactPage';
+
+import { HeaderAndFooterDispatcher } from 'Store/HeaderAndFooter';
+import { ConfigDispatcher } from 'Store/Config';
+import { CartDispatcher } from 'Store/Cart';
+import { WishlistDispatcher } from 'Store/Wishlist';
+import { ContactInfoDispatcher } from 'Store/ContactInfo';
+
+import Store from 'Store';
 
 import GoogleTagManagerRouteWrapperComponent from 'Component/GoogleTagManager/GoggleTagManagerRouteWrapper.component';
 
@@ -201,6 +211,17 @@ export class AppRouter extends SourceAppRouter {
         },
         {
             component: <Route
+              path="/contact-us"
+              render={ props => (
+                <GoogleTagManagerRouteWrapperComponent route={ CONTACT_US }>
+                    <ContactPage { ...props } />
+                </GoogleTagManagerRouteWrapperComponent>
+              ) }
+            />,
+            position: 95
+        },
+        {
+            component: <Route
               render={ props => (
                 <GoogleTagManagerRouteWrapperComponent route={ URL_REWRITE }>
                     <UrlRewrites { ...props } />
@@ -217,6 +238,18 @@ export class AppRouter extends SourceAppRouter {
         return {
             footer: { identifiers: this.getCmsBlocksToRequest() }
         };
+    }
+
+    dispatchActions() {
+        WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
+        CartDispatcher.updateInitialCartData(Store.dispatch);
+        ConfigDispatcher.handleData(Store.dispatch);
+        HeaderAndFooterDispatcher.handleData(Store.dispatch, this.getHeaderAndFooterOptions());
+        ContactInfoDispatcher.handleData(Store.dispatch, this.getContactInfoOptions());
+    }
+
+    getContactInfoOptions() {
+        return { identifiers: ['contact-us-social'] };
     }
 }
 

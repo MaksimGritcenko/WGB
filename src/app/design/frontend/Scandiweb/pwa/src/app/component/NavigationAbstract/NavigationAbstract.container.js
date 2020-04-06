@@ -1,21 +1,10 @@
-/* eslint-disable react/require-render-return */
-
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import {
-    FAVORITES, CATEGORY
+    FAVORITES,
+    CATEGORY,
+    SEARCH
 } from 'Component/Header/Header.component';
 import SourceNavigationAbstractContainer from 'SourceComponent/NavigationAbstract/NavigationAbstract.container';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.component';
@@ -39,19 +28,31 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
         return this.routeMap[activeRoute] || this.default_state;
     }
 
+    getHeaderType() {
+        const { location: { pathname = '' } = {} } = history || {};
+
+        if ((pathname).substring(1, CATEGORY_STRING_END) === CATEGORY) {
+            return { isCategory: true };
+        }
+        if ((pathname).indexOf(`/${ SEARCH }`) === 0) {
+            return { isCategory: true, isSearch: true };
+        }
+
+        return {};
+    }
+
     onRouteChanged(history) {
-        const { location: { pathname: startPathname } = {}, pathname = '' } = history || {};
-        const isCategory = (startPathname || pathname).substring(1, CATEGORY_STRING_END) === CATEGORY;
+        const headerType = this.getHeaderType();
 
         if (!isMobile.any()) {
             return {
-                isCategory,
+                headerType,
                 ...this.handleDesktopRouteChange(history)
             };
         }
 
         return {
-            isCategory,
+            headerType,
             ...this.handleMobileUrlChange(history)
         };
     }

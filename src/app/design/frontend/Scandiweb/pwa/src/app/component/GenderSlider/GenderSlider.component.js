@@ -7,7 +7,7 @@ import { closeIcon } from 'Component/Header/Header.config';
 
 export const WOMEN = 0;
 export const MEN = 1;
-export const GENDER_SLIDER_ANIMATION_DURATION = 1000;
+export const GENDER_SLIDER_ANIMATION_DURATION = 700;
 
 export default class GenderSlider extends PureComponent {
     static propTypes = {

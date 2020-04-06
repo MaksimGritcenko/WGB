@@ -1,0 +1,31 @@
+.Checkout {
+    &-Success {
+        text-align: center;
+
+        @include after-mobile {
+            margin-top: 40px;
+            width: 100vw;
+            left: 0;
+            position: fixed;
+        }
+
+        @include mobile {
+            margin-top: 25vh;
+        }
+
+        h3 {
+            font-size: 40px;
+        }
+    }
+
+    &-ContinueButton {
+        @include after-mobile {
+            width: 345px;
+        }
+
+        @include mobile {
+            margin-top: 2rem;
+            width: 100%;
+        }
+    }
+}
