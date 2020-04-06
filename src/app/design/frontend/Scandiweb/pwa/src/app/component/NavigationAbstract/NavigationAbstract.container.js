@@ -29,12 +29,12 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
     }
 
     getHeaderType() {
-        const { location: { pathname: startPathname } = {}, pathname = '' } = history || {};
+        const { location: { pathname = '' } = {} } = history || {};
 
-        if ((startPathname || pathname).substring(1, CATEGORY_STRING_END) === CATEGORY) {
+        if ((pathname).substring(1, CATEGORY_STRING_END) === CATEGORY) {
             return { isCategory: true };
         }
-        if (startPathname.indexOf(`/${ SEARCH }`) === 0) {
+        if ((pathname).indexOf(`/${ SEARCH }`) === 0) {
             return { isCategory: true, isSearch: true };
         }
 
