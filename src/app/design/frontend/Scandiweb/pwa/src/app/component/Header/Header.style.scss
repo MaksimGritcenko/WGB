@@ -274,11 +274,12 @@
             .Header-NotTransparentPart {
                 // Not transparent right part of header only for desktop
                 @include after-mobile {
-                    height: var(--header-height);
-                    width: 40vw;
-                    position: fixed;
                     background: #FFF;
+                    height: var(--header-height);
+                    position: fixed;
                     right: 0;
+                    width: 40vw;
+                    z-index: -1;
                 }
             }
         }
