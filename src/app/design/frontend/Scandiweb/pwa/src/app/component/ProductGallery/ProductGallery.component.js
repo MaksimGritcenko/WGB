@@ -3,6 +3,7 @@ import isMobile from 'Util/Mobile';
 import SliderVertical from 'Component/SliderVertical';
 import VideoPopup from 'Component/VideoPopup';
 import Image from 'Component/Image';
+import CSS from 'Util/CSS';
 import {
     GALLERY_LENGTH_BEFORE_COLLAPSE,
     MAX_ZOOM_SCALE,

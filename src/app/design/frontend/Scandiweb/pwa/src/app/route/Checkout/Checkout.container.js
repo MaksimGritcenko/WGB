@@ -19,8 +19,8 @@ import { isSignedIn } from 'Util/Auth';
 
 import {
     CheckoutContainer as SourceCheckoutContainer,
+    mapStateToProps as sourceMapStateToProps,
     PAYMENT_TOTALS,
-    mapStateToProps,
     mapDispatchToProps
 } from 'SourceRoute/Checkout/Checkout.container';
 
@@ -31,14 +31,24 @@ export {
 } from 'SourceRoute/Checkout/Checkout.container';
 
 export {
-    mapStateToProps,
     mapDispatchToProps
 };
+
+export const mapStateToProps = state => ({
+    ...sourceMapStateToProps(state),
+    guest_checkout: state.ConfigReducer.guest_checkout
+});
 
 export const CHECKOUT_EVENT_DELAY = 500;
 
 export class CheckoutContainer extends SourceCheckoutContainer {
     componentDidMount() {
+        const { history, guest_checkout } = this.props;
+
+        if (!guest_checkout) {
+            history.push('/');
+        }
+
         super.componentDidMount();
 
         const { totals = {} } = this.props;

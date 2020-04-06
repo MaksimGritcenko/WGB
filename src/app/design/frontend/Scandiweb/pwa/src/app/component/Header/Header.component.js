@@ -357,8 +357,12 @@ export default class Header extends SourceHeader {
     }
 
     renderWishlistButton(isVisible = false) {
+        const { isSignedIn } = this.props;
+        const destination = isSignedIn ? '/my-favorites' : '/signin';
+
         return (
-            <button
+            <Link
+              to={ destination }
               key="wishlist"
               block="Header"
               elem="Button"
@@ -368,7 +372,7 @@ export default class Header extends SourceHeader {
               tabIndex={ isVisible ? 0 : -1 }
             >
                 { wishlistIcon }
-            </button>
+            </Link>
         );
     }
 
@@ -423,8 +427,6 @@ export default class Header extends SourceHeader {
     }
 
     renderLogo(isVisible = false) {
-        const { isLoading } = this.props;
-
         return (
             <Link
               to="/"

@@ -31,7 +31,8 @@ export const mapStateToProps = state => ({
     isOffline: state.OfflineReducer.isOffline,
     logo_alt: state.ConfigReducer.logo_alt,
     isLoading: state.ConfigReducer.isLoading,
-    isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite
+    isActiveSlideWhite: state.SliderReducer.isActiveSlideWhite,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export const mapDispatchToProps = dispatch => ({
