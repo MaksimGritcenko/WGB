@@ -18,7 +18,10 @@ class Checkout extends SourceCheckout {
                 title,
                 onBackClick: () => history.push('/')
             });
+
+            return;
         }
+
         setHeaderState({
             name: HOME_PAGE
         });
