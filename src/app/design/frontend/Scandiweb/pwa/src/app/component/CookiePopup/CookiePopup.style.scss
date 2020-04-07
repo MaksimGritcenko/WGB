@@ -26,6 +26,15 @@
     z-index: 300;
     text-align: center;
 
+    a {
+        text-decoration: underline;
+    }
+
+    &-Country {
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
     &-Wrapper {
         @include after-mobile {
             max-width: 375px;

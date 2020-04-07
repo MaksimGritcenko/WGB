@@ -25,6 +25,53 @@ export class CookiePopup extends SourceCookiePopup {
         );
     }
 
+    getHeadingText() {
+        if (this.countryFits()) {
+            return 'Use of cookies';
+        }
+
+        return 'LOCATION';
+    }
+
+    renderCountryNotice() {
+        const { userLocation = 'Latvia' } = this.props;
+
+        return (
+            <p>
+                { __('We have identified your location as ') }
+                <span block="CookiePopup" elem="Country">{ userLocation }</span>
+                { __('. We can\'t ship here yet but you can browse, or find your nearest store ') }
+                <Link to="/cart">here</Link>
+            </p>
+        );
+    }
+
+    countryFits() {
+        const { countries } = this.props;
+
+        return false;
+    }
+
+    renderCookieNotice() {
+        const { cookieText } = this.props;
+
+        return (
+        <p>
+            { cookieText }
+            { this.renderCookieLink() }
+        </p>
+        );
+    }
+
+    renderCookieText() {
+        return (
+            <div block="CookiePopup" elem="Content">
+                { this.countryFits() ? null : this.renderCountryNotice() }
+                { this.renderCookieNotice() }
+            </div>
+        );
+    }
+
     render() {
         const { cookieText } = this.props;
         const { isAccepted } = this.state;
@@ -45,7 +92,7 @@ export class CookiePopup extends SourceCookiePopup {
                             { closeIcon }
                         </button>
                     </div>
-                    <p block="CookiePopup" elem="Heading">Use of cookies</p>
+                    <p block="CookiePopup" elem="Heading">{ this.getHeadingText() }</p>
                     { this.renderCookieText() }
                 </ContentWrapper>
             </div>
