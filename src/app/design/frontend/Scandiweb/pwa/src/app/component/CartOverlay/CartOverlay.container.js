@@ -23,7 +23,8 @@ export { mapDispatchToProps };
 
 export const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export const CART_OVERLAY_ID = 'cart-overlay';

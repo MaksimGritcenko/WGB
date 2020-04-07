@@ -49,7 +49,7 @@
 
     &-Empty {
         padding: 1rem;
-        border-bottom: 1px solid var(--expandable-content-color);
+        border-bottom: 1px solid var(--cart-item-bottom-border-color);
     }
 
     &-Actions {
@@ -124,6 +124,7 @@
         padding: 1rem 1rem .5rem;
         font-size: 18px;
         background: var(--cart-overlay-totals-background);
+        font-weight: bold;
 
         @include after-mobile {
             font-size: 16px;
@@ -135,7 +136,7 @@
         padding: .5rem 1rem 1rem;
 
         @include after-mobile {
-            border-bottom: 1px solid var(--cart-item-divider-color);
+            border-bottom: 1px solid var(--cart-item-bottom-border-color);
         }
     }
 
