@@ -6,7 +6,7 @@ import {
 import { SocialLoginDispatcher } from 'Store/SocialLogins';
 import { connect } from 'react-redux';
 import {
-    STATE_CREATE_ACCOUNT,
+    STATE_CREATE_ACCOUNT, STATE_FORGOT_PASSWORD,
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
@@ -86,6 +86,19 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
 
         setHeaderState({
             name: STATE_SIGN_IN
+        });
+    }
+
+    handleForgotPassword(e) {
+        const { setHeaderState } = this.props;
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ state: STATE_FORGOT_PASSWORD });
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: null,
+            onBackClick: () => this.handleSignIn(e)
         });
     }
 

@@ -184,8 +184,11 @@ export class HeaderContainer extends SourceHeaderContainer {
     }
 
     render() {
+        const { isSignedIn } = this.props;
+
         return (
             <Header
+              isSignedIn={ isSignedIn }
               { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }

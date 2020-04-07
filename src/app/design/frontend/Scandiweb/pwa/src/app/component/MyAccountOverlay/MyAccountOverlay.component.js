@@ -50,7 +50,8 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
             title: null
         },
         [STATE_FORGOT_PASSWORD]: {
-            render: () => this.renderForgotPassword()
+            render: () => this.renderForgotPassword(),
+            title: null
         },
         [STATE_FORGOT_PASSWORD_SUCCESS]: {
             render: () => this.renderForgotPasswordSuccess()
@@ -239,7 +240,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
         return (
             <article block="MyAccountOverlay" elem="Additional">
                 <section>
-                    <h4>{ __('I’M ALREADY A MEMBER OF VGB FAMILY') }</h4>
+                    <h4>{ __('I’m already a member of VGB family') }</h4>
                     <button
                       block="Button"
                       onClick={ handleSignIn }
@@ -290,6 +291,76 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                     </div>
                 </div>
             </>
+        );
+    }
+
+    renderForgotPassword() {
+        return (
+            <div block="MyAccountOverlay" elem="ForgotPassword">
+                <div block="MyAccountOverlay" elem="Header">
+                    <h2>{ __('FORGOT PASSWORD') }</h2>
+                </div>
+                <div block="MyAccountOverlay" elem="Column">
+                    { this.renderForgotPasswordForm() }
+                </div>
+                <div block="MyAccountOverlay" elem="Column">
+                    { this.renderForgotPasswordAdditional() }
+                </div>
+            </div>
+        );
+    }
+
+    renderForgotPasswordForm() {
+        const {
+            onForgotPasswordAttempt,
+            onForgotPasswordSuccess,
+            onFormError
+        } = this.props;
+
+        return (
+            <Form
+              key="forgot-password"
+              onSubmit={ onForgotPasswordAttempt }
+              onSubmitSuccess={ onForgotPasswordSuccess }
+              onSubmitError={ onFormError }
+            >
+            <Field type="text" id="email" name="email" placeholder="Email*" validation={ ['notEmpty', 'email'] } />
+            <div block="MyAccountOverlay" elem="Buttons">
+              <button block="Button" type="submit">
+                  { __('Send reset link') }
+              </button>
+            </div>
+            </Form>
+        );
+    }
+
+    renderForgotPasswordAdditional() {
+        const {
+            handleSignIn,
+            handleCreateAccount
+        } = this.props;
+
+        return (
+            <div block="MyAccountOverlay" elem="ForgotPasswordAdditional">
+                <div block="MyAccountOverlay" elem="Member">
+                    <h4>{ __('I’m already a member of VGB family') }</h4>
+                    <button
+                      block="Button"
+                      onClick={ handleSignIn }
+                    >
+                    { __('Sign in here') }
+                    </button>
+                </div>
+                <div block="MyAccountOverlay" elem="NewUser">
+                    <h4 id="forgot-password-label">{ __('New User') }</h4>
+                    <button
+                      block="Button"
+                      onClick={ handleCreateAccount }
+                    >
+                        { __('Create an account') }
+                    </button>
+                </div>
+            </div>
         );
     }
 
