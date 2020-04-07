@@ -72,14 +72,6 @@
         {
             "type": "composer",
             "url": "https://packages.indvp.com"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/dmitrijs-voronovs/gtm"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/dmitrijs-voronovs/gtm-graphql"
         }
     ],
     "extra": {
