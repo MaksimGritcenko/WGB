@@ -197,9 +197,9 @@ export default class CartPage extends SourceCartPage {
               mods={ { isMobile } }
             >
                 <span>* I have read and accept the </span>
-                { this.renderPrivacyLink('/', 'Purchase Conditions') }
+                { this.renderPrivacyLink('/page/terms-and-conditions', 'Purchase Conditions') }
                 <span> and understand the </span>
-                { this.renderPrivacyLink('/', 'Privacy and Cookies Policy') }
+                { this.renderPrivacyLink('/page/privacy-policy-cookie-restriction-mode', 'Privacy and Cookies Policy') }
             </p>
         );
     }

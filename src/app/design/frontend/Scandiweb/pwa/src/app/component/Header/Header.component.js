@@ -506,13 +506,14 @@ export default class Header extends SourceHeader {
         const { pathname } = history.location;
 
         const isWhite = isActiveSlideWhite && pathname === '/';
+        const isWhiteBackground = pathname.indexOf(`/${ CART }`) === 0;
 
         return (
             <header block="Header" mods={ { name, ...headerType } }>
                 <nav
                   block="Header"
                   elem="Nav"
-                  mods={ { isWhite } }
+                  mods={ { isWhite, isWhiteBackground } }
                 >
                     { this.renderHeaderState() }
                 </nav>
