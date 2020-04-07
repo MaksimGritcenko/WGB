@@ -8,7 +8,7 @@ import './CartItem.style.override';
 
 export default class CartItem extends SourceCartItem {
     renderDeleteButton() {
-        const { handleRemoveItem } = this.props;
+        const { handleRemoveItem, isLikeTable } = this.props;
 
         return (
             <button
@@ -16,6 +16,7 @@ export default class CartItem extends SourceCartItem {
               id="RemoveItem"
               name="RemoveItem"
               elem="MobileDelete"
+              mods={ { isLikeTable } }
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
@@ -29,13 +30,15 @@ export default class CartItem extends SourceCartItem {
             item: { qty },
             minSaleQuantity,
             maxSaleQuantity,
-            handleChangeQuantity
+            handleChangeQuantity,
+            isLikeTable
         } = this.props;
 
         return (
             <div
               block="CartItem"
               elem="QtyWrapper"
+              mods={ { isLikeTable } }
             >
                 <span
                   block="CartItem"
@@ -148,7 +151,11 @@ export default class CartItem extends SourceCartItem {
         const { isLikeTable } = this.props;
 
         return (
-            <figure block="CartItem" elem="Wrapper">
+            <figure
+              block="CartItem"
+              elem="Wrapper"
+              mods={ { isLikeTable } }
+            >
                 { this.renderImage() }
                 <figcaption
                   block="CartItem"
@@ -195,7 +202,11 @@ export default class CartItem extends SourceCartItem {
                   isControlled
                   min={ minSaleQuantity }
                   max={ maxSaleQuantity }
-                  mix={ { block: 'CartItem', elem: 'Qty' } }
+                  mix={ {
+                      block: 'CartItem',
+                      elem: 'Qty',
+                      mods: { isLikeTable }
+                  } }
                   value={ qty }
                   onChange={ handleChangeQuantity }
                 />

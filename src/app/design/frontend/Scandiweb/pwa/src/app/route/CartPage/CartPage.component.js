@@ -133,7 +133,8 @@ export default class CartPage extends SourceCartPage {
                 subtotal_incl_tax = 0,
                 items
             },
-            guest_checkout
+            guest_checkout,
+            isSignedIn
         } = this.props;
 
         const props = !items || items.length < 1
@@ -143,7 +144,7 @@ export default class CartPage extends SourceCartPage {
             }
             : {};
 
-        const destination = guest_checkout ? '/checkout' : '/signin';
+        const destination = (isSignedIn || guest_checkout) ? '/checkout' : '/signin';
 
         return (
             <article block="CartPage" elem="Summary">

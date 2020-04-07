@@ -47,6 +47,7 @@ import {
     mapDispatchToProps,
     AppRouter as SourceAppRouter
 } from 'SourceRoute';
+import BackToTop from 'Component/BackToTop';
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
 export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
@@ -250,6 +251,10 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <CookiePopup />,
             position: 20
+        },
+        {
+            component: <BackToTop />,
+            position: 10
         }
     ];
 

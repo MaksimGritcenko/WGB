@@ -1,22 +1,18 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
 import Overlay from 'Component/Overlay';
 import Link from 'Component/Link';
+import CartItem from 'Component/CartItem';
+import { formatCurrency } from 'Util/Price';
 
 import SourceCartOverlay from 'SourceComponent/CartOverlay/CartOverlay.component';
 import './CartOverlay.style';
 
 export default class CartOverlay extends SourceCartOverlay {
     renderActions() {
-        const { totals: { items }, guest_checkout } = this.props;
+        const {
+            totals: { items },
+            guest_checkout,
+            isSignedIn
+        } = this.props;
 
         const options = !items || items.length < 1
             ? {
@@ -25,7 +21,7 @@ export default class CartOverlay extends SourceCartOverlay {
             }
             : {};
 
-        const destination = guest_checkout ? '/checkout' : '/signin';
+        const destination = (isSignedIn || guest_checkout) ? '/checkout' : '/signin';
 
         return (
             <div block="CartOverlay" elem="Actions">
@@ -48,6 +44,30 @@ export default class CartOverlay extends SourceCartOverlay {
                     { __('Secure checkout') }
                 </Link>
             </div>
+        );
+    }
+
+    renderPriceLine(price) {
+        const { totals: { quote_currency_code } } = this.props;
+
+        return `${ parseFloat(price).toFixed(2) } ${ formatCurrency(quote_currency_code) }`;
+    }
+
+    renderCartItems() {
+        const { totals: { items, quote_currency_code } } = this.props;
+
+        if (!items || items.length < 1) return this.renderNoCartItems();
+
+        return (
+            <ul block="CartOverlay" elem="Items" aria-label="List of items in cart">
+                { items.map(item => (
+                    <CartItem
+                      key={ item.item_id }
+                      item={ item }
+                      currency_code={ quote_currency_code }
+                    />
+                )) }
+            </ul>
         );
     }
 
