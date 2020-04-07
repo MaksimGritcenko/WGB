@@ -123,6 +123,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                 <button
                   block="Button"
                   elem="Forgot"
+                  type="Button"
                   mods={ { likeLink: true } }
                   onClick={ handleForgotPassword }
                 >
