@@ -16,7 +16,11 @@ import './CartOverlay.style';
 
 export default class CartOverlay extends SourceCartOverlay {
     renderActions() {
-        const { totals: { items }, guest_checkout } = this.props;
+        const {
+            totals: { items },
+            guest_checkout,
+            isSignedIn
+        } = this.props;
 
         const options = !items || items.length < 1
             ? {
@@ -25,7 +29,7 @@ export default class CartOverlay extends SourceCartOverlay {
             }
             : {};
 
-        const destination = guest_checkout ? '/checkout' : '/signin';
+        const destination = (isSignedIn || guest_checkout) ? '/checkout' : '/signin';
 
         return (
             <div block="CartOverlay" elem="Actions">

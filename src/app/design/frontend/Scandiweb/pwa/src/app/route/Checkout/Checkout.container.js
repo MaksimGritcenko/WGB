@@ -36,16 +36,21 @@ export {
 
 export const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export const CHECKOUT_EVENT_DELAY = 500;
 
 export class CheckoutContainer extends SourceCheckoutContainer {
     componentDidMount() {
-        const { history, guest_checkout } = this.props;
+        const {
+            history,
+            isSignedIn,
+            guest_checkout
+        } = this.props;
 
-        if (!guest_checkout) {
+        if (!guest_checkout && !isSignedIn) {
             history.push('/');
         }
 
