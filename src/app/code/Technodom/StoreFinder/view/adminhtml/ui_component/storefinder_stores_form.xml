@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Technodom_StoreFinder
+ *
+ * @category    Technodom
+ * @package     Technodom_StoreFinder
+ * @author      Ivars Dicpeteris <info@scandiweb.com>
+ * @copyright   Copyright (c) 2019 Scandiweb, Ltd (https://scandiweb.com)
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="general">
+        <field name="store_external_id" formElement="input" sortOrder="11">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Store ID</label>
+                <dataScope>store_external_id</dataScope>
+            </settings>
+        </field>
+        <field name="city" formElement="input" sortOrder="12">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">City Name</label>
+                <dataScope>city</dataScope>
+            </settings>
+        </field>
+        <field name="city_external_id" formElement="input" sortOrder="13">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">City ID</label>
+                <dataScope>city_external_id</dataScope>
+            </settings>
+        </field>
+        <field name="working_days" formElement="input" sortOrder="35">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Working days</label>
+                <dataScope>working_days</dataScope>
+                <notice>Type 1 if store works, 0 if not and divide by comma.  Example: 1,1,1,1,0,0,1 - Store works From Monday till Thursday and Sunday.</notice>
+            </settings>
+        </field>
+        <field name="code1c" formElement="input" sortOrder="37">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Code 1C</label>
+                <dataScope>code1c</dataScope>
+                <notice>Correct format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</notice>
+            </settings>
+        </field>
+    </fieldset>
+</form>

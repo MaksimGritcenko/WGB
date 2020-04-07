@@ -34,6 +34,8 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
+import { StoreFinder } from 'Route/StoreFinder';
+
 
 import Store from 'Store';
 

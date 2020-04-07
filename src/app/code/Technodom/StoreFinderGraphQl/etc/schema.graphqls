@@ -1,0 +1,33 @@
+#/**
+# * Technodom_StoreFinderGraphQl
+# *
+# * @category    Technodom
+# * @package     Technodom_StoreFinderGraphQl
+# * @author      Ivars Dicpeteris <info@scandiweb.com>
+# * @copyright   Copyright (c) 2019 Scandiweb, Ltd (https://scandiweb.com)
+# */
+
+type Query {
+    getStores(storeId: String, cityId: String): [Store] @resolver(class:"\\Technodom\\StoreFinderGraphQl\\Model\\Resolver\\GetStores")
+    getCityStores(storeId: String): [CityStores] @resolver(class:"\\Technodom\\StoreFinderGraphQl\\Model\\Resolver\\GetCityStores")
+}
+
+type Store {
+    store_name: String
+    store_external_id: String
+    address: String
+    phone_number: String
+    manager_email: String
+    store_hours: String
+    city: String
+    city_external_id: String
+    latitude: String
+    longitude: String
+    working_days: String
+    code1c: String
+}
+
+type CityStores {
+    name: String
+    stores: [Store]
+}
