@@ -22,7 +22,6 @@ import MenuOverlay from 'Component/MenuOverlay';
 import CartOverlay from 'Component/CartOverlay';
 import ClickOutside from 'Component/ClickOutside';
 import SearchOverlay from 'Component/SearchOverlay';
-import MyAccountOverlay from 'Component/MyAccountOverlay';
 import GenderSliderButtons from 'Component/GenderSliderButtons';
 import Link from 'Component/Link';
 
@@ -31,7 +30,6 @@ import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import {
     menuIcon,
     searchIcon,
-    accountIcon,
     minicartIcon,
     logoIcon,
     closeIcon,
@@ -64,6 +62,9 @@ export {
 export const FAVORITES = 'favorites';
 export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
+export const CONTACT_US = 'contact-us';
+export const SIGN_IN = 'sign-in';
+
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -82,6 +83,22 @@ export default class Header extends SourceHeader {
     };
 
     stateMap = {
+        [SIGN_IN]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
+        [CONTACT_US]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
         [FAVORITES]: {
             menu: true,
             searchButton: true,
@@ -295,29 +312,8 @@ export default class Header extends SourceHeader {
         );
     }
 
-    renderAccountButton(isVisible = false) {
-        const { onMyAccountOutsideClick, onMyAccountButtonClick } = this.props;
-
-        return (
-            <ClickOutside onClick={ onMyAccountOutsideClick } key="account">
-                <div
-                  block="Header"
-                  elem="AccountWrapper"
-                  aria-label="My account"
-                >
-                    <button
-                      block="Header"
-                      elem="Button"
-                      mods={ { isVisible, type: 'account' } }
-                      onClick={ onMyAccountButtonClick }
-                      aria-label="Open my account"
-                    >
-                        { accountIcon }
-                    </button>
-                    <MyAccountOverlay />
-                </div>
-            </ClickOutside>
-        );
+    renderAccountButton() {
+        return <div key="Account" block="Empty" />;
     }
 
     renderDragbarCloseButton(isVisible = false) {
@@ -360,8 +356,12 @@ export default class Header extends SourceHeader {
     }
 
     renderWishlistButton(isVisible = false) {
+        const { isSignedIn } = this.props;
+        const destination = isSignedIn ? '/my-favorites' : '/signin';
+
         return (
-            <button
+            <Link
+              to={ destination }
               key="wishlist"
               block="Header"
               elem="Button"
@@ -371,7 +371,7 @@ export default class Header extends SourceHeader {
               tabIndex={ isVisible ? 0 : -1 }
             >
                 { wishlistIcon }
-            </button>
+            </Link>
         );
     }
 
@@ -426,8 +426,6 @@ export default class Header extends SourceHeader {
     }
 
     renderLogo(isVisible = false) {
-        const { isLoading } = this.props;
-
         return (
             <Link
               to="/"

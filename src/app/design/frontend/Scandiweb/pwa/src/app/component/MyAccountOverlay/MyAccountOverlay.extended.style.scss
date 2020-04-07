@@ -1,0 +1,364 @@
+:root {
+    --social-login-provider-backgrdoun-color: var(--primary-base-color);
+    --social-login-provider-hover-background-color: var(--primary-light-color);
+}
+
+.MyAccountOverlay {
+    font-family: "Roboto", sans-serif;
+    justify-self: flex-end;
+    grid-column: 3;
+    right: 0;
+    padding-top: 1rem;
+
+    &-Back {
+        display: none;
+
+        @include mobile {
+            display: block;
+            position: absolute;
+        }
+
+        .Button {
+            background: transparent;
+            border: unset;
+            font-size: 15px;
+            z-index: 10;
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+            }
+
+            &::before {
+                width: 18px;
+                height: 1px;
+                top: 7px;
+                right: 8px;
+                background-color: var(--header-color);
+            }
+
+            &::after {
+                width: 8px;
+                height: 8px;
+                top: 3px;
+                left: 19px;
+                transform: rotate(-45deg);
+
+                border: {
+                    top: 1px solid var(--header-color);
+                    left: 1px solid var(--header-color);
+                }
+            }
+        }
+    }
+
+    &-Column {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+
+        @include after-mobile {
+            width: 37.5%;
+            max-width: 375px;
+        }
+
+        .Form {
+            max-width: 375px;
+        }
+
+        &_right {
+            display: block;
+
+            .MyAccountOverlay {
+                &-Additional {
+                    .Button{
+                        width: 345px;
+
+                        &:focus {
+                            border-style: solid;
+                            border-color: var(--button-border);
+                            color: var(--button-color);
+                            background-color: var(--button-background);
+                        }
+                    }
+
+                    section:first-of-type {
+                        padding-top: 0;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+            }
+
+            @include mobile {
+                display: none;
+            }
+        }
+
+        &_left {
+            width: 100%;
+
+            .Form {
+                margin: 0 auto;
+                padding-bottom: unset;
+            }
+
+            .MyAccountOverlay {
+                &-Additional {
+                    display: block;
+                    max-width: 375px;
+
+                    section:first-of-type {
+                        padding-top: 0;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    @include after-mobile {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    &-Action {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: space-evenly;
+
+        h4 {
+            text-transform: unset;
+            font-family: "Roboto", sans-serif;
+            text-align: left;
+            font-size: 15px;
+
+             @include after-mobile {
+                 font-size: 25px;
+                 margin-bottom: 20px;
+             }
+        }
+
+        &_state {
+            &_signIn {
+                h4 {
+                    text-align: left;
+                    margin-bottom: 20px;
+                }
+            }
+
+            &_createAccount {
+                .Field {
+                    padding-bottom: 10px;
+                }
+            }
+        }
+    }
+
+    &-Header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        h2 {
+            font-family: "Roboto", sans-serif;
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            padding-bottom: 34px;
+
+            @include after-mobile {
+                font-size: 40px
+            }
+        }
+    }
+
+    &-SubHeader {
+        text-align: left;
+        font-size: 20px;
+        font-family: "Roboto", sans-serif;
+        font-weight: bold;
+        width: 100%;
+        margin-bottom: 20px;
+
+        @include desktop {
+            width: 150%;
+        }
+    }
+
+    &-Buttons {
+        margin: unset;
+
+        .Button {
+            width: 100%;
+        }
+    }
+
+        &-Checkbox {
+            margin-bottom: 19px;
+            font-size: 15px;
+
+            @include after-mobile {
+                margin-top: 27px!important;
+            }
+
+            label:first-of-type {
+                font-size: 10px;
+                letter-spacing: 0.15px;
+
+                @include after-mobile {
+                    font-size: 15px;
+                }
+            }
+
+            input[type=checkbox] + label {
+                transform: scale(1.5);
+                margin-left: 18px;
+                width: 20px;
+
+                @include mobile {
+                    width: 15px;
+                }
+            }
+        }
+
+    &-Confirm {
+        font-size: 13px;
+        margin-bottom: 20px;
+
+        @include after-mobile {
+            font-size: 15px;
+        }
+
+        a {
+            font-size: 13px;
+            text-decoration: underline;
+
+            @include after-mobile {
+                font-size: 15px;
+            }
+        }
+    }
+
+
+    &_isVisible {
+        top: var(--header-overlay-offset-top);
+    }
+
+    &-Additional {
+        padding: 21px 15px 35px 15px;
+        margin: auto;
+
+        @include after-mobile {
+            display: block;
+            padding: 0 15px 35px 15px;
+        }
+
+        @include desktop {
+            width: 150%;
+        }
+
+        h4 {
+            text-align: left;
+            margin-bottom: 20px;
+
+            @include after-mobile {
+                display: block;
+                margin-bottom: 20px;
+            }
+        }
+
+        .Button {
+            margin-top: 0;
+        }
+    }
+
+    &-SocialButtons {
+        display: flex;
+        justify-content: space-evenly;
+        padding-top: 1.5rem
+    }
+
+    &-Provider {
+        background-color: var(--social-login-provider-backgrdoun-color);
+        height: 40px;
+        width: 100%;
+        margin-bottom: 20px;
+
+        &_loading {
+            background: var(--image-default-background);
+            animation: var(--placeholder-animation);
+            background-image: var(--placeholder-image);
+            background-size: var(--placeholder-size);
+        }
+
+        &:hover {
+            background-color: var(--social-login-provider-hover-background-color);
+        }
+
+        img {
+            transform: scale(0.7);
+        }
+
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                line-height: 40px;
+                margin: auto;
+                text-transform: uppercase;
+                font-size: 16px;
+                letter-spacing: -0.38px;
+                color: #fff;
+            }
+        }
+    }
+
+    &-Social {
+        padding: 0 15px;
+        max-width: 375px;
+        margin: auto;
+
+        h4 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        @include after-mobile {
+            padding-top: 40px;
+        }
+    }
+
+    &-facebook {
+        border: solid 1px #3c5a9a;
+        background-color: #3c5a9a;
+    }
+
+    &-google {
+        background-color: #df4c3a;
+    }
+}
+
+    .Button {
+        &-Forgot {
+            margin: 14px 0;
+
+            @include after-mobile {
+                margin: 20px 0;
+            }
+
+            &_likeLink {
+                text-decoration: underline;
+                text-align: left;
+                font-size: 13px;
+                letter-spacing: -0.33px;
+                color: #888888;
+            }
+        }
+    }

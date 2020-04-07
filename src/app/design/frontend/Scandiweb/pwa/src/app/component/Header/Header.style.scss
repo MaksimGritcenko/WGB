@@ -164,7 +164,9 @@
     }
 
     &_name {
-        &_favorites {
+        &_favorites,
+        &_contact-us,
+        &_sign-in {
             --header-background: var(--header-default-background);
         }
 
@@ -314,6 +316,7 @@
 
         &_isWhite {
             .MenuOverlay {
+                .Header-LogoWrapper,
                 .Header-Button {
                     svg {
                         fill: var(--header-icons-black-color);
@@ -321,6 +324,7 @@
                 }
             }
 
+            .Header-LogoWrapper,
             .Header-Button {
                 svg {
                     fill: var(--header-icons-white-color);

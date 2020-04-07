@@ -2,11 +2,16 @@ import { connect } from 'react-redux';
 
 import {
     CartPageContainer as SourceCartPageContainer,
-    mapStateToProps,
+    mapStateToProps as sourceMapStateToProps,
     mapDispatchToProps
 } from 'SourceRoute/CartPage/CartPage.container';
 
 import CartPage from './CartPage.component';
+
+export const mapStateToProps = state => ({
+    ...sourceMapStateToProps(state),
+    guest_checkout: state.ConfigReducer.guest_checkout
+});
 
 export class CartPageContainer extends SourceCartPageContainer {
     state = { isEditing: true };

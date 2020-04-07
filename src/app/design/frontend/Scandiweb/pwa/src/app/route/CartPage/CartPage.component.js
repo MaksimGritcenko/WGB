@@ -132,7 +132,8 @@ export default class CartPage extends SourceCartPage {
             totals: {
                 subtotal_incl_tax = 0,
                 items
-            }
+            },
+            guest_checkout
         } = this.props;
 
         const props = !items || items.length < 1
@@ -141,6 +142,8 @@ export default class CartPage extends SourceCartPage {
                 disabled: true
             }
             : {};
+
+        const destination = guest_checkout ? '/checkout' : '/signin';
 
         return (
             <article block="CartPage" elem="Summary">
@@ -156,11 +159,11 @@ export default class CartPage extends SourceCartPage {
                       block="CartPage"
                       elem="CheckoutButton"
                       mix={ { block: 'Button' } }
-                      to="/checkout"
+                      to={ destination }
                       { ...props }
                     >
                         <span />
-                        { __('Continue to checkout') }
+                        { __('Secure checkout') }
                     </Link>
                     <Link
                       block="CartPage"
