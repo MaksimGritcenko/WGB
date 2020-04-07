@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import CartItemPrice from 'Component/CartItemPrice';
 import { closeIcon } from 'Component/Header/Header.config';
@@ -7,8 +8,20 @@ import SourceCartItem from 'SourceComponent/CartItem/CartItem.component';
 import './CartItem.style.override';
 
 export default class CartItem extends SourceCartItem {
+    static propTypes = {
+        ...this.propTypes,
+        isNotEditing: PropTypes.string
+    };
+
+    static defaultProps = {
+        ...this.defaultProps,
+        isNotEditing: false
+    };
+
     renderDeleteButton() {
-        const { handleRemoveItem, isLikeTable } = this.props;
+        const { handleRemoveItem, isLikeTable, isNotEditing } = this.props;
+
+        if (isNotEditing) return null;
 
         return (
             <button
@@ -31,8 +44,11 @@ export default class CartItem extends SourceCartItem {
             minSaleQuantity,
             maxSaleQuantity,
             handleChangeQuantity,
-            isLikeTable
+            isLikeTable,
+            isNotEditing
         } = this.props;
+
+        if (isNotEditing) return null;
 
         return (
             <div
