@@ -1,4 +1,6 @@
 import { PureComponent } from 'react';
+import isMobile from 'Util/Mobile';
+
 import './BackToTop.style';
 
 class BackToTop extends PureComponent {
@@ -10,6 +12,10 @@ class BackToTop extends PureComponent {
     }
 
     render() {
+        if (isMobile.any()) {
+            return null;
+        }
+
         return (
             <button
               block="BackToTop"
