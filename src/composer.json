@@ -14,8 +14,6 @@
         "magento/product-community-edition": "2.3.3",
         "scandipwa/installer": "2.0.1",
         "scandipwa/sample-data": "^1.0",
-        "scandipwa/gtm": "1.0.0",
-        "scandipwa/gtm-graphql": "1.0.0",
         "scandipwa/source": "^2.1",
         "scandiweb/social-login": "~1.1.6"
     },

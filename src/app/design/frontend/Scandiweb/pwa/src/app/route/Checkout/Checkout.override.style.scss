@@ -1,4 +1,10 @@
 .Checkout {
+    &-Wrapper {
+        @include desktop {
+            margin-bottom: 50px;
+        }
+    }
+
     &-Success {
         text-align: center;
 
@@ -26,6 +32,48 @@
         @include mobile {
             margin-top: 2rem;
             width: 100%;
+        }
+    }
+
+    &-Title {
+        @include after-mobile {
+            font-size: 35px;
+            font-family: var(--font-roboto);
+            margin-bottom: 30px;
+        }
+    }
+
+    &-Heading {
+        font-size: 20px;
+        font-family: var(--font-roboto);
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    .CheckoutBilling,
+    .CheckoutShipping,
+    .CheckoutAddressBook {
+        &-Button {
+            width: 100%;
+            padding: 11px;
+
+            @include after-mobile {
+                max-width: 350px;
+            }
+        }
+    }
+
+    .CheckoutBilling-Checkbox {
+        display: flex;
+        align-items: center;
+
+        &.Field_type_checkbox {
+            label:first-of-type {
+                order: 1;
+                padding: 0;
+                line-height: 1;
+                margin-left: 5px;
+            }
         }
     }
 }
