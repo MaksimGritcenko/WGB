@@ -1,6 +1,6 @@
 :root {
-    --social-login-provider-backgrdoun-color: var(--primary-base-color);
-    --social-login-provider-hover-background-color: var(--primary-light-color);
+    --social-login-provider-backgrdoun-color: var(--secondary-base-color);
+    --social-login-provider-hover-background-color: var(--secondary-base-color);
 }
 
 .MyAccountOverlay {
@@ -357,7 +357,7 @@
 
     &-Provider {
         background-color: var(--social-login-provider-backgrdoun-color);
-        height: 40px;
+        height: 36px;
         width: 100%;
         margin-bottom: 20px;
 
@@ -382,7 +382,7 @@
             align-items: center;
 
             p {
-                line-height: 40px;
+                line-height: 36px;
                 margin: auto;
                 text-transform: uppercase;
                 font-size: 16px;
@@ -410,10 +410,33 @@
     &-facebook {
         border: solid 1px #3c5a9a;
         background-color: #3c5a9a;
+        transition: 0.5s;
+        max-height: 36px;
+
+        &:hover {
+            text-decoration: none;
+            background-color: #fff;
+
+            p {
+                color: #3c5a9a;
+            }
+        }
     }
 
     &-google {
+        border: solid 1px #df4c3a;
         background-color: #df4c3a;
+        transition: 0.5s;
+        max-height: 36px;
+
+        &:hover {
+        text-decoration: none;
+        background-color: #fff;
+
+            p {
+                color: #df4c3a;
+            }
+        }
     }
 }
 
