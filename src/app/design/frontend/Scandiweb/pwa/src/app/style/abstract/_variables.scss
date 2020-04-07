@@ -12,3 +12,10 @@ $font-roboto: 'Roboto', sans-serif;
 $font-oswald: 'Oswald', sans-serif;
 $font-standard-size: 12px;
 $font-mobile-size: 14px;
+
+:root {
+    --font-roboto: $font-roboto;
+    --font-oswald: $font-oswald;
+
+    --primary-color-grey: #979797;
+}

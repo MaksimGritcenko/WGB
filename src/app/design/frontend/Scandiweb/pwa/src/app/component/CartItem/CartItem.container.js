@@ -1,14 +1,3 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 import { connect } from 'react-redux';
 
 import Event, {
@@ -18,6 +7,7 @@ import {
     CartItemContainer as SourceCartItemContainer,
     mapDispatchToProps
 } from 'SourceComponent/CartItem/CartItem.container';
+import CartItem from './CartItem.component';
 
 export { mapDispatchToProps };
 
@@ -62,6 +52,17 @@ export class CartItemContainer extends SourceCartItemContainer {
                 quantity
             });
         });
+    }
+
+    render() {
+        return (
+            <CartItem
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
+        );
     }
 }
 
