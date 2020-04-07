@@ -1,0 +1,27 @@
+.BackToTop {
+    cursor: pointer;
+    position: fixed;
+    display: flex;
+    align-items: center;
+
+    bottom: 5px;
+    right: 20px;
+    height: 45px;
+
+    background-color: #FFF;
+
+    &-Text {
+        padding-right: 10px;
+    }
+
+    &-IconContainer {
+        background-color: #000;
+        padding: 5px;
+    }
+
+    &-Icon {
+        fill: #FFF;
+        transform: rotate(90deg);
+        width: 40px;
+    }
+}
