@@ -4,7 +4,6 @@ namespace WGB\SocialLogin\HybridAuth\AdditionalProviders\Amazon;
 
 use AmazonOAuth2Client;
 use OAuth\Common\Exception\Exception as OAuthException;
-use Hybrid_Providers_Amazon;
 use WGB\SocialLogin\HybridAuth\HybridAuth;
 
 /**
@@ -12,7 +11,7 @@ use WGB\SocialLogin\HybridAuth\HybridAuth;
  *
  * Logs user in using amazon account
  */
-class Amazon extends Hybrid_Providers_Amazon
+class Amazon
 {
     const API_BASE_URL = 'https://api.amazon.com';
     const AUTHORIZE_URL = 'https://www.amazon.com/ap/oa';

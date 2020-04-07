@@ -1,4 +1,5 @@
 import SliderVertical from 'Component/SliderVertical';
+import { GENDER_SLIDER_ANIMATION_DURATION } from 'Component/GenderSlider/GenderSlider.component';
 import SourceSliderWidget from 'SourceComponent/SliderWidget/SliderWidget.component';
 
 export default class SliderVerticalWidget extends SourceSliderWidget {
@@ -31,7 +32,7 @@ export default class SliderVerticalWidget extends SourceSliderWidget {
               showCrumbs
               activeImage={ activeImage }
               onActiveImageChange={ this.onActiveImageChange }
-              animationDuration={ 700 }
+              animationDuration={ GENDER_SLIDER_ANIMATION_DURATION }
               isScrollEnabled={ isScrollEnabled }
             >
                 { slides.map(this.renderSlide) }

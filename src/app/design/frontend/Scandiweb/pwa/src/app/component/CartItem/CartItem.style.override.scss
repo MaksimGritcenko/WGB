@@ -1,0 +1,179 @@
+:root {
+    --cart-item-bottom-border-color: #dedede;
+}
+
+.CartItem {
+    &-Wrapper {
+        grid-template-columns: 110px auto;
+
+        @include after-mobile {
+            padding-left: 0;
+        }
+
+        &::after {
+            @include mobile {
+                content: '';
+                height: 1px;
+                width: calc(100% - 2rem);
+                position: absolute;
+                bottom: 0;
+                left: 1rem;
+                background-color: var(--cart-item-bottom-border-color);
+            }
+        }
+    }
+
+    &-Content {
+        @include mobile {
+            flex-direction: column;
+            align-items: initial;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                height: 100%;
+                align-content: flex-start;
+            }
+        }
+    }
+
+    &-Price {
+        @include mobile {
+            font-size: 14px;
+            text-align: left;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                width: auto;
+                bottom: unset;
+            }
+        }
+    }
+
+    &-Options {
+        @include mobile {
+            margin-top: 10px;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                margin-top: 5px;
+            }
+        }
+    }
+
+    &-Option {
+        border: none;
+        padding: 0;
+        font-size: 14px;
+        text-transform: none;
+        color: inherit;
+    }
+
+    &-QtyWrapper {
+        align-items: center;
+        display: flex;
+        margin-top: 10px;
+
+        @include after-mobile {
+            display: none;
+        }
+    }
+
+    &-Picture {
+        @include mobile {
+            height: 160px;
+        }
+
+        img {
+            object-fit: cover;
+        }
+    }
+
+    &-Heading {
+        @include mobile {
+            flex-grow: initial;
+        }
+    }
+
+    .CartItem-Qty {
+        button {
+            @include mobile {
+                height: 20px;
+                width: 20px;
+                font-size: 20px;
+            }
+
+            span {
+                @include mobile {
+                    top: 0;
+                }
+            }
+        }
+
+        input {
+            @include mobile {
+                font-size: 14px;
+                height: 20px;
+                min-height: unset;
+            }
+        }
+    }
+
+    &-QtyTitle {
+        @include mobile {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+    }
+
+    &-MobileDelete {
+        padding: 0;
+        height: 30px;
+        width: 30px;
+        padding: 9px;
+        position: absolute;
+        right: calc(1rem - 9px);
+        top: calc(1rem - 9px);
+        z-index: 20;
+
+        @include after-mobile {
+            display: none;
+        }
+
+        &::before,
+        &::after {
+            content: none;
+        }
+    }
+
+    &-Delete {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &-Actions {
+        @include mobile {
+            display: none;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                margin: 0;
+                bottom: unset;
+                top: 1rem;
+            }
+        }
+
+        &_isEditing {
+            @include tablet {
+                height: 100%;
+            }
+        }
+    }
+}
