@@ -136,9 +136,11 @@ export default class Header extends SourceHeader {
         },
         [SEARCH]: {},
         [CART]: {
-            close: true,
-            title: true,
-            edit: true
+            menu: true,
+            searchButton: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
         },
         [CART_EDITING]: {
             ok: true,
