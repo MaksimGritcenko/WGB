@@ -163,7 +163,7 @@ export default class CartPage extends SourceCartPage {
                       { ...props }
                     >
                         <span />
-                        { __('Secure checkout') }
+                        { __('Continue to checkout') }
                     </Link>
                     <Link
                       block="CartPage"
