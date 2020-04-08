@@ -94,7 +94,7 @@ export default class ProductActions extends SourceProductActions {
 
         return (
             <div block="ProductActions" elem="NameAndPrice">
-                <p block="ProductActions" elem="Name" itemProp="name">{ name }</p>
+                <h1 block="ProductActions" elem="Name" itemProp="name">{ name }</h1>
                 { this.renderPriceWithSchema() }
             </div>
         );
@@ -114,8 +114,8 @@ export default class ProductActions extends SourceProductActions {
             <article block="ProductActions">
                 <meta itemProp="brand" content="Vagabond" />
                 { isMobile.any() ? this.renderBrand() : null }
-                { this.renderSkuAndStock() }
                 { this.renderNameAndPrice() }
+                {/* { this.renderSkuAndStock() } */}
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderAddToCart() }
