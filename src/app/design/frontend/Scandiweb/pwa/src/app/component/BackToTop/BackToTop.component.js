@@ -3,15 +3,41 @@ import isMobile from 'Util/Mobile';
 
 import './BackToTop.style';
 
+const SCREENS_TO_HIDE_SELF = 2;
+
 class BackToTop extends PureComponent {
+    state = {
+        isVisible: false
+    };
+
+    componentDidMount() {
+        document.addEventListener('scroll', this.handleScroll);
+    }
+
+    handleScroll = () => {
+        const {
+            body: { scrollTop: bs },
+            documentElement: { scrollTop: ds, clientHeight }
+        } = document;
+        const scrollTop = Math.max(bs, ds);
+
+        if (scrollTop > clientHeight * SCREENS_TO_HIDE_SELF) {
+            this.setState(() => ({ isVisible: true }));
+        } else {
+            this.setState(() => ({ isVisible: false }));
+        }
+    };
+
     scrollToTop() {
         window.scrollTo({
             top: 0,
-            behavior: 'smooth',
+            behavior: 'smooth'
         });
     }
 
     render() {
+        const { isVisible } = this.state;
+
         if (isMobile.any()) {
             return null;
         }
@@ -19,6 +45,7 @@ class BackToTop extends PureComponent {
         return (
             <button
               block="BackToTop"
+              mods={ { isVisible } }
               onClick={ this.scrollToTop }
             >
                 <p block="BackToTop" elem="Text">Back to top</p>

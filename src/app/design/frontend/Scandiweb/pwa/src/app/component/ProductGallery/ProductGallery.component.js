@@ -32,6 +32,7 @@ class ProductGallery extends SourceProductGallery {
                 <SliderVertical
                   ref={ this.sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
+                  animationDuration={ 350 }
                   showCrumbs
                   isPDPHeaderPresent={ isPDPHeaderPresent }
                   activeImage={ activeImage }
