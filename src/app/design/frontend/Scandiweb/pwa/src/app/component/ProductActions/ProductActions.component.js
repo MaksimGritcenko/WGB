@@ -115,7 +115,7 @@ export default class ProductActions extends SourceProductActions {
                 <meta itemProp="brand" content="Vagabond" />
                 { isMobile.any() ? this.renderBrand() : null }
                 { this.renderNameAndPrice() }
-                {/* { this.renderSkuAndStock() } */}
+                { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderAddToCart() }
