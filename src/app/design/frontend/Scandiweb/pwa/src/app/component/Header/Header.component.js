@@ -230,6 +230,15 @@ export default class Header extends SourceHeader {
         onClearSearchButtonClick();
     }
 
+    getIsWhiteBackground() {
+        const { pathname } = history.location;
+
+        if (pathname.indexOf(`/${ CART }`) === 0) return true;
+        if (pathname.indexOf(`/${ CHECKOUT }`) === 0) return true;
+
+        return false;
+    }
+
     renderLogoImage() {
         return logoIcon;
     }
@@ -506,7 +515,7 @@ export default class Header extends SourceHeader {
         const { pathname } = history.location;
 
         const isWhite = isActiveSlideWhite && pathname === '/';
-        const isWhiteBackground = pathname.indexOf(`/${ CART }`) === 0;
+        const isWhiteBackground = this.getIsWhiteBackground();
 
         return (
             <header block="Header" mods={ { name, ...headerType } }>
