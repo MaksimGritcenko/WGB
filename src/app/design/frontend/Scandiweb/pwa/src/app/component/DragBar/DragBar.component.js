@@ -54,6 +54,10 @@ export class DragBar extends Component {
         this.onDrag = this.onDrag.bind(this);
     }
 
+    componentDidMount() {
+        document.addEventListener('openDragbar', () => this.openDetails());
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevState.areDetailsOpen) {
             // eslint-disable-next-line react/destructuring-assignment
@@ -63,6 +67,10 @@ export class DragBar extends Component {
                 }, 0);
             }
         }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('openDragbar');
     }
 
     onDrag({ translateY }) {
@@ -84,11 +92,10 @@ export class DragBar extends Component {
         }
     }
 
-    onDragEnd(state, callback) {
+    onDragEnd(state) {
         const { translateY } = state;
         const { areDetailsOpen } = this.state;
         this.animatedTransitionOnce = false;
-        this.cb = callback;
 
         if (!areDetailsOpen) { // details are closed
             if (translateY > DRAGBAR_OPEN_OFFSET) {
@@ -118,11 +125,6 @@ export class DragBar extends Component {
     openDetails() {
         const { changeHeaderState } = this.props;
 
-        this.cb({
-            originalY: 0,
-            lastTranslateY: this._getScreenSizeWithAdjustment()
-        });
-
         this.setState(() => ({ areDetailsOpen: true }));
 
         this._animateAutoMove();
@@ -137,11 +139,6 @@ export class DragBar extends Component {
 
     closeDetails(isManualChange = false) { // is manual && is changed
         const { goToPreviousHeaderState } = this.props;
-
-        this.cb({
-            originalY: 0,
-            lastTranslateY: 0
-        });
 
         this.setState(() => ({ areDetailsOpen: false }));
 
