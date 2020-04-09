@@ -4,10 +4,10 @@ import { TOP_NAVIGATION_TYPE, BOTTOM_NAVIGATION_TYPE } from 'Store/Navigation/Na
 import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
 import { changeNavigationState } from 'Store/Navigation';
 import { CategoryDispatcher, updateCurrentCategory } from 'Store/Category';
-import { toggleOverlayByKey } from 'Store/Overlay';
+import { MetaDispatcher, updateMeta } from 'Store/Meta';
 import { setBigOfflineNotice } from 'Store/Offline';
+import { toggleOverlayByKey } from 'Store/Overlay';
 import { NoMatchDispatcher } from 'Store/NoMatch';
-import { MetaDispatcher } from 'Store/Meta';
 
 import {
     ProductListInfoDispatcher,
@@ -50,7 +50,8 @@ export const mapDispatchToProps = dispatch => ({
     updateNoMatch: options => NoMatchDispatcher.updateNoMatch(dispatch, options),
     setBigOfflineNotice: isBig => dispatch(setBigOfflineNotice(isBig)),
     updateMetaFromCategory: category => MetaDispatcher.updateWithCategory(category, dispatch),
-    updateCurrentCategory: category => dispatch(updateCurrentCategory(category))
+    updateCurrentCategory: category => dispatch(updateCurrentCategory(category)),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 
@@ -64,8 +65,11 @@ export class SearchPageContainer extends CategoryPageContainer {
         const {
             updateBreadcrumbs,
             isOnlyPlaceholder,
-            updateLoadStatus
+            updateLoadStatus,
+            updateMeta
         } = this.props;
+
+        updateMeta({ title: __('Search') });
 
         if (isOnlyPlaceholder) updateLoadStatus(true);
 

@@ -192,4 +192,25 @@
             font-size: 20px;
         }
     }
+
+    .ProductLinks-List {
+        grid-template-columns: repeat(2, 1fr);
+
+        @include mobile {
+            padding: 0 1rem;
+        }
+
+        @include after-mobile {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .ProductCard-Picture {
+            width: 100%;
+            height: calc(100vw / 6);
+
+            @include tablet {
+                height: calc(100vw / 4);
+            }
+        }
+    }
 }

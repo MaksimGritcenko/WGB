@@ -44,7 +44,7 @@ class MyAccountSignIn extends PureComponent {
     render() {
         return (
             <div block="SignInPage">
-            <MyAccountOverlay />
+                <MyAccountOverlay />
             </div>
         );
     }

@@ -1,0 +1,36 @@
+.ProductLinks {
+    &-Title {
+        font-family: var(--font-roboto);
+        font-size: 14px;
+        text-align: center;
+
+        @include after-mobile {
+            font-size: 30px;
+        }
+    }
+
+    &-List {
+        grid-template-columns: repeat(2, 1fr);
+
+        @include desktop {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: 1370px) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .ProductCard-Picture {
+        width: 100%;
+        height: calc(100vw / 2);
+
+        @include desktop {
+            height: calc(100vw / 3);
+        }
+
+        @media (min-width: 1370px) {
+            height: calc(100vw / 4);
+        }
+    }
+}

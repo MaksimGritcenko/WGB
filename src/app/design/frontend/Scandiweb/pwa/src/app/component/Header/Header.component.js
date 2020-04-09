@@ -65,6 +65,7 @@ export const PASSWORD_CHANGE = 'password-change';
 export const CONTACT_US = 'contact-us';
 export const SIGN_IN = 'sign-in';
 
+export const PAGE = 'page';
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -233,8 +234,11 @@ export default class Header extends SourceHeader {
     getIsWhiteBackground() {
         const { pathname } = history.location;
 
-        if (pathname.indexOf(`/${ CART }`) === 0) return true;
-        if (pathname.indexOf(`/${ CHECKOUT }`) === 0) return true;
+        if (
+            pathname.indexOf(`/${ CART }`) === 0
+            || pathname.indexOf(`/${ CHECKOUT }`) === 0
+            || pathname.indexOf(`/${ PAGE }`) === 0
+        ) return true;
 
         return false;
     }
