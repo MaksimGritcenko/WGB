@@ -1,18 +1,22 @@
+import { connect } from 'react-redux';
+import { updateMeta } from 'Store/Meta';
+import { SocialLoginDispatcher } from 'Store/SocialLogins';
+
+import { history } from 'Route';
+import { isSignedIn } from 'Util/Auth';
+import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
+
 import {
     MyAccountOverlayContainer as SourceMyAccountOverlayContainer,
     mapStateToProps as sourceMapStateToProps,
     mapDispatchToProps as sourceMapDispatchToProps
 } from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.container';
-import { SocialLoginDispatcher } from 'Store/SocialLogins';
-import { connect } from 'react-redux';
 import {
+    STATE_FORGOT_PASSWORD,
     STATE_CREATE_ACCOUNT,
     STATE_LOGGED_IN,
     STATE_SIGN_IN
 } from 'Component/MyAccountOverlay/MyAccountOverlay.component';
-import { isSignedIn } from 'Util/Auth';
-import { history } from 'Route';
-import { CUSTOMER_SUB_ACCOUNT } from 'Component/Header';
 
 const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
@@ -23,7 +27,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     ...sourceMapDispatchToProps(dispatch),
-    requestLogins: () => SocialLoginDispatcher.handleData(dispatch)
+    requestLogins: () => SocialLoginDispatcher.handleData(dispatch),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
@@ -86,6 +91,19 @@ class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
 
         setHeaderState({
             name: STATE_SIGN_IN
+        });
+    }
+
+    handleForgotPassword(e) {
+        const { setHeaderState } = this.props;
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({ state: STATE_FORGOT_PASSWORD });
+
+        setHeaderState({
+            name: CUSTOMER_SUB_ACCOUNT,
+            title: null,
+            onBackClick: () => this.handleSignIn(e)
         });
     }
 
