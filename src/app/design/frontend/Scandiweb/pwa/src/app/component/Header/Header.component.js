@@ -234,9 +234,11 @@ export default class Header extends SourceHeader {
     getIsWhiteBackground() {
         const { pathname } = history.location;
 
-        if (pathname.indexOf(`/${ CART }`) === 0) return true;
-        if (pathname.indexOf(`/${ CHECKOUT }`) === 0) return true;
-        if (pathname.indexOf(`/${ PAGE }`) === 0) return true;
+        if (
+            pathname.indexOf(`/${ CART }`) === 0
+            || pathname.indexOf(`/${ CHECKOUT }`) === 0
+            || pathname.indexOf(`/${ PAGE }`) === 0
+        ) return true;
 
         return false;
     }
