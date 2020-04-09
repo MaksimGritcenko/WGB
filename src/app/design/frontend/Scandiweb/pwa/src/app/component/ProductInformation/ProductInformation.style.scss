@@ -18,7 +18,6 @@
 
     @include mobile {
         border-top: none;
-        border-top: 1px solid var(--expandable-content-divider-color);
     }
 
     @include after-mobile {
@@ -44,9 +43,8 @@
 
     &-ExpandableContentContent {
         &_isContentExpanded {
-            @include mobile {
-                padding: 0;
-            }
+            // TODO figure out without important
+            padding: 0 !important;
         }
 
         @include after-mobile {
@@ -72,6 +70,10 @@
     &-Attributes {
         display: flex;
         flex-wrap: wrap;
+
+        @include after-mobile {
+            padding-top: 15px;
+        }
 
         @include mobile {
             margin-top: 2rem;
