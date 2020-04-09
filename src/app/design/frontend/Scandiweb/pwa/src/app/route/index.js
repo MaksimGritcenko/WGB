@@ -26,6 +26,7 @@ import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
 import MyAccountSignIn from 'Route/MyAccountSignIn';
+import StoreFinder from 'Route/StoreFinder';
 import ContactPage from 'Component/ContactPage';
 import CookiePopup from 'Component/CookiePopup';
 
@@ -34,8 +35,6 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
-import { StoreFinder } from 'Route/StoreFinder';
-
 
 import Store from 'Store';
 
@@ -205,6 +204,17 @@ export class AppRouter extends SourceAppRouter {
         },
         {
             component: <Route
+              path="/stores"
+              render={ props => (
+              <GoogleTagManagerRouteWrapperComponent route={ FAVORITES }>
+                  <StoreFinder { ...props } />
+              </GoogleTagManagerRouteWrapperComponent>
+              ) }
+            />,
+            position: 92
+        },
+        {
+            component: <Route
               path="/my-favorites"
               render={ props => (
                 <GoogleTagManagerRouteWrapperComponent route={ FAVORITES }>
@@ -236,6 +246,7 @@ export class AppRouter extends SourceAppRouter {
             />,
             position: 110
         },
+
         {
             component: <Route
               render={ props => (

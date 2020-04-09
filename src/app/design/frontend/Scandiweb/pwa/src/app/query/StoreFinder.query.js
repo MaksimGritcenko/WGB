@@ -28,11 +28,26 @@ class StoreFinderQuery {
                 'address',
                 'city',
                 'phone_number',
-                'latitude',
-                'longitude',
                 'store_hours',
-                'working_days'
-            ]);
+                'working_days',
+                'image_1',
+                'image_2',
+                'image_3'
+            ])
+            .setAlias('StoreInfo');
+    }
+
+    getStoresList() {
+        return new Field('getStores')
+            .addField('city')
+            .addField('city_external_id')
+            .addField('store_name')
+            .addField('store_external_id')
+            .addField('address')
+            .addField('store_hours')
+            .addField('phone_number')
+            .addField('manager_email')
+            .addField('code1c');
     }
 }
 

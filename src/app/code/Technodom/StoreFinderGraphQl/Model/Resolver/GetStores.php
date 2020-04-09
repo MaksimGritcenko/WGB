@@ -85,6 +85,20 @@ class GetStores implements ResolverInterface
             $result[] = $store->getData();
         }
 
+        $resultAmount = count($result);
+
+        for ($i = 0; $i < $resultAmount; $i++) {
+            if (isset($result[$i]['image']['image'])){
+                $result[$i]['image_1'] = $result[$i]['image']['image'];
+            }
+             if (isset($result[$i]['image'][0])){
+                 $result[$i]['image_2'] = $result[$i]['image'][0];
+             }
+             if (isset($result[$i]['image'][1])){
+                 $result[$i]['image_3'] = $result[$i]['image'][1];
+             }
+        }
+
         return $result;
     }
 }

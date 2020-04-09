@@ -25,6 +25,9 @@ type Store {
     longitude: String
     working_days: String
     code1c: String
+    image_1: String
+    image_2: String
+    image_3: String
 }
 
 type CityStores {

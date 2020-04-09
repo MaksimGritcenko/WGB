@@ -2,7 +2,7 @@ export { default as SliderQuery } from 'Query/Slider.query';
 export { default as ContactFormQuery } from 'Query/ContactForm.query';
 export { default as ContactInfoQuery } from 'Query/ContactInfo.query';
 export { default as SocialLoginQuery } from 'Query/SocialLoginQuery.query';
-export { default as StoreFinder } from 'Query/StoreFinderQuery.query';
+export { default as StoreFinderQuery } from 'Query/StoreFinder.query';
 
 export {
     CategoryQuery,

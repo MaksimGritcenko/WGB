@@ -1,48 +1,70 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
+import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import DataContainer from 'Util/Request/DataContainer';
 
 import { connect } from 'react-redux';
-import { StoreFinderDispatcher } from 'Store/StoreFinder';
-import { BreadcrumbsDispatcher } from 'Store/Breadcrumbs';
-import { CmsBlocksAndSliderDispatcher } from 'Store/CmsBlocksAndSlider';
+
+import StoreFinderQuery from 'Query/StoreFinder.query'
+
 import StoreFinder from './StoreFinder.component';
 
-const mapStateToProps = state => ({
-    storeListCities: state.StoreFinderReducer.storeListCities,
-    storeListMapped: state.StoreFinderReducer.storeListMapped,
-    storeByName: state.StoreFinderReducer.storeByName,
-    blocks: state.CmsBlocksAndSliderReducer.blocks
+export const mapStateToProps = state => ({
+
 });
 
-const mapDispatchToProps = dispatch => ({
-    requestStores: () => {
-        StoreFinderDispatcher.handleData(dispatch);
-    },
+export const mapDispatchToProps = dispatch => ({
 
-    enableBreadcrumbs: () => {
-        BreadcrumbsDispatcher.update([
-            {
-                url: '',
-                name: __('Shops')
-            },
-            {
-                url: '/',
-                name: __('Home')
-            }
-        ], dispatch);
-    },
-
-    requestBlocks: options => CmsBlocksAndSliderDispatcher.handleData(dispatch, options)
 });
 
-const StoreFinderContainer = connect(mapStateToProps, mapDispatchToProps)(StoreFinder);
+export class StoreFinderContainer extends DataContainer {
+    static propTypes = {
+        // TODO: implement prop-types
+    };
 
-export default StoreFinderContainer;
+    state = {
+        StoreInfo: [{
+            store_name: 'Store Name is not provided',
+            address: 'Address is not provided',
+            city: 'City is not provided',
+            phone_number: 'Phone is not provided',
+            store_hours: 'Hours are not provided',
+            working_days: 'Working days are not provided',
+            image_1: 'WGB1.jpg',
+            image_2: 'WGB1.jpg',
+            image_3: 'WGB1.jpg'
+        }]
+    };
+
+    containerFunctions = {
+        // getData: this.getData.bind(this)
+    };
+
+    containerProps = () => {
+        // isDisabled: this._getIsDisabled()
+    }
+
+    componentDidMount() {
+        this.requestStores();
+    }
+
+    requestStores() {
+        this.fetchData(
+            [StoreFinderQuery.getQuery()],
+            ({ StoreInfo }) => this.setState({ StoreInfo }),
+            e => console.log(e)
+        );
+    }
+
+    render() {
+        return (
+            <StoreFinder
+              { ...this.props }
+              { ...this.state }
+              { ...this.containerFunctions }
+              { ...this.containerProps() }
+            />
+        );
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoreFinderContainer);

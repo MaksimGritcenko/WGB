@@ -1,0 +1,14 @@
+.StoreFinder{
+  &-Select{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 28px auto 25px;
+    width: 357px;
+
+    @include mobile {
+      margin-bottom: 13px;
+    }
+  }
+
+}

@@ -1,227 +1,114 @@
-/**
- * ScandiPWA - Progressive Web App for Magento
- *
- * Copyright © Scandiweb, Inc. All rights reserved.
- * See LICENSE for license details.
- *
- * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
- * @package scandipwa/base-theme
- * @link https://github.com/scandipwa/base-theme
- */
-
 .StoreFinder {
-    &-Wrapper {
-        grid-template-columns: 270px 1fr;
-        display: grid;
-        grid-template-areas: '. main';
+    margin-top: 50px;
+    padding: 0 15px;
+
+    &-Card {
+        margin-bottom: 30px;
+
+        @include after-mobile {
+            margin-bottom: 40px;
+        }
+    }
+
+    &-Title {
+        font-size: 40px;
+        font-family: 'Roboto-Bold', sans-serif;
+        font-weight: bold;
+        text-align: center;
+        margin: 63px auto 0;
+        letter-spacing: -1.54px;
+        width: 357px;
+        overflow: visible;
+        white-space: nowrap;
 
         @include mobile {
-            display: block;
-            padding: 0;
-        }
-    }
-
-    &-MainContent {
-        grid-area: main;
-    }
-
-    &-Heading {
-        font-size: 16px;
-        font-weight: 900;
-    }
-
-    &-Map {
-        z-index: 0;
-
-        .leaflet-container {
-            border: 1px solid rgb(219, 219, 219);
-            height: 600px;
-
-            @include mobile {
-                height: 400px;
-            }
-
-            .leaflet-control-zoom-in,
-            .leaflet-control-zoom-out {
-                margin: 0; // margin set by 'webpack:///./src/app/style/base/_link.scss'
-            }
-        }
-
-        .leaflet-popup {
-            left: 2rem !important;
-            top: -8rem !important;
-            bottom: inherit !important;
-            margin-left: 1.5rem;
-
-            @include mobile {
-                left: -40vw !important;
-                top: 20px !important;
-                width: 80vw;
-                margin: 0;
-            }
-
-            &-tip-container {
-                display: none;
-            }
-
-            &-content {
-                &-wrapper {
-                    box-shadow: none;
-                    border-radius: 3px;
-                    min-width: 200px;
-                }
-            }
-        }
-
-        .leaflet-marker-icon {
-            border: 0;
-            background-color: transparent;
-            margin-top: -50px !important;
-        }
-
-        .StoreFinder-Store {
-            padding: 0;
-        }
-    }
-
-    &-SelectList {
-        padding: 30px;
-        margin-bottom: 10px;
-        background-color: var(--color-storefinder-white);
-
-        @include mobile {
-            padding: 10px 15px 20px;
-            margin-bottom: 0;
-        }
-    }
-
-    &-Select {
-        width: calc(50% - 10px);
-        display: inline-block;
-
-        @include mobile {
-            display: block;
+            font-size: 20px;
             width: 100%;
         }
+    }
 
-        &:last-child {
-            margin-left: 20px;
+    &-Info {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin: 28px auto 25px;
+        width: 357px;
+
+        @include mobile {
+            margin-bottom: 13px;
+        }
+
+        p {
+            font-size: 17px;
+            font-family: 'Roboto-Bold', sans-serif;
+            letter-spacing: -0.65px;
+            white-space: nowrap;
+            line-height: 22px;
 
             @include mobile {
-                margin-left: 0;
-            }
-        }
-
-        .Select {
-            &-Form {
-                font-size: 12px;
-                line-height: 1;
-                padding: 13px 50px 13px 20px;
-            }
-
-            &-Elements {
-                li {
-                    font-size: 12px;
-                    padding: 0 50px 0 20px;
-                    height: 40px;
-                }
-            }
-
-            &-Wrapper:hover > ul li {
-                @include after-mobile {
-                    max-height: 40px;
-                }
+                font-size: 15px;
+                letter-spacing: -0.58px;
+                white-space: pre-wrap;
             }
         }
     }
 
-    &-StoreCards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 15px;
-        padding: 15px 0;
-
-        @include tablet {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @include mobile {
-            grid-template-columns: 1fr;
-            grid-gap: 5px;
-            padding: 0 0 5px;
-        }
+    &-StoreName {
+        font-weight: bold;
+        text-transform: uppercase;
     }
 
-    &-Store {
-        background-color: var(--color-storefinder-white);
-        padding: 30px;
+    &-StoreHours{
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        &_isActive {
-            border: solid 1px var(--color-primary-base);
-        }
-
-        .Button {
-            margin-top: 10px;
-            padding-left: 2rem;
-
-            &::after {
-                background: url('../../../public/assets/images/global/place-marker.svg') no-repeat;
-                content: '';
-                width: 1.5rem;
-                height: 1.5rem;
-                bottom: 0;
-                left: 0;
-                position: absolute;
-            }
-        }
     }
 
-    &-StoreInfo {
-        font-size: 14px;
-        font-weight: 500;
-        margin: 0;
-        display: block;
-        margin-bottom: 10px;
-        line-height: 1;
+    &-StorePhone {
+        display: flex;
+        font-size: 17px;
+        font-family: 'Roboto-Bold', sans-serif;
+        letter-spacing: -0.65px;
+        white-space: nowrap;
+        line-height: 22px;
 
-        &_type {
-            &_name {
-                font-size: 16px;
-                font-weight: 900;
-                margin-bottom: 20px;
-            }
-
-            &_number {
-                font-weight: bold;
-            }
-
-            &_workingdays {
-                margin: 10px 0;
-            }
-        }
-    }
-
-    &-Circles {
-        display: inline-block;
-        line-height: 1;
-        margin: 0 5px 0 0;
-        height: 15px;
-        width: 15px;
-        border-radius: 50%;
-        background-color: var(--color-storefinder-default-working-days);
-
-        &_isActive {
-            background-color: var(--color-primary-base);
-        }
-    }
-
-    .ContentWrapper {
         @include mobile {
-            padding-left: 0;
-            padding-right: 0;
+            font-size: 15px;
+            letter-spacing: -0.58px;
+            white-space: pre-wrap;
+        }
+    }
+
+    &-SubParagraph {
+        margin-right: 5px;
+        min-width: fit-content;
+    }
+
+    &-ImageBlockWrapper {
+        display: flex;
+        justify-content: center;
+
+        @include mobile {
+            justify-content: unset;
+            margin: 0 -15px;
+        }
+    }
+
+    &-ImageWrapper {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    &-Image {
+        width: 250px;
+        height: 250px;
+        min-width: 250px;
+        object-fit: cover;
+
+        &:nth-child(2){
+            margin: 0 15px;
+
+            @include mobile {
+                margin: 0 2px;
+            }
         }
     }
 }
