@@ -13,10 +13,11 @@ import { QueryDispatcher } from 'Util/Request';
 import { CmsBlockQuery } from 'Query';
 import { showNotification } from 'Store/Notification';
 import { updateCmsBlocks } from 'Store/CmsBlocksAndSlider';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 export class ContactInfoDispatcher extends QueryDispatcher {
     constructor() {
-        super('ContactInfo');
+        super('ContactInfo', ONE_MONTH_IN_SECONDS);
     }
 
     onSuccess(options, dispatch) {
