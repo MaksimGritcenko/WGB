@@ -12,9 +12,9 @@ export class CookiePopup extends SourceCookiePopup {
     componentDidMount() {
         const {
             currentCountry,
-            getUserLocation,
             isCountryLoading,
-            isCountryLoadingFailed
+            isCountryLoadingFailed,
+            getUserLocation
         } = this.props;
 
         if (!currentCountry && !isCountryLoadingFailed && !isCountryLoading) {
@@ -60,15 +60,24 @@ export class CookiePopup extends SourceCookiePopup {
                 { __('We have identified your location as ') }
                 <span block="CookiePopup" elem="Country">{ userLocation }</span>
                 { __('. We can\'t ship here yet but you can browse, or find your nearest store ') }
-                <Link to="/cart">here</Link>
+                <Link to="/stores">here</Link>
             </p>
         );
     }
 
     countryFits() {
-        const { allowedCountries, userLocation } = this.props;
+        const {
+            allowedCountries,
+            userLocation,
+            isCountryLoadingFailed
+        } = this.props;
 
-        return !allowedCountries.filter(country => country.id === userLocation);
+        // Handle country loading failed - ignore country notice and show cookie notice
+        if (isCountryLoadingFailed) {
+            return true;
+        }
+
+        return allowedCountries.filter(country => country.id === userLocation);
     }
 
     renderCookieNotice() {

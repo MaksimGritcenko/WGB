@@ -3,8 +3,7 @@ import { UPDATE_GEOLOCATION } from './GeoIP.action';
 const initialState = {
     country: undefined,
     city: undefined,
-    isLoading: false,
-    error: false
+    isLoading: false
 };
 
 const SocialLoginReducer = (state = initialState, action) => {
