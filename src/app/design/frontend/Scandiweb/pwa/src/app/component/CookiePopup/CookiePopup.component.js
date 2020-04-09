@@ -5,6 +5,23 @@ import Link from 'Component/Link';
 import './CookiePopup.style.scss';
 
 export class CookiePopup extends SourceCookiePopup {
+    state = {
+        display: false
+    };
+
+    componentDidMount() {
+        const {
+            currentCountry,
+            getUserLocation,
+            isCountryLoading,
+            isCountryLoadingFailed
+        } = this.props;
+
+        if (!currentCountry && !isCountryLoadingFailed && !isCountryLoading) {
+            getUserLocation();
+        }
+    }
+
     renderCookieLink() {
         const { cookieLink } = this.props;
 
@@ -25,16 +42,18 @@ export class CookiePopup extends SourceCookiePopup {
         );
     }
 
-    getHeadingText() {
-        if (this.countryFits()) {
-            return 'Use of cookies';
-        }
-
-        return 'LOCATION';
+    renderHeading() {
+        return (
+            <p block="CookiePopup" elem="Heading">
+            { this.countryFits()
+                ? 'Use of cookies'
+                : 'LOCATION' }
+            </p>
+        );
     }
 
     renderCountryNotice() {
-        const { userLocation = 'Latvia' } = this.props;
+        const { userLocation } = this.props;
 
         return (
             <p>
@@ -47,9 +66,9 @@ export class CookiePopup extends SourceCookiePopup {
     }
 
     countryFits() {
-        const { countries } = this.props;
+        const { allowedCountries, userLocation } = this.props;
 
-        return false;
+        return !allowedCountries.filter(country => country.id === userLocation);
     }
 
     renderCookieNotice() {
@@ -73,15 +92,17 @@ export class CookiePopup extends SourceCookiePopup {
     }
 
     render() {
-        const { cookieText } = this.props;
+        const { cookieText, isCountryLoading } = this.props;
         const { isAccepted } = this.state;
 
         if (!cookieText || isAccepted) {
             return null;
         }
 
+        const isShown = !isAccepted && !!cookieText && !isCountryLoading;
+
         return (
-            <div block="CookiePopup">
+            <div block="CookiePopup" mods={ { isShown } }>
                 <ContentWrapper
                   label="Cookie popup"
                   mix={ { block: 'CookiePopup', elem: 'Wrapper' } }
@@ -92,7 +113,7 @@ export class CookiePopup extends SourceCookiePopup {
                             { closeIcon }
                         </button>
                     </div>
-                    <p block="CookiePopup" elem="Heading">{ this.getHeadingText() }</p>
+                    { this.renderHeading() }
                     { this.renderCookieText() }
                 </ContentWrapper>
             </div>

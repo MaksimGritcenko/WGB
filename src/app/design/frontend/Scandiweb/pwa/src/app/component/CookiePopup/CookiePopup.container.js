@@ -10,13 +10,20 @@
  */
 
 import { connect } from 'react-redux';
-
+import { GeoIPDispatcher } from 'Store/GeoIP';
 import CookiePopup from './CookiePopup.component';
 
 export const mapStateToProps = state => ({
     cookieText: state.ConfigReducer.cookie_text,
     cookieLink: state.ConfigReducer.cookie_link,
-    countries: state.ConfigReducer.countries
+    allowedCountries: state.ConfigReducer.countries,
+    isCountryLoading: state.GeoIPReducer.isLoading,
+    isCountryLoadingFailed: state.GeoIPReducer.error,
+    userLocation: state.GeoIPReducer.country
 });
 
-export default connect(mapStateToProps)(CookiePopup);
+export const mapDispatchToProps = dispatch => ({
+    getUserLocation: () => GeoIPDispatcher.handleData(dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CookiePopup);
