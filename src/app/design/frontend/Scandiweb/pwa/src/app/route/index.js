@@ -34,7 +34,7 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
-import withGTM from 'Component/GoogleTagManager/withGtm';
+import withGTM from 'Component/GoogleTagManager/withGtm.component';
 
 import Store from 'Store';
 
@@ -201,6 +201,12 @@ export class AppRouter extends SourceAppRouter {
         }
     ];
 
+    getHeaderAndFooterOptions() {
+        return {
+            footer: { identifiers: this.getCmsBlocksToRequest() }
+        };
+    }
+
     dispatchActions() {
         WishlistDispatcher.updateInitialWishlistData(Store.dispatch);
         CartDispatcher.updateInitialCartData(Store.dispatch);
@@ -209,9 +215,9 @@ export class AppRouter extends SourceAppRouter {
         ContactInfoDispatcher.handleData(Store.dispatch, this.getContactInfoOptions());
     }
 
-    getHeaderAndFooterOptions = () => ({ footer: { identifiers: this.getCmsBlocksToRequest() } });
-
-    getContactInfoOptions = () => ({ identifiers: ['contact-us-social'] });
+    getContactInfoOptions() {
+        return { identifiers: ['contact-us-social'] };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
