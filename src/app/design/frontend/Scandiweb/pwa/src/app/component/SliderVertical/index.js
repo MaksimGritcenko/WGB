@@ -1,1 +1,1 @@
-export { default } from './SliderVertical.component';
+export { default } from './SliderVertical.container';
