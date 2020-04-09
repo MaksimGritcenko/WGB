@@ -6,6 +6,7 @@ export default class SearchPage extends CategoryPage {
     render() {
         return (
             <main block="CategoryPage">
+                <h1 style={ { display: 'none' } }>Vagabond Search</h1>
                 <ContentWrapper
                   wrapperMix={ { block: 'CategoryPage', elem: 'Wrapper', mods: { isSearchPage: true }} }
                   label="Category page"

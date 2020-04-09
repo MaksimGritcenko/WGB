@@ -10,7 +10,7 @@ import './CartItem.style.override';
 export default class CartItem extends SourceCartItem {
     static propTypes = {
         ...this.propTypes,
-        isNotEditing: PropTypes.string
+        isNotEditing: PropTypes.bool
     };
 
     static defaultProps = {
