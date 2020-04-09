@@ -1,0 +1,22 @@
+{
+    "name": "wgb/module-geoipgraphql",
+    "description": "",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Jegors Batovs",
+            "email": "yegor@scandipwa.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Wgb\\GeoIpGraphQL\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}
