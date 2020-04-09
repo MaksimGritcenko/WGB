@@ -56,7 +56,6 @@ class Geoiplocation implements ResolverInterface
     ) {
         $this->validateArgs($args);
         $result = $this->geolocation->locate($args['ip']);
-        var_dump($result);
 
         return $result;
     }
