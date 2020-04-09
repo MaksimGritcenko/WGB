@@ -173,7 +173,14 @@ export default class SliderVertical extends Slider {
 
     handleDragEnd = (state, callback) => {
         const { animationDuration } = this.props;
+        const { translateY, lastTranslateY } = state;
+        const { prevActiveImage } = this.state;
         const activeSlide = this.calculateNextSlide(state);
+
+        // Handle scroll past the end of gallery
+        if (translateY < lastTranslateY && prevActiveImage === -activeSlide) {
+            document.dispatchEvent(new CustomEvent('openDragbar'));
+        }
 
         const slideSize = this.sliderHeight;
 
