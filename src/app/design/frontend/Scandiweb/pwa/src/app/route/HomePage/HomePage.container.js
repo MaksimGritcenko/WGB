@@ -1,5 +1,6 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { updateMeta } from 'Store/Meta';
 import { changeVerticalSlideIndex } from 'Store/Slider';
 import HomePage from './HomePage.component';
 
@@ -10,6 +11,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+    updateMeta: meta => dispatch(updateMeta(meta)),
     changeVerticalSlideIndex: (horizontalIndex, verticalIndex) => dispatch(changeVerticalSlideIndex(horizontalIndex, verticalIndex)),
 });
 
