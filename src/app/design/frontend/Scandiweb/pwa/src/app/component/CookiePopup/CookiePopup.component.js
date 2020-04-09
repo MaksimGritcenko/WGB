@@ -63,12 +63,12 @@ export class CookiePopup extends SourceCookiePopup {
     }
 
     renderHeading() {
+        const stuffToRender = this.countryFits()
+            ? __('Use of cookies')
+            : __('LOCATION');
+
         return (
-            <p block="CookiePopup" elem="Heading">
-            { this.countryFits()
-                ? 'Use of cookies'
-                : 'LOCATION' }
-            </p>
+            <p block="CookiePopup" elem="Heading">{ stuffToRender }</p>
         );
     }
 

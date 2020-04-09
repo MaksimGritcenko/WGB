@@ -11,8 +11,7 @@ export class GeoIPDispatcher extends QueryDispatcher {
     }
 
     onSuccess({ getLocationByIp }, dispatch) {
-        dispatch(updateGeolocation({ isLoading: false }));
-        dispatch(updateGeolocation(getLocationByIp));
+        dispatch(updateGeolocation({ isLoading: false, ...getLocationByIp }));
     }
 
     onError([{ message }], dispatch) {
