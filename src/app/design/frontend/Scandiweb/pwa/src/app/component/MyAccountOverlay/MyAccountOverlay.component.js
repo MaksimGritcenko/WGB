@@ -1,5 +1,4 @@
 import React from 'react';
-import SourceMyAccountOverlay from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
 import Form from 'Component/Form';
 import Field from 'Component/Field';
 import { withRouter } from 'react-router-dom';
@@ -8,16 +7,27 @@ import './MyAccountOverlay.extended.style.scss';
 
 import Loader from 'Component/Loader';
 
-export * from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
+import SourceMyAccountOverlay, {
+    STATE_SIGN_IN,
+    STATE_FORGOT_PASSWORD,
+    STATE_FORGOT_PASSWORD_SUCCESS,
+    STATE_CREATE_ACCOUNT,
+    STATE_LOGGED_IN,
+    STATE_CONFIRM_EMAIL,
+    CUSTOMER_ACCOUNT_OVERLAY_KEY
+} from 'SourceComponent/MyAccountOverlay/MyAccountOverlay.component';
 
-export const STATE_SIGN_IN = 'signIn';
-export const STATE_FORGOT_PASSWORD = 'forgotPassword';
-export const STATE_FORGOT_PASSWORD_SUCCESS = 'forgotPasswordSuccess';
-export const STATE_CREATE_ACCOUNT = 'createAccount';
-export const STATE_LOGGED_IN = 'loggedIn';
-export const STATE_CONFIRM_EMAIL = 'confirmEmail';
+export {
+    STATE_SIGN_IN,
+    STATE_FORGOT_PASSWORD,
+    STATE_FORGOT_PASSWORD_SUCCESS,
+    STATE_CREATE_ACCOUNT,
+    STATE_LOGGED_IN,
+    STATE_CONFIRM_EMAIL,
+    CUSTOMER_ACCOUNT_OVERLAY_KEY
+};
 
-const SOCIAL_LOGIN_PROVIDERS = {
+export const SOCIAL_LOGIN_PROVIDERS = {
     facebook: 'FACEBOOK',
     google: 'GOOGLE ACCOUNT'
 };
@@ -51,6 +61,7 @@ export class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
             return 'Sign In';
         }
     }
+
     getSocialLogins() {
         const { logins, isSocialLoginsLoading } = this.props;
 
