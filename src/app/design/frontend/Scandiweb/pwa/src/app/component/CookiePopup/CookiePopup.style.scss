@@ -34,6 +34,11 @@
         transform: translateY(-200px);
     }
 
+    &_isHidden {
+        transition: all 200ms;
+        transform: translateY(0);
+    }
+
     &-Country {
         text-transform: uppercase;
         font-weight: 600;

@@ -1,12 +1,32 @@
+import { createRef } from 'react';
+
 import SourceCookiePopup, { COOKIE_POPUP } from 'SourceComponent/CookiePopup/CookiePopup.component';
 import { closeIcon } from 'Component/Header/Header.config';
 import ContentWrapper from 'Component/ContentWrapper';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import Link from 'Component/Link';
 import './CookiePopup.style.scss';
+
+const POPUP_HIDE_DURATION = 200;
 
 export class CookiePopup extends SourceCookiePopup {
     state = {
         display: false
+    };
+
+    constructor(props) {
+        super(props);
+
+        this.popupRef = createRef();
+    }
+
+    acceptCookies = () => {
+        BrowserDatabase.setItem(true, COOKIE_POPUP, ONE_MONTH_IN_SECONDS);
+        this.popupRef.current.classList.add('CookiePopup_isHidden');
+        setTimeout(() => {
+            this.setState({ isAccepted: true });
+        }, POPUP_HIDE_DURATION);
     };
 
     componentDidMount() {
@@ -111,7 +131,7 @@ export class CookiePopup extends SourceCookiePopup {
         const isShown = !isAccepted && !!cookieText && !isCountryLoading;
 
         return (
-            <div block="CookiePopup" mods={ { isShown } }>
+            <div ref={ this.popupRef } block="CookiePopup" mods={ { isShown } }>
                 <ContentWrapper
                   label="Cookie popup"
                   mix={ { block: 'CookiePopup', elem: 'Wrapper' } }
