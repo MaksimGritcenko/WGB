@@ -236,8 +236,6 @@ export default class CartItem extends SourceCartItem {
         return (
             <li
               block="CartItem"
-              itemScope
-              itemType="http://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderDeleteButton() }

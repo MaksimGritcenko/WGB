@@ -68,9 +68,9 @@ export class MyAccountMyWishlist extends SourceMyAccountMyWishlist {
     render() {
         return (
             <div block="MyAccountMyWishlist">
-                <div block="MyAccountMyWishlist" elem="Title">
+                <h1 block="MyAccountMyWishlist" elem="Title">
                 { __('MY FAVORITES') }
-                </div>
+                </h1>
                 { this.renderContent() }
             </div>
         );

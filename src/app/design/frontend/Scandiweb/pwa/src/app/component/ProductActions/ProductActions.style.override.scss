@@ -7,6 +7,20 @@
         z-index: 1000;
     }
 
+    &-Schema {
+        order: inherit;
+
+        &-Url {
+            display: none;
+        }
+
+        + .ProductActions-Section_type_short {
+            @include mobile {
+                margin-top: 0;
+            }
+        }
+    }
+
     &-AddToCartWrapper {
         @include mobile {
             border-top: none;
@@ -87,7 +101,7 @@
 
         & del {
             margin-right: 5px;
-            font-size: 14px;
+            font-size: 13px;
             @include after-mobile {
                 font-size: 20px;
             }
@@ -157,6 +171,8 @@
 
     &-Name {
         text-transform: uppercase;
+        font-family: "Roboto";
+        font-size: 13px;
         @include after-mobile {
             font-size: 30px;
             font-weight: 700;
@@ -184,6 +200,9 @@
                 @include after-mobile {
                     padding: 1.5rem 0;
                 }
+            }
+            &_sku {
+                display: none;
             }
         }
     }
