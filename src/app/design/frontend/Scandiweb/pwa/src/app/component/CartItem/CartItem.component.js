@@ -10,7 +10,7 @@ import './CartItem.style.override';
 export default class CartItem extends SourceCartItem {
     static propTypes = {
         ...this.propTypes,
-        isNotEditing: PropTypes.string
+        isNotEditing: PropTypes.bool
     };
 
     static defaultProps = {
@@ -236,8 +236,6 @@ export default class CartItem extends SourceCartItem {
         return (
             <li
               block="CartItem"
-              itemScope
-              itemType="http://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderDeleteButton() }

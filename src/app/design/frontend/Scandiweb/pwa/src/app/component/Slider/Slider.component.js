@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import SourceSlider, { ACTIVE_SLIDE_PERCENT, ANIMATION_DURATION } from 'SourceComponent/Slider/Slider.component';
 import Draggable from 'Component/Draggable';
 import CSS from 'Util/CSS';
+import { HORIZONTAL_INDEX, VERTICAL_INDEX } from 'Store/Slider/Slider.reducer';
 
 import './Slider.style.override.style';
 
@@ -32,7 +33,7 @@ export default class Slider extends SourceSlider {
     state = {
         ...this.state,
         isGesturesEnabled: true
-    }
+    };
 
     componentDidMount() {
         const { animationDuration, isScrollEnabled } = this.props;
@@ -122,6 +123,17 @@ export default class Slider extends SourceSlider {
     }
 
     handleDrag = (state) => {
+        const { sliderInAction, changeSliderInAction } = this.props;
+
+        if (sliderInAction === VERTICAL_INDEX) return;
+
+        if (
+            sliderInAction !== HORIZONTAL_INDEX
+            && Math.abs(state.lastTranslateX + Math.abs(state.translateX)) > 0
+        ) {
+            changeSliderInAction(HORIZONTAL_INDEX);
+        }
+
         const { translateX } = state;
 
         const translate = translateX;
@@ -188,7 +200,10 @@ export default class Slider extends SourceSlider {
     }
 
     handleDragEnd = (state, callback) => {
-        const { animationDuration } = this.props;
+        const { animationDuration, sliderInAction, resetSliderInAction } = this.props;
+
+        if (sliderInAction !== HORIZONTAL_INDEX) return;
+
         const activeSlide = this.calculateNextSlide(state);
 
         const slideSize = this.sliderWidth;
@@ -203,10 +218,12 @@ export default class Slider extends SourceSlider {
             originalX: newTranslate,
             lastTranslateX: newTranslate
         });
+
+        resetSliderInAction();
     };
 
     handleDragStart = () => {
-        CSS.setVariable(this.draggableRef, 'animation-speed', '0');
+        CSS.setVariable(this.draggableRef, 'animation-speed', 0);
     };
 
     render() {

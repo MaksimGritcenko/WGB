@@ -1,0 +1,18 @@
+type Query {
+    getLocationByIp (
+        ip: String! @doc(description: "IP to identify location of")
+    ): Location
+    @resolver(class: "WGB\\GeoIpGraphQL\\Model\\Resolver\\Geoiplocation")
+    @doc(description: "Query to Retrieve location from GeoIP extension.") ,
+}
+
+type Location {
+    location_id: String @doc(description: "GeiIP short location identifier")
+    geoip_loc_id: String @doc(description: "GeiIP long location identifier")
+    country: String
+    country_name: String
+    city: String
+    latitude: String
+    longitude: String
+    # region: String, may not be string, unable to retrieve (null)
+}

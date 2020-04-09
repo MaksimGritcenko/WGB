@@ -1,4 +1,5 @@
 import { withRouter } from 'react-router';
+import { Fragment } from 'react';
 import isMobile from 'Util/Mobile';
 import SliderVertical from 'Component/SliderVertical';
 import VideoPopup from 'Component/VideoPopup';
@@ -32,6 +33,7 @@ class ProductGallery extends SourceProductGallery {
                 <SliderVertical
                   ref={ this.sliderRef }
                   mix={ { block: 'ProductGallery', elem: 'Slider' } }
+                  animationDuration={ 350 }
                   showCrumbs
                   isPDPHeaderPresent={ isPDPHeaderPresent }
                   activeImage={ activeImage }
@@ -64,18 +66,25 @@ class ProductGallery extends SourceProductGallery {
         const alt = this._getAlt(mediaData);
 
         return (
-            <Image
-              src={ src }
-              key={ index }
-              ratio="custom"
-              mix={ {
-                  block: 'ProductGallery',
-                  elem: 'SliderImage',
-                  mods: { isPlaceholder: !src }
-              } }
-              isPlaceholder={ !src }
-              alt={ alt }
-            />
+            <Fragment key={ index }>
+                <Image
+                  src={ src }
+                  ratio="custom"
+                  mix={ {
+                      block: 'ProductGallery',
+                      elem: 'SliderImage',
+                      mods: { isPlaceholder: !src }
+                  } }
+                  isPlaceholder={ !src }
+                  alt={ alt }
+                />
+                <img
+                  style={ { display: 'none' } }
+                  alt={ alt }
+                  src={ src }
+                  itemProp="image"
+                />
+            </Fragment>
         );
     }
 

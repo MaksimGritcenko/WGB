@@ -4,14 +4,18 @@ import { WOMEN_SLIDER_ID } from 'Route/HomePage/HomePage.component';
 import {
     CHANGE_STATE,
     CHANGE_VERTICAL_SLIDE_INDEX,
-    SET_SLIDE_CONTENT_COLORS
+    SET_SLIDE_CONTENT_COLORS,
+    RESET_SLIDER_IN_ACTION,
+    CHANGE_SLIDER_IN_ACTION
 } from './Slider.action';
 
 const INITIAL_VERTICAL_STATE = 0;
 const INITIAL_HORIZONTAL_STATE = 0;
 
-const VERTICAL_INDEX = 0;
-const HORIZONTAL_INDEX = 1;
+export const VERTICAL_INDEX = 0;
+export const HORIZONTAL_INDEX = 1;
+
+const DEFAULT_SLIDER_IN_ACTION = null;
 
 export const initialState = {
     activeHorizontalSlideIndex: WOMEN,
@@ -20,7 +24,8 @@ export const initialState = {
         [HORIZONTAL_INDEX]: INITIAL_HORIZONTAL_STATE
     },
     sliderColors: [[], []],
-    isActiveSlideWhite: false
+    isActiveSlideWhite: false,
+    sliderInAction: DEFAULT_SLIDER_IN_ACTION
 };
 
 const isActiveSliderWhite = (state, horizontalSlideIndex, verticalSlideIndex = null) => {
@@ -69,6 +74,14 @@ const SliderReducer = (state = initialState, action) => {
             sliderColors,
             isActiveSlideWhite: sliderColors[INITIAL_VERTICAL_STATE][INITIAL_HORIZONTAL_STATE] || false
         };
+
+    case RESET_SLIDER_IN_ACTION:
+        return { ...state, sliderInAction: DEFAULT_SLIDER_IN_ACTION };
+
+    case CHANGE_SLIDER_IN_ACTION:
+        const { index } = action;
+
+        return { ...state, sliderInAction: index };
 
     default:
         return state;
