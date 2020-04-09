@@ -1,15 +1,11 @@
 .ProductWishlistButton {
+    background-color: #FFF !important;
     width: 20px;
 
     @include after-mobile {
         // TODO figure out without important
         display: inline-flex !important;
         margin-left: 1.5rem;
-    }
-
-    &_isInWishlist {
-        // TODO figure out without important
-        background-color: #FFF !important;
     }
 
     &.Button {
