@@ -123,6 +123,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
                 <button
                   block="Button"
                   elem="Forgot"
+                  type="Button"
                   mods={ { likeLink: true } }
                   onClick={ handleForgotPassword }
                 >
@@ -216,7 +217,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
             <>
                 <div block="MyAccountOverlay" elem="Header">
                     { this.renderBackToSignIn() }
-                    <h2>{ __('CREATE AN ACCOUNT') }</h2>
+                    <h1>{ __('CREATE AN ACCOUNT') }</h1>
                 </div>
                 <div block="MyAccountOverlay" elem="Column">
                     <div block="MyAccountOverlay" elem="Column_left">
@@ -273,7 +274,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
         return (
             <>
                 <div block="MyAccountOverlay" elem="Header">
-                    <h2>{ __('SIGN IN / SIGN UP') }</h2>
+                    <h1>{ __('SIGN IN / SIGN UP') }</h1>
                 </div>
                 <div block="MyAccountOverlay" elem="Column">
                     <div block="MyAccountOverlay" elem="Column_left">
@@ -298,7 +299,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
         return (
             <div block="MyAccountOverlay" elem="ForgotPassword">
                 <div block="MyAccountOverlay" elem="Header">
-                    <h2>{ __('FORGOT PASSWORD') }</h2>
+                    <h1>{ __('FORGOT PASSWORD') }</h1>
                 </div>
                 <div block="MyAccountOverlay" elem="Column">
                     { this.renderForgotPasswordForm() }

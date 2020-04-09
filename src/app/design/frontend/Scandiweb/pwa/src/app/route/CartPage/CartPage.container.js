@@ -10,7 +10,8 @@ import CartPage from './CartPage.component';
 
 export const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
-    guest_checkout: state.ConfigReducer.guest_checkout
+    guest_checkout: state.ConfigReducer.guest_checkout,
+    isSignedIn: state.MyAccountReducer.isSignedIn
 });
 
 export class CartPageContainer extends SourceCartPageContainer {

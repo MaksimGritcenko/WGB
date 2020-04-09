@@ -122,9 +122,9 @@ class ContactPage extends PureComponent {
         return (
             <div block="ContactPage">
                 <Loader isLoading={ isLoading } />
-                <div block="ContactPage" elem="Title">
+                <h1 block="ContactPage" elem="Title">
                    { __('GET IN TOUCH WITH VGB') }
-                </div>
+                </h1>
                 <div block="ContactPage" elem="Group">
                     { this.renderPhone() }
                     { this.renderEmail() }
