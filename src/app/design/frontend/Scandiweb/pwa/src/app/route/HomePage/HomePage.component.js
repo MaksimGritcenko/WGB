@@ -14,6 +14,7 @@ export default class HomePage extends PureComponent {
     static propTypes = {
         genderSwitchIndex: PropTypes.number.isRequired,
         changeVerticalSlideIndex: PropTypes.func.isRequired,
+        updateMeta: PropTypes.func.isRequired,
         isActiveSlideWhite: PropTypes.bool
     };
 
@@ -34,6 +35,12 @@ export default class HomePage extends PureComponent {
 
         this.handleArrowClick = this.handleArrowClick.bind(this);
         this.getSlideCount = this.getSlideCount.bind(this);
+    }
+
+    componentDidMount() {
+        const { updateMeta } = this.props;
+
+        updateMeta({ title: __('Home') });
     }
 
     getSlideCount(slideCount) {
@@ -111,6 +118,7 @@ export default class HomePage extends PureComponent {
     render() {
         return (
             <div block="HomePage">
+                <h1 style={ { display: 'none' } }>Vagabond</h1>
                 <GenderSlider
                   isGenderSwitcher
                   isBottomSwitcher

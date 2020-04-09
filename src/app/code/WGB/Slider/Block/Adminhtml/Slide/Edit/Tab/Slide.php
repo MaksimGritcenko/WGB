@@ -147,13 +147,24 @@ class Slide extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
 
         $block->addField(
-            'image',
+            'mobile_image',
             'image',
             [
-                'name' => 'image',
-                'label' => __('Image'),
-                'title' => __('Image'),
-                'required' => true,
+                'name' => 'mobile_image',
+                'label' => __('Mobile Image'),
+                'title' => __('Mobile Image'),
+                'required' => true
+            ]
+        );
+
+        $block->addField(
+            'desktop_image',
+            'image',
+            [
+                'name' => 'desktop_image',
+                'label' => __('Desktop Image'),
+                'title' => __('Desktop Image'),
+                'required' => true
             ]
         );
 

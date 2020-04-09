@@ -1,7 +1,8 @@
 .Checkout {
     &-Wrapper {
         @include desktop {
-            margin-bottom: 50px;
+            margin: 0 20px 50px;
+            padding: 0;
         }
     }
 
@@ -55,11 +56,7 @@
     .CheckoutAddressBook {
         &-Button {
             width: 100%;
-            padding: 11px;
-
-            @include after-mobile {
-                max-width: 350px;
-            }
+            padding: 10px;
         }
     }
 
@@ -68,12 +65,27 @@
         align-items: center;
 
         &.Field_type_checkbox {
-            label:first-of-type {
-                order: 1;
-                padding: 0;
-                line-height: 1;
-                margin-left: 5px;
+            label {
+                &:first-of-type {
+                    order: 1;
+                    padding: 0;
+                    line-height: 1;
+                    margin-left: 5px;
+                }
+
+                &:last-of-type {
+                    margin: 0;
+                }
             }
         }
+
+        .Field-Label {
+            font-weight: normal;
+        }
+    }
+
+    select,
+    input {
+        font-size: 14px;
     }
 }

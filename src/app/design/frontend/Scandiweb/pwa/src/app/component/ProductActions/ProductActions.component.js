@@ -1,5 +1,6 @@
 import SourceProductActions from 'SourceComponent/ProductActions/ProductActions.component';
 import ProductAttributeValue from 'Component/ProductAttributeValue';
+import ProductPrice from 'Component/ProductPrice';
 import isMobile from 'Util/Mobile';
 import { GROUPED } from 'Util/Product';
 
@@ -48,6 +49,39 @@ export default class ProductActions extends SourceProductActions {
         return null;
     }
 
+    renderPriceWithSchema() {
+        const {
+            product,
+            product: { variants },
+            configurableVariantIndex
+        } = this.props;
+
+        // Product in props is updated before ConfigurableVariantIndex in props, when page is opened by clicking CartItem
+        // As a result, we have new product, but old configurableVariantIndex, which may be out of range for variants
+        const productOrVariant = variants && variants[configurableVariantIndex] !== undefined
+            ? variants[configurableVariantIndex]
+            : product;
+
+        const { name, price, stock_status } = productOrVariant;
+
+        return (
+            <div
+              block="ProductActions"
+              elem="Schema"
+              itemType="https://schema.org/AggregateOffer"
+              itemProp="offers"
+              itemScope
+            >
+                { this.renderSchema(name, stock_status) }
+                <ProductPrice
+                  isSchemaRequired
+                  price={ price }
+                  mix={ { block: 'ProductActions', elem: 'Price' } }
+                />
+            </div>
+        );
+    }
+
     renderNameAndPrice() {
         const {
             product: {
@@ -60,7 +94,7 @@ export default class ProductActions extends SourceProductActions {
 
         return (
             <div block="ProductActions" elem="NameAndPrice">
-                <p block="ProductActions" elem="Name">{ name }</p>
+                <h1 block="ProductActions" elem="Name" itemProp="name">{ name }</h1>
                 { this.renderPriceWithSchema() }
             </div>
         );
@@ -78,8 +112,10 @@ export default class ProductActions extends SourceProductActions {
     render() {
         return (
             <article block="ProductActions">
+                <meta itemProp="brand" content="Vagabond" />
                 { isMobile.any() ? this.renderBrand() : null }
                 { this.renderNameAndPrice() }
+                { this.renderSkuAndStock() }
                 { this.renderShortDescription() }
                 <div block="ProductActions" elem="AddToCartWrapper">
                     { this.renderAddToCart() }

@@ -254,6 +254,11 @@
                     display: none;
                 }
             }
+
+            .Header-Title {
+                font-family: var(--font-roboto);
+                font-weight: bold;
+            }
         }
 
         &_filter {
@@ -281,6 +286,13 @@
                     width: 40vw;
                     z-index: -1;
                 }
+            }
+        }
+
+        &_cms-page {
+            .Header-Title {
+                font-family: var(--font-roboto);
+                font-weight: bold;
             }
         }
     }
