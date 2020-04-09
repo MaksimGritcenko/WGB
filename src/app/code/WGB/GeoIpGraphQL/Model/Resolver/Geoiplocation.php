@@ -28,10 +28,19 @@ use Amasty\Geoip\Model\Geolocation;
 class Geoiplocation implements ResolverInterface
 {
 
-    private $geolocation;
+    /**
+     * @var Geolocation
+     */
+    private Geolocation $geolocation;
+
+    /**
+     * @var CountryFactory
+     */
+    private CountryFactory $countryFactory;
 
     /**
      * @param Geolocation $geolocation
+     * @param CountryFactory $countryFactory
      */
     public function __construct(
         Geolocation $geolocation,
