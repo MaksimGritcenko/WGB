@@ -11,6 +11,7 @@
 
 namespace WGB\GeoIpGraphQL\Model\Resolver;
 
+use Magento\Directory\Model\CountryFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
@@ -33,9 +34,11 @@ class Geoiplocation implements ResolverInterface
      * @param Geolocation $geolocation
      */
     public function __construct(
-        Geolocation $geolocation
+        Geolocation $geolocation,
+        CountryFactory $countryFactory
     ) {
         $this->geolocation = $geolocation;
+        $this->countryFactory = $countryFactory;
     }
 
     private function validateArgs(Array $args) {
@@ -56,6 +59,7 @@ class Geoiplocation implements ResolverInterface
     ) {
         $this->validateArgs($args);
         $result = $this->geolocation->locate($args['ip'])->getData();
+        $result['country_name'] = $this->countryFactory->create()->loadByCode($result['country'])->getName();
 
         return $result;
     }

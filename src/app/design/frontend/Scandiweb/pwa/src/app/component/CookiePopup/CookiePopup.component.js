@@ -73,12 +73,12 @@ export class CookiePopup extends SourceCookiePopup {
     }
 
     renderCountryNotice() {
-        const { userLocation } = this.props;
+        const { userLocationName } = this.props;
 
         return (
             <p>
                 { __('We have identified your location as ') }
-                <span block="CookiePopup" elem="Country">{ userLocation }</span>
+                <span block="CookiePopup" elem="Country">{ userLocationName }</span>
                 { __('. We can\'t ship here yet but you can browse, or find your nearest store ') }
                 <Link to="/stores">here</Link>
             </p>

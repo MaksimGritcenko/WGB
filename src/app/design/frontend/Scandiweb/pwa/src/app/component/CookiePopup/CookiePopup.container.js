@@ -19,7 +19,8 @@ export const mapStateToProps = state => ({
     allowedCountries: state.ConfigReducer.countries,
     isCountryLoading: state.GeoIPReducer.isLoading,
     isCountryLoadingFailed: state.GeoIPReducer.error,
-    userLocation: state.GeoIPReducer.country
+    userLocation: state.GeoIPReducer.country,
+    userLocationName: state.GeoIPReducer.country_name
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -10,6 +10,7 @@ type Location {
     location_id: String @doc(description: "GeiIP short location identifier")
     geoip_loc_id: String @doc(description: "GeiIP long location identifier")
     country: String
+    country_name: String
     city: String
     latitude: String
     longitude: String
