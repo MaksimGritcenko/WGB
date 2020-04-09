@@ -34,10 +34,9 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
+import withGTM from 'Component/GoogleTagManager/withGtm';
 
 import Store from 'Store';
-
-import GoogleTagManagerRouteWrapperComponent from 'Component/GoogleTagManager/GoggleTagManagerRouteWrapper.component';
 
 import {
     BEFORE_ITEMS_TYPE,
@@ -67,12 +66,6 @@ export {
     AFTER_ITEMS_TYPE,
     history
 } from 'SourceRoute';
-
-const withGTM = (WrappableComponent, gtmRoute) => props => (
-    <GoogleTagManagerRouteWrapperComponent route={ gtmRoute }>
-        <WrappableComponent { ...props } />
-    </GoogleTagManagerRouteWrapperComponent>
-);
 
 export class AppRouter extends SourceAppRouter {
     [BEFORE_ITEMS_TYPE] = [
