@@ -156,6 +156,7 @@ export default class SliderVertical extends Slider {
     }
 
     handleDrag = (state) => {
+        console.log(this.props, state, this.state);
         const { sliderInAction, changeSliderInAction } = this.props;
 
         if (sliderInAction === HORIZONTAL_INDEX) return;
