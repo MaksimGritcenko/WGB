@@ -58,7 +58,6 @@ export default class ProductWishlistButton extends SourceProductWishlistButton {
 
     renderButton() {
         const { isInWishlist, isDisabled, mix } = this.props;
-        console.log('rerender');
 
         return (
             <button
