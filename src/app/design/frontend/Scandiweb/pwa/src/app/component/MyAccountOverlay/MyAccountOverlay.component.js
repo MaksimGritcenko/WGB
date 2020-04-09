@@ -22,7 +22,35 @@ const SOCIAL_LOGIN_PROVIDERS = {
     google: 'GOOGLE ACCOUNT'
 };
 
-class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
+export class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
+    componentDidUpdate(prevProps) {
+        const { state, updateMeta } = this.props;
+        const { state: prevState } = prevProps;
+
+        if (state !== prevState) {
+            const title = this.getTitle(state);
+            updateMeta({ title });
+        }
+    }
+
+    getTitle(state) {
+        switch (state) {
+        case STATE_SIGN_IN:
+            return 'Sign In';
+        case STATE_FORGOT_PASSWORD:
+            return 'Forgot Password';
+        case STATE_FORGOT_PASSWORD_SUCCESS:
+            return 'Forgot Password Success';
+        case STATE_CREATE_ACCOUNT:
+            return 'Create Account';
+        case STATE_LOGGED_IN:
+            return 'Logged In';
+        case STATE_CONFIRM_EMAIL:
+            return 'Confirm Email';
+        default:
+            return 'Sign In';
+        }
+    }
     getSocialLogins() {
         const { logins, isSocialLoginsLoading } = this.props;
 

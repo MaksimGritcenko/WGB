@@ -23,7 +23,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     ...sourceMapDispatchToProps(dispatch),
-    requestLogins: () => SocialLoginDispatcher.handleData(dispatch)
+    requestLogins: () => SocialLoginDispatcher.handleData(dispatch),
+    updateMeta: meta => dispatch(updateMeta(meta))
 });
 
 class MyAccountOverlayContainer extends SourceMyAccountOverlayContainer {
