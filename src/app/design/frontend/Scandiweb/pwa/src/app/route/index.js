@@ -34,7 +34,7 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
-import withGTM from 'Component/GoogleTagManager/withGtm.hoc';
+import withGTM from 'Component/GoogleTagManager/withGTM.hoc';
 
 import Store from 'Store';
 
