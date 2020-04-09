@@ -162,7 +162,9 @@ export default class SliderVertical extends Slider {
 
         if (sliderInAction !== VERTICAL_INDEX
             && Math.abs(state.lastTranslateY + Math.abs(state.translateY)) > 0
-        ) changeSliderInAction(VERTICAL_INDEX);
+        ) {
+            changeSliderInAction(VERTICAL_INDEX);
+        }
 
         const { translateY } = state;
 
@@ -186,9 +188,10 @@ export default class SliderVertical extends Slider {
 
         const {
             translateY,
-            lastTranslateY,
-            prevActiveImage
+            lastTranslateY
         } = state;
+        const { prevActiveImage } = this.state;
+
         const activeSlide = this.calculateNextSlide(state);
 
         // Handle scroll past the end of gallery

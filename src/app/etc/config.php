@@ -215,6 +215,9 @@ return [
         'Magento_Wishlist' => 1,
         'Magento_WishlistAnalytics' => 1,
         'Magento_WishlistGraphQl' => 1,
+        'Amasty_Base' => 1,
+        'Amasty_Geoip' => 1,
+        'Amasty_GeoipRedirect' => 1,
         'Amazon_Core' => 1,
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
@@ -260,6 +263,7 @@ return [
         'WGB_Slider' => 1,
         'WGB_SliderGraphQl' => 1,
         'WGB_SocialLogin' => 1,
+        'Wgb_GeoIpGraphQL' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];

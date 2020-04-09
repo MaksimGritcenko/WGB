@@ -52,10 +52,11 @@ export class DragBar extends Component {
         this.dragBarRef = createRef();
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onDrag = this.onDrag.bind(this);
+        this.openDetails = this.openDetails.bind(this);
     }
 
     componentDidMount() {
-        document.addEventListener('openDragbar', () => this.openDetails());
+        document.addEventListener('openDragbar', this.openDetails);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -70,7 +71,7 @@ export class DragBar extends Component {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('openDragbar');
+        document.removeEventListener('openDragbar', this.openDetails);
     }
 
     onDrag({ translateY }) {

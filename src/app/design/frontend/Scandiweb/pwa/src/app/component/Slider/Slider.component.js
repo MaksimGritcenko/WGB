@@ -130,7 +130,9 @@ export default class Slider extends SourceSlider {
         if (
             sliderInAction !== HORIZONTAL_INDEX
             && Math.abs(state.lastTranslateX + Math.abs(state.translateX)) > 0
-        ) changeSliderInAction(HORIZONTAL_INDEX);
+        ) {
+            changeSliderInAction(HORIZONTAL_INDEX);
+        }
 
         const { translateX } = state;
 
