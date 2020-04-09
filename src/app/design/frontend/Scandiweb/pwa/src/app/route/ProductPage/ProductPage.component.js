@@ -12,7 +12,7 @@ import ConditionalWrapper from 'Component/ConditionalWrapper';
 import ContentWrapper from 'Component/ContentWrapper';
 import isMobile from 'Util/Mobile';
 import Event, { EVENT_GTM_PRODUCT_DETAIL } from 'Util/Event';
-import { RELATED } from 'Store/LinkedProducts/LinkedProducts.reducer';
+import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 
 import './ProductPage.style.override';
 
@@ -145,11 +145,18 @@ export default class ProductPage extends SourceProductPage {
         const { areDetailsLoaded } = this.props;
 
         return (
-            <ProductLinks
-              linkType={ RELATED }
-              title={ __('Recommended for you') }
-              areDetailsLoaded={ areDetailsLoaded }
-            />
+            <>
+                <ProductLinks
+                  linkType={ RELATED }
+                  title={ __('Recommended for you') }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProductLinks
+                  linkType={ UPSELL }
+                  title={ __('You might also like') }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+            </>
         );
     }
 
