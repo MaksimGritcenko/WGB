@@ -217,7 +217,7 @@ class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
             <>
                 <div block="MyAccountOverlay" elem="Header">
                     { this.renderBackToSignIn() }
-                    <h2>{ __('CREATE AN ACCOUNT') }</h2>
+                    <h1>{ __('CREATE AN ACCOUNT') }</h1>
                 </div>
                 <div block="MyAccountOverlay" elem="Column">
                     <div block="MyAccountOverlay" elem="Column_left">
