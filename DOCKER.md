@@ -19,7 +19,7 @@ export COMPOSER_AUTH='{"http-basic":{"repo.magento.com": {"username": "REPLACE_T
 3.  `composer.json` must be present in `/src`
 4.  Run `docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d`
 5.  Check with `docker-compose ps` that all containers `Running`
-6.  Open <http://localhost:3000> to check if Magento is started
+6.  Open <http://scandipwa.local:3000> to check if Magento is started
 
 ### Troubleshooting
 

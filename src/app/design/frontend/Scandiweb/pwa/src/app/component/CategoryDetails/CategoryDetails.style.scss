@@ -15,7 +15,6 @@
 
 .CategoryDetails {
     display: grid;
-    grid-template-columns: auto minmax(100px, 15rem);
     grid-gap: 1rem;
     background-color: var(--category-details-background);
     margin-bottom: 1rem;
@@ -31,30 +30,28 @@
     }
 
     &-Heading {
-        font-size: 38px;
-        // font-family: $font-oswald;
+        padding-bottom: 10px;
+        font-family: "Oswald";
+        font-size: 40px;
         text-transform: uppercase;
     }
 
     &-Description {
+        margin: auto;
+        text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
         font-size: 14px;
         font-weight: 300;
         padding: 2rem;
-        height: 10rem;
     }
 
     p {
-        max-width: 500px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        height: 2rem;
-
-        @include before-desktop {
-            max-width: 200px;
-        }
+        width: 75vw;
+        max-width: 900px;
+        font-size: 15px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
     }
 }

@@ -1,0 +1,26 @@
+.ProductConfigurableAttributes {
+    display: flex;
+    justify-content: space-between;
+
+    @include after-mobile {
+        flex-flow: column;
+        width: 45%;
+    }
+
+    &-Attribute {
+        @include mobile {
+            flex: 1 1;
+            max-width: 48%;
+        }
+    }
+
+    &-Placeholder {
+        display:none;
+    }
+
+    .Attribute {
+        &-Name {
+            text-transform: uppercase;
+        }
+    }
+}

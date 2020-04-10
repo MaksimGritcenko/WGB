@@ -1,0 +1,61 @@
+.CmsPage {
+    &-Wrapper {
+        margin-top: calc(var(--header-height) + 15px);
+        padding: var(--page-padding-mobile);
+
+        @include after-mobile {
+            margin-top: var(--header-height);
+            padding: var(--page-padding);
+        }
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    h2 {
+        font-size: 30px;
+        margin-top: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    h3 {
+        font-size: 25px;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-family: var(--font-roboto);
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 17px;
+    }
+
+    blockquote {
+        margin: 1rem 0;
+        border-left: 1px solid var(--primary-color-grey);
+        color: var(--primary-color-grey);
+    }
+
+    ul {
+        margin-top: 20px;
+    }
+
+    li {
+        font-size: 17px;
+        padding-left: 3rem;
+
+        @include after-mobile {
+            padding-left: 4.5rem;
+        }
+
+        &::before {
+            @include mobile {
+                left: 1.5em;
+            }
+        }
+    }
+}

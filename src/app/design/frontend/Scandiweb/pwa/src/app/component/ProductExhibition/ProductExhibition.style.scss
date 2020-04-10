@@ -1,0 +1,32 @@
+.ProductExhibition {
+    // width: 100%;
+    overflow: scroll;
+    touch-action: pan-y;
+    flex-direction: column;
+    transition: height 300ms;
+
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+
+    will-change: transform;
+    transition: transform var(--animation-speed);
+    transform: translate3d(var(--translateX), 0, 0);
+
+    > * {
+        flex-grow: 1;
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .Image {
+        @include desktop {
+            margin-bottom: -7px;
+        }
+    }
+
+    img {
+        position: relative;
+    }
+}

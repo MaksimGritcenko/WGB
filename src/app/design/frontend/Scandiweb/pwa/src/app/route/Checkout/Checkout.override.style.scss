@@ -1,0 +1,91 @@
+.Checkout {
+    &-Wrapper {
+        @include desktop {
+            margin: 0 20px 50px;
+            padding: 0;
+        }
+    }
+
+    &-Success {
+        text-align: center;
+
+        @include after-mobile {
+            margin-top: 40px;
+            width: 100vw;
+            left: 0;
+            position: fixed;
+        }
+
+        @include mobile {
+            margin-top: 25vh;
+        }
+
+        h3 {
+            font-size: 40px;
+        }
+    }
+
+    &-ContinueButton {
+        @include after-mobile {
+            width: 345px;
+        }
+
+        @include mobile {
+            margin-top: 2rem;
+            width: 100%;
+        }
+    }
+
+    &-Title {
+        @include after-mobile {
+            font-size: 35px;
+            font-family: var(--font-roboto);
+            margin-bottom: 30px;
+        }
+    }
+
+    &-Heading {
+        font-size: 20px;
+        font-family: var(--font-roboto);
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    .CheckoutBilling,
+    .CheckoutShipping,
+    .CheckoutAddressBook {
+        &-Button {
+            width: 100%;
+            padding: 10px;
+        }
+    }
+
+    .CheckoutBilling-Checkbox {
+        display: flex;
+        align-items: center;
+
+        &.Field_type_checkbox {
+            label {
+                &:first-of-type {
+                    order: 1;
+                    padding: 0;
+                    line-height: 1;
+                    margin-left: 5px;
+                }
+
+                &:last-of-type {
+                    margin: 0;
+                }
+            }
+        }
+
+        .Field-Label {
+            font-weight: normal;
+        }
+    }
+
+    select,
+    input {
+        font-size: 14px;
+    }
+}

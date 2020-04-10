@@ -1,0 +1,233 @@
+.ProductActions {
+    @include mobile {
+        background: var(--header-background);
+    }
+
+    @include after-mobile {
+        z-index: 1000;
+    }
+
+    &-Schema {
+        order: inherit;
+
+        &-Url {
+            display: none;
+        }
+
+        + .ProductActions-Section_type_short {
+            @include mobile {
+                margin-top: 0;
+            }
+        }
+    }
+
+    &-AddToCartWrapper {
+        @include mobile {
+            border-top: none;
+            order: 4;
+            padding: 0 0 0.5rem 0;
+            position: static;
+        }
+
+        @include after-mobile {
+            width: 100%;
+            margin: 15px 0 0 0;
+        }
+    }
+
+    &-AddToCart {
+        @include mobile {
+            width: 110%;
+        }
+
+        @include after-mobile {
+            width: 45%;
+        }
+    }
+
+    &-Attributes {
+        @include mobile {
+            border-top: none;
+        }
+
+        @include after-mobile {
+            padding: 0;
+        }
+    }
+
+    &-AttributesWrapper {
+        @include mobile {
+            margin: 0 0 15px 0;
+            order: 8;
+        }
+    }
+
+    &-Brand {
+        @include mobile {
+            font-size: 13px;
+            margin: 0.5rem 0 0 0;
+            text-align: center;
+            color: #000;
+        }
+
+        .TextPlaceholder {
+            &::after {
+                content: none;
+            }
+        }
+    }
+
+    &-NameAndPrice {
+        @include after-mobile {
+            padding-top: 50px;
+        }
+
+        @include mobile {
+            display: flex;
+            justify-content: center;
+            margin: 5px 0;
+        }
+    }
+
+    &-Price {
+        font-size: 13px;
+        order: 3;
+        padding: 0;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: left;
+        font-weight: 500;
+
+        & del {
+            margin-right: 5px;
+            font-size: 13px;
+            @include after-mobile {
+                font-size: 20px;
+            }
+            order: 1;
+            opacity: 1;
+        }
+
+        & ins {
+            order: 2;
+        }
+
+        & data > span,
+        & del > span {
+            padding-left: 2px;
+
+            @include after-mobile {
+                padding-left: 0;
+            }
+        }
+
+        & ins {
+            color: red;
+        }
+
+        @include after-mobile {
+            line-height: 1;
+            font-size: 20px;
+            font-weight: normal;
+            padding: 0;
+        }
+
+        &:last-of-type {
+            padding: 0;
+
+            @include mobile {
+                padding: 0 0 0 1px;
+            }
+        }
+
+        &::before {
+            @include mobile {
+                margin: 0 5px;
+                position: relative;
+                top: -1px;
+                content: '|';
+            }
+        }
+
+        .ProductPrice {
+            &-Placeholder {
+                &::after {
+                    content: none;
+                }
+            }
+        }
+    }
+
+    &-Price + &-Section_type_short {
+        margin-top: 0;
+    }
+
+    .ProductPrice {
+        &-HighPrice {
+            padding-left: 0;
+        }
+    }
+
+    &-Name {
+        text-transform: uppercase;
+        font-family: "Roboto";
+        font-size: 13px;
+        @include after-mobile {
+            font-size: 30px;
+            font-weight: 700;
+        }
+    }
+
+    &-Section {
+        &_type {
+            &_name {
+                @include mobile {
+                    display: block;
+                    margin: 0;
+                    order: 2;
+                    padding: 0;
+                }
+            }
+            &_short {
+                @include mobile {
+                    border-bottom: 0;
+                    margin: 15px 0 20px 0;
+                    order: 6;
+                    padding: 0;
+                }
+
+                @include after-mobile {
+                    padding: 1.5rem 0;
+                }
+            }
+            &_sku {
+                display: none;
+            }
+        }
+    }
+
+    &-ShortDescription {
+        width: 50%;
+        margin: 0;
+        order: 6;
+    }
+
+    &-Title {
+        @include mobile {
+            font-size: 1rem;
+            font-weight: lighter;
+            text-transform: uppercase;
+        }
+        @include after-mobile {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+    }
+
+    &-Qty {
+        @include after-mobile {
+            display: none;
+        }
+    }
+}

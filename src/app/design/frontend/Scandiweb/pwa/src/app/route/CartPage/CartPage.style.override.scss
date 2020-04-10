@@ -1,0 +1,216 @@
+:root {
+    --cart-page-background-grey-color: #f5f5f5;
+}
+
+.CartPage {
+    &-Wrapper {
+        @include after-mobile {
+            padding: 0 20px;
+        }
+    }
+
+    &-MainTitle {
+        text-align: center;
+        padding: 10px 0;
+        font-family: var(--font-roboto);
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 20px;
+
+        @include after-mobile {
+            font-size: 40px;
+            margin-top: 60px
+        }
+    }
+
+    &-Floating {
+        @include after-mobile {
+            margin-top: 0;
+        }
+    }
+
+    &-TableHead {
+        border: none;
+
+        @include after-mobile {
+            background-color: var(--cart-page-background-grey-color);
+        }
+    }
+
+    &-Summary {
+        bottom: 0;
+
+        @include mobile {
+            border: none;
+        }
+
+        @include tablet {
+            margin-top: 2rem;
+        }
+
+        @include after-mobile {
+            background-color: var(--cart-page-background-grey-color);
+        }
+    }
+
+    &-SummaryHeading {
+        @include after-mobile {
+            font-family: var(--font-roboto);
+            font-weight: bold;
+        }
+    }
+
+    &-ItemsComment {
+        margin: 1rem 1rem 0;
+        color: var(--primary-color-grey);
+        font-style: italic;
+
+        @include after-mobile {
+            margin: 1rem 0;
+        }
+    }
+
+    &-PrivacyComment {
+        color: var(--primary-color-grey);
+        font-style: italic;
+        margin-top: 1rem;
+        display: none;
+
+        @include after-mobile {
+            display: block;
+        }
+
+        &_isMobile {
+            margin: 1rem;
+            display: block;
+
+            @include after-mobile {
+                display: none;
+            }
+        }
+    }
+
+    &-PrivacyLink {
+        color: var(--primary-color-grey);
+        text-decoration: underline;
+        font-style: italic;
+    }
+
+    &-CheckoutButtons {
+        @include after-mobile {
+            padding-top: 0;
+        }
+    }
+
+    &-CheckoutButton {
+        &.Button:not([disabled]):hover {
+            background-color: var(--cart-page-background-grey-color);
+        }
+
+        span {
+            &::before,
+            &::after {
+                content: none;
+            }
+        }
+    }
+
+    &-TotalDetailsWrapper {
+        padding: 0;
+
+        &::after {
+            height: 1px;
+            width: calc(100% - 2rem);
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            background-color: var(--cart-item-bottom-border-color);
+
+            @include after-mobile {
+                content: '';
+                left: 0;
+                width: 100%;
+            }
+        }
+
+        &_isMobile {
+            padding: 1rem;
+
+            @include after-mobile {
+                display: none;
+            }
+
+            &::after {
+                content: '';
+            }
+        }
+    }
+
+    &-TotalDetails {
+        grid-row-gap: 6px;
+        padding: 0;
+        border: none;
+
+        @include after-mobile {
+            padding-bottom: 1.5rem;
+        }
+    }
+
+    &-TotalDetailsTitle {
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        display: none;
+
+        &_isMobile {
+            display: block;
+        }
+    }
+
+    &-TotalDetailTotal {
+        margin-top: 10px;
+
+        @include after-mobile {
+            display: none;
+        }
+    }
+
+    &-Total {
+        @include mobile {
+            display: none;
+        }
+
+        @include after-mobile {
+            font-size: 15px;
+        }
+    }
+
+    &-Empty {
+        font-size: 16px;
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    .ProductLinks-List {
+        grid-template-columns: repeat(2, 1fr);
+
+        @include mobile {
+            padding: 0 1rem;
+        }
+
+        @include after-mobile {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .ProductCard-Picture {
+            width: 100%;
+            height: calc(100vw / 6);
+
+            @include tablet {
+                height: calc(100vw / 4);
+            }
+        }
+    }
+}

@@ -1,0 +1,98 @@
+.HomePage {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+
+    .CmsPage {
+        &,
+        &-Wrapper {
+            margin-bottom: 0;
+        }
+    }
+
+    &-Slide {
+        height: 100%;
+    }
+
+    &-VerticalSlider {
+        height: 100vh;
+    }
+
+    &-SliderSwitchArrow {
+        position: fixed;
+        bottom: 1%;
+        left: 50%;
+        transform: translateX(-50%) rotate(-90deg);
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+        transition: var(--header-icons-white-transition);
+
+        @include after-mobile {
+            bottom: 1.5%;
+        }
+
+        &_isUpside {
+            transform: translateX(-50%) rotate(90deg);
+        }
+
+        &_isWhite {
+            fill: var(--header-icons-white-color);
+        }
+    }
+
+    .SliderWidget {
+        &-Figure {
+            height: 100vh;
+        }
+
+        &-FigureImage {
+            height: 100%
+        }
+    }
+
+    &-SlideContent {
+        text-align: center;
+        color: #FFF;
+    }
+
+    &-SlideTitle {
+        line-height: 1;
+        font-size: 40px;
+        width: 90%;
+        margin: 0 auto 5px;
+        max-width: 350px;
+
+        @include after-mobile {
+            font-size: 70px;
+            max-width: unset;
+            margin-bottom: 10px;
+        }
+    }
+
+    &-SlideSubTitle {
+        font-size: 30px;
+        line-height: 1;
+        font-size: 20px;
+        width: 80%;
+        margin: 5px auto 10px;
+        max-width: 350px;
+
+        @include after-mobile {
+            max-width: 550px;
+            font-size: 22px;
+        }
+    }
+
+    &-SlideButton {
+        &.Button {
+            margin-top: 5px;
+            color: #FFF;
+            border-color: #FFF;
+
+            @include after-mobile {
+                margin-top: 10px;
+            }
+        }
+    }
+}
