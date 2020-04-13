@@ -1,11 +1,6 @@
-import { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import DataContainer from 'Util/Request/DataContainer';
-
 import { connect } from 'react-redux';
-
 import StoreFinderQuery from 'Query/StoreFinder.query'
-
 import StoreFinder from './StoreFinder.component';
 
 export const mapStateToProps = state => ({
@@ -36,7 +31,6 @@ export class StoreFinderContainer extends DataContainer {
     };
 
     containerFunctions = {
-        // getData: this.getData.bind(this)
     };
 
     containerProps = () => {
@@ -53,6 +47,18 @@ export class StoreFinderContainer extends DataContainer {
             ({ StoreInfo }) => this.setState({ StoreInfo }),
             e => console.log(e)
         );
+    }
+
+    onCloseButtonClick() {
+        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
+        const { navigationState: { onCloseClick } } = this.props;
+
+        this.setState({ searchCriteria: '' });
+
+        if (onCloseClick) onCloseClick();
+
+        hideActiveOverlay();
+        goToPreviousNavigationState();
     }
 
     render() {

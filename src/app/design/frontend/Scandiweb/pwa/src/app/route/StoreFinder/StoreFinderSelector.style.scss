@@ -11,4 +11,69 @@
     }
   }
 
+  .Field {
+
+    option {
+      display: none;
+
+      &:first {
+        display: block;
+      }
+    }
+
+    // select:hover{
+    //   display: none;
+    // }
+
+    select:focus{
+      option {
+        display: none;
+      }
+    }
+
+    &-Select {
+            border-top: unset;
+            border-left: unset;
+            border-right: unset;
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            border-color: var(--input-color);
+            text-transform: uppercase;
+            line-height: 33px;
+            font-weight: bold;
+
+            &_isExpanded{
+                border:unset;
+                transition: unset;
+                height: fit-content;
+                overflow: visible;
+                visibility: hidden;
+
+                &:before {
+                  content: "RUMANIA";
+                }
+            }
+
+        &Options {
+            transition: unset;
+
+            &_isExpanded{
+                border:unset;
+                transition: unset;
+
+                @include mobile{
+                    max-height: 200px;
+
+                }
+            li {
+                font-family: "Roboto", sans-serif;
+                font-size: 20px;
+                min-height: 48px;
+                line-height: 48px;
+                border-bottom: 1px solid var(--primary-base-color);
+            }
+            }
+        }
+    }
+  }
 }

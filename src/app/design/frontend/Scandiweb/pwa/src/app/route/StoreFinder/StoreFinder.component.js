@@ -26,7 +26,7 @@ class StoreFinder extends PureComponent {
     };
 
     state ={
-        current_city: 'none'
+        current_city: 'Romania'
     };
 
     componentDidMount() {
@@ -45,24 +45,33 @@ class StoreFinder extends PureComponent {
     getCityList() {
         const { StoreInfo } = this.props;
         this.emptyCityList();
-        return StoreInfo.map((StoreInfo, index) => (
-            CITY_LIST.push({
-                id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false
-            })
-        ));
+        return StoreInfo.map((StoreInfo, index) => {
+            if (this.cityPushCheck(StoreInfo.city)) {
+                CITY_LIST.push({
+                    id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false
+                });
+            }
+        });
     }
+
+    cityPushCheck(cityLabel) {
+        const cityFromList = CITY_LIST.find(city => city.label === cityLabel);
+        return cityFromList === undefined;
+    }
+
 
     emptyCityList() {
         CITY_LIST.length = 0;
     }
 
     renderCitySelect() {
+        const { current_city } = this.state;
         return (
             <Field
-              id="City Select"
-              name="City Select"
+              id="CitySelect"
+              name="CitySelect"
               type="select"
-              placeholder="Rumania"
+              placeholder={ current_city }
               mix={ { block: 'StoreFinder-Select' } }
               selectOptions={ CITY_LIST }
               value={ CITY_LIST.city }
