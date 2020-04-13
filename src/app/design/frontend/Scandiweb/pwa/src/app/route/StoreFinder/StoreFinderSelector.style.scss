@@ -12,18 +12,9 @@
   }
 
   .Field {
-
     option {
       display: none;
-
-      &:first {
-        display: block;
-      }
     }
-
-    // select:hover{
-    //   display: none;
-    // }
 
     select:focus{
       option {
@@ -32,48 +23,116 @@
     }
 
     &-Select {
-            border-top: unset;
-            border-left: unset;
-            border-right: unset;
+      border-top: unset;
+      border-left: unset;
+      border-right: unset;
+      font-family: "Roboto", sans-serif;
+      font-size: 20px;
+      border-color: var(--input-color);
+      text-transform: uppercase;
+      line-height: 33px;
+      font-weight: bold;
+
+      @include mobile {
+        font-size: 15px;
+      }
+
+      @include after-mobile {
+        display: none;
+      }
+
+      &_isExpanded {
+        border:unset;
+        transition: unset;
+        height: fit-content;
+        overflow: visible;
+        visibility: hidden;
+      }
+
+      &Wrapper {
+        @include mobile {
+          margin-right: 15px;
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          height: 0;
+          width: 0;
+          border-style: solid;
+          border-width: 5px 3px 0 3px;
+          border-color: #000000 transparent transparent transparent;
+          right: 20px;
+          top: 0;
+          transition: transform 330ms ease-in-out;
+          bottom: 0;
+          margin: auto;
+
+          @include mobile {
+            font-size: 15px;
+            right: 2px;
+          }
+        }
+
+        &[aria-expanded="true"]::after {
+          transform: rotate(180deg);
+        }
+      }
+
+      &Options {
+        transition: unset;
+
+        &_isExpanded{
+          border:unset;
+          transition: 100ms ease-in-out;
+
+          @include mobile{
+            max-height: 200px;
+          }
+
+          &:before {
+            content: 'ROMANIA';
             font-family: "Roboto", sans-serif;
             font-size: 20px;
             border-color: var(--input-color);
             text-transform: uppercase;
             line-height: 33px;
             font-weight: bold;
+            visibility: visible;
+            position: fixed;
+            top: 130px;
+            margin-left: 20px;
+            letter-spacing: normal;
 
-            &_isExpanded{
-                border:unset;
-                transition: unset;
-                height: fit-content;
-                overflow: visible;
-                visibility: hidden;
-
-                &:before {
-                  content: "RUMANIA";
-                }
+            @include mobile {
+              font-size: 15px;
             }
 
-        &Options {
-            transition: unset;
-
-            &_isExpanded{
-                border:unset;
-                transition: unset;
-
-                @include mobile{
-                    max-height: 200px;
-
-                }
-            li {
-                font-family: "Roboto", sans-serif;
-                font-size: 20px;
-                min-height: 48px;
-                line-height: 48px;
-                border-bottom: 1px solid var(--primary-base-color);
+            @include after-mobile {
+              top: 160px;
             }
+
+            &:after {
+              border: unset;
             }
+          }
+
+          li {
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            min-height: 48px;
+            line-height: 48px;
+            border-bottom: 1px solid var(--primary-base-color);
+
+            @include mobile {
+              font-size: 15px;
+            }
+          }
+
+          &:first-of-type {
+            border-top: 1px solid var(--primary-base-color);
+          }
         }
+      }
     }
   }
 }

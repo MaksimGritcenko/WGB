@@ -1,13 +1,19 @@
+/* eslint-disable array-callback-return */
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './StoreFinder.style';
 import './StoreFinderSelector.style';
 import Html from 'Component/Html';
 import Field from 'Component/Field';
+import { STORES, STORES_SUB } from 'Component/Header';
+import isMobile from 'Util/Mobile';
 
 const IMG_PATH = '/media/store_finder/stores/';
 
-const CITY_LIST = [{ id: 'none', label: 'none', value: 'none' }];
+const CITY_LIST = [{
+    id: 'none', label: 'none', value: 'none', counter: 0
+}];
+
 class StoreFinder extends PureComponent {
     static propTypes = {
         StoreInfo: PropTypes.arrayOf(
@@ -22,14 +28,19 @@ class StoreFinder extends PureComponent {
                 image_2: PropTypes.string,
                 image_3: PropTypes.string
             }).isRequired
-        ).isRequired
+        ).isRequired,
+        updateBreadcrumbs: PropTypes.func.isRequired,
+        setHeaderState: PropTypes.func.isRequired
     };
 
     state ={
-        current_city: 'Romania'
+        current_city: 'Romania',
+        overlay: false
     };
 
     componentDidMount() {
+        this.updateBreadcrumbs();
+        this.updateHeaderMod();
     }
 
     componentDidUpdate() {
@@ -37,9 +48,21 @@ class StoreFinder extends PureComponent {
     }
 
     onChange = (value) => {
+        const { setHeaderState } = this.props;
+
         this.setState({
             current_city: value
         });
+        if (isMobile.any()) {
+            this.setState({
+                overlay: true
+            });
+
+            setHeaderState({
+                name: STORES_SUB,
+                onCloseClick: () => this.closeOverlay()
+            });
+        }
     }
 
     getCityList() {
@@ -48,9 +71,15 @@ class StoreFinder extends PureComponent {
         return StoreInfo.map((StoreInfo, index) => {
             if (this.cityPushCheck(StoreInfo.city)) {
                 CITY_LIST.push({
-                    id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false
+                    id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false, counter: +1
                 });
             }
+        });
+    }
+
+    closeOverlay() {
+        this.setState({
+            overlay: false
         });
     }
 
@@ -62,6 +91,30 @@ class StoreFinder extends PureComponent {
 
     emptyCityList() {
         CITY_LIST.length = 0;
+    }
+
+    updateBreadcrumbs() {
+        const { updateBreadcrumbs } = this.props;
+        const breadcrumbs = [
+            {
+                url: '/stores',
+                name: __('Stores')
+            },
+            {
+                url: '/',
+                name: __('Home')
+            }
+        ];
+
+        updateBreadcrumbs(breadcrumbs);
+    }
+
+    updateHeaderMod() {
+        const { setHeaderState } = this.props;
+
+        setHeaderState({
+            name: STORES
+        });
     }
 
     renderCitySelect() {
@@ -83,6 +136,8 @@ class StoreFinder extends PureComponent {
     renderStore() {
         const { StoreInfo } = this.props;
         const { current_city } = this.state;
+        // eslint-disable-next-line array-callback-return
+        // eslint-disable-next-line consistent-return
         return StoreInfo.map((StoreInfo, index) => {
             if (StoreInfo.city === current_city) {
                 return (
@@ -136,15 +191,60 @@ class StoreFinder extends PureComponent {
         });
     }
 
-    render() {
+    renderTitle() {
+        const { current_city } = this.state;
+
+        // eslint-disable-next-line consistent-return
+        return CITY_LIST.map((city, index) => {
+            if (city.label === current_city) {
+                return (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <div block="StoreFinder" elem="CityTitle" key={ index }>
+                        { city.label }
+                    </div>
+                );
+            }
+        });
+    }
+
+    renderStoreLocator() {
+        const { overlay } = this.state;
+        if (overlay) {
+            return (
+                <div block="StoreFinder">
+                { this.renderTitle() }
+                    { this.renderStore() }
+                </div>
+            );
+        }
+
+        if (isMobile.any()) {
+            return (
+            <div block="StoreFinder">
+                <div block="StoreFinder" elem="Title">
+                    { __('STORE LOCATIONS') }
+                </div>
+                { this.renderCitySelect() }
+            </div>
+            );
+        }
+
         return (
             <div block="StoreFinder">
                 <div block="StoreFinder" elem="Title">
-                   { __('STORE LOCATIONS') }
+                { __('STORE LOCATIONS') }
                 </div>
                 { this.renderCitySelect() }
                 { this.renderStore() }
             </div>
+        );
+    }
+
+    render() {
+        return (
+            <>
+            { this.renderStoreLocator() }
+            </>
         );
     }
 }

@@ -7,7 +7,6 @@ import { SliderReducer } from 'Store/Slider';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { SocialLoginReducer } from 'Store/SocialLogins';
 import { ContactFormReducer } from 'Store/ContactForm';
-import { StoreFinderReducer } from 'Store/StoreFinder';
 
 export const reducers = {
     ...SourceReducers,
@@ -15,7 +14,6 @@ export const reducers = {
     HeaderAndFooterReducer,
     SocialLoginReducer,
     ContactFormReducer,
-    StoreFinderReducer
 };
 
 const store = createStore(

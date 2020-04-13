@@ -64,6 +64,9 @@ export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
 export const CONTACT_US = 'contact-us';
 export const SIGN_IN = 'sign-in';
+export const STORES = 'stores';
+export const STORES_SUB = 'stores_sub';
+
 
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
@@ -90,6 +93,17 @@ export default class Header extends SourceHeader {
             wishlist: true,
             minicart: true,
             logo: true
+        },
+        [STORES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
+        [STORES_SUB]: {
+            close: true
         },
         [CONTACT_US]: {
             menu: true,

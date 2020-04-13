@@ -2,18 +2,27 @@ import DataContainer from 'Util/Request/DataContainer';
 import { connect } from 'react-redux';
 import StoreFinderQuery from 'Query/StoreFinder.query'
 import StoreFinder from './StoreFinder.component';
+import {updateMeta} from "Store/Meta";
+import {changeNavigationState} from "Store/Navigation";
+import {TOP_NAVIGATION_TYPE} from "Store/Navigation/Navigation.reducer";
+import {BreadcrumbsDispatcher} from "Store/Breadcrumbs";
+import PropTypes from "prop-types";
 
 export const mapStateToProps = state => ({
 
 });
 
 export const mapDispatchToProps = dispatch => ({
-
+    updateMeta: meta => dispatch(updateMeta(meta)),
+    setHeaderState: stateName => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, stateName)),
+    updateBreadcrumbs: (breadcrumbs) => {
+        BreadcrumbsDispatcher.update(breadcrumbs, dispatch);
+    }
 });
 
 export class StoreFinderContainer extends DataContainer {
     static propTypes = {
-        // TODO: implement prop-types
+        updateMeta: PropTypes.func.isRequired,
     };
 
     state = {
@@ -38,6 +47,9 @@ export class StoreFinderContainer extends DataContainer {
     }
 
     componentDidMount() {
+        const { updateMeta } = this.props;
+
+        updateMeta({ title: __('Stores') });
         this.requestStores();
     }
 
@@ -49,17 +61,7 @@ export class StoreFinderContainer extends DataContainer {
         );
     }
 
-    onCloseButtonClick() {
-        const { hideActiveOverlay, goToPreviousNavigationState } = this.props;
-        const { navigationState: { onCloseClick } } = this.props;
 
-        this.setState({ searchCriteria: '' });
-
-        if (onCloseClick) onCloseClick();
-
-        hideActiveOverlay();
-        goToPreviousNavigationState();
-    }
 
     render() {
         return (

@@ -10,6 +10,20 @@
         }
     }
 
+    &-CityTitle {
+        font-size: 40px;
+        font-family: 'Roboto-Bold', sans-serif;
+        font-weight: bold;
+        text-align: center;
+        margin: 63px auto 0;
+        text-transform: uppercase;
+
+        @include mobile {
+            font-size: 20px;
+            width: 100%;
+        }
+    }
+
     &-Title {
         font-size: 40px;
         font-family: 'Roboto-Bold', sans-serif;
@@ -110,5 +124,12 @@
                 margin: 0 2px;
             }
         }
+    }
+}
+
+.Header_name_stores_sub {
+    .Header-Button_isVisible {
+        position: fixed;
+        right: 5px;
     }
 }
