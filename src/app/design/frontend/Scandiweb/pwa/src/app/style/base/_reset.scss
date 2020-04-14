@@ -77,6 +77,8 @@ body {
     letter-spacing: -.5px;
     line-height: 1.5;
     color: $black;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
     scroll-behavior: smooth;
     background-color: #fff;
     overscroll-behavior-y: none;
