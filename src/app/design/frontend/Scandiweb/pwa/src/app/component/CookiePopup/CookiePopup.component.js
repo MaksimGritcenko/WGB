@@ -12,6 +12,7 @@ const POPUP_HIDE_DURATION = 200;
 
 export class CookiePopup extends SourceCookiePopup {
     state = {
+        isAccepted: BrowserDatabase.getItem(COOKIE_POPUP) || false,
         display: false
     };
 

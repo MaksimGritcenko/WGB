@@ -64,6 +64,9 @@ export const URL_REWRITE = 'url-rewrite';
 export const PASSWORD_CHANGE = 'password-change';
 export const CONTACT_US = 'contact-us';
 export const SIGN_IN = 'sign-in';
+export const STORES = 'stores';
+export const STORES_SUB = 'stores_sub';
+
 
 export const PAGE = 'page';
 
@@ -92,6 +95,17 @@ export default class Header extends SourceHeader {
             minicart: true,
             logo: true
         },
+        [STORES]: {
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true,
+            logo: true
+        },
+        [STORES_SUB]: {
+            close: true
+        },
         [CONTACT_US]: {
             menu: true,
             searchButton: true,
@@ -118,6 +132,7 @@ export default class Header extends SourceHeader {
             title: true,
             account: true,
             minicart: true,
+            wishlist: true,
             logo: true,
             not_transparent_part: true
         },
