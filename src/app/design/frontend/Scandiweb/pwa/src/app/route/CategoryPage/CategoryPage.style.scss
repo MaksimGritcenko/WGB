@@ -26,7 +26,9 @@
         }
 
         &_isSearchPage {
-            padding-top: 100px;
+            @include after-mobile {
+                padding-top: 100px;
+            }
         }
     }
 
@@ -110,7 +112,7 @@
         font-size: 15px;
 
         position: fixed;
-        top: var(--header-height);
+        top: calc(var(--header-height) + env(safe-area-inset-top));
         left: 0;
         width: 100%;
         background: transparent;

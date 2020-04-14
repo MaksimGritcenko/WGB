@@ -239,6 +239,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
               block="MenuOverlay"
               elem="BottomItem"
               key={ title }
+              onClick={ this.closeMenuOverlay }
             >
                 <div
                   block="MenuOverlay"
@@ -256,6 +257,7 @@ export default class MenuOverlay extends SourceMenuOverlay {
 
         const destinationForMyAccount = isSignedIn ? '/my-account' : '/signin';
         const destinationForWishlist = isSignedIn ? '/my-favorites' : '/signin';
+
         return (
             <div block="MenuOverlay" elem="BottomContent">
                 { this.renderBottomItem(accountIcon, 'My account', destinationForMyAccount) }

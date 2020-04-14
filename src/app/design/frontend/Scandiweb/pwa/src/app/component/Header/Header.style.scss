@@ -105,6 +105,7 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
+    padding-top: env(safe-area-inset-top);
 
     @include after-mobile {
         display: flex;
@@ -205,6 +206,8 @@
         }
 
         &_cart {
+            --header-background: var(--header-default-background);
+
             .Header-Button_type_minicart {
                 @include after-mobile {
                     --header-color: var(--header-desktop-button-color);
@@ -250,6 +253,8 @@
         }
 
         &_checkout {
+            --header-background: var(--header-default-background);
+
             .Header-Button,
             .Header-SearchWrapper {
                 @include after-mobile {
@@ -292,6 +297,8 @@
         }
 
         &_cms-page {
+            --header-background: var(--header-default-background);
+
             .Header-Title {
                 font-family: var(--font-roboto);
                 font-weight: bold;

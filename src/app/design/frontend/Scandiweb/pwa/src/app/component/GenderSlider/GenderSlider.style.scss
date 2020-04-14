@@ -26,11 +26,11 @@
         position: fixed;
         width: 100%;
         z-index: 10;
-        top: 15px;
+        top: calc(15px + env(safe-area-inset-top));
 
         &_isBottom {
             top: unset;
-            bottom: 5%;
+            bottom: calc(5% + env(safe-area-inset-bottom));
             left: 50%;
             transform: translateX(-50%);
         }
