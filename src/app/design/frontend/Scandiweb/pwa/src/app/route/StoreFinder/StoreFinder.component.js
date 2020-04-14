@@ -7,6 +7,7 @@ import Html from 'Component/Html';
 import Field from 'Component/Field';
 import { STORES, STORES_SUB } from 'Component/Header';
 import isMobile from 'Util/Mobile';
+import Loader from 'Component/Loader';
 
 const IMG_PATH = '/media/store_finder/stores/';
 
@@ -35,7 +36,8 @@ class StoreFinder extends PureComponent {
 
     state ={
         current_city: 'Romania',
-        overlay: false
+        overlay: false,
+        isLoading: true
     };
 
     componentDidMount() {
@@ -74,6 +76,9 @@ class StoreFinder extends PureComponent {
                     id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false, counter: +1
                 });
             }
+            this.setState({
+                isLoading: false
+            });
         });
     }
 
@@ -241,8 +246,10 @@ class StoreFinder extends PureComponent {
     }
 
     render() {
+        const { isLoading } = this.state;
         return (
             <>
+            <Loader isLoading={ isLoading } />
             { this.renderStoreLocator() }
             </>
         );

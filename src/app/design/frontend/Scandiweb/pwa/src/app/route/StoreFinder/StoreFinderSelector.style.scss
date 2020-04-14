@@ -16,7 +16,7 @@
       display: none;
     }
 
-    select:focus{
+    select:focus {
       option {
         display: none;
       }
@@ -37,10 +37,6 @@
         font-size: 15px;
       }
 
-      @include after-mobile {
-        display: none;
-      }
-
       &_isExpanded {
         border:unset;
         transition: unset;
@@ -53,6 +49,7 @@
         @include mobile {
           margin-right: 15px;
         }
+
         &::after {
           content: '';
           position: absolute;
@@ -81,11 +78,11 @@
       &Options {
         transition: unset;
 
-        &_isExpanded{
+        &_isExpanded {
           border:unset;
           transition: 100ms ease-in-out;
 
-          @include mobile{
+          @include mobile {
             max-height: 200px;
           }
 
