@@ -255,13 +255,17 @@ return [
         'Scandiweb_LocaleResolverFix' => 1,
         'ScandiPWA_SliderGraphQl' => 1,
         'Scandiweb_SocialLogin' => 1,
+        'Scandiweb_StoreFinder' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
         'WGB_CheckoutOptionsGraphQl' => 1,
         'WGB_CustomerGraphQl' => 1,
+        'WGB_MenuOrganizer' => 1,
         'WGB_Slider' => 1,
         'WGB_SliderGraphQl' => 1,
         'WGB_SocialLogin' => 1,
+        'WGB_StoreFinder' => 1,
+        'WGB_StoreFinderGraphQl' => 1,
         'Wgb_GeoIpGraphQL' => 1,
         'Yotpo_Yotpo' => 1
     ]

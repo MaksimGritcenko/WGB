@@ -32,9 +32,11 @@
       text-transform: uppercase;
       line-height: 33px;
       font-weight: bold;
+      padding-left: unset;
 
       @include mobile {
         font-size: 15px;
+        padding-left: 9px;
       }
 
       &_isExpanded {
@@ -58,16 +60,11 @@
           border-style: solid;
           border-width: 5px 3px 0 3px;
           border-color: #000000 transparent transparent transparent;
-          right: 20px;
           top: 0;
+          right: 2px;
           transition: transform 330ms ease-in-out;
           bottom: 0;
           margin: auto;
-
-          @include mobile {
-            font-size: 15px;
-            right: 2px;
-          }
         }
 
         &[aria-expanded="true"]::after {
@@ -83,7 +80,7 @@
           transition: 100ms ease-in-out;
 
           @include mobile {
-            max-height: 200px;
+            max-height: fit-content;
           }
 
           &:before {
@@ -97,11 +94,12 @@
             visibility: visible;
             position: fixed;
             top: 130px;
-            margin-left: 20px;
+            margin-left: unset;
             letter-spacing: normal;
 
             @include mobile {
               font-size: 15px;
+              margin-left: 9px;
             }
 
             @include after-mobile {

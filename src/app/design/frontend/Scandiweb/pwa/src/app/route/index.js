@@ -18,7 +18,8 @@ import Header, {
     FAVORITES,
     CONTACT_US,
     URL_REWRITE,
-    PASSWORD_CHANGE
+    PASSWORD_CHANGE,
+    STORES
 } from 'Component/Header';
 
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
@@ -165,11 +166,7 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <Route
               path="/stores"
-              render={ props => (
-              <GoogleTagManagerRouteWrapperComponent route={ FAVORITES }>
-                  <StoreFinder { ...props } />
-              </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(StoreFinder, STORES) }
             />,
             position: 92
         },
