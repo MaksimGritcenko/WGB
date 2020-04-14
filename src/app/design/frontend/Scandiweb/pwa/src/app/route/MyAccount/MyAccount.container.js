@@ -16,7 +16,8 @@ import {
     DASHBOARD,
     MY_WISHLIST,
     MY_ORDERS,
-    NEWSLETTER_SUBSCRIPTION
+    NEWSLETTER_SUBSCRIPTION,
+    MY_RETURNS
 } from 'Type/Account';
 
 import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
@@ -32,8 +33,6 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
     ...sourceMapStateToProps(state)
 });
-
-export const MY_RETURNS = 'my-returns';
 
 class MyAccount extends MyAccountContainer {
     static propTypes = {

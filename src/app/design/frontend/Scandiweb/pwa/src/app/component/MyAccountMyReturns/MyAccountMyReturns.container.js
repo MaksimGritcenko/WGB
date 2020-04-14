@@ -20,6 +20,11 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         getOrderList: PropTypes.func.isRequired
     };
 
+    containerFunctions = {
+        setChosenOrderId: this.setChosenOrderId.bind(this),
+        handleReturnClick: this.handleReturnClick.bind(this)
+    };
+
     componentDidMount() {
         const { orderList, getOrderList } = this.props;
         if (!orderList) {
@@ -27,10 +32,19 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         }
     }
 
+    setChosenOrderId(id) {
+        this.chosenOrderId = id;
+    }
+
+    handleReturnClick() {
+        window.alert('TODO implement');
+    }
+
     render() {
         return (
             <MyAccountMyReturns
               { ...this.props }
+              { ...this.containerFunctions }
             />
         );
     }

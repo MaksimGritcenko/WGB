@@ -1,16 +1,27 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import MyAccountMyReturnsDropdown from 'Component/MyAccountMyReturnsDropdown';
 import './MyAccountMyReturns.style';
 
 class MyAccountMyReturns extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        handleReturnClick: PropTypes.func.isRequired
     };
 
     render() {
+        const { handleReturnClick } = this.props;
+
         return (
             <div block="MyAccountMyReturns">
-                <p>Hey there</p>
+                <MyAccountMyReturnsDropdown
+                  { ...this.props }
+                />
+                <button
+                  block="Button"
+                  onClick={ handleReturnClick }
+                >
+                    { __('Return') }
+                </button>
             </div>
         );
     }
