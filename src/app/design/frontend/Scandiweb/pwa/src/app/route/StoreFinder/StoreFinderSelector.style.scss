@@ -28,15 +28,15 @@
       border-right: unset;
       font-family: "Roboto", sans-serif;
       font-size: 20px;
-      border-color: var(--input-color);
+      border-color: var(--primary-light-color);
       text-transform: uppercase;
       line-height: 33px;
       font-weight: bold;
-      padding-left: unset;
+      padding-left: 9px;
 
       @include mobile {
         font-size: 15px;
-        padding-left: 9px;
+        padding-bottom: unset;
       }
 
       &_isExpanded {
@@ -74,6 +74,7 @@
 
       &Options {
         transition: unset;
+        padding-left: unset;
 
         &_isExpanded {
           border:unset;
@@ -87,19 +88,19 @@
             content: 'ROMANIA';
             font-family: "Roboto", sans-serif;
             font-size: 20px;
-            border-color: var(--input-color);
+            border-color: var(--primary-light-color);
             text-transform: uppercase;
             line-height: 33px;
             font-weight: bold;
             visibility: visible;
             position: fixed;
             top: 130px;
-            margin-left: unset;
+            margin-left: 9px;
             letter-spacing: normal;
 
             @include mobile {
               font-size: 15px;
-              margin-left: 9px;
+              padding-bottom: unset;
             }
 
             @include after-mobile {
@@ -116,7 +117,8 @@
             font-size: 20px;
             min-height: 48px;
             line-height: 48px;
-            border-bottom: 1px solid var(--primary-base-color);
+            border-bottom: 1px solid var(--primary-light-color);
+            padding-left: 9px;
 
             @include mobile {
               font-size: 15px;
@@ -124,7 +126,7 @@
           }
 
           &:first-of-type {
-            border-top: 1px solid var(--primary-base-color);
+            border-top: 1px solid var(--primary-light-color);
           }
         }
       }

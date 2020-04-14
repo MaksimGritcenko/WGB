@@ -84,7 +84,8 @@ class StoreFinder extends PureComponent {
 
     closeOverlay() {
         this.setState({
-            overlay: false
+            overlay: false,
+            current_city: 'Rumania'
         });
     }
 

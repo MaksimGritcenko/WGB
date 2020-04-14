@@ -32,9 +32,9 @@ export class StoreFinderContainer extends DataContainer {
             phone_number: 'Phone is not provided',
             store_hours: 'Hours are not provided',
             working_days: 'Working days are not provided',
-            image_1: 'WGB1.jpg',
-            image_2: 'WGB1.jpg',
-            image_3: 'WGB1.jpg'
+            image_1: 'WGB.jpg',
+            image_2: 'WGB.jpg',
+            image_3: 'WGB.jpg'
         }]
     };
 
