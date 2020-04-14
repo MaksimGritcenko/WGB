@@ -1,9 +1,17 @@
+
 type Query {
-    getReturnResolutions : [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
+    getItemConditions: [ItemCondition]  @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
+    getReturnResolutions: [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
+}
+
+type ItemCondition {
+    id: Int
+    title: String
+    position: Int
 }
 
 type ReturnResolution {
-    id: Int @doc(description: "Resolution ID")
-    title: String @doc(description: "Resolution title")
-    position: Int @doc(description: "Resolution position in list")
+    id: Int
+    title: String
+    position: Int
 }
