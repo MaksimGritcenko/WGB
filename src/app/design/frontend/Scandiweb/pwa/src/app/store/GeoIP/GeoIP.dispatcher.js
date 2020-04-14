@@ -18,7 +18,7 @@ export class GeoIPDispatcher extends QueryDispatcher {
         dispatch(showNotification('error', 'Error fetching post!', message));
     }
 
-    async handleData(dispatch, options) {
+    handleData(dispatch, options) {
         dispatch(updateGeolocation({ isLoading: true }));
         super.handleData(dispatch, options);
     }
