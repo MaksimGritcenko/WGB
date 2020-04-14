@@ -215,6 +215,7 @@ return [
         'Magento_Wishlist' => 1,
         'Magento_WishlistAnalytics' => 1,
         'Magento_WishlistGraphQl' => 1,
+        'Amasty_AdminActionsLog' => 1,
         'Amasty_Base' => 1,
         'Amasty_Geoip' => 1,
         'Amasty_GeoipRedirect' => 1,
