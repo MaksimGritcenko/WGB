@@ -269,6 +269,7 @@ return [
         'WGB_StoreFinder' => 1,
         'WGB_StoreFinderGraphQl' => 1,
         'Wgb_GeoIpGraphQL' => 1,
+        'Wgb_RmaGraphQL' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];

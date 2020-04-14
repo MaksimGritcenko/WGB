@@ -1,0 +1,9 @@
+type Query {
+    getReturnResolutions : [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
+}
+
+type ReturnResolution {
+    id: Int @doc(description: "Resolution ID")
+    title: String @doc(description: "Resolution title")
+    position: Int @doc(description: "Resolution position in list")
+}
