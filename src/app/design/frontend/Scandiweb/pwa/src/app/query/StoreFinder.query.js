@@ -36,19 +36,6 @@ class StoreFinderQuery {
             ])
             .setAlias('StoreInfo');
     }
-
-    getStoresList() {
-        return new Field('getStores')
-            .addField('city')
-            .addField('city_external_id')
-            .addField('store_name')
-            .addField('store_external_id')
-            .addField('address')
-            .addField('store_hours')
-            .addField('phone_number')
-            .addField('manager_email')
-            .addField('code1c');
-    }
 }
 
 export default new StoreFinderQuery();
