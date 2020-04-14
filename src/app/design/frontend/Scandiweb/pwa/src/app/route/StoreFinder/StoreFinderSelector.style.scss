@@ -1,0 +1,135 @@
+.StoreFinder{
+  &-Select{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 28px auto 25px;
+    width: 357px;
+
+    @include mobile {
+      margin-bottom: 13px;
+    }
+  }
+
+  .Field {
+    option {
+      display: none;
+    }
+
+    select:focus {
+      option {
+        display: none;
+      }
+    }
+
+    &-Select {
+      border-top: unset;
+      border-left: unset;
+      border-right: unset;
+      font-family: "Roboto", sans-serif;
+      font-size: 20px;
+      border-color: var(--primary-light-color);
+      text-transform: uppercase;
+      line-height: 33px;
+      font-weight: bold;
+      padding-left: 9px;
+
+      @include mobile {
+        font-size: 15px;
+        padding-bottom: unset;
+      }
+
+      &_isExpanded {
+        border:unset;
+        transition: unset;
+        height: fit-content;
+        overflow: visible;
+        visibility: hidden;
+      }
+
+      &Wrapper {
+        @include mobile {
+          margin-right: 15px;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          height: 0;
+          width: 0;
+          border-style: solid;
+          border-width: 5px 3px 0 3px;
+          border-color: #000000 transparent transparent transparent;
+          top: 0;
+          right: 2px;
+          transition: transform 330ms ease-in-out;
+          bottom: 0;
+          margin: auto;
+        }
+
+        &[aria-expanded="true"]::after {
+          transform: rotate(180deg);
+        }
+      }
+
+      &Options {
+        transition: unset;
+        padding-left: unset;
+
+        &_isExpanded {
+          border:unset;
+          transition: 100ms ease-in-out;
+
+          @include mobile {
+            max-height: fit-content;
+          }
+
+          &:before {
+            content: 'ROMANIA';
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            border-color: var(--primary-light-color);
+            text-transform: uppercase;
+            line-height: 33px;
+            font-weight: bold;
+            visibility: visible;
+            position: fixed;
+            top: 130px;
+            margin-left: 9px;
+            letter-spacing: normal;
+
+            @include mobile {
+              font-size: 15px;
+              padding-bottom: unset;
+            }
+
+            @include after-mobile {
+              top: 160px;
+            }
+
+            &:after {
+              border: unset;
+            }
+          }
+
+          li {
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            min-height: 48px;
+            line-height: 48px;
+            border-bottom: 1px solid var(--primary-light-color);
+            padding-left: 9px;
+
+            @include mobile {
+              font-size: 15px;
+            }
+          }
+
+          &:first-of-type {
+            border-top: 1px solid var(--primary-light-color);
+          }
+        }
+      }
+    }
+  }
+}

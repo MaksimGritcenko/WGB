@@ -1,0 +1,27 @@
+type Query {
+    getStores(storeId: String, cityId: String): [Store] @resolver(class:"\\WGB\\StoreFinderGraphQl\\Model\\Resolver\\GetStores")
+    getCityStores(storeId: String): [CityStores] @resolver(class:"\\WGB\\StoreFinderGraphQl\\Model\\Resolver\\GetCityStores")
+}
+
+type Store {
+    store_name: String
+    store_external_id: String
+    address: String
+    phone_number: String
+    manager_email: String
+    store_hours: String
+    city: String
+    city_external_id: String
+    latitude: String
+    longitude: String
+    working_days: String
+    code1c: String
+    image_1: String
+    image_2: String
+    image_3: String
+}
+
+type CityStores {
+    name: String
+    stores: [Store]
+}
