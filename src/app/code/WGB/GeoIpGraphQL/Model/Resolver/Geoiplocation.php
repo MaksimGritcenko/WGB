@@ -31,12 +31,12 @@ class Geoiplocation implements ResolverInterface
     /**
      * @var Geolocation
      */
-    private Geolocation $geolocation;
+    private $geolocation;
 
     /**
      * @var CountryFactory
      */
-    private CountryFactory $countryFactory;
+    private $countryFactory;
 
     /**
      * @param Geolocation $geolocation
