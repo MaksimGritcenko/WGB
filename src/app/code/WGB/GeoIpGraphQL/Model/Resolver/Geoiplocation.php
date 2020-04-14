@@ -1,20 +1,9 @@
 <?php
-/**
- * A Magento 2 module named Wgb/GeoIpGraphQL
- * Copyright (C) 2020  
- * 
- * This file included in Wgb/GeoIpGraphQL is licensed under OSL 3.0
- * 
- * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * Please see LICENSE.txt for the full text of the OSL 3.0 license
- */
-
 namespace WGB\GeoIpGraphQL\Model\Resolver;
 
 use Magento\Directory\Model\CountryFactory;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
@@ -27,7 +16,6 @@ use Amasty\Geoip\Model\Geolocation;
  */
 class Geoiplocation implements ResolverInterface
 {
-
     /**
      * @var Geolocation
      */
@@ -39,21 +27,23 @@ class Geoiplocation implements ResolverInterface
     private $countryFactory;
 
     /**
+     * @var RemoteAddress
+     */
+    private $remoteAddress;
+
+    /**
      * @param Geolocation $geolocation
      * @param CountryFactory $countryFactory
+     * @param RemoteAddress $remoteAddress
      */
     public function __construct(
         Geolocation $geolocation,
-        CountryFactory $countryFactory
+        CountryFactory $countryFactory,
+        RemoteAddress $remoteAddress
     ) {
         $this->geolocation = $geolocation;
         $this->countryFactory = $countryFactory;
-    }
-
-    private function validateArgs(Array $args) {
-        if (!isset($args['ip'])) {
-            throw new GraphQlInputException(__('IP is required'));
-        }
+        $this->remoteAddress = $remoteAddress;
     }
 
     /**
@@ -66,8 +56,8 @@ class Geoiplocation implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
-        $this->validateArgs($args);
-        $result = $this->geolocation->locate($args['ip'])->getData();
+        $ip = $this->remoteAddress->getRemoteAddress();
+        $result = $this->geolocation->locate($ip)->getData();
         $result['country_name'] = $this->countryFactory->create()->loadByCode($result['country'])->getName();
 
         return $result;
