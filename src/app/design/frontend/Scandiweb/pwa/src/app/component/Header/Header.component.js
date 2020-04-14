@@ -132,6 +132,7 @@ export default class Header extends SourceHeader {
             title: true,
             account: true,
             minicart: true,
+            wishlist: true,
             logo: true,
             not_transparent_part: true
         },
