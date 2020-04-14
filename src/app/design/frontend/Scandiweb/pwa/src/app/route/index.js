@@ -18,7 +18,8 @@ import Header, {
     FAVORITES,
     CONTACT_US,
     URL_REWRITE,
-    PASSWORD_CHANGE
+    PASSWORD_CHANGE,
+    STORES
 } from 'Component/Header';
 
 import MyAccountWishlist from 'Component/MyAccountMyWishlist';
@@ -26,6 +27,7 @@ import NotificationList from 'Component/NotificationList';
 import GoogleTagManager from 'Component/GoogleTagManager';
 import NavigationTabs from 'Component/NavigationTabs';
 import MyAccountSignIn from 'Route/MyAccountSignIn';
+import StoreFinder from 'Route/StoreFinder';
 import ContactPage from 'Component/ContactPage';
 import CookiePopup from 'Component/CookiePopup';
 
@@ -163,6 +165,13 @@ export class AppRouter extends SourceAppRouter {
         },
         {
             component: <Route
+              path="/stores"
+              render={ withGTM(StoreFinder, STORES) }
+            />,
+            position: 92
+        },
+        {
+            component: <Route
               path="/my-favorites"
               render={ withGTM(MyAccountWishlist, FAVORITES) }
             />,
@@ -182,6 +191,7 @@ export class AppRouter extends SourceAppRouter {
             />,
             position: 110
         },
+
         {
             component: <Route
               render={ withGTM(UrlRewrites, URL_REWRITE) }

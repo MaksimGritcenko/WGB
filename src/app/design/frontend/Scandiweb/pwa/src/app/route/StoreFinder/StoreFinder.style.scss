@@ -1,0 +1,134 @@
+.StoreFinder {
+    margin-top: 50px;
+    padding: 0 15px;
+
+    &-Card {
+        margin-bottom: 30px;
+
+        @include after-mobile {
+            margin-bottom: 40px;
+        }
+    }
+
+    &-CityTitle {
+        font-size: 40px;
+        font-family: 'Roboto-Bold', sans-serif;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+
+        @include mobile {
+            font-size: 20px;
+            width: 100%;
+        }
+    }
+
+    &-Title {
+        font-size: 40px;
+        font-family: 'Roboto-Bold', sans-serif;
+        font-weight: bold;
+        text-align: center;
+        margin: 63px auto 0;
+        letter-spacing: -1.54px;
+        width: 357px;
+        overflow: visible;
+        white-space: nowrap;
+
+        @include mobile {
+            font-size: 20px;
+            width: 100%;
+        }
+    }
+
+    &-Info {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin: 28px auto 25px;
+        width: 357px;
+
+        @include mobile {
+            margin-bottom: 13px;
+        }
+
+        p {
+            font-size: 17px;
+            font-family: 'Roboto-Bold', sans-serif;
+            letter-spacing: -0.65px;
+            white-space: nowrap;
+            line-height: 22px;
+
+            @include mobile {
+                font-size: 15px;
+                letter-spacing: -0.58px;
+                white-space: pre-wrap;
+            }
+        }
+    }
+
+    &-StoreName {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    &-StoreHours{
+        display: flex;
+    }
+
+    &-StorePhone {
+        display: flex;
+        font-size: 17px;
+        font-family: 'Roboto-Bold', sans-serif;
+        letter-spacing: -0.65px;
+        white-space: nowrap;
+        line-height: 22px;
+
+        @include mobile {
+            font-size: 15px;
+            letter-spacing: -0.58px;
+            white-space: pre-wrap;
+        }
+    }
+
+    &-SubParagraph {
+        margin-right: 5px;
+        min-width: fit-content;
+    }
+
+    &-ImageBlockWrapper {
+        display: flex;
+        justify-content: center;
+
+        @include mobile {
+            justify-content: unset;
+            margin: 0 -15px;
+        }
+    }
+
+    &-ImageWrapper {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    &-Image {
+        width: 250px;
+        height: 250px;
+        min-width: 250px;
+        object-fit: cover;
+
+        &:nth-child(2){
+            margin: 0 15px;
+
+            @include mobile {
+                margin: 0 2px;
+            }
+        }
+    }
+}
+
+.Header_name_stores_sub {
+    .Header-Button_isVisible {
+        position: fixed;
+        right: 5px;
+    }
+}

@@ -164,7 +164,9 @@
     &_name {
         &_favorites,
         &_contact-us,
-        &_sign-in {
+        &_sign-in,
+        &_stores,
+        &_stores_sub {
             --header-background: var(--header-default-background);
         }
 
