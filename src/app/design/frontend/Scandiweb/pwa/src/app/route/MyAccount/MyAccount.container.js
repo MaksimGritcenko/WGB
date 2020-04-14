@@ -33,6 +33,8 @@ const mapStateToProps = state => ({
     ...sourceMapStateToProps(state)
 });
 
+export const MY_RETURNS = 'my-returns';
+
 class MyAccount extends MyAccountContainer {
     static propTypes = {
         ...super.propTypes,
@@ -47,7 +49,7 @@ class MyAccount extends MyAccountContainer {
         },
         [ADDRESS_BOOK]: {
             url: '/address-book',
-            name: __('Address book')
+            name: __('Address Book')
         },
         [MY_WISHLIST]: {
             url: '/my-favorites',
@@ -55,11 +57,15 @@ class MyAccount extends MyAccountContainer {
         },
         [MY_ORDERS]: {
             url: '/my-orders',
-            name: __('My orders')
+            name: __('My Orders')
         },
         [NEWSLETTER_SUBSCRIPTION]: {
             url: '/newsletter-subscription',
             name: __('Newsletter Subscription')
+        },
+        [MY_RETURNS]: {
+            url: '/my-returns',
+            name: __('My Returns')
         }
     };
 
