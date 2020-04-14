@@ -259,6 +259,7 @@ return [
         'Vertex_Tax' => 1,
         'WGB_CheckoutOptionsGraphQl' => 1,
         'WGB_CustomerGraphQl' => 1,
+        'WGB_MenuOrganizer' => 1,
         'WGB_Slider' => 1,
         'WGB_SliderGraphQl' => 1,
         'WGB_SocialLogin' => 1,
