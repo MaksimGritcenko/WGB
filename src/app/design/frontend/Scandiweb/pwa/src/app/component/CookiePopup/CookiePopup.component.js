@@ -98,7 +98,7 @@ export class CookiePopup extends SourceCookiePopup {
             return true;
         }
 
-        return allowedCountries.filter(country => country.id === userLocation);
+        return allowedCountries.filter(country => country.id === userLocation).length;
     }
 
     renderCookieNotice() {
