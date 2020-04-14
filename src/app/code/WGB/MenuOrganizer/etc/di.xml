@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    WGB
+ * @package     WGB_MenuOrganizer
+ * @author      Roberts Briedis <info@scandiweb.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+   <preference for="ScandiPWA\MenuOrganizer\Model\Resolver\Menu"
+               type="WGB\MenuOrganizer\Model\Resolver\Menu"/>
+</config>

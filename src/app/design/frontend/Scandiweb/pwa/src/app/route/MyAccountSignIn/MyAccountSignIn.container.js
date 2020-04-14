@@ -39,7 +39,7 @@ export class MyAccountSignInContainer extends PureComponent {
 
         const { updateMeta } = this.props;
 
-        updateMeta({ title: __('MyAccount SignIn') });
+        updateMeta({ title: __('Sign In') });
     }
 
     render() {

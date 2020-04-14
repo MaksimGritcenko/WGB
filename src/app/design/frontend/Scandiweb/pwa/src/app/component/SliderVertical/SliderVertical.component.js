@@ -2,8 +2,8 @@ import { Children } from 'react';
 
 import CSS from 'Util/CSS';
 import Draggable from 'Component/Draggable';
-import Slider from 'Component/Slider';
-import { ANIMATION_DRAG_EASING } from 'Component/Slider/Slider.component';
+import Slider, { ANIMATION_DRAG_EASING } from 'Component/Slider/Slider.component';
+import { HORIZONTAL_INDEX, VERTICAL_INDEX } from 'Store/Slider/Slider.reducer';
 import './SliderVertical.style';
 
 export const ACTIVE_SLIDE_PERCENT = 0.1;
@@ -156,6 +156,16 @@ export default class SliderVertical extends Slider {
     }
 
     handleDrag = (state) => {
+        const { sliderInAction, changeSliderInAction } = this.props;
+
+        if (sliderInAction === HORIZONTAL_INDEX) return;
+
+        if (sliderInAction !== VERTICAL_INDEX
+            && Math.abs(state.lastTranslateY + Math.abs(state.translateY)) > 0
+        ) {
+            changeSliderInAction(VERTICAL_INDEX);
+        }
+
         const { translateY } = state;
 
         const translate = translateY;
@@ -172,8 +182,22 @@ export default class SliderVertical extends Slider {
     };
 
     handleDragEnd = (state, callback) => {
-        const { animationDuration } = this.props;
+        const { animationDuration, sliderInAction, resetSliderInAction } = this.props;
+
+        if (sliderInAction !== VERTICAL_INDEX) return;
+
+        const {
+            translateY,
+            lastTranslateY
+        } = state;
+        const { prevActiveImage } = this.state;
+
         const activeSlide = this.calculateNextSlide(state);
+
+        // Handle scroll past the end of gallery
+        if (translateY < lastTranslateY && prevActiveImage === -activeSlide) {
+            document.dispatchEvent(new CustomEvent('openDragbar'));
+        }
 
         const slideSize = this.sliderHeight;
 
@@ -187,6 +211,8 @@ export default class SliderVertical extends Slider {
             originalY: newTranslate,
             lastTranslateY: newTranslate
         });
+
+        resetSliderInAction();
     };
 
     renderCrumbs() {

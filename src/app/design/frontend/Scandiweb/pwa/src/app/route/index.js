@@ -35,10 +35,9 @@ import { ConfigDispatcher } from 'Store/Config';
 import { CartDispatcher } from 'Store/Cart';
 import { WishlistDispatcher } from 'Store/Wishlist';
 import { ContactInfoDispatcher } from 'Store/ContactInfo';
+import withGTM from 'Component/GoogleTagManager/withGTM.hoc';
 
 import Store from 'Store';
-
-import GoogleTagManagerRouteWrapperComponent from 'Component/GoogleTagManager/GoggleTagManagerRouteWrapper.component';
 
 import {
     BEFORE_ITEMS_TYPE,
@@ -48,6 +47,7 @@ import {
     mapDispatchToProps,
     AppRouter as SourceAppRouter
 } from 'SourceRoute';
+import BackToTop from 'Component/BackToTop';
 
 export const CartPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CartPage'));
 export const CategoryPage = lazy(() => import(/* webpackMode: "lazy", webpackPrefetch: true */ 'Route/CategoryPage'));
@@ -94,55 +94,35 @@ export class AppRouter extends SourceAppRouter {
             component: <Route
               path="/"
               exact
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ HOME_PAGE }>
-                    <HomePage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(HomePage, HOME_PAGE) }
             />,
             position: 10
         },
         {
             component: <Route
               path="/category"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ CATEGORY }>
-                    <CategoryPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(CategoryPage, CATEGORY) }
             />,
             position: 20
         },
         {
             component: <Route
               path="/search/:query/"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ SEARCH }>
-                    <SearchPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(SearchPage, SEARCH) }
             />,
             position: 25
         },
         {
             component: <Route
               path="/product"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ PDP }>
-                    <ProductPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(ProductPage, PDP) }
             />,
             position: 30
         },
         {
             component: <Route
               path="/page"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ CMS_PAGE }>
-                    <CmsPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(CmsPage, CMS_PAGE) }
             />,
             position: 40
         },
@@ -150,55 +130,35 @@ export class AppRouter extends SourceAppRouter {
             component: <Route
               path="/cart"
               exact
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ CART }>
-                    <CartPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(CartPage, CART) }
             />,
             position: 50
         },
         {
             component: <Route
               path="/checkout/:step?"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ CHECKOUT }>
-                    <Checkout { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(Checkout, CHECKOUT) }
             />,
             position: 55
         },
         {
             component: <Route
               path="/:account*/createPassword/"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ PASSWORD_CHANGE }>
-                    <PasswordChangePage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(PasswordChangePage, PASSWORD_CHANGE) }
             />,
             position: 60
         },
         {
             component: <Route
               path="/my-account/:tab?"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ CUSTOMER_ACCOUNT }>
-                    <MyAccount { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(MyAccount, CUSTOMER_ACCOUNT) }
             />,
             position: 70
         },
         {
             component: <Route
               path="/menu"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ MENU }>
-                    <MenuPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(MenuPage, MENU) }
             />,
             position: 80
         },
@@ -216,44 +176,28 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <Route
               path="/my-favorites"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ FAVORITES }>
-                    <MyAccountWishlist { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(MyAccountWishlist, FAVORITES) }
             />,
             position: 90
         },
         {
             component: <Route
               path="/contact-us"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ CONTACT_US }>
-                    <ContactPage { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(ContactPage, CONTACT_US) }
             />,
             position: 100
         },
         {
             component: <Route
               path="/signin"
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ SIGN_IN }>
-                      <MyAccountSignIn { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(MyAccountSignIn, SIGN_IN) }
             />,
             position: 110
         },
 
         {
             component: <Route
-              render={ props => (
-                <GoogleTagManagerRouteWrapperComponent route={ URL_REWRITE }>
-                    <UrlRewrites { ...props } />
-                </GoogleTagManagerRouteWrapperComponent>
-              ) }
+              render={ withGTM(UrlRewrites, URL_REWRITE) }
             />,
             position: 1000
         }
@@ -263,6 +207,10 @@ export class AppRouter extends SourceAppRouter {
         {
             component: <CookiePopup />,
             position: 20
+        },
+        {
+            component: <BackToTop />,
+            position: 10
         }
     ];
 

@@ -68,6 +68,7 @@ export const STORES = 'stores';
 export const STORES_SUB = 'stores_sub';
 
 
+export const PAGE = 'page';
 
 export const DESKTOP_OVERLAYS = [FILTER, CART_OVERLAY_ID, MENU];
 export const MOBILE_OVERLAYS = [FILTER];
@@ -242,6 +243,18 @@ export default class Header extends SourceHeader {
         const { onClearSearchButtonClick } = this.props;
         this.searchBarRef.current.focus();
         onClearSearchButtonClick();
+    }
+
+    getIsWhiteBackground() {
+        const { pathname } = history.location;
+
+        if (
+            pathname.indexOf(`/${ CART }`) === 0
+            || pathname.indexOf(`/${ CHECKOUT }`) === 0
+            || pathname.indexOf(`/${ PAGE }`) === 0
+        ) return true;
+
+        return false;
     }
 
     renderLogoImage() {
@@ -520,7 +533,7 @@ export default class Header extends SourceHeader {
         const { pathname } = history.location;
 
         const isWhite = isActiveSlideWhite && pathname === '/';
-        const isWhiteBackground = pathname.indexOf(`/${ CART }`) === 0;
+        const isWhiteBackground = this.getIsWhiteBackground();
 
         return (
             <header block="Header" mods={ { name, ...headerType } }>

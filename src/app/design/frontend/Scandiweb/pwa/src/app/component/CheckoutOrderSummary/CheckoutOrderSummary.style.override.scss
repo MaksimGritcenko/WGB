@@ -1,0 +1,36 @@
+.CheckoutOrderSummary {
+    &-OrderSummary {
+        @include after-mobile {
+            font-size: 30px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            text-transform: initial;
+        }
+    }
+
+    &-ItemsInCart {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+    }
+
+    &-SummaryItem {
+        padding: 10px 0;
+    }
+
+    &-Text {
+        font-size: 15px;
+    }
+
+    &-Price {
+        font-size: 15px;
+    }
+
+    .CartItem-Wrapper {
+        padding-top: 20px;
+    }
+
+    .CartItem-Price {
+        position: absolute;
+        right: 0;
+    }
+}

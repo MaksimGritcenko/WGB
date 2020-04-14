@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Field from 'Component/Field';
 import CartItemPrice from 'Component/CartItemPrice';
 import { closeIcon } from 'Component/Header/Header.config';
@@ -7,8 +8,20 @@ import SourceCartItem from 'SourceComponent/CartItem/CartItem.component';
 import './CartItem.style.override';
 
 export default class CartItem extends SourceCartItem {
+    static propTypes = {
+        ...this.propTypes,
+        isNotEditing: PropTypes.bool
+    };
+
+    static defaultProps = {
+        ...this.defaultProps,
+        isNotEditing: false
+    };
+
     renderDeleteButton() {
-        const { handleRemoveItem } = this.props;
+        const { handleRemoveItem, isLikeTable, isNotEditing } = this.props;
+
+        if (isNotEditing) return null;
 
         return (
             <button
@@ -16,6 +29,7 @@ export default class CartItem extends SourceCartItem {
               id="RemoveItem"
               name="RemoveItem"
               elem="MobileDelete"
+              mods={ { isLikeTable } }
               aria-label="Remove item from cart"
               onClick={ handleRemoveItem }
             >
@@ -29,13 +43,18 @@ export default class CartItem extends SourceCartItem {
             item: { qty },
             minSaleQuantity,
             maxSaleQuantity,
-            handleChangeQuantity
+            handleChangeQuantity,
+            isLikeTable,
+            isNotEditing
         } = this.props;
+
+        if (isNotEditing) return null;
 
         return (
             <div
               block="CartItem"
               elem="QtyWrapper"
+              mods={ { isLikeTable } }
             >
                 <span
                   block="CartItem"
@@ -148,7 +167,11 @@ export default class CartItem extends SourceCartItem {
         const { isLikeTable } = this.props;
 
         return (
-            <figure block="CartItem" elem="Wrapper">
+            <figure
+              block="CartItem"
+              elem="Wrapper"
+              mods={ { isLikeTable } }
+            >
                 { this.renderImage() }
                 <figcaption
                   block="CartItem"
@@ -195,7 +218,11 @@ export default class CartItem extends SourceCartItem {
                   isControlled
                   min={ minSaleQuantity }
                   max={ maxSaleQuantity }
-                  mix={ { block: 'CartItem', elem: 'Qty' } }
+                  mix={ {
+                      block: 'CartItem',
+                      elem: 'Qty',
+                      mods: { isLikeTable }
+                  } }
                   value={ qty }
                   onChange={ handleChangeQuantity }
                 />
@@ -209,8 +236,6 @@ export default class CartItem extends SourceCartItem {
         return (
             <li
               block="CartItem"
-              itemScope
-              itemType="http://schema.org/Product"
             >
                 <Loader isLoading={ isLoading } />
                 { this.renderDeleteButton() }

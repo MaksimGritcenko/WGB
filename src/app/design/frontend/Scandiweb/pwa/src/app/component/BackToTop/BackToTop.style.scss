@@ -1,0 +1,37 @@
+.BackToTop {
+    --elem-height: 25px;
+    --icon-padding: 5px;
+
+    bottom: calc(var(--elem-height) * -1);
+    position: fixed;
+    right: 20px;
+    height: var(--elem-height);
+    display: flex;
+    align-items: center;
+    transition: all 200ms;
+    cursor: pointer;
+
+    svg {
+        padding: 3px;
+    }
+
+    &_isVisible {
+        transform: translateY(calc(var(--elem-height) * -1 - var(--icon-padding) * 2));
+    }
+
+    &-Text {
+        color: #888;
+        padding: 0 10px 3px;
+    }
+
+    &-IconContainer {
+        background-color: #000;
+        padding: var(--icon-padding);
+    }
+
+    &-Icon {
+        fill: #FFF;
+        transform: rotate(90deg);
+        width: var(--elem-height);
+    }
+}

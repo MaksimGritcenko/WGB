@@ -7,6 +7,7 @@ import { SliderReducer } from 'Store/Slider';
 import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { SocialLoginReducer } from 'Store/SocialLogins';
 import { ContactFormReducer } from 'Store/ContactForm';
+import { GeoIPReducer } from 'Store/GeoIP';
 
 export const reducers = {
     ...SourceReducers,
@@ -14,6 +15,7 @@ export const reducers = {
     HeaderAndFooterReducer,
     SocialLoginReducer,
     ContactFormReducer,
+    GeoIPReducer
 };
 
 const store = createStore(

@@ -215,6 +215,9 @@ return [
         'Magento_Wishlist' => 1,
         'Magento_WishlistAnalytics' => 1,
         'Magento_WishlistGraphQl' => 1,
+        'Amasty_Base' => 1,
+        'Amasty_Geoip' => 1,
+        'Amasty_GeoipRedirect' => 1,
         'Amazon_Core' => 1,
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
@@ -252,7 +255,6 @@ return [
         'Scandiweb_LocaleResolverFix' => 1,
         'ScandiPWA_SliderGraphQl' => 1,
         'Scandiweb_SocialLogin' => 1,
-        'Scandiweb_StoreFinder' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
         'WGB_CheckoutOptionsGraphQl' => 1,
@@ -260,8 +262,7 @@ return [
         'WGB_Slider' => 1,
         'WGB_SliderGraphQl' => 1,
         'WGB_SocialLogin' => 1,
-        'WGB_StoreFinder' => 1,
-        'WGB_StoreFinderGraphQl' => 1,
+        'Wgb_GeoIpGraphQL' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];
