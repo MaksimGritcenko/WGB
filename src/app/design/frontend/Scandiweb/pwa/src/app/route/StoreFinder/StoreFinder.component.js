@@ -11,9 +11,7 @@ import Loader from 'Component/Loader';
 
 const IMG_PATH = '/media/store_finder/stores/';
 
-const CITY_LIST = [{
-    id: 'none', label: 'none', value: 'none', counter: 0
-}];
+const CITY_LIST = [];
 
 class StoreFinder extends PureComponent {
     static propTypes = {
@@ -65,13 +63,13 @@ class StoreFinder extends PureComponent {
                 onCloseClick: () => this.closeOverlay()
             });
         }
-    }
+    };
 
     getCityList() {
         const { StoreInfo } = this.props;
         this.emptyCityList();
         return StoreInfo.map((StoreInfo, index) => {
-            if (this.cityPushCheck(StoreInfo.city)) {
+            if (this.checkUniqueCity(StoreInfo.city)) {
                 CITY_LIST.push({
                     id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false, counter: +1
                 });
@@ -89,11 +87,10 @@ class StoreFinder extends PureComponent {
         });
     }
 
-    cityPushCheck(cityLabel) {
+    checkUniqueCity(cityLabel) {
         const cityFromList = CITY_LIST.find(city => city.label === cityLabel);
         return cityFromList === undefined;
     }
-
 
     emptyCityList() {
         CITY_LIST.length = 0;
@@ -142,31 +139,40 @@ class StoreFinder extends PureComponent {
     renderStore() {
         const { StoreInfo } = this.props;
         const { current_city } = this.state;
-        // eslint-disable-next-line array-callback-return
         // eslint-disable-next-line consistent-return
         return StoreInfo.map((StoreInfo, index) => {
             if (StoreInfo.city === current_city) {
+                const {
+                    address,
+                    store_name,
+                    store_hours,
+                    phone_number,
+                    image_1,
+                    image_2,
+                    image_3
+                } = StoreInfo;
+
                 return (
                     // eslint-disable-next-line react/no-array-index-key
                     <div block="StoreFinder" elem="Card" key={ index }>
                         <div block="StoreFinder" elem="Info">
                             <p block="StoreFinder" elem="StoreName">
-                                { StoreInfo.store_name }
+                                { store_name }
                             </p>
                             <p block="StoreFinder" elem="StoreAddress">
-                                { StoreInfo.address }
+                                { address }
                             </p>
                             <div block="StoreFinder" elem="StoreHours">
                             <p block="StoreFinder" elem="SubParagraph">
                             Working hours:
                             </p>
-                            <Html content={ StoreInfo.store_hours } />
+                            <Html content={ store_hours } />
                             </div>
                             <div block="StoreFinder" elem="StorePhone">
                                 <p block="StoreFinder" elem="SubParagraph">
                                 Phone number:
                                 </p>
-                                { StoreInfo.phone_number }
+                                { phone_number }
                             </div>
                         </div>
                         <div block="StoreFinder" elem="ImageBlockWrapper">
@@ -174,20 +180,20 @@ class StoreFinder extends PureComponent {
                                 <img
                                   block="StoreFinder"
                                   elem="Image"
-                                  src={ IMG_PATH + StoreInfo.image_1 }
-                                  alt={ StoreInfo.image_1 }
+                                  src={ IMG_PATH + image_1 }
+                                  alt={ image_1 }
                                 />
                                 <img
                                   block="StoreFinder"
                                   elem="Image"
-                                  src={ IMG_PATH + StoreInfo.image_2 }
-                                  alt={ StoreInfo.image_2 }
+                                  src={ IMG_PATH + image_2 }
+                                  alt={ image_2 }
                                 />
                                 <img
                                   block="StoreFinder"
                                   elem="Image"
-                                  src={ IMG_PATH + StoreInfo.image_3 }
-                                  alt={ StoreInfo.image_3 }
+                                  src={ IMG_PATH + image_3 }
+                                  alt={ image_3 }
                                 />
                             </div>
                         </div>
@@ -238,7 +244,7 @@ class StoreFinder extends PureComponent {
         return (
             <div block="StoreFinder">
                 <div block="StoreFinder" elem="Title">
-                { __('STORE LOCATIONS') }
+                    { __('STORE LOCATIONS') }
                 </div>
                 { this.renderCitySelect() }
                 { this.renderStore() }
@@ -250,8 +256,8 @@ class StoreFinder extends PureComponent {
         const { isLoading } = this.state;
         return (
             <>
-            <Loader isLoading={ isLoading } />
-            { this.renderStoreLocator() }
+                <Loader isLoading={ isLoading } />
+                { this.renderStoreLocator() }
             </>
         );
     }
