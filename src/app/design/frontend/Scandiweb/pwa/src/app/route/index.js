@@ -168,7 +168,7 @@ export class AppRouter extends SourceAppRouter {
               path="/stores"
               render={ withGTM(StoreFinder, STORES) }
             />,
-            position: 92
+            position: 85
         },
         {
             component: <Route
