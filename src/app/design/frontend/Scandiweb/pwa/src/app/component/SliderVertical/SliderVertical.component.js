@@ -37,6 +37,7 @@ export default class SliderVertical extends Slider {
     updateSliderHeight() {
         const { isPDPHeaderPresent } = this.props;
         const headerAmount = isPDPHeaderPresent ? 2 : 1;
+
         CSS.setVariable(
             this.sliderRef,
             'slider-height',
@@ -162,6 +163,8 @@ export default class SliderVertical extends Slider {
 
         if (sliderInAction !== VERTICAL_INDEX
             && Math.abs(state.lastTranslateY + Math.abs(state.translateY)) > 0
+            && Math.abs(state.lastTranslateY + Math.abs(state.translateY))
+                > Math.abs(state.lastTranslateX + Math.abs(state.translateX))
         ) {
             changeSliderInAction(VERTICAL_INDEX);
         }
