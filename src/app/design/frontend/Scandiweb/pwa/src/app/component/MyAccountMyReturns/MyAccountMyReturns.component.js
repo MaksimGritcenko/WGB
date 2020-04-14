@@ -8,11 +8,11 @@ class MyAccountMyReturns extends PureComponent {
         handleReturnClick: PropTypes.func.isRequired
     };
 
-    render() {
+    renderNew() {
         const { handleReturnClick } = this.props;
 
         return (
-            <div block="MyAccountMyReturns">
+            <div block="MyAccountMyReturns" elem="New">
                 <MyAccountMyReturnsDropdown
                   { ...this.props }
                 />
@@ -20,8 +20,17 @@ class MyAccountMyReturns extends PureComponent {
                   block="Button"
                   onClick={ handleReturnClick }
                 >
-                    { __('Return') }
+                  { __('Return') }
                 </button>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div block="MyAccountMyReturns">
+                { this.renderNew() }
+                { this.renderList() }
             </div>
         );
     }
