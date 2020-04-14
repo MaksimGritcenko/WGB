@@ -1,7 +1,5 @@
 type Query {
-    getLocationByIp (
-        ip: String! @doc(description: "IP to identify location of")
-    ): Location
+    getUserLocation : Location
     @resolver(class: "WGB\\GeoIpGraphQL\\Model\\Resolver\\Geoiplocation")
     @doc(description: "Query to Retrieve location from GeoIP extension.") ,
 }
