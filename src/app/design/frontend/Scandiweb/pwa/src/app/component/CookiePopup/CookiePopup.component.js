@@ -94,7 +94,7 @@ export class CookiePopup extends SourceCookiePopup {
         } = this.props;
 
         // Handle country loading failed - ignore country notice and show cookie notice
-        if (isCountryLoadingFailed) {
+        if (isCountryLoadingFailed || !userLocation) {
             return true;
         }
 
