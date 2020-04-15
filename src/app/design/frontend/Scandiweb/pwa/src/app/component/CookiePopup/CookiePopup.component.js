@@ -60,8 +60,6 @@ export class CookiePopup extends SourceCookiePopup {
               elem="Link"
               to={ absoluteCookieLink }
             >
-                <br />
-                { __('Click here for more information on our ') }
                 <u>{ __('Cookies policy.') }</u>
             </Link>
         );
@@ -111,6 +109,8 @@ export class CookiePopup extends SourceCookiePopup {
         return (
         <p>
             { cookieText }
+            <br />
+            { __('Click here for more information on our ') }
             { this.renderCookieLink() }
         </p>
         );
