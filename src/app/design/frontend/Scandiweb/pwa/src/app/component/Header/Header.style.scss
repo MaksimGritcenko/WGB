@@ -180,13 +180,23 @@
 
                     .Header-Filter {
                         display: flex;
+                        height: 17px;
+
+                        &-Button {
+                            &_isFilterEmpty {
+                                display: none;
+                            }
+                        }
                     }
+
                 }
             }
 
             &.Header_isSearch {
-                .Header-LogoWrapper {
-                    @include logo-visible;
+                .Header {
+                    &-LogoWrapper {
+                        @include logo-visible;
+                    }
                 }
             }
         }
@@ -220,10 +230,12 @@
                 --header-desktop-search-bar-width: calc(50% - 100px);
             }
 
-            .Header-SearchBar {
-                @include after-mobile {
-                    border: 1px solid var(--header-search-field-border-color);
-                    background-color: var(--header-search-field-visible-background);
+            .Header {
+                &-SearchBar {
+                   @include after-mobile {
+                        border: 1px solid var(--header-search-field-border-color);
+                        background-color: var(--header-search-field-visible-background);
+                    }
                 }
             }
         }
