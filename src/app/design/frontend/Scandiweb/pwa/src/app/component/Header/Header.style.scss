@@ -428,6 +428,14 @@
             &_wishlist {
                 order: 1;
             }
+
+            &_back {
+                &.Header-Button_isVisible {
+                    svg {
+                        left: -4px;
+                    }
+                }
+            }
         }
     }
 
