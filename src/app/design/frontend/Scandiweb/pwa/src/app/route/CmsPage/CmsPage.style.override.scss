@@ -11,16 +11,28 @@
 
     h1 {
         font-size: 40px;
+
+        @include mobile {
+            font-size: 30px;
+        }
     }
 
     h2 {
         font-size: 30px;
         margin-top: 1.8rem;
         margin-bottom: 1.5rem;
+
+        @include mobile {
+            font-size: 25px;
+        }
     }
 
     h3 {
         font-size: 25px;
+
+        @include mobile {
+            font-size: 20px;
+        }
     }
 
     h1,
