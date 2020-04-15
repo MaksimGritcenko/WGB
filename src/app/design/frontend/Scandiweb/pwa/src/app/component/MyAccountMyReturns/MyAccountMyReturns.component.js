@@ -26,6 +26,11 @@ class MyAccountMyReturns extends PureComponent {
         );
     }
 
+    renderList() {
+        // TODO implement
+        return null;
+    }
+
     render() {
         return (
             <div block="MyAccountMyReturns">
