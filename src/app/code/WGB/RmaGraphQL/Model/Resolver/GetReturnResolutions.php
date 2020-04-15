@@ -29,13 +29,22 @@ use Magento\Store\Model\StoreManagerInterface;
 class GetReturnResolutions implements ResolverInterface
 {
 
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+    /**
+     * @var Repository
+     */
+    private $resolutionRepository;
+
     public function __construct(
         StoreManagerInterface $storeManager,
         Repository $resolutionRepository
     )
     {
         $this->storeManager = $storeManager;
-        $this->resolutionRepostory = $resolutionRepository;
+        $this->resolutionRepository = $resolutionRepository;
     }
 
     /**
@@ -49,7 +58,7 @@ class GetReturnResolutions implements ResolverInterface
         array $args = null
     ) {
         $currentStoreId = $this->storeManager->getStore()->getId();
-        $resolutions = $this->resolutionRepostory->getResolutionsByStoreId($currentStoreId);
+        $resolutions = $this->resolutionRepository->getResolutionsByStoreId($currentStoreId);
 
         return array_map(
             function($resolution) {
