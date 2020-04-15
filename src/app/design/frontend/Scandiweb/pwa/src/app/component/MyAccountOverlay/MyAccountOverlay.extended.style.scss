@@ -154,6 +154,10 @@
                 .Field {
                     padding-bottom: 10px;
                 }
+
+                @include mobile {
+                    padding-top: 0;
+                }
             }
 
             &_forgotPassword {
