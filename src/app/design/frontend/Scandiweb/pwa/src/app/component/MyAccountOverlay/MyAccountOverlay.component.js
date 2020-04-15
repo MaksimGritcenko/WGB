@@ -338,6 +338,7 @@ export class MyAccountOverlay extends SourceMyAccountOverlay.WrappedComponent {
         return (
             <div block="MyAccountOverlay" elem="ForgotPassword">
                 <div block="MyAccountOverlay" elem="Header">
+                    { this.renderBackToSignIn() }
                     <h1>{ __('FORGOT PASSWORD') }</h1>
                 </div>
                 <div block="MyAccountOverlay" elem="Column">
