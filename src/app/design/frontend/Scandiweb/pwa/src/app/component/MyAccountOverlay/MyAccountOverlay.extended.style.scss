@@ -243,9 +243,10 @@
             justify-content: center;
             font-weight: bold;
             font-size: 20px;
-            padding-bottom: 34px;
+            padding-bottom: 20px;
 
             @include after-mobile {
+                padding-bottom: 34px;
                 font-size: 30px
             }
         }
