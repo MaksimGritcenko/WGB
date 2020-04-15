@@ -25,7 +25,7 @@
     width: 100%;
 
     @include after-mobile {
-        font-size: 40px;
+        font-size: 30px;
 
         &::after {
             content:" STUDIO";

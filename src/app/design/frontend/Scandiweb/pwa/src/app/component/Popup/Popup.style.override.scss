@@ -1,0 +1,62 @@
+.Popup {
+    &_isVisible {
+        @include mobile {
+            top: calc(var(--header-height) + env(safe-area-inset-top));
+        }
+    }
+
+    &.MyAccountOrderPopup,
+    &.MyAccountAddressPopup,
+    &.MyAccountCustomerPopup {
+        .MyAccount-Button {
+           margin-top: 20px;
+        }
+
+        .Field-Label {
+            font-size: var(--font-size);
+        }
+
+        .Field_type_checkbox {
+            .Field-Label {
+                font-weight: normal;
+            }
+        }
+
+        h3,
+        h4 {
+            font-family: var(--font-roboto);
+            font-weight: bold;
+        }
+
+        th,
+        td,
+        dd,
+        dt {
+            font-size: var(--font-size);
+        }
+    }
+
+    &.MyAccountOrderPopup {
+        &-Thumbnail {
+            height: 80px;
+        }
+
+        .KeyValueTable-Heading {
+            padding: 10px;
+        }
+
+        th,
+        td {
+            padding-bottom: 0;
+        }
+    }
+
+    .MyAccountOrderPopup {
+        &-Products {
+            th,
+            td {
+                padding-bottom: 10px;
+            }
+        }
+    }
+}

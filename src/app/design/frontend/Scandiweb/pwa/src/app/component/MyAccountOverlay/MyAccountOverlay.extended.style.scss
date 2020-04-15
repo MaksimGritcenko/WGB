@@ -242,7 +242,7 @@
             padding-bottom: 34px;
 
             @include after-mobile {
-                font-size: 40px
+                font-size: 30px
             }
         }
     }
@@ -385,7 +385,7 @@
                 line-height: 36px;
                 margin: auto;
                 text-transform: uppercase;
-                font-size: 16px;
+                font-size: 18px;
                 letter-spacing: -0.38px;
                 color: #fff;
             }
@@ -411,7 +411,7 @@
         border: solid 1px #3c5a9a;
         background-color: #3c5a9a;
         transition: 0.5s;
-        max-height: 36px;
+        max-height: 39px;
 
         &:hover {
             text-decoration: none;
@@ -427,7 +427,7 @@
         border: solid 1px #df4c3a;
         background-color: #df4c3a;
         transition: 0.5s;
-        max-height: 36px;
+        max-height: 39px;
 
         &:hover {
         text-decoration: none;
