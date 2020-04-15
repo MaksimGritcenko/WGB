@@ -1,7 +1,7 @@
 type Query {
     getUserLocation : Location
-    @resolver(class: "WGB\\GeoIpGraphQL\\Model\\Resolver\\Geoiplocation")
-    @doc(description: "Query to Retrieve location from GeoIP extension.") ,
+        @resolver(class: "WGB\\GeoIpGraphQL\\Model\\Resolver\\Geoiplocation")
+        @doc(description: "Query to Retrieve location from GeoIP extension.") ,
 }
 
 type Location {
