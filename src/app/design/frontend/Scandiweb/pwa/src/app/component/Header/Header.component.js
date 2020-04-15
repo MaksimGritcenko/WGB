@@ -491,7 +491,11 @@ export default class Header extends SourceHeader {
     }
 
     renderFilterButton() {
-        const { onFilterButtonClick } = this.props;
+        const {
+            onFilterButtonClick, availableFilters
+        } = this.props;
+
+        const isFilterEmpty = !Object.keys(availableFilters).length;
 
         return (
             <div
@@ -502,6 +506,7 @@ export default class Header extends SourceHeader {
                 <button
                   block="Header"
                   elem="Filter-Button"
+                  mods={ { isFilterEmpty } }
                   onClick={ onFilterButtonClick }
                 >
                     { __('Filters') }
