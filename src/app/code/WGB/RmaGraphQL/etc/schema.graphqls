@@ -2,6 +2,14 @@
 type Query {
     getItemConditions: [ItemCondition]  @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
     getReturnResolutions: [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
+    getReturnReasons: [ReturnReason] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
+}
+
+type ReturnReason {
+    id: Int
+    title: String
+    shipping_payer: Int @doc(description: "0 - Customer; 1 - Shop owner; 2 - Do not show")
+    position: Int
 }
 
 type ItemCondition {
