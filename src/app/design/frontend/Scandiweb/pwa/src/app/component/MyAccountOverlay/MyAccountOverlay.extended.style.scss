@@ -356,6 +356,7 @@
         &_state {
             &_forgotPasswordSuccess {
                 padding-top: 0;
+                text-align: center;
 
                 h4 {
                     font-size: 1rem;
@@ -367,7 +368,11 @@
 
                 .Button {
                     width: 100%;
-                    margin-top: 15px;
+                    margin-top: 10px;
+
+                    @include after-mobile {
+                        width: 345px;
+                    }
                 }
             }
         }
