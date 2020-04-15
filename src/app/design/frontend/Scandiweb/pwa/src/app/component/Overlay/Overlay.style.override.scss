@@ -9,8 +9,16 @@
     }
 
     &_isVisible {
-        &.Overlay:not(.Overlay_isStatic) {
-            padding-top: env(safe-area-inset-top);
+        &.Overlay {
+            &:not(.Overlay_isStatic) {
+                padding-top: env(safe-area-inset-top);
+            }
+
+            &.CategoryFilterOverlay {
+                @include after-mobile {
+                    padding-top: 15px;
+                }
+            }
         }
     }
 }
