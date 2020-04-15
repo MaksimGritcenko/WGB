@@ -1,0 +1,28 @@
+# Crawlers Setup
+User-agent: *
+
+# Directories
+Disallow: /app/
+Disallow: /bin/
+Disallow: /dev/
+Disallow: /lib/
+Disallow: /phpserver/
+Disallow: /pkginfo/
+Disallow: /report/
+Disallow: /setup/
+Disallow: /update/
+Disallow: /var/
+Disallow: /vendor/
+
+# Paths
+Disallow: /checkout
+Disallow: /my-account
+Disallow: /search
+
+Disallow: /catalog/category/view/
+Disallow: /catalog/product/view/
+
+Disallow: /*SID="
+
+# Website Sitemap
+Sitemap: https://vgb.scandipwa.cloud/pub/sitemap.xml
