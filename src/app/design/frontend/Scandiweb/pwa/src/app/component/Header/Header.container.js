@@ -24,6 +24,7 @@ export const HISTORY_START_CATEGORY_STRING = 1;
 export const HISTORY_END_CATEGORY_STRING = 8;
 
 export const mapStateToProps = state => ({
+    availableFilters: state.ProductListInfoReducer.filters,
     navigationState: state.NavigationReducer[TOP_NAVIGATION_TYPE].navigationState,
     activeOverlay: state.OverlayReducer.activeOverlay,
     cartTotals: state.CartReducer.cartTotals,
@@ -184,11 +185,14 @@ export class HeaderContainer extends SourceHeaderContainer {
     }
 
     render() {
-        const { isSignedIn } = this.props;
+        const {
+            isSignedIn, availableFilters
+        } = this.props;
 
         return (
             <Header
               isSignedIn={ isSignedIn }
+              availableFilters={ availableFilters }
               { ...this.state }
               { ...this.containerProps() }
               { ...this.containerFunctions }
