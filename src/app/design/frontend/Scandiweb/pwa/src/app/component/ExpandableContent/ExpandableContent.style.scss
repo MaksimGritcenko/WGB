@@ -75,6 +75,10 @@
             &::after {
                 transform: rotate(180deg);
             }
+
+            div > p {
+                margin-bottom: 15px;
+            }
         }
     }
 
