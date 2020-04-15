@@ -352,6 +352,25 @@
         .Button {
             margin-top: 0;
         }
+
+        &_state {
+            &_forgotPasswordSuccess {
+                padding-top: 0;
+
+                h4 {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    padding-bottom: 1.4rem;
+                    font-weight: normal;
+                    letter-spacing: normal;
+                }
+
+                .Button {
+                    width: 100%;
+                    margin-top: 15px;
+                }
+            }
+        }
     }
 
     &-SocialButtons {
