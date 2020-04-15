@@ -38,7 +38,6 @@ atlassian*
 /setup
 /var
 # Excludes (or a better alternative might be to symlink this to shared folders
-!/pub/robots.txt
 !/pub/media/catalog
 !/pub/media/downloadable
 !/var/composer_home
