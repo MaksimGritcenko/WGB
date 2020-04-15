@@ -1,8 +1,31 @@
 
+type Mutation {
+    createReturnRequest(input: CreateReturnInput!): CreateReturnOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CreateNewRequest")
+}
+
 type Query {
     getItemConditions: [ItemCondition]  @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
     getReturnResolutions: [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
     getReturnReasons: [ReturnReason] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
+}
+
+input CreateReturnInput {
+    order_id: Int!
+    custom_fields: [String]
+    items: [ReturnItemInput]!
+}
+
+type CreateReturnOutput {
+    return_id: String
+}
+
+input ReturnItemInput {
+    quote_item_id: Int!
+    qty: Float!
+    condition: Int!
+    reason: Int!
+    resolution: Int!
 }
 
 type ReturnReason {
@@ -22,4 +45,12 @@ type ReturnResolution {
     id: Int
     title: String
     position: Int
+}
+
+type Order {
+    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ProductResolver")
+}
+
+type OrderProduct implements ProductInterface {
+    quote_item_id: String
 }
