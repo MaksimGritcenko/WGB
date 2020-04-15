@@ -23,7 +23,6 @@
     &-Close {
         &.Header-Button_isVisible {
             @include mobile {
-                margin-right: 15px;
                 order: 666;
             }
         }
