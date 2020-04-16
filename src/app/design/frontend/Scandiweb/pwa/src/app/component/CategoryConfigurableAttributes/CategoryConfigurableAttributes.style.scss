@@ -27,11 +27,16 @@
         }
 
         &-More {
+            display: none;
             color: var(--option-text-color);
             margin-left: 15px;
             font-size: 15px;
             text-transform: uppercase;
-            margin-bottom: 25px;
+            margin-bottom: 12px;
+
+            &_isLong {
+                display: block;
+            }
 
             &::after,
             &::before {
