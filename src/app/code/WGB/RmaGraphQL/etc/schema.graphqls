@@ -8,6 +8,15 @@ type Query {
     getItemConditions: [ItemCondition]  @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
     getReturnResolutions: [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
     getReturnReasons: [ReturnReason] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
+    getReturnList: [ReturnListEntry] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnsForUser")
+}
+
+type ReturnListEntry {
+    order_id: Int
+    request_id: Int
+    created_at: String
+    status: Int
+    request_qty: Float
 }
 
 input CreateReturnInput {
