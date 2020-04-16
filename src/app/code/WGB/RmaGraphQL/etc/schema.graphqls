@@ -5,15 +5,15 @@ type Mutation {
 }
 
 type Query {
-    getItemConditions: [ItemCondition]
+    itemConditions: [ItemCondition]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
-    getReturnResolutions: [ReturnResolution]
+    returnResolutions: [ReturnResolution]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
-    getReturnReasons: [ReturnReason]
+    returnReasons: [ReturnReason]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
-    getReturnList: [ReturnListEntry]
+    returnList: [ReturnListEntry]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnsForUser")
-    getReturnDetailsById(return_id: Int): ReturnDetails
+    returnDetailsById(return_id: Int): ReturnDetails
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnDetails")
 }
 

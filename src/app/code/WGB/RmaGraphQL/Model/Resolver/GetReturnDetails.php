@@ -24,6 +24,11 @@ use WGB\RmaGraphQL\Model\Request\ResourceModel\RequestDetails;
  */
 class GetReturnDetails implements ResolverInterface
 {
+    /**
+     * @var RequestDetails
+     */
+    private $requestDetails;
+
     public function __construct(
         RequestDetails $requestDetails
     )
