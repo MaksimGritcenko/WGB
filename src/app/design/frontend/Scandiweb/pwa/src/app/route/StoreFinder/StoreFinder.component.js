@@ -35,7 +35,7 @@ class StoreFinder extends PureComponent {
     state ={
         currentCityId: -1,
         overlay: false,
-        isLoading: false
+        isLoading: true
     };
 
     componentDidMount() {
