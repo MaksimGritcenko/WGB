@@ -45,6 +45,7 @@
         &_isContentExpanded {
             // TODO figure out without important
             padding: 0 !important;
+            margin-bottom: 15px;
         }
 
         @include after-mobile {
