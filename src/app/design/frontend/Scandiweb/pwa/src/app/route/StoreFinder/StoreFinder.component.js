@@ -144,7 +144,7 @@ class StoreFinder extends PureComponent {
     renderStore() {
         const { StoreInfo } = this.props;
         const { currentCityId } = this.state;
-        const { label: selectedCity } = CITY_LIST[currentCityId - 1];
+        const { label: selectedCity = '' } = CITY_LIST[currentCityId - 1] || {};
 
         // eslint-disable-next-line consistent-return
         return StoreInfo.map((StoreInfo, index) => {
@@ -231,7 +231,7 @@ class StoreFinder extends PureComponent {
         if (overlay) {
             return (
                 <div block="StoreFinder">
-                { this.renderTitle() }
+                    { this.renderTitle() }
                     { this.renderStore() }
                 </div>
             );
