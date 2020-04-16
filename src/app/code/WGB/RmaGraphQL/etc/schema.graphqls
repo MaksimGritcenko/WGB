@@ -15,7 +15,8 @@ type ReturnListEntry {
     order_id: Int
     request_id: Int
     created_at: String
-    status: Int
+    status_id: Int
+    status_label: String
     request_qty: Float
 }
 
