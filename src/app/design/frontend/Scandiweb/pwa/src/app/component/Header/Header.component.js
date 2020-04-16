@@ -151,7 +151,6 @@ export default class Header extends SourceHeader {
             title: true
         },
         [CUSTOMER_ACCOUNT_PAGE]: {
-            back: true,
             title: true
         },
         [HOME_PAGE]: {
