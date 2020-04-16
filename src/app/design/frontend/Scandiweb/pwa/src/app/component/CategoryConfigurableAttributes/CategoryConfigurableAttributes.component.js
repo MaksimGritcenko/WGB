@@ -50,7 +50,7 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
                 <button
                   block="CategoryConfigurableAttributes"
                   elem="SwatchList-More"
-                  mods={ { isOpen } }
+                  mods={ { isOpen, isLong } }
                   onClick={ () => this.toggleIsOpen(id) }
                 >
                     { text }
@@ -82,7 +82,7 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
                 <button
                   block="CategoryConfigurableAttributes"
                   elem="DropDownList-More"
-                  mods={ { isOpen } }
+                  mods={ { isOpen, isLong } }
                   onClick={ () => this.toggleIsOpen(id) }
                 >
                     { text }
