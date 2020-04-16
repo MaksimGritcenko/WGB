@@ -52,14 +52,7 @@ class GetItemConditions implements ResolverInterface
     {
         $currentStoreId = $this->storeManager->getStore()->getId();
 
-        return array_map(
-            function($condition) {
-                /** @var ConditionInterface $condition */
-                $condition['id'] = (int)$condition->getConditionId();
-                return $condition;
-            },
-            $this->conditionRepository->getConditionsByStoreId($currentStoreId)
-        );;
+        return $this->conditionRepository->getConditionsByStoreId($currentStoreId);
     }
 }
 

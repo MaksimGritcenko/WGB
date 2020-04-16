@@ -5,10 +5,20 @@ type Mutation {
 }
 
 type Query {
-    getItemConditions: [ItemCondition]  @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
-    getReturnResolutions: [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
-    getReturnReasons: [ReturnReason] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
-    getReturnList: [ReturnListEntry] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnsForUser")
+    getItemConditions: [ItemCondition]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
+    getReturnResolutions: [ReturnResolution]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
+    getReturnReasons: [ReturnReason]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
+    getReturnList: [ReturnListEntry]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnsForUser")
+    getReturnDetailsById(return_id: Int): ReturnDetails
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnDetails")
+}
+
+type ReturnDetails {
+    dummy: Boolean
 }
 
 type ReturnListEntry {
@@ -39,22 +49,25 @@ input ReturnItemInput {
 }
 
 type ReturnReason {
-    id: Int
+    reason_id: Int
     title: String
-    shipping_payer: Int @doc(description: "0 - Customer; 1 - Shop owner; 2 - Do not show")
+    payer: Int @doc(description: "0 - Customer; 1 - Shop owner; 2 - Do not show")
     position: Int
+    label: String
 }
 
 type ItemCondition {
-    id: Int
+    condition_id: Int
     title: String
     position: Int
+    label: String
 }
 
 type ReturnResolution {
-    id: Int
+    resolution_id: Int
     title: String
     position: Int
+    label: String
 }
 
 type Order {

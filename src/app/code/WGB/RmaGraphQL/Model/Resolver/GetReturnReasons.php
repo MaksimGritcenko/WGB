@@ -51,15 +51,7 @@ class GetReturnReasons implements ResolverInterface
     {
         $currentStoreId = $this->storeManager->getStore()->getId();
 
-        return array_map(
-            function ($reason) {
-                /** @var ReasonInterface $reason */
-                $reason['id'] = (int)$reason->getReasonId();
-                $reason['shipping_payer'] = $reason->getPayer();
-                return $reason;
-            },
-            $this->reasonRepository->getReasonsByStoreId($currentStoreId)
-        );
+        return $this->reasonRepository->getReasonsByStoreId($currentStoreId);
     }
 }
 

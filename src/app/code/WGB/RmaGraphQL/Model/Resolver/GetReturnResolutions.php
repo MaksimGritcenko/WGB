@@ -58,16 +58,8 @@ class GetReturnResolutions implements ResolverInterface
         array $args = null
     ) {
         $currentStoreId = $this->storeManager->getStore()->getId();
-        $resolutions = $this->resolutionRepository->getResolutionsByStoreId($currentStoreId);
 
-        return array_map(
-            function($resolution) {
-                /** @var ResolutionInterface $resolution */
-                $resolution['id'] = (int)$resolution->getResolutionId();
-                return $resolution;
-            },
-            $resolutions
-        );
+        return $this->resolutionRepository->getResolutionsByStoreId($currentStoreId);
     }
 }
 
