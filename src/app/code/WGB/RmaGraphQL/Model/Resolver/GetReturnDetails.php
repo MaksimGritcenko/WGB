@@ -42,6 +42,6 @@ class GetReturnDetails implements ResolverInterface
         array $args = null
     )
     {
-        return $this->requestDetails->getById($args['id']);
+        return $this->requestDetails->getById($args['return_id']);
     }
 }

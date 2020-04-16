@@ -15,6 +15,7 @@ namespace WGB\RmaGraphQL\Model\Request\ResourceModel;
 
 use Amasty\Rma\Api\Data\RequestInterface;
 use Amasty\Rma\Api\Data\RequestItemInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -22,6 +23,7 @@ use Amasty\Rma\Model\Reason;
 use Amasty\Rma\Model\Condition;
 use Amasty\Rma\Model\Request;
 use Amasty\Rma\Model\Resolution;
+use Magento\Sales\Model\Order\Item;
 
 /**
  * Class RequestDetails
@@ -71,18 +73,23 @@ class RequestDetails
      * @param RequestItemInterface $requestItem
      * @return OrderItemInterface
      */
-    private function findItemInOrder($orderItems, $requestItem)
+    private function getItemFromOrder($orderItems, $requestItem)
     {
-        return array_filter(
-            $orderItems,
-            function ($orderItem) use ($requestItem) {
-                return $orderItem->getExtOrderItemId() == $requestItem->getOrderItemId();
+        /** @var OrderItemInterface $orderItem */
+        foreach ($orderItems as $orderItem) {
+            if ($orderItem->getItemId() + 1 == $requestItem->getOrderItemId()) {
+                return $orderItem;
             }
-        )[0];
+        }
+
+        // TODO throw
+        return null;
     }
 
     /**
-     * @inheritdoc
+     * @param int $id
+     * @return array
+     * @throws NoSuchEntityException
      */
     public function getById($id)
     {
@@ -96,15 +103,14 @@ class RequestDetails
         $orderItems = $order->getItems();
 
         $requestItems = array_map(function ($requestItem) use ($orderItems) {
-            /** @var RequestItemInterface $requestItem */
-            $orderItem = $this->findItemInOrder($orderItems, $requestItem);
+            $orderItem = $this->getItemFromOrder($orderItems, $requestItem);
             $reason = $this->reasonRepository->getById($requestItem->getReasonId());
             $condition = $this->conditionRepository->getById($requestItem->getConditionId());
             $resolution = $this->resolutionRepository->getById($requestItem->getResolutionId());
             return [
                 'discount_amount' => $orderItem->getDiscountAmount(),
                 'discount_percent' => $orderItem->getDiscountPercent(),
-                'item_id' => $orderItem->getExtOrderItemId(),
+                'item_id' => $orderItem->getItemId(),
                 'price' => $orderItem->getPrice(),
                 'product' => $orderItem->getProductId(),
                 'qty' => $orderItem->getQtyOrdered(),
