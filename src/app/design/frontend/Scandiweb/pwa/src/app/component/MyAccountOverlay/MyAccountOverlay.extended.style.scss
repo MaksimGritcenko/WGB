@@ -154,6 +154,10 @@
                 .Field {
                     padding-bottom: 10px;
                 }
+
+                @include mobile {
+                    padding-top: 0;
+                }
             }
 
             &_forgotPassword {
@@ -239,10 +243,11 @@
             justify-content: center;
             font-weight: bold;
             font-size: 20px;
-            padding-bottom: 34px;
+            padding-bottom: 20px;
 
             @include after-mobile {
-                font-size: 40px
+                padding-bottom: 34px;
+                font-size: 30px
             }
         }
     }
@@ -277,10 +282,10 @@
             }
 
             label:first-of-type {
-                font-size: 10px;
+                font-size: 13px;
                 letter-spacing: 0.15px;
                 margin-left: 20px;
-                line-height: 19px;
+                line-height: 15px;
 
                 @include after-mobile {
                     font-size: 15px;
@@ -347,6 +352,30 @@
         .Button {
             margin-top: 0;
         }
+
+        &_state {
+            &_forgotPasswordSuccess {
+                padding-top: 0;
+                text-align: center;
+
+                h4 {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    padding-bottom: 1.4rem;
+                    font-weight: normal;
+                    letter-spacing: normal;
+                }
+
+                .Button {
+                    width: 100%;
+                    margin-top: 10px;
+
+                    @include after-mobile {
+                        width: 345px;
+                    }
+                }
+            }
+        }
     }
 
     &-SocialButtons {
@@ -382,18 +411,23 @@
             align-items: center;
 
             p {
-                line-height: 36px;
+                line-height: 37px;
                 margin: auto;
                 text-transform: uppercase;
-                font-size: 16px;
+                font-size: 18px;
                 letter-spacing: -0.38px;
                 color: #fff;
+
+                @include after-mobile {
+                    font-size: 15px;
+                    line-height: 34px;
+                }
             }
         }
     }
 
     &-Social {
-        padding: 0 15px;
+        padding: 0 12px;
         max-width: 375px;
         margin: auto;
 
@@ -411,7 +445,7 @@
         border: solid 1px #3c5a9a;
         background-color: #3c5a9a;
         transition: 0.5s;
-        max-height: 36px;
+        max-height: 39px;
 
         &:hover {
             text-decoration: none;
@@ -427,7 +461,7 @@
         border: solid 1px #df4c3a;
         background-color: #df4c3a;
         transition: 0.5s;
-        max-height: 36px;
+        max-height: 39px;
 
         &:hover {
         text-decoration: none;

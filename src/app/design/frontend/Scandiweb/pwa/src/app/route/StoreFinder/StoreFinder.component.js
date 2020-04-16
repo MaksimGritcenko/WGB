@@ -33,7 +33,7 @@ class StoreFinder extends PureComponent {
     };
 
     state ={
-        current_city: 'Romania',
+        currentCityId: -1,
         overlay: false,
         isLoading: true
     };
@@ -50,19 +50,23 @@ class StoreFinder extends PureComponent {
     onChange = (value) => {
         const { setHeaderState } = this.props;
 
-        this.setState({
-            current_city: value
-        });
-        if (isMobile.any()) {
+        if (!isMobile.any()) {
             this.setState({
-                overlay: true
+                currentCityId: value
             });
 
-            setHeaderState({
-                name: STORES_SUB,
-                onCloseClick: () => this.closeOverlay()
-            });
+            return;
         }
+
+        this.setState({
+            currentCityId: value,
+            overlay: true
+        });
+
+        setHeaderState({
+            name: STORES_SUB,
+            onCloseClick: () => this.closeOverlay()
+        });
     };
 
     getCityList() {
@@ -71,9 +75,10 @@ class StoreFinder extends PureComponent {
         return StoreInfo.map((StoreInfo, index) => {
             if (this.checkUniqueCity(StoreInfo.city)) {
                 CITY_LIST.push({
-                    id: index, label: StoreInfo.city, value: StoreInfo.city, disabled: false, counter: +1
+                    id: index + 1, label: StoreInfo.city, value: index + 1
                 });
             }
+
             this.setState({
                 isLoading: false
             });
@@ -83,7 +88,7 @@ class StoreFinder extends PureComponent {
     closeOverlay() {
         this.setState({
             overlay: false,
-            current_city: 'Rumania'
+            currentCityId: -1
         });
     }
 
@@ -121,16 +126,16 @@ class StoreFinder extends PureComponent {
     }
 
     renderCitySelect() {
-        const { current_city } = this.state;
+        const { currentCityId } = this.state;
         return (
             <Field
               id="CitySelect"
               name="CitySelect"
               type="select"
-              placeholder={ current_city }
+              placeholder="Romania"
               mix={ { block: 'StoreFinder-Select' } }
               selectOptions={ CITY_LIST }
-              value={ CITY_LIST.city }
+              value={ currentCityId }
               onChange={ this.onChange }
             />
         );
@@ -138,10 +143,10 @@ class StoreFinder extends PureComponent {
 
     renderStore() {
         const { StoreInfo } = this.props;
-        const { current_city } = this.state;
+        const { currentCityId } = this.state;
         // eslint-disable-next-line consistent-return
         return StoreInfo.map((StoreInfo, index) => {
-            if (StoreInfo.city === current_city) {
+            if (StoreInfo.id === currentCityId) {
                 const {
                     address,
                     store_name,
@@ -204,11 +209,11 @@ class StoreFinder extends PureComponent {
     }
 
     renderTitle() {
-        const { current_city } = this.state;
+        const { currentCityId } = this.state;
 
         // eslint-disable-next-line consistent-return
         return CITY_LIST.map((city, index) => {
-            if (city.label === current_city) {
+            if (city.id === currentCityId) {
                 return (
                     // eslint-disable-next-line react/no-array-index-key
                     <div block="StoreFinder" elem="CityTitle" key={ index }>

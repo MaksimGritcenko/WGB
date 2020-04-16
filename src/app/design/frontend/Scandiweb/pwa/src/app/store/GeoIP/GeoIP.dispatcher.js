@@ -1,14 +1,10 @@
-import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 import { showNotification } from 'Store/Notification';
-import { QueryDispatcher } from 'Util/Request';
-import GeoIPQuery from 'Query/GeoIP.query';
 import { updateGeolocation } from 'Store/GeoIP';
+import { executePost } from 'Util/Request';
+import GeoIPQuery from 'Query/GeoIP.query';
+import { prepareQuery } from 'Util/Query';
 
-export class GeoIPDispatcher extends QueryDispatcher {
-    constructor() {
-        super('GeoIP', ONE_MONTH_IN_SECONDS);
-    }
-
+export class GeoIPDispatcher {
     onSuccess({ getUserLocation }, dispatch) {
         dispatch(updateGeolocation({ isLoading: false, ...getUserLocation }));
     }
@@ -18,13 +14,14 @@ export class GeoIPDispatcher extends QueryDispatcher {
         dispatch(showNotification('error', 'Error fetching post!', message));
     }
 
-    async handleData(dispatch, options) {
+    requestIP(dispatch) {
+        const query = GeoIPQuery.getQuery();
         dispatch(updateGeolocation({ isLoading: true }));
-        super.handleData(dispatch, options);
-    }
 
-    prepareRequest() {
-        return GeoIPQuery.getQuery();
+        return executePost({ ...prepareQuery([query]), cache: 'no-cache' }).then(
+            data => this.onSuccess(data, dispatch),
+            e => this.onError(e, dispatch)
+        );
     }
 }
 

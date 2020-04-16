@@ -44,7 +44,6 @@
         transition: unset;
         height: fit-content;
         overflow: visible;
-        visibility: hidden;
       }
 
       &Wrapper {
@@ -77,39 +76,11 @@
         padding-left: unset;
 
         &_isExpanded {
-          border:unset;
+          border: unset;
           transition: 100ms ease-in-out;
 
           @include mobile {
             max-height: fit-content;
-          }
-
-          &:before {
-            content: 'ROMANIA';
-            font-family: "Roboto", sans-serif;
-            font-size: 20px;
-            border-color: var(--primary-light-color);
-            text-transform: uppercase;
-            line-height: 33px;
-            font-weight: bold;
-            visibility: visible;
-            position: fixed;
-            top: 130px;
-            margin-left: 9px;
-            letter-spacing: normal;
-
-            @include mobile {
-              font-size: 15px;
-              padding-bottom: unset;
-            }
-
-            @include after-mobile {
-              top: 160px;
-            }
-
-            &:after {
-              border: unset;
-            }
           }
 
           li {
@@ -121,7 +92,7 @@
             padding-left: 9px;
 
             @include mobile {
-              font-size: 15px;
+              font-size: 16px;
             }
           }
 

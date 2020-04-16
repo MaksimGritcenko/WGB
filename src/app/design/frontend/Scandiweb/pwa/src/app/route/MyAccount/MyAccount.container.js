@@ -82,6 +82,7 @@ class MyAccount extends MyAccountContainer {
 
         changeHeaderState({
             name: CUSTOMER_ACCOUNT_PAGE,
+            title: 'My account',
             onBackClick: () => history.push('/')
         });
     }

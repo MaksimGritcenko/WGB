@@ -180,13 +180,23 @@
 
                     .Header-Filter {
                         display: flex;
+                        height: 17px;
+
+                        &-Button {
+                            &_isFilterEmpty {
+                                display: none;
+                            }
+                        }
                     }
+
                 }
             }
 
             &.Header_isSearch {
-                .Header-LogoWrapper {
-                    @include logo-visible;
+                .Header {
+                    &-LogoWrapper {
+                        @include logo-visible;
+                    }
                 }
             }
         }
@@ -220,10 +230,12 @@
                 --header-desktop-search-bar-width: calc(50% - 100px);
             }
 
-            .Header-SearchBar {
-                @include after-mobile {
-                    border: 1px solid var(--header-search-field-border-color);
-                    background-color: var(--header-search-field-visible-background);
+            .Header {
+                &-SearchBar {
+                   @include after-mobile {
+                        border: 1px solid var(--header-search-field-border-color);
+                        background-color: var(--header-search-field-visible-background);
+                    }
                 }
             }
         }
@@ -263,7 +275,6 @@
             }
 
             .Header-Title {
-                font-family: var(--font-roboto);
                 font-weight: bold;
             }
         }
@@ -296,12 +307,20 @@
             }
         }
 
+        &_customer_account_page,
         &_cms-page {
             --header-background: var(--header-default-background);
 
             .Header-Title {
-                font-family: var(--font-roboto);
                 font-weight: bold;
+            }
+        }
+
+        &_cms-page {
+            .Header-Button_type_back {
+                @include mobile {
+                    order: -1;
+                }
             }
         }
     }
@@ -426,6 +445,14 @@
 
             &_wishlist {
                 order: 1;
+            }
+
+            &_back {
+                &.Header-Button_isVisible {
+                    svg {
+                        left: -4px;
+                    }
+                }
             }
         }
     }
@@ -560,9 +587,5 @@
         @include after-mobile {
             order: 2;
         }
-    }
-
-    &-MenuWrapper {
-        order: -2;
     }
 }
