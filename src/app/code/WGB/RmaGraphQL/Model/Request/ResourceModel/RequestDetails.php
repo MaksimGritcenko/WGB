@@ -15,7 +15,10 @@ namespace WGB\RmaGraphQL\Model\Request\ResourceModel;
 
 use Amasty\Rma\Api\Data\RequestInterface;
 use Amasty\Rma\Api\Data\RequestItemInterface;
+use GraphQL\Language\AST\FieldNode;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -24,6 +27,9 @@ use Amasty\Rma\Model\Condition;
 use Amasty\Rma\Model\Request;
 use Amasty\Rma\Model\Resolution;
 use Magento\Sales\Model\Order\Item;
+use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
+use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
+use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
 
 /**
  * Class RequestDetails
@@ -32,6 +38,7 @@ use Magento\Sales\Model\Order\Item;
  */
 class RequestDetails
 {
+    use ResolveInfoFieldsTrait;
     /**
      * @var Request\Repository
      */
@@ -52,20 +59,34 @@ class RequestDetails
      * @var Condition\Repository
      */
     private $conditionRepository;
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+    /**
+     * @var Product
+     */
+    private $productDataProvider;
 
     public function __construct(
+        Product $productDataProvider,
         Request\Repository $requestRepository,
         Reason\Repository $reasonRepository,
         Condition\Repository $conditionRepository,
         Resolution\Repository $resolutionRepository,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        DataPostProcessor $postProcessor
     )
     {
+        $this->productDataProvider = $productDataProvider;
         $this->requestRepository = $requestRepository;
         $this->orderRepository = $orderRepository;
         $this->reasonRepository = $reasonRepository;
         $this->conditionRepository = $conditionRepository;
         $this->resolutionRepository = $resolutionRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->postProcessor = $postProcessor;
     }
 
     /**
@@ -86,6 +107,32 @@ class RequestDetails
         return null;
     }
 
+    public function getProductsData($productIds, $info)
+    {
+        $attributeCodes = $this->getFieldsFromProductInfo($info, 'items/product');
+
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('entity_id', $productIds, 'in')
+            ->create();
+
+        $products = $this->productDataProvider
+            ->getList(
+                $searchCriteria,
+                $attributeCodes,
+                false,
+                true
+            )
+            ->getItems();
+
+        $productsData = $this->postProcessor->process(
+            $products,
+            'items/product',
+            $info
+        );
+
+        return $productsData;
+    }
+
     /**
      * @param int $id
      * @return array
@@ -102,17 +149,25 @@ class RequestDetails
         /** @var OrderItemInterface $orderItems */
         $orderItems = $order->getItems();
 
+        $productIds = array_map(
+            function($item) {
+                return $item->getProductId();
+            },
+            $orderItems
+        );
+
         $requestItems = array_map(function ($requestItem) use ($orderItems) {
             $orderItem = $this->getItemFromOrder($orderItems, $requestItem);
             $reason = $this->reasonRepository->getById($requestItem->getReasonId());
             $condition = $this->conditionRepository->getById($requestItem->getConditionId());
             $resolution = $this->resolutionRepository->getById($requestItem->getResolutionId());
+
             return [
                 'discount_amount' => $orderItem->getDiscountAmount(),
                 'discount_percent' => $orderItem->getDiscountPercent(),
                 'item_id' => $orderItem->getItemId(),
                 'price' => $orderItem->getPrice(),
-                'product' => $orderItem->getProductId(),
+                'product_id' => $orderItem->getProductId(),
                 'qty' => $orderItem->getQtyOrdered(),
                 'row_total' => $orderItem->getRowTotal(),
                 'sku' => $orderItem->getSku(),
@@ -123,10 +178,12 @@ class RequestDetails
                 'resolution' => $resolution,
                 'status' => $requestItem->getItemStatus()
             ];
+
         }, $request->getRequestItems());
 
         return [
-            'items' => $requestItems
+            'items' => $requestItems,
+            'productIds' => $productIds
         ];
     }
 }

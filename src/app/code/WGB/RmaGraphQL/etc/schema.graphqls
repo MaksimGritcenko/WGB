@@ -18,7 +18,7 @@ type Query {
 }
 
 type ReturnDetails {
-    items: [ReturnItemDetails]
+    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnItems")
 }
 
 type ReturnItemDetails {
@@ -26,8 +26,8 @@ type ReturnItemDetails {
     discount_percent: Float
     item_id: Int
     price: Float
-#    product: OrderProduct
-    product: Int
+    product: OrderProduct
+#    product: Int
     qty: Float
     row_total: Float
     sku: String
