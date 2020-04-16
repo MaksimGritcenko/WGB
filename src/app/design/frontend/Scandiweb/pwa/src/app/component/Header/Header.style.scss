@@ -315,6 +315,14 @@
                 font-weight: bold;
             }
         }
+
+        &_cms-page {
+            .Header-Button_type_back {
+                @include mobile {
+                    order: -1;
+                }
+            }
+        }
     }
 
     &-Banner {

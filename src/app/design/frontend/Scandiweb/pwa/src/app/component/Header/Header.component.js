@@ -193,7 +193,10 @@ export default class Header extends SourceHeader {
         },
         [CMS_PAGE]: {
             back: true,
-            title: true
+            title: true,
+            searchButton: true,
+            wishlist: true,
+            minicart: true
         }
     };
 
