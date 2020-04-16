@@ -455,6 +455,10 @@
         }
     }
 
+    &-MenuWrapper {
+        order: -1;
+    }
+
     &-SearchWrapper {
         flex-grow: 1;
         margin-left: 5px;
