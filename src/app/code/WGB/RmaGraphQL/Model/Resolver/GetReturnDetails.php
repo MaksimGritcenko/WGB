@@ -12,21 +12,10 @@
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Amasty\Rma\Api\Data\RequestInterface;
-use Amasty\Rma\Api\Data\RequestItemInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Magento\Sales\Api\Data\OrderItemInterface;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Api\Data\OrderInterface;
-use Amasty\Rma\Model\Reason;
-use Amasty\Rma\Model\Condition;
-use Amasty\Rma\Model\Request;
-use Amasty\Rma\Model\Resolution;
+use WGB\RmaGraphQL\Model\Request\ResourceModel\RequestDetails;
 
 /**
  * Class GetRequestsForUser
@@ -35,54 +24,11 @@ use Amasty\Rma\Model\Resolution;
  */
 class GetReturnDetails implements ResolverInterface
 {
-    /**
-     * @var Request\Repository
-     */
-    private $requestRepository;
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
-    /**
-     * @var Reason\Repository
-     */
-    private $reasonRepository;
-    /**
-     * @var Resolution\Repository
-     */
-    private $resolutionRepository;
-    /**
-     * @var Condition\Repository
-     */
-    private $conditionRepository;
-
     public function __construct(
-        Request\Repository $requestRepository,
-        Reason\Repository $reasonRepository,
-        Condition\Repository $conditionRepository,
-        Resolution\Repository $resolutionRepository,
-        OrderRepositoryInterface $orderRepository
+        RequestDetails $requestDetails
     )
     {
-        $this->requestRepository = $requestRepository;
-        $this->orderRepository = $orderRepository;
-        $this->reasonRepository = $reasonRepository;
-        $this->conditionRepository = $conditionRepository;
-        $this->resolutionRepository = $resolutionRepository;
-    }
-
-    /**
-     * @param OrderItemInterface[] $orderItems
-     * @param RequestItemInterface $requestItem
-     * @return OrderItemInterface
-     */
-    private function findItemInOrder($orderItems, $requestItem) {
-        return array_filter(
-            $orderItems,
-            function ($orderItem) use ($requestItem) {
-                return $orderItem->getExtOrderItemId() == $requestItem->getOrderItemId();
-            }
-        )[0];
+        $this->requestDetails = $requestDetails;
     }
 
     /**
@@ -96,40 +42,6 @@ class GetReturnDetails implements ResolverInterface
         array $args = null
     )
     {
-        /** @var RequestInterface $request */
-        $request = $this->requestRepository->getById($args['return_id']);
-
-        /** @var OrderInterface $order */
-        $order = $this->orderRepository->get($request->getOrderId());
-
-        /** @var OrderItemInterface $orderItems */
-        $orderItems = $order->getItems();
-
-        $requestItems = array_map(function($requestItem) use ($orderItems) {
-            /** @var RequestItemInterface $requestItem */
-            $orderItem = $this->findItemInOrder($orderItems, $requestItem);
-            $reason = $this->reasonRepository->getById($requestItem->getReasonId());
-            $condition = $this->conditionRepository->getById($requestItem->getConditionId());
-            $resolution = $this->resolutionRepository->getById($requestItem->getResolutionId());
-            return [
-                'discount_amount' => $orderItem->getDiscountAmount(),
-                'discount_percent' => $orderItem->getDiscountPercent(),
-                'item_id' => $orderItem->getExtOrderItemId(),
-                'price' => $orderItem->getPrice(),
-                'product' => $orderItem->getProductId(),
-                'qty' => $orderItem->getQtyOrdered(),
-                'row_total' => $orderItem->getRowTotal(),
-                'sku' => $orderItem->getSku(),
-                'tax_amount' => $orderItem->getTaxAmount(),
-                'tax_percent' => $orderItem->getTaxPercent(),
-                'reason' => $reason,
-                'condition' => $condition,
-                'resolution' => $resolution
-            ];
-        }, $request->getRequestItems());
-
-        return [
-            'items' => $requestItems
-        ];
+        return $this->requestDetails->getById($args['id']);
     }
 }

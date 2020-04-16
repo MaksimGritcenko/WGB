@@ -18,7 +18,25 @@ type Query {
 }
 
 type ReturnDetails {
-    dummy: Boolean
+    items: [ReturnItemDetails]
+}
+
+type ReturnItemDetails {
+    discount_amount: Float
+    discount_percent: Float
+    item_id: Int
+    price: Float
+#    product: OrderProduct
+    product: Int
+    qty: Float
+    row_total: Float
+    sku: String
+    tax_amount: Float
+    tax_percent: Float
+    reason: ReturnReason
+    condition: ItemCondition
+    resolution: ReturnResolution
+    status: Int
 }
 
 type ReturnListEntry {
