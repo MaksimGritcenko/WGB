@@ -41,7 +41,7 @@
         font-weight: 400;
         text-transform: none;
         margin: 0 0 2rem;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
 
         @include mobile {
             display: none;
@@ -53,7 +53,7 @@
 
         &-ExpandableContentHeading {
             padding-left: 15px;
-            font-family: "Roboto", sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         &-ExpandableContentButton {
