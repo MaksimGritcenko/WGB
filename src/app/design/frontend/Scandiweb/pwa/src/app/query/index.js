@@ -4,6 +4,7 @@ export { default as ContactInfoQuery } from 'Query/ContactInfo.query';
 export { default as SocialLoginQuery } from 'Query/./SocialLoginQuery.query';
 export { default as GeoIPQuery } from 'Query/GeoIP.query';
 export { default as StoreFinderQuery } from 'Query/StoreFinder.query';
+export { default as ProductReturnQuery } from 'Query/ProductReturn.query';
 
 export {
     CategoryQuery,
