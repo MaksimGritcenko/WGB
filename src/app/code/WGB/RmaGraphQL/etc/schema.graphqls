@@ -2,6 +2,18 @@
 type Mutation {
     createReturnRequest(input: CreateReturnInput!): CreateReturnOutput
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CreateNewRequest")
+    addTrackingToRequest(input: AddTrackingInput!): AddTrackingOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\AddTrackingToRequest")
+}
+
+input AddTrackingInput {
+    request_id: String
+    tracking_code: String
+    tracking_number: String
+}
+
+type AddTrackingOutput {
+    success: Boolean
 }
 
 type Query {
