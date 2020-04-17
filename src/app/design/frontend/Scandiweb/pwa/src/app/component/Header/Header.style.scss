@@ -317,9 +317,17 @@
         }
 
         &_cms-page {
-            .Header-Button_type_back {
-                @include mobile {
-                    order: -1;
+            .Header {
+                &-Button_type_back {
+                    @include mobile {
+                        order: -1;
+                    }
+                }
+
+                &-MenuWrapper {
+                    @include mobile {
+                        display: none;
+                    }
                 }
             }
         }
