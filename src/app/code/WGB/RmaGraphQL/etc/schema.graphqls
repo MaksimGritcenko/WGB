@@ -5,18 +5,12 @@ type Mutation {
 }
 
 type Query {
-    itemConditions: [ItemCondition]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ItemConditionsResolver")
-    returnResolutions: [ReturnResolution]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsResolver")
-    returnReasons: [ReturnReason]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnReasonsResolver")
-#    returnCarriers: [ReturnCarrier]
-#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnCarriersResolver")
+    rmaConfiguration : [RmaConfiguration]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
     returnList: [ReturnListEntry]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUserResolver")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
     returnDetailsById(return_id: Int): ReturnDetails
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetailsResolver")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
 }
 
 type ReturnCarrier {
@@ -28,7 +22,7 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
-    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItemsResolver")
+    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
 }
 
 type ReturnItemDetails {

@@ -27,7 +27,7 @@ use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
 /**
  * Retrieves the Product list in orders
  */
-class ProductResolver implements ResolverInterface
+class Product implements ResolverInterface
 {
     use ResolveInfoFieldsTrait;
 
