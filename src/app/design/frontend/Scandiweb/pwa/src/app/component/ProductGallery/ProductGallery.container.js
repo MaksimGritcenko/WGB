@@ -48,16 +48,7 @@ export class ProductGalleryContainer extends SourceProductGalleryContainer {
         const placeholders = !areDetailsLoaded
             ? Array(AMOUNT_OF_PLACEHOLDERS).fill({ media_type: 'placeholder' }) : [];
 
-        return [
-            {
-                thumbnail: { url },
-                base: { url },
-                id: THUMBNAIL_KEY,
-                label: name,
-                media_type: IMAGE_TYPE
-            },
-            ...placeholders
-        ];
+        return placeholders;
     }
 
     containerProps = () => {
