@@ -1,3 +1,15 @@
 .MyAccountMyReturns {
-    
+    &-New {
+        margin-bottom: 1rem;
+    }
+
+    &-DropdownWrapper {
+        display: flex;
+        width: 40%;
+
+        button {
+            flex: 1;
+            margin-left: 1rem;
+        }
+    }
 }

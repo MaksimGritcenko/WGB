@@ -4,16 +4,20 @@ import { connect } from 'react-redux';
 import MyAccountNewReturn from 'Component/MyAccountNewReturn';
 import MyAccountReturnDetails from 'Component/MyAccountReturnDetails';
 import { OrderDispatcher } from 'Store/Order';
+import { ReturnDispatcher } from 'Store/Return';
 import { ordersType } from 'Type/Account';
 import MyAccountMyReturns from './MyAccountMyReturns.component';
 
 export const mapStateToProps = state => ({
     orderList: state.OrderReducer.orderList,
-    isLoading: state.OrderReducer.isLoading
+    areOrdersLoading: state.OrderReducer.isLoading,
+    returnList: state.ReturnReducer.returnList,
+    areReturnsLoading: state.ReturnReducer.isLoading
 });
 
 export const mapDispatchToProps = dispatch => ({
-    getOrderList: () => OrderDispatcher.requestOrders(dispatch)
+    getOrderList: () => OrderDispatcher.requestOrders(dispatch),
+    getReturnList: () => ReturnDispatcher.requestReturns(dispatch)
 });
 
 const MY_RETURN = 'myReturn';
@@ -24,18 +28,20 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     static propTypes = {
         orderList: ordersType.isRequired,
         getOrderList: PropTypes.func.isRequired,
+        returnList: PropTypes.array.isRequired,
+        getReturnList: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     };
 
     state = {
         activePage: this.getActivePage()
-    }
+    };
 
     renderMap = {
         [MY_RETURN]: MyAccountMyReturns,
         [NEW_RETURN]: MyAccountNewReturn,
         [RETURN_DETAILS]: MyAccountReturnDetails
-    }
+    };
 
     containerFunctions = {
         setChosenOrderId: this.setChosenOrderId.bind(this),
@@ -43,9 +49,17 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     };
 
     componentDidMount() {
-        const { orderList, getOrderList } = this.props;
-        if (!orderList) {
+        const {
+            orderList, getOrderList,
+            returnList, getReturnList
+        } = this.props;
+
+        if (!orderList.length) {
             getOrderList();
+        }
+
+        if (!returnList.length) {
+            getReturnList();
         }
     }
 
