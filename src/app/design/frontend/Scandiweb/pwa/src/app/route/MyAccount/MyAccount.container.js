@@ -17,8 +17,7 @@ import {
     MY_WISHLIST,
     MY_ORDERS,
     NEWSLETTER_SUBSCRIPTION,
-    MY_RETURNS,
-    NEW_RETURN
+    MY_RETURNS
 } from 'Type/Account';
 
 import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
@@ -66,10 +65,6 @@ class MyAccount extends MyAccountContainer {
         [MY_RETURNS]: {
             url: '/my-returns',
             name: __('My Returns')
-        },
-        [NEW_RETURN]: {
-            url: '/new-return',
-            name: __('New Returns')
         }
     };
 

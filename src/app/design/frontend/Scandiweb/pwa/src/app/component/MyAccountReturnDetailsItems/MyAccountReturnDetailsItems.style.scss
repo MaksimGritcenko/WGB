@@ -1,0 +1,44 @@
+.MyAccountReturnDetailsItems {
+    &-ReasonItemTitle {
+        font-weight: bold;
+    }
+
+    &-ReasonBlock {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        font-size: 15px;
+    }
+
+    &-ReasonBlockPayer {
+        font-weight: bold;
+        display: flex;
+        flex: 1;
+        align-items: flex-end;
+    }
+
+    &-ReasonBlockStatus {
+        font-weight: bold;
+
+        @include after-mobile {
+            text-align: right;
+        }
+    }
+
+    .CartItem {
+        &-Wrapper {
+            padding-left: 0;
+            flex: 1;
+        }
+
+        &-Content {
+            @include after-mobile {
+                flex-direction: row;
+            }
+
+            div {
+                flex: 1;
+            }
+        }
+    }
+}

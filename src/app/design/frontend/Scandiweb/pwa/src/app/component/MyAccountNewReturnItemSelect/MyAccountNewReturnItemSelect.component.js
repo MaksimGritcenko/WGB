@@ -8,29 +8,56 @@ import './MyAccountNewReturnItemSelect.style';
 export default class MyAccountNewReturnItemSelect extends PureComponent {
     static propTypes = {
         items: PropTypes.array.isRequired,
-        onItemChange: PropTypes.func.isRequired
+        onItemChange: PropTypes.func.isRequired,
+        reasonData: PropTypes.object.isRequired
     };
 
     state = {
-        selectedItems: []
+        selectedItems: {}
     };
 
     handleItemSelect = (isChecked, id) => {
         const { onItemChange } = this.props;
         const { selectedItems: items } = this.state;
-        const selectedItems = Array.from(items);
+        const selectedItems = { ...items };
 
         if (isChecked) {
-            const itemIndex = selectedItems.findIndex(itemId => itemId === id);
-
-            selectedItems.splice(itemIndex, 1);
+            delete selectedItems[id];
         } else {
-            selectedItems.push(id);
+            selectedItems[id] = { quote_item_id: id };
         }
 
         this.setState({ selectedItems });
         onItemChange(selectedItems);
     };
+
+    handleReasonBlockSelect(blockId, key, id) {
+        const { selectedItems, selectedItems: { [id]: selectedItem } } = this.state;
+
+        this.setState({
+            selectedItems: {
+                ...selectedItems,
+                [id]: {
+                    ...selectedItem,
+                    [key]: blockId
+                }
+            }
+        });
+    }
+
+    handleQtyChange(qty, id) {
+        const { selectedItems, selectedItems: { [id]: selectedItem } } = this.state;
+
+        this.setState({
+            selectedItems: {
+                ...selectedItems,
+                [id]: {
+                    ...selectedItem,
+                    qty
+                }
+            }
+        });
+    }
 
     renderImage({ name, thumbnail: { url: thumbnailUrl }, small_image: { url: small_imageUrl } }) {
         return (
@@ -70,7 +97,11 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockSelect(title) {
+    renderReasonBlockSelect(title, data, id) {
+        const { selectedItems: { [id]: item } } = this.state;
+        const [key, options] = data;
+        const value = item[key] || '';
+
         return (
             <div
               block="MyAccountNewReturnItemSelect"
@@ -91,19 +122,17 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                       block: 'MyAccountNewReturnItemSelect',
                       elem: 'SelectInput'
                   } }
-                  selectOptions={ [
-                      { label: '1', value: '1' },
-                      { label: '2', value: '2' },
-                      { label: '3', value: '3' }
-                  ] }
-                  value={ '' }
-                //   onChange={ onChange }
+                  selectOptions={ options }
+                  value={ value }
+                  onChange={ blockId => this.handleReasonBlockSelect(blockId, key, id) }
                 />
             </div>
         );
     }
 
-    renderReasonBlockQty() {
+    renderReasonBlockQty(id, orderedQty) {
+        const { selectedItems: { [id]: { qty } } } = this.state;
+
         return (
             <div
               block="MyAccountNewReturnItemSelect"
@@ -116,27 +145,31 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                   type="number"
                   isControlled
                   min={ 0 }
-                  max={ 99 }
-                  value={ 1 }
-                //   onChange={ handleChangeQuantity }
+                  max={ orderedQty }
+                  value={ qty }
+                  onChange={ qty => this.handleQtyChange(qty, id) }
                 />
-                <span>{ ` / ${ 5 }` }</span>
+                <span>{ ` / ${ orderedQty }` }</span>
             </div>
         );
     }
 
-    renderReasonBlock(isChecked) {
+    renderReasonBlock({ qty }, isChecked, id) {
         if (!isChecked) return null;
+
+        const { reasonData } = this.props;
+
+        const data = Object.entries(reasonData);
 
         return (
             <div
               block="MyAccountNewReturnItemSelect"
               elem="ReasonBlockWrapper"
             >
-                { this.renderReasonBlockQty() }
-                { this.renderReasonBlockSelect('Return Reason') }
-                { this.renderReasonBlockSelect('Item Condition') }
-                { this.renderReasonBlockSelect('Return Resolution') }
+                { this.renderReasonBlockQty(id, qty) }
+                { this.renderReasonBlockSelect('Return Reason', data[0], id) }
+                { this.renderReasonBlockSelect('Item Condition', data[1], id) }
+                { this.renderReasonBlockSelect('Return Resolution', data[2], id) }
             </div>
         );
     }
@@ -174,21 +207,24 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         const { id: prevId } = item;
         const id = `${ prevId }_${ index }`;
 
-        const isChecked = !!selectedItems.find(itemId => itemId === id);
+        const isChecked = !!selectedItems[id];
 
         return (
             <div
               block="MyAccountNewReturnItemSelect"
               elem="ItemWrapper"
+              key={ index }
             >
                 { this.renderItemField(item, id, isChecked) }
-                { this.renderReasonBlock(isChecked) }
+                { this.renderReasonBlock(item, isChecked, id) }
             </div>
         );
     };
 
     renderItems() {
         const { items } = this.props;
+
+        if (!items.length) return <h3>Loading</h3>;
 
         return (
             <div>

@@ -1,0 +1,223 @@
+.MyAccountReturnDetails {
+    &-ProgressBar {
+        flex-direction: row;
+        display: flex;
+        padding: 15px 20px 30px;
+        margin-bottom: 20px;
+    }
+
+    &-ProgressItem {
+        &:not(:first-child) {
+            flex: 1;
+        }
+
+        &::after {
+            content: '';
+            background-color: grey;
+            height: 2px;
+            width: 100%;
+            position: absolute;
+            top: 14px;
+            left: 0;
+        }
+
+        &_isActive {
+            &::after {
+                background-color: black;
+            }
+        }
+    }
+
+    &-ProgressContent {
+        width: max-content;
+        margin-left: auto;
+        max-height: 30px;
+    }
+
+    &-ProgressCircle {
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: grey;
+        z-index: 5;
+        color: white;
+
+        &_isActive {
+            background-color: black;
+        }
+
+        &_isLastActive {
+            height: 40px;
+            width: 40px;
+            border-radius: 20px;
+            top: -5px;
+        }
+    }
+
+    &-ProgressName {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -25px;
+        width: 100px;
+        text-align: center;
+    }
+
+    &-TrackingInformationTitle,
+    &-ExpandableContentHeading,
+    &-SubTitle {
+        text-transform: none;
+        font-weight: normal;
+        font-family: var(--font-roboto);
+        line-height: 1;
+        font-size: 15px;
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    &-CustomerAndAddressBlocks {
+        display: flex;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        .MyAccountDashboard-DefaultAddress {
+            @include after-mobile {
+                max-width: 400px;
+                width: 50%;
+            }
+        }
+    }
+
+    &-HowItWorksBlock {
+        @include mobile {
+            margin-top: 45px;
+        }
+
+        &:last-of-type {
+            border: none;
+        }
+    }
+
+    &-HowItWorksDescription {
+        padding-top: 10px;
+        margin-top: 15px;
+        border-top: solid 1px #c4c4c4;
+        font-size: 15px;
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    &-ExpandableContentContent {
+        display: none;
+
+        &_isContentExpanded {
+            display: block;
+            padding: 0;
+        }
+    }
+
+    &-ExpandableContentButton {
+        @include mobile {
+            min-height: unset;
+        }
+
+        &::after {
+            @include mobile {
+                top: 5px;
+            }
+        }
+    }
+
+    &-TrackingInformationTableRow {
+        span {
+            display: inline-block;
+            font-size: 14px;
+
+            &:first-of-type {
+                width: 40%;
+            }
+        }
+
+        &_isHead {
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: solid 1px #c4c4c4;
+        }
+    }
+
+    &-TrackingInformationTitle {
+        margin-top: 45px;
+        margin-bottom: 20px;
+    }
+
+    &-TrackingInformationAdd {
+        margin-top: 45px;
+
+        @include after-mobile {
+            display: flex;
+            margin-bottom: 100px;
+        }
+
+        .Field {
+            margin: 0;
+
+            @include after-mobile {
+                margin-right: 20px;
+            }
+
+            &:first-of-type {
+                @include after-mobile {
+                    width: 180px;
+                }
+            }
+
+            &:last-of-type {
+                flex: 1;
+            }
+
+            input {
+                width: 100%;
+            }
+        }
+
+        .Button {
+            @include after-mobile {
+                width: 180px;
+            }
+        }
+
+        .Field,
+        .Button {
+            &:not(:last-child) {
+                @include mobile {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+
+    &-CancelRMAButton {
+        @include mobile {
+            margin-top: 15px;
+        }
+
+        @include after-mobile {
+            position: absolute;
+            top: calc(-2rem - 33px);
+            right: 0;
+        }
+    }
+
+    .MyAccountNewReturnItemSelect-Title {
+        margin-top: 45px;
+    }
+}

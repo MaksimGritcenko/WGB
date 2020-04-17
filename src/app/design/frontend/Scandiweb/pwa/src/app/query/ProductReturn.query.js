@@ -1,27 +1,54 @@
 import { Field } from 'Util/Query';
 
 export class ProductReturnQuery {
-    // getQuery() {
-    //     return new Field('productReturn')
-    //         .addField(this._getgetReturnReasonsFields())
-    //         .addField(this._getReturnResolutionsFields())
-    //         .addField(this._getItemConditionsFields());
-    // }
+    // My Return
 
-    getgetReturnReasonsFields() {
-        return new Field('getReturnReasons')
-            .addField('id')
+    getReturnList() {
+        return new Field('getReturnList')
+            .addField('created_at')
+            .addField('order_id')
+            .addField('request_id')
+            .addField('request_qty')
+            .addField('status');
+    }
+
+    // NEW return
+
+    getRmaConfiguration() {
+        return new Field('rmaConfiguration')
+            .addField(this._getReturnReasonsFields())
+            .addField(this._getReturnResolutionsFields())
+            .addField(this._getItemConditionsFields());
+    }
+
+    _getReturnReasonsFields() {
+        return new Field('reasons')
+            .addField('reason_id')
             .addField('title');
     }
 
-    getReturnResolutionsFields() {
-        return new Field('getReturnResolutions')
-            .addField('id')
+    _getReturnResolutionsFields() {
+        return new Field('resolutions')
+            .addField('resolution_id')
             .addField('title');
     }
 
-    getItemConditionsFields() {
-        return new Field('getItemConditions')
+    _getItemConditionsFields() {
+        return new Field('conditions')
+            .addField('condition_id')
+            .addField('title');
+    }
+
+    getNewReturnMutation(options) {
+        return new Field('createReturnRequest')
+            .addArgument('input', 'CreateReturnInput!', options)
+            .addField('return_id');
+    }
+
+    // Return Details
+
+    getReturnCarriers() {
+        return new Field('returnCarriers')
             .addField('id')
             .addField('title');
     }

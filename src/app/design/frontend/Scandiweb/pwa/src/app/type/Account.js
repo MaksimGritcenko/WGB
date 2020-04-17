@@ -29,7 +29,6 @@ export {
 };
 
 export const MY_RETURNS = 'my-returns';
-export const NEW_RETURN = 'new-return';
 
 export const activeTabType = PropTypes.oneOf([
     DASHBOARD,

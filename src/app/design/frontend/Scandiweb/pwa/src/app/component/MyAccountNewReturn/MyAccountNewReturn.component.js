@@ -1,12 +1,9 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { MY_ACCOUNT_URL } from 'Route/MyAccount/MyAccount.container';
 import MyAccountNewReturnCustomerTable from 'Component/MyAccountNewReturnCustomerTable';
-import MyAccountAddressTable from 'Component/MyAccountAddressTable';
+import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressTable';
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Field from 'Component/Field';
-import Link from 'Component/Link';
-import { ADDRESS_BOOK } from 'Type/Account';
 
 import './MyAccountNewReturn.style';
 
@@ -16,7 +13,13 @@ const BANK_ACCOUNT_NUMBER = 'bankAccountNumber';
 
 export default class MyAccountNewReturn extends PureComponent {
     static propTypes = {
-        getShippingAddress: PropTypes.func.isRequired
+        reasonData: PropTypes.object.isRequired,
+        onNewRequestSubmit: PropTypes.func.isRequired,
+        items: PropTypes.array
+    };
+
+    static defaultProps = {
+        items: []
     };
 
     state = {
@@ -38,45 +41,14 @@ export default class MyAccountNewReturn extends PureComponent {
         this.setState({ selectedItems });
     };
 
-    renderNoDefaultAddressConfigured(name) {
-        return (
-            <div key={ name }>
-                <p block="MyAccountDashboard" elem="Info">{ __('No %s address configured.', name) }</p>
-                { this.renderLinkToAddressBook() }
-            </div>
-        );
-    }
+    handleRequestSubmitPress = () => {
+        const { onNewRequestSubmit } = this.props;
+        const { selectedItems } = this.state;
 
-    renderLinkToAddressBook() {
-        return (
-            <p block="MyAccountDashboard" elem="Info">
-                <Link to={ `${ MY_ACCOUNT_URL }/${ ADDRESS_BOOK }` }>
-                    { __('Go to "Address Book", to configure them!') }
-                </Link>
-            </p>
-        );
-    }
-
-    renderDefaultAddressTable() {
-        const { getShippingAddress } = this.props;
-        const name = __('shipping');
-        const address = getShippingAddress();
-
-        if (!address) return this.renderNoDefaultAddressConfigured(name);
-
-        return (
-            <div
-              key={ name }
-              block="MyAccountDashboard"
-              elem="DefaultAddress"
-            >
-                <MyAccountAddressTable
-                  address={ address }
-                  showAdditionalFields
-                  title={ __('Default %s address', name) }
-                />
-            </div>
-        );
+        onNewRequestSubmit({
+            items: selectedItems
+            // order_id: 000000007
+        });
     }
 
     renderBankDetailField(placeholder, id) {
@@ -123,7 +95,7 @@ export default class MyAccountNewReturn extends PureComponent {
             >
                 <button
                   block="Button"
-                //   onClick={  }
+                  onClick={ this.handleRequestSubmitPress }
                 >
                     { __('SUBMIT REQUEST') }
                 </button>
@@ -138,35 +110,22 @@ export default class MyAccountNewReturn extends PureComponent {
         );
     }
 
-    renderCustomerTable() {
-        return (
-            <div
-              block="MyAccountNewReturn"
-              elem="CustomerTable"
-            >
-                <h4
-                  block="MyAccountNewReturn"
-                  elem="CustomerTableTitle"
-                >
-                    My profile
-                </h4>
-                <MyAccountNewReturnCustomerTable />
-            </div>
-        );
-    }
-
     render() {
+        const { reasonData, items } = this.props;
+
         return (
             <div block="MyAccountNewReturn">
                 <div
                   block="MyAccountNewReturn"
                   elem="CustomerAndAddressBlocks"
                 >
-                    { this.renderCustomerTable() }
-                    { this.renderDefaultAddressTable() }
+                    <MyAccountNewReturnCustomerTable />
+                    <MyAccountNewReturnAddressTable />
                 </div>
                 <MyAccountNewReturnItemSelect
                   onItemChange={ this.handleSelectedItemsChange }
+                  reasonData={ reasonData }
+                  items={ items }
                 />
                 { this.renderBankDetailFields() }
                 { this.renderActions() }
