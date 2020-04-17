@@ -39,7 +39,7 @@
     overflow: hidden;
 }
 
-@mixin button-visible($include-after-mobile: true) {
+@mixin button-visible {
     opacity: 1;
     padding: 15px 10px;
     width: 40px;
@@ -47,11 +47,9 @@
     pointer-events: all;
     overflow: visible;
 
-    @if $include-after-mobile == true {
-        @include after-mobile {
-            width: 60px;
-            padding: 20px;
-        }
+    @include after-mobile {
+        width: 60px;
+        padding: 20px;
     }
 }
 
@@ -245,7 +243,9 @@
         &_menu_subcategory {
             .Header-Button_type {
                 &_close {
-                    @include button-visible;
+                    @include after-mobile{
+                        @include button-visible;
+                    }
                 }
 
                 &_menu {
@@ -400,7 +400,7 @@
 
         &_isVisible {
             @include mobile {
-                @include button-visible(false);
+                @include button-visible;
             }
 
             svg {
@@ -419,7 +419,9 @@
             &_minicart,
             &_wishlist,
             &_searchButton {
-                @include button-visible;
+                @include after-mobile {
+                    @include button-visible;
+                }
             }
 
             &_searchClear {

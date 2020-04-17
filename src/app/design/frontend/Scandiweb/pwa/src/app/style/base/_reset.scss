@@ -51,6 +51,10 @@ main {
         margin-top: var(--header-height);
         margin-bottom: var(--navigation-tabs-height);
     }
+
+    .scrollDisabled & {
+        opacity: 0;
+    }
 }
 
 table {
