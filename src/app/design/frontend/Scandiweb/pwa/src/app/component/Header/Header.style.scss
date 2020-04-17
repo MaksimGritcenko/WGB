@@ -326,7 +326,7 @@
 
                 &-MenuWrapper {
                     @include mobile {
-                        display: 0;
+                        display: none;
                     }
                 }
             }
