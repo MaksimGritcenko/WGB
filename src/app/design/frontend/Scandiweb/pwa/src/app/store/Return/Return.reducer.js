@@ -19,8 +19,6 @@ const ReturnReducer = (state = initialState, action) => {
     case SET_LOADING:
         const { is } = action;
 
-        console.log({ ...state, is });
-
         return {
             ...state,
             isLoading: is
