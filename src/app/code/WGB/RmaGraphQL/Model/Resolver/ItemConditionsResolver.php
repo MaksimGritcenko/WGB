@@ -12,30 +12,31 @@
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
+use Amasty\Rma\Api\Data\ConditionInterface;
+use Amasty\Rma\Model\Condition\Repository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use WGB\RmaGraphQL\Model\Request\ResourceModel\Request;
+use Magento\Store\Model\StoreManagerInterface;
+
 /**
- * Class GetRequestsForUser
+ * Class GetItemConditions
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetReturnsForUser implements ResolverInterface
+class ItemConditionsResolver implements ResolverInterface
 {
-    /**
-     * @var Request
-     */
-    private $requestResource;
 
     public function __construct(
-        Request $requestResource
+        StoreManagerInterface $storeManager,
+        Repository $conditionRepository
     )
     {
-        $this->requestResource = $requestResource;
+        $this->storeManager = $storeManager;
+        $this->conditionRepository = $conditionRepository;
     }
 
     /**
@@ -49,9 +50,9 @@ class GetReturnsForUser implements ResolverInterface
         array $args = null
     )
     {
-        $userId = $context->getUserId();
+        $currentStoreId = $this->storeManager->getStore()->getId();
 
-        return $this->requestResource->getRequestsForUser($userId);
+        return $this->conditionRepository->getConditionsByStoreId($currentStoreId);
     }
 }
 

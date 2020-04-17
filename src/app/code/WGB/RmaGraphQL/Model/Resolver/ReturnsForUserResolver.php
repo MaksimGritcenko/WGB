@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A Magento 2 module named Wgb/RmaGraphQL
  * Copyright (C) 2020
@@ -11,31 +12,30 @@
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Amasty\Rma\Api\Data\ReasonInterface;
-use Amasty\Rma\Model\Reason\Repository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Magento\Store\Model\StoreManagerInterface;
-
+use WGB\RmaGraphQL\Model\Request\ResourceModel\Request;
 /**
- * Class GetReturnReasons
+ * Class GetRequestsForUser
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetReturnReasons implements ResolverInterface
+class ReturnsForUserResolver implements ResolverInterface
 {
+    /**
+     * @var Request
+     */
+    private $requestResource;
 
     public function __construct(
-        StoreManagerInterface $storeManager,
-        Repository $reasonRepository
+        Request $requestResource
     )
     {
-        $this->storeManager = $storeManager;
-        $this->reasonRepository = $reasonRepository;
+        $this->requestResource = $requestResource;
     }
 
     /**
@@ -49,9 +49,9 @@ class GetReturnReasons implements ResolverInterface
         array $args = null
     )
     {
-        $currentStoreId = $this->storeManager->getStore()->getId();
+        $userId = $context->getUserId();
 
-        return $this->reasonRepository->getReasonsByStoreId($currentStoreId);
+        return $this->requestResource->getRequestsForUser($userId);
     }
 }
 

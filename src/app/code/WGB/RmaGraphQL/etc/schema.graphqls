@@ -6,15 +6,21 @@ type Mutation {
 
 type Query {
     itemConditions: [ItemCondition]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ItemConditionsResolver")
     returnResolutions: [ReturnResolution]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsResolver")
     returnReasons: [ReturnReason]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnReasonsResolver")
+#    returnCarriers: [ReturnCarrier]
+#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnCarriersResolver")
     returnList: [ReturnListEntry]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnsForUser")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUserResolver")
     returnDetailsById(return_id: Int): ReturnDetails
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnDetails")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetailsResolver")
+}
+
+type ReturnCarrier {
+    success: Int
 }
 
 type ReturnDetails {
@@ -22,13 +28,13 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
-    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnItems")
+    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItemsResolver")
 }
 
 type ReturnItemDetails {
     discount_amount: Float
     discount_percent: Float
-    item_id: Int
+    item_id: String
     price: Float
     product: OrderProduct
     qty: Float
@@ -43,16 +49,16 @@ type ReturnItemDetails {
 }
 
 type ReturnListEntry {
-    order_id: Int
-    request_id: Int
+    order_id: String
+    request_id: String
     created_at: String
-    status_id: Int
+    status_id: String
     status_label: String
     request_qty: Float
 }
 
 input CreateReturnInput {
-    order_id: Int!
+    order_id: String!
     custom_fields: [String]
     items: [ReturnItemInput]!
 }

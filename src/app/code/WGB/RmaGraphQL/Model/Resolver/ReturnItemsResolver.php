@@ -12,31 +12,28 @@
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Amasty\Rma\Api\Data\ConditionInterface;
-use Amasty\Rma\Model\Condition\Repository;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Magento\Store\Model\StoreManagerInterface;
+use WGB\RmaGraphQL\Model\Request\ResourceModel\RequestDetails;
 
 /**
- * Class GetItemConditions
+ * Class GetReturnItems
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetItemConditions implements ResolverInterface
+class ReturnItemsResolver implements ResolverInterface
 {
+    /**
+     * @var RequestDetails
+     */
+    private $requestDetails;
 
     public function __construct(
-        StoreManagerInterface $storeManager,
-        Repository $conditionRepository
+        RequestDetails $requestDetails
     )
     {
-        $this->storeManager = $storeManager;
-        $this->conditionRepository = $conditionRepository;
+        $this->requestDetails = $requestDetails;
     }
 
     /**
@@ -50,9 +47,14 @@ class GetItemConditions implements ResolverInterface
         array $args = null
     )
     {
-        $currentStoreId = $this->storeManager->getStore()->getId();
-
-        return $this->conditionRepository->getConditionsByStoreId($currentStoreId);
+        $finalItems = [];
+        $productsData = $this->requestDetails->getProductsData($value['productIds'], $info);
+        foreach($value['items'] as $item) {
+//            var_dump($productsData[$item['product_id']]);
+            $finalItems[] = $item + [
+                'product' => $productsData[$item['product_id']]
+            ];
+        }
+        return $finalItems;
     }
 }
-

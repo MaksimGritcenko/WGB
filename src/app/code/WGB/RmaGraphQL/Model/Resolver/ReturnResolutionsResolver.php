@@ -26,7 +26,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetReturnResolutions implements ResolverInterface
+class ReturnResolutionsResolver implements ResolverInterface
 {
 
     /**

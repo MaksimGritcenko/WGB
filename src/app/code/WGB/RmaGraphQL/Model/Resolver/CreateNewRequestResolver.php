@@ -30,7 +30,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class CreateNewRequest implements ResolverInterface
+class CreateNewRequestResolver implements ResolverInterface
 {
     /**
      * @var StoreManagerInterface

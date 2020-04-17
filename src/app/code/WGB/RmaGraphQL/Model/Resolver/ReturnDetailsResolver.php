@@ -18,11 +18,11 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use WGB\RmaGraphQL\Model\Request\ResourceModel\RequestDetails;
 
 /**
- * Class GetReturnItems
+ * Class GetRequestsForUser
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetReturnItems implements ResolverInterface
+class ReturnDetailsResolver implements ResolverInterface
 {
     /**
      * @var RequestDetails
@@ -47,14 +47,6 @@ class GetReturnItems implements ResolverInterface
         array $args = null
     )
     {
-        $finalItems = [];
-        $productsData = $this->requestDetails->getProductsData($value['productIds'], $info);
-        foreach($value['items'] as $item) {
-//            var_dump($productsData[$item['product_id']]);
-            $finalItems[] = $item + [
-                'product' => $productsData[$item['product_id']]
-            ];
-        }
-        return $finalItems;
+        return $this->requestDetails->getById($args['return_id']);
     }
 }
