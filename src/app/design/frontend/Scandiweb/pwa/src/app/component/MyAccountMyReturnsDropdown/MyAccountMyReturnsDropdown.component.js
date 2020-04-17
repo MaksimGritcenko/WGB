@@ -8,7 +8,8 @@ class MyAccountMyReturnsDropdown extends PureComponent {
 
     static propTypes = {
         selectOptions: PropTypes.array,
-        setChosenOrderId: PropTypes.func.isRequired
+        setChosenOrderId: PropTypes.func.isRequired,
+        onSelectChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -16,7 +17,7 @@ class MyAccountMyReturnsDropdown extends PureComponent {
     };
 
     onDropdownChange = (value) => {
-        const { setChosenOrderId } = this.props;
+        const { setChosenOrderId, onSelectChange } = this.props;
 
         this.setState(
             () => ({
@@ -25,6 +26,7 @@ class MyAccountMyReturnsDropdown extends PureComponent {
             }),
             () => setChosenOrderId(value)
         );
+        onSelectChange(value);
     };
 
     getSelectValueText(value) {

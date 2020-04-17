@@ -1,0 +1,82 @@
+.MyAccountNewReturnItemSelect {
+    &-Title {
+        text-transform: none;
+        font-weight: normal;
+        font-family: var(--font-roboto);
+        line-height: 1;
+
+        @include mobile {
+            margin-top: 20px;
+        }
+    }
+
+    &-ItemWrapper {
+        display: flex;
+        padding: 15px 0;
+        border-bottom: solid 1px #ebebea;
+
+        @include mobile {
+            flex-direction: column;
+        }
+    }
+
+    &-ItemField {
+        flex: 1;
+        margin: 0;
+        height: max-content;
+
+        label:first-of-type {
+            padding-left: 30px;
+        }
+
+        label:last-of-type {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    &-ReasonBlockWrapper {
+        padding: 20px 30px;
+        border: solid 2px #0f0e0e;
+    }
+
+    &-SelectWrapper {
+        &:not(:first-of-type) {
+            margin-top: 20px;
+        }
+    }
+
+    &-SelectTitle {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    &-SelectInput {
+        margin-top: 0;
+
+        .Field-SelectWrapper {
+            width: 100%;
+
+            @include desktop {
+                width: 350px;
+            }
+        }
+    }
+
+    &-QtyBlockWrapper {
+        font-size: var(--font-size);
+
+        .Field_type_number {
+            display: inline-block;
+            margin: 0 5px;
+        }
+    }
+
+    .CartItem-Wrapper {
+        &::after {
+            content: none;
+        }
+    }
+}

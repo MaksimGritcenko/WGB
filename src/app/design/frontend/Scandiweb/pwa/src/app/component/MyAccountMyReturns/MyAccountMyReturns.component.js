@@ -5,20 +5,35 @@ import './MyAccountMyReturns.style';
 
 class MyAccountMyReturns extends PureComponent {
     static propTypes = {
-        handleReturnClick: PropTypes.func.isRequired
+        handleReturnClick: PropTypes.func.isRequired,
+        handleDropdownChange: PropTypes.func.isRequired
+    };
+
+    state = {
+        selectedOrderId: ''
+    };
+
+    handleDropdownChange = (id) => {
+        this.setState({ selectedOrderId: id });
+    };
+
+    handleReturnClick = () => {
+        const { handleReturnClick } = this.props;
+        const { selectedOrderId } = this.state;
+
+        handleReturnClick(selectedOrderId);
     };
 
     renderNew() {
-        const { handleReturnClick } = this.props;
-
         return (
             <div block="MyAccountMyReturns" elem="New">
                 <MyAccountMyReturnsDropdown
                   { ...this.props }
+                  onSelectChange={ this.handleDropdownChange }
                 />
                 <button
                   block="Button"
-                  onClick={ handleReturnClick }
+                  onClick={ this.handleReturnClick }
                 >
                   { __('Return') }
                 </button>
@@ -27,8 +42,11 @@ class MyAccountMyReturns extends PureComponent {
     }
 
     renderList() {
-        // TODO implement
-        return null;
+        return (
+            <div>
+                <h4>Return list</h4>
+            </div>
+        );
     }
 
     render() {
