@@ -27,11 +27,11 @@ type AddTrackingOutput {
 }
 
 type Query {
-    rmaConfiguration : RmaConfiguration
+    getRmaConfiguration : RmaConfiguration
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
-    returnList: [ReturnListEntry]
+    getReturnList: [ReturnListEntry]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
-    returnDetailsById(return_id: Int): ReturnDetails
+    getReturnDetailsById(return_id: Int): ReturnDetails
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
 }
 
