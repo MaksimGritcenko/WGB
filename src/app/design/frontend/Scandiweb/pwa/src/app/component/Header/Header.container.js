@@ -94,14 +94,6 @@ export class HeaderContainer extends SourceHeaderContainer {
         };
     };
 
-    componentDidMount() {
-        if (isMobile.iOS()) {
-            document.body.classList.add('IOS');
-        }
-
-        super.componentDidMount();
-    }
-
     handleMobileUrlChange(history) {
         const { navigationState: { name } } = this.props;
         const { prevPathname } = this.state;

@@ -20,12 +20,6 @@
             @include mobile {
                 height: 100vh;
             }
-
-            .IOS & {
-                @include mobile {
-                    height: 70vh;
-                }
-            }
         }
     }
 
