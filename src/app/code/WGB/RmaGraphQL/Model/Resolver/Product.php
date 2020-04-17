@@ -22,7 +22,7 @@ use Magento\Catalog\Model\ProductRepository;
 use Magento\Sales\Model\Order\Item;
 use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
-use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
+use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider;
 
 /**
  * Retrieves the Product list in orders
@@ -37,7 +37,7 @@ class Product implements ResolverInterface
     protected $productRepository;
 
     /**
-     * @var Product
+     * @var DataProvider\Product
      */
     protected $productDataProvider;
 
@@ -54,13 +54,13 @@ class Product implements ResolverInterface
     /**
      * ProductResolver constructor.
      * @param ProductRepository $productRepository
-     * @param Product $productDataProvider
+     * @param DataProvider\Product $productDataProvider
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param DataPostProcessor $postProcessor
      */
     public function __construct(
         ProductRepository $productRepository,
-        Product $productDataProvider,
+        DataProvider\Product $productDataProvider,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         DataPostProcessor $postProcessor
     ) {
