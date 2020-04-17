@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 export const menuIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M491 235H21a21 21 0 100 42h470a21 21 0 100-42zM491 78H21a21 21 0 000 42h470a21 21 0 100-42zM491 392H21a21 21 0 100 42h470a21 21 0 100-42z" />
     </svg>
 );
@@ -12,31 +12,31 @@ export const wishlistIcon = (
 );
 
 export const searchIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
         <path d="M447 428L337 318a192 192 0 10-19 19l110 110c3 3 6 4 10 4s6-1 9-4c5-5 5-14 0-19zM27 192a165 165 0 11331 1 165 165 0 01-331-1z" />
     </svg>
 );
 
 export const backIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477 477" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477 477">
         <path d="M145 239L361 23c5-5 5-14 0-19s-14-5-19 0L116 229c-5 5-5 14 0 19l226 225c2 3 6 4 9 4s7-1 10-4c5-5 5-14 0-19L145 239z" />
     </svg>
 );
 
 export const closeIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M284 256L506 34a20 20 0 10-28-28L256 228 34 6A20 20 0 106 34l222 222L6 478a20 20 0 1028 28l222-222 222 222a20 20 0 0028 0c8-8 8-20 0-28L284 256z" />
     </svg>
 );
 
 export const correctIcon = (
-    <svg viewBox="0 -65 435 434" xmlns="http://www.w3.org/2000/svg" height="100%">
+    <svg viewBox="0 -65 435 434" xmlns="http://www.w3.org/2000/svg">
         <path d="M152 304c-5 0-11-2-15-6L6 167a21 21 0 1130-30l116 116L398 7a21 21 0 1130 30L167 298c-4 4-10 6-15 6zm0 0" />
     </svg>
 );
 
 export const editIcon = (
-    <svg viewBox="-15 -15 484 484" xmlns="http://www.w3.org/2000/svg" height="100%">
+    <svg viewBox="-15 -15 484 484" xmlns="http://www.w3.org/2000/svg">
         <path d="M402 18a62 62 0 00-89 0l-22 22L56 276h-1l-1 1v2h-1v1L1 437c-2 5-1 10 3 13a13 13 0 0013 3l156-52h1l1-1 1-1 1-1h1l257-258c25-24 25-64 0-88zM169 371l-87-87L300 67l87 87zm-99-63l76 75-114 38zm348-185l-13 13-87-87 13-13c15-15 38-15 53 0l34 34c15 14 14 38 0 53zm0 0" />
     </svg>
 );
@@ -48,13 +48,13 @@ export const minicartIcon = (
 );
 
 export const accountIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M256 0a135 135 0 100 270 135 135 0 000-270zm0 240a105 105 0 110-210 105 105 0 010 210zM424 358c-37-37-86-58-138-58h-60A197 197 0 0031 497c0 8 7 15 15 15h420c8 0 15-7 15-15 0-52-20-101-57-139zM62 482c7-85 78-152 164-152h60c86 0 157 67 164 152H62z" />
     </svg>
 );
 
 export const informationIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="100%">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <circle cx="256" cy="378.5" r="25" />
         <path d="M256 0a256 256 0 100 512 256 256 0 000-512zm0 472a216 216 0 110-432 216 216 0 010 432z" />
         <path d="M256 129c-44 0-80 35-80 80a20 20 0 1040 0 40 40 0 1140 40c-11 0-20 8-20 20v50a20 20 0 1040 0v-33a80 80 0 00-20-157z" />
