@@ -30,7 +30,15 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
+    tracking: [ReturnTracking]
     items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+}
+
+type ReturnTracking {
+    carrier: String,
+    tracking_id: String,
+    tracking_code: String,
+    tracking_number: String
 }
 
 type ReturnItemDetails {
