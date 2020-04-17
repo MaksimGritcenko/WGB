@@ -5,22 +5,60 @@ type Mutation {
 }
 
 type Query {
-    getItemConditions: [ItemCondition]  @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetItemConditions")
-    getReturnResolutions: [ReturnResolution] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnResolutions")
-    getReturnReasons: [ReturnReason] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnReasons")
-    getReturnList: [ReturnListEntry] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetReturnsForUser")
+    itemConditions: [ItemCondition]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ItemConditionsResolver")
+    returnResolutions: [ReturnResolution]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsResolver")
+    returnReasons: [ReturnReason]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnReasonsResolver")
+#    returnCarriers: [ReturnCarrier]
+#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnCarriersResolver")
+    returnList: [ReturnListEntry]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUserResolver")
+    returnDetailsById(return_id: Int): ReturnDetails
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetailsResolver")
+}
+
+type ReturnCarrier {
+    success: Int
+}
+
+type ReturnDetails {
+    id: String
+    order_id: String
+    created_at: String
+    status: Int
+    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItemsResolver")
+}
+
+type ReturnItemDetails {
+    discount_amount: Float
+    discount_percent: Float
+    item_id: String
+    price: Float
+    product: OrderProduct
+    qty: Float
+    row_total: Float
+    sku: String
+    tax_amount: Float
+    tax_percent: Float
+    reason: ReturnReason
+    condition: ItemCondition
+    resolution: ReturnResolution
+    status: Int
 }
 
 type ReturnListEntry {
-    order_id: Int
-    request_id: Int
+    order_id: String
+    request_id: String
     created_at: String
-    status: Int
+    status_id: String
+    status_label: String
     request_qty: Float
 }
 
 input CreateReturnInput {
-    order_id: Int!
+    order_id: String!
     custom_fields: [String]
     items: [ReturnItemInput]!
 }
@@ -38,22 +76,25 @@ input ReturnItemInput {
 }
 
 type ReturnReason {
-    id: Int
+    reason_id: Int
     title: String
-    shipping_payer: Int @doc(description: "0 - Customer; 1 - Shop owner; 2 - Do not show")
+    payer: Int @doc(description: "0 - Customer; 1 - Shop owner; 2 - Do not show")
     position: Int
+    label: String
 }
 
 type ItemCondition {
-    id: Int
+    condition_id: Int
     title: String
     position: Int
+    label: String
 }
 
 type ReturnResolution {
-    id: Int
+    resolution_id: Int
     title: String
     position: Int
+    label: String
 }
 
 type Order {

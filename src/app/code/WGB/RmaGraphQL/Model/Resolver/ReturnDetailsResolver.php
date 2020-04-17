@@ -12,30 +12,28 @@
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use WGB\RmaGraphQL\Model\Request\ResourceModel\Request;
+use WGB\RmaGraphQL\Model\Request\ResourceModel\RequestDetails;
+
 /**
  * Class GetRequestsForUser
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetReturnsForUser implements ResolverInterface
+class ReturnDetailsResolver implements ResolverInterface
 {
     /**
-     * @var Request
+     * @var RequestDetails
      */
-    private $requestResource;
+    private $requestDetails;
 
     public function __construct(
-        Request $requestResource
+        RequestDetails $requestDetails
     )
     {
-        $this->requestResource = $requestResource;
+        $this->requestDetails = $requestDetails;
     }
 
     /**
@@ -49,9 +47,6 @@ class GetReturnsForUser implements ResolverInterface
         array $args = null
     )
     {
-        $userId = $context->getUserId();
-
-        return $this->requestResource->getRequestsForUser($userId);
+        return $this->requestDetails->getById($args['return_id']);
     }
 }
-

@@ -15,7 +15,7 @@ import CategoryExpandableContent from 'Component/CategoryExpandableContent';
 import SourceCategoryConfigurableAttributes from 'SourceComponent/CategoryConfigurableAttributes/CategoryConfigurableAttributes.component';
 import './CategoryConfigurableAttributes.style.scss';
 
-export const VIEW_MORE_ITEMS_LIMIT = 3;
+export const VIEW_MORE_ITEMS_LIMIT = 4;
 
 export const MAX_NUMBER_OF_PLACEHOLDERS = 3;
 
@@ -50,7 +50,7 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
                 <button
                   block="CategoryConfigurableAttributes"
                   elem="SwatchList-More"
-                  mods={ { isOpen } }
+                  mods={ { isOpen, isLong } }
                   onClick={ () => this.toggleIsOpen(id) }
                 >
                     { text }
@@ -59,17 +59,34 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
         );
     }
 
-    renderDropdown(option) {
+    renderDropdown(option, id) {
         const { attribute_values } = option;
+
+        const isLong = attribute_values.length > VIEW_MORE_ITEMS_LIMIT;
+        const isOpen = this.state[id] || false;
+
+        const text = isOpen ? __('View less') : __('View more');
 
         return (
             <div
               block="CategoryConfigurableAttributes"
               elem="DropDownList"
             >
-                { attribute_values.map(attribute_value => (
-                    this.renderConfigurableAttributeValue({ ...option, attribute_value })
-                )) }
+                { attribute_values.map((attribute_value, i) => {
+                    const mix = isLong && i >= VIEW_MORE_ITEMS_LIMIT
+                        ? { block: 'CategoryProductAttributeValue', mods: { isOpen, isClosed: !isOpen } }
+                        : {};
+
+                    return this.renderConfigurableAttributeValue({ ...option, attribute_value, mix })
+                }) }
+                <button
+                  block="CategoryConfigurableAttributes"
+                  elem="DropDownList-More"
+                  mods={ { isOpen, isLong } }
+                  onClick={ () => this.toggleIsOpen(id) }
+                >
+                    { text }
+                </button>
             </div>
         );
     }
@@ -102,7 +119,7 @@ class CategoryConfigurableAttributes extends SourceCategoryConfigurableAttribute
                   } }
                   isContentExpanded={ isContentExpanded }
                 >
-                    { isSwatch ? this.renderSwatch(option, id) : this.renderDropdown(option) }
+                    { isSwatch ? this.renderSwatch(option, id) : this.renderDropdown(option, id) }
                 </CategoryExpandableContent>
             );
         });

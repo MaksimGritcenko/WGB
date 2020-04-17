@@ -24,7 +24,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-    getUserLocation: () => GeoIPDispatcher.handleData(dispatch)
+    getUserLocation: () => GeoIPDispatcher.requestIP(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CookiePopup);

@@ -1,19 +1,18 @@
 <?php
-
 /**
  * A Magento 2 module named Wgb/RmaGraphQL
- * Copyright (C) 2020
- *
+ * Copyright (C) 2020  
+ * 
  * This file included in Wgb/RmaGraphQL is licensed under OSL 3.0
- *
+ * 
  * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Amasty\Rma\Api\Data\ConditionInterface;
-use Amasty\Rma\Model\Condition\Repository;
+use Amasty\Rma\Api\Data\ResolutionInterface;
+use Amasty\Rma\Model\Resolution\Repository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
@@ -23,20 +22,29 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Class GetItemConditions
+ * Class GetReturnResolutions
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class GetItemConditions implements ResolverInterface
+class ReturnResolutionsResolver implements ResolverInterface
 {
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+    /**
+     * @var Repository
+     */
+    private $resolutionRepository;
 
     public function __construct(
         StoreManagerInterface $storeManager,
-        Repository $conditionRepository
+        Repository $resolutionRepository
     )
     {
         $this->storeManager = $storeManager;
-        $this->conditionRepository = $conditionRepository;
+        $this->resolutionRepository = $resolutionRepository;
     }
 
     /**
@@ -48,18 +56,10 @@ class GetItemConditions implements ResolverInterface
         ResolveInfo $info,
         array $value = null,
         array $args = null
-    )
-    {
+    ) {
         $currentStoreId = $this->storeManager->getStore()->getId();
 
-        return array_map(
-            function($condition) {
-                /** @var ConditionInterface $condition */
-                $condition['id'] = (int)$condition->getConditionId();
-                return $condition;
-            },
-            $this->conditionRepository->getConditionsByStoreId($currentStoreId)
-        );;
+        return $this->resolutionRepository->getResolutionsByStoreId($currentStoreId);
     }
 }
 

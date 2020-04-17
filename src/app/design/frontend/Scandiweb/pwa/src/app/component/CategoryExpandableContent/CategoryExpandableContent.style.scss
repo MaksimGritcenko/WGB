@@ -84,9 +84,10 @@
         // will-change: max-height, padding, opacity;
         transition-property: opacity;
         transition-duration: 200ms;
+        padding-bottom: 10px;
 
         @include mobile {
-            padding: 0 10px;
+            padding: 0 10px 10px;
         }
 
         margin-top: 1rem;
