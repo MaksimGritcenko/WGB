@@ -36,10 +36,6 @@ class AddTrackingToRequest implements ResolverInterface
      * @var Session
      */
     protected $customerSession;
-    /**
-     * @var ResourceModel\Request
-     */
-    protected $requestResourceModel;
 
     public function __construct(
         Session $customerSession,
