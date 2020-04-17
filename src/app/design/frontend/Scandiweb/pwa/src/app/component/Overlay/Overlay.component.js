@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { SEARCH } from 'Component/Header/Header.component';
 import SourceOverlay from 'SourceComponent/Overlay/Overlay.component';
 
 import isMobile from 'Util/Mobile';
@@ -59,11 +60,16 @@ export default class Overlay extends SourceOverlay {
     }
 
     freezeScroll() {
-        const { isFreezeEnabled } = this.props;
+        const { isFreezeEnabled, id } = this.props;
         if (!isFreezeEnabled) return;
         this.YoffsetWhenScrollDisabled = window.pageYOffset || document.documentElement.scrollTop;
         document.body.classList.add('scrollDisabled');
-        document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
+
+        if (id === SEARCH) {
+            document.body.style.marginTop = '100vh';
+        } else {
+            document.body.style.marginTop = `${-this.YoffsetWhenScrollDisabled}px`;
+        }
     }
 
     unfreezeScroll() {

@@ -16,6 +16,10 @@
             height: 100vh;
             z-index: 1100;
             overflow: hidden;
+
+            @include mobile {
+                height: 70vh;
+            }
         }
     }
 
