@@ -157,6 +157,7 @@ class RequestDetails
         );
 
         $requestItems = array_map(function ($requestItem) use ($orderItems) {
+            /** @var RequestItemInterface $requestItem */
             $orderItem = $this->getItemFromOrder($orderItems, $requestItem);
             $reason = $this->reasonRepository->getById($requestItem->getReasonId());
             $condition = $this->conditionRepository->getById($requestItem->getConditionId());
@@ -168,7 +169,7 @@ class RequestDetails
                 'item_id' => $orderItem->getItemId(),
                 'price' => $orderItem->getPrice(),
                 'product_id' => $orderItem->getProductId(),
-                'qty' => $orderItem->getQtyOrdered(),
+                'qty' => $requestItem->getQty(),
                 'row_total' => $orderItem->getRowTotal(),
                 'sku' => $orderItem->getSku(),
                 'tax_amount' => $orderItem->getTaxAmount(),
@@ -182,6 +183,10 @@ class RequestDetails
         }, $request->getRequestItems());
 
         return [
+            'id' => $request->getRequestId(),
+            'order_id' => $request->getOrderId(),
+            'created_at' => $request->getCreatedAt(),
+            'status' => $request->getStatus(),
             'items' => $requestItems,
             'productIds' => $productIds
         ];
