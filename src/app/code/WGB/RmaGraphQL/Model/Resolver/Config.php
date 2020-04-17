@@ -60,7 +60,7 @@ class Config implements ResolverInterface
         $currentStoreId = $this->storeManager->getStore()->getId();
 
         return [
-            'carriers' => $this->configProvider->getCarriers($currentStoreId, true),
+            'carriers' => $this->configProvider->getCarriers($currentStoreId),
             'reasons' => $this->reasonRepository->getReasonsByStoreId($currentStoreId),
             'conditions' => $this->conditionRepository->getConditionsByStoreId($currentStoreId),
             'resolutions' => $this->resolutionRepository->getResolutionsByStoreId($currentStoreId)

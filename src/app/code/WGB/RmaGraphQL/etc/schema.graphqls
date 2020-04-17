@@ -5,7 +5,7 @@ type Mutation {
 }
 
 type Query {
-    rmaConfiguration : [RmaConfiguration]
+    rmaConfiguration : RmaConfiguration
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
     returnList: [ReturnListEntry]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
@@ -21,7 +21,8 @@ type RmaConfiguration {
 }
 
 type ReturnCarrier {
-    success: Int
+    code: String
+    label: String
 }
 
 type ReturnDetails {
