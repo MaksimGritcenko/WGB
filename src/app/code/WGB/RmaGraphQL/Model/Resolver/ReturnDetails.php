@@ -22,7 +22,7 @@ use WGB\RmaGraphQL\Model\Request\ResourceModel\RequestDetails;
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class ReturnDetailsResolver implements ResolverInterface
+class ReturnDetails implements ResolverInterface
 {
     /**
      * @var RequestDetails

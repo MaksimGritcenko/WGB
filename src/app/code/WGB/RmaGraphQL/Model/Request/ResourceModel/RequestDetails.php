@@ -15,6 +15,8 @@ namespace WGB\RmaGraphQL\Model\Request\ResourceModel;
 
 use Amasty\Rma\Api\Data\RequestInterface;
 use Amasty\Rma\Api\Data\RequestItemInterface;
+use Amasty\Rma\Api\Data\TrackingInterface;
+use Amasty\Rma\Api\Data\TrackingInterfaceFactory;
 use GraphQL\Language\AST\FieldNode;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -26,6 +28,7 @@ use Amasty\Rma\Model\Reason;
 use Amasty\Rma\Model\Condition;
 use Amasty\Rma\Model\Request;
 use Amasty\Rma\Model\Resolution;
+use Amasty\Rma\Observer\Rma;
 use Magento\Sales\Model\Order\Item;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
@@ -74,6 +77,7 @@ class RequestDetails
         Reason\Repository $reasonRepository,
         Condition\Repository $conditionRepository,
         Resolution\Repository $resolutionRepository,
+        Rma\History $rmaHistory,
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         DataPostProcessor $postProcessor
@@ -86,6 +90,7 @@ class RequestDetails
         $this->conditionRepository = $conditionRepository;
         $this->resolutionRepository = $resolutionRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->rmaHistory = $rmaHistory;
         $this->postProcessor = $postProcessor;
     }
 
@@ -182,13 +187,22 @@ class RequestDetails
 
         }, $request->getRequestItems());
 
+        $trackings = array_map(
+            function ($tracking) {
+                /** @var TrackingInterface $tracking */
+                $tracking['carrier'] = $this->rmaHistory->getCarrier($tracking->getTrackingCode());
+                return $tracking;
+            }, $request->getTrackingNumbers()
+        );
+
         return [
             'id' => $request->getRequestId(),
             'order_id' => $request->getOrderId(),
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
             'items' => $requestItems,
-            'productIds' => $productIds
+            'productIds' => $productIds,
+            'tracking' => $trackings
         ];
     }
 }

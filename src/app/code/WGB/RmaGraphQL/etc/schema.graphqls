@@ -5,22 +5,24 @@ type Mutation {
 }
 
 type Query {
-    itemConditions: [ItemCondition]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ItemConditionsResolver")
-    returnResolutions: [ReturnResolution]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsResolver")
-    returnReasons: [ReturnReason]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnReasonsResolver")
-#    returnCarriers: [ReturnCarrier]
-#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnCarriersResolver")
+    rmaConfiguration : RmaConfiguration
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
     returnList: [ReturnListEntry]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUserResolver")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
     returnDetailsById(return_id: Int): ReturnDetails
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetailsResolver")
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+}
+
+type RmaConfiguration {
+    carriers: [ReturnCarrier]
+    reasons: [ReturnReason]
+    conditions: [ReturnItemCondition]
+    resolutions: [ReturnResolution]
 }
 
 type ReturnCarrier {
-    success: Int
+    code: String
+    label: String
 }
 
 type ReturnDetails {
@@ -28,7 +30,15 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
-    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItemsResolver")
+    tracking: [ReturnTracking]
+    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+}
+
+type ReturnTracking {
+    carrier: String,
+    tracking_id: String,
+    tracking_code: String,
+    tracking_number: String
 }
 
 type ReturnItemDetails {
@@ -43,7 +53,7 @@ type ReturnItemDetails {
     tax_amount: Float
     tax_percent: Float
     reason: ReturnReason
-    condition: ItemCondition
+    condition: ReturnItemCondition
     resolution: ReturnResolution
     status: Int
 }
@@ -83,7 +93,7 @@ type ReturnReason {
     label: String
 }
 
-type ItemCondition {
+type ReturnItemCondition {
     condition_id: Int
     title: String
     position: Int
@@ -98,7 +108,7 @@ type ReturnResolution {
 }
 
 type Order {
-    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ProductResolver")
+    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
 }
 
 type OrderProduct implements ProductInterface {
