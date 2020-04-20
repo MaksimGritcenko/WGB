@@ -41,20 +41,17 @@ class MyAccountMyReturnsDropdown extends PureComponent {
         const { selectValue, selectValueText } = this.state;
 
         return (
-            <div block="MyAccountMyReturns">
-                <p>Create new return request:</p>
-                <Field
-                  id="order-to-return"
-                  name="order-to-return"
-                  type="select"
-                  placeholder={ selectValueText || __('Select order') }
-                  mix={ { block: 'MyAccountMyReturns', elem: 'Dropdown' } }
-                  selectOptions={ selectOptions }
-                  selectValue={ selectValue }
-                  validation={ ['notEmpty'] }
-                  onChange={ this.onDropdownChange }
-                />
-            </div>
+            <Field
+              id="order-to-return"
+              name="order-to-return"
+              type="select"
+              placeholder={ selectValueText || __('Select order') }
+              mix={ { block: 'MyAccountMyReturnsDropdown' } }
+              selectOptions={ selectOptions }
+              selectValue={ selectValue }
+              validation={ ['notEmpty'] }
+              onChange={ this.onDropdownChange }
+            />
         );
     }
 }

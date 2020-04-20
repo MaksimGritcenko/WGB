@@ -9,7 +9,8 @@ export class ProductReturnQuery {
             .addField('order_id')
             .addField('request_id')
             .addField('request_qty')
-            .addField('status');
+            .addField('status_id')
+            .addField('status_label');
     }
 
     // NEW return

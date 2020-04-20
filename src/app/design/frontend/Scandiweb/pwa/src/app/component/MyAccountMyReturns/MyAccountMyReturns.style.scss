@@ -1,3 +1,21 @@
 .MyAccountMyReturns {
-    
+    @include mobile {
+        margin-top: 10px;
+    }
+
+    &-New {
+        margin-bottom: 1rem;
+    }
+
+    &-DropdownWrapper {
+        display: flex;
+        @include after-mobile {
+            width: 40%;
+        }
+
+        button {
+            flex: 1;
+            margin-left: 1rem;
+        }
+    }
 }

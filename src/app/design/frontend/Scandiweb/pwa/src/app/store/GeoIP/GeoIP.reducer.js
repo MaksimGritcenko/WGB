@@ -4,7 +4,7 @@ const initialState = {
     isLoading: false
 };
 
-const SocialLoginReducer = (state = initialState, action) => {
+const GeoIPReducer = (state = initialState, action) => {
     const { type } = action;
 
     switch (type) {
@@ -20,4 +20,4 @@ const SocialLoginReducer = (state = initialState, action) => {
     }
 };
 
-export default SocialLoginReducer;
+export default GeoIPReducer;
