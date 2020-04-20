@@ -7,7 +7,8 @@ import { HORIZONTAL_INDEX, VERTICAL_INDEX } from 'Store/Slider/Slider.reducer';
 import './SliderVertical.style';
 
 export const ACTIVE_SLIDE_PERCENT = 0.1;
-const SCROLL_START_INDEX = 20;
+const SCROLL_START_INDEX = 0.9;
+const TRANSITION_DELAY = 1300;
 
 /**
  * Slider component
@@ -79,10 +80,40 @@ export default class SliderVertical extends Slider {
         }
     }
 
+    disableGestures() {
+        const {
+            sliderInAction,
+            animationDuration,
+            resetSliderInAction,
+            changeSliderInAction
+        } = this.props;
+
+        if (sliderInAction === HORIZONTAL_INDEX) return;
+
+        if (
+            sliderInAction !== VERTICAL_INDEX
+        ) {
+            changeSliderInAction(VERTICAL_INDEX);
+        }
+
+        this.setState({ isGesturesEnabled: false });
+        window.lastScrolled = new Date().getTime();
+
+        setTimeout(() => {
+            this.setState({ isGesturesEnabled: true });
+            resetSliderInAction();
+        }, animationDuration);
+    }
+
     handleScroll = ({ deltaY }) => {
         const { isGesturesEnabled } = this.state;
+        const { sliderInAction } = this.props;
 
-        if (!isGesturesEnabled) return;
+        if (
+            !isGesturesEnabled
+            || sliderInAction
+            || (window.lastScrolled && new Date().getTime() - window.lastScrolled < TRANSITION_DELAY)
+        ) return;
 
         const { onActiveImageChange, activeImage, children } = this.props;
         const slideCount = children.length;
@@ -90,13 +121,13 @@ export default class SliderVertical extends Slider {
         if (deltaY < -SCROLL_START_INDEX && activeImage > 0) {
             onActiveImageChange(activeImage - 1);
             this.setAnimationEasing();
-            this.disableGestures();
+            setTimeout(() => this.disableGestures(), 0);
         }
 
         if (deltaY > SCROLL_START_INDEX && activeImage < slideCount - 1) {
             onActiveImageChange(activeImage + 1);
             this.setAnimationEasing();
-            this.disableGestures();
+            setTimeout(() => this.disableGestures(), 0);
         }
     };
 
