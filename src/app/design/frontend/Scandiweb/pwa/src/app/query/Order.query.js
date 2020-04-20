@@ -6,7 +6,8 @@ export class OrderQuery extends SourceOrderQuery {
             ...this._getDefaultFields(),
             ...this._prepareImageFields(),
             this._prepareAttributes(),
-            'quote_item_id'
+            'quote_item_id',
+            'qty_returning'
         ];
     }
 }

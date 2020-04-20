@@ -154,7 +154,8 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlock({ qty }, isChecked, id) {
+    renderReasonBlock(item, isChecked, id) {
+        const { qty, qty_returning } = item;
         if (!isChecked) return null;
 
         const { reasonData } = this.props;
@@ -166,7 +167,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
               block="MyAccountNewReturnItemSelect"
               elem="ReasonBlockWrapper"
             >
-                { this.renderReasonBlockQty(id, qty) }
+                { this.renderReasonBlockQty(id, qty - qty_returning) }
                 { this.renderReasonBlockSelect('Return Reason', data[0], id) }
                 { this.renderReasonBlockSelect('Item Condition', data[1], id) }
                 { this.renderReasonBlockSelect('Return Resolution', data[2], id) }

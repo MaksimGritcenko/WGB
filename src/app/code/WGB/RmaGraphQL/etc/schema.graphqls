@@ -1,4 +1,3 @@
-
 type Mutation {
     createReturnRequest(input: CreateReturnInput!): CreateReturnOutput
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CreateNewRequest")
@@ -6,6 +5,15 @@ type Mutation {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\AddTrackingToRequest")
     cancelReturnRequest(input: CancelRequestInput!): CancelRequestOutput
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CancelRequest")
+}
+
+type Query {
+    getRmaConfiguration : RmaConfiguration
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
+    getReturnList: [ReturnListEntry]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
+    getReturnDetailsById(return_id: Int): ReturnDetails
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
 }
 
 input CancelRequestInput {
@@ -26,13 +34,50 @@ type AddTrackingOutput {
     success: Boolean
 }
 
-type Query {
-    getRmaConfiguration : RmaConfiguration
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
-    getReturnList: [ReturnListEntry]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
-    getReturnDetailsById(return_id: Int): ReturnDetails
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+type Order {
+    base_order_info: BaseOrderInfo
+    payment_info: PaymentInfo
+    shipping_info: ShippingInfo
+    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
+}
+
+type OrderProduct implements ProductInterface {
+    quote_item_id: String
+    qty_returning: Int
+}
+
+type BaseOrderInfo {
+    id: Int
+    total_qty_ordered: Int
+    increment_id: String
+    created_at: String
+    status: String
+    status_label: String
+    grand_total: Float
+    sub_total: Float
+}
+
+type PaymentInfo {
+    method: String
+    cc_owner: String
+    cc_last_4: String
+    cc_type: String
+    additional_information: AdditionalCustomerInfo
+}
+
+type ShippingInfo {
+    shipping_method: String
+    shipping_address: OrderCustomerAddress
+    shipping_description: String
+    shipping_amount: Float
+    tracking_numbers: [String]
+}
+
+interface ProductInterface {
+    qty: Int
+    row_total: Float
+    original_price: Float
+    license_key: String
 }
 
 type RmaConfiguration {
@@ -127,12 +172,4 @@ type ReturnResolution {
     title: String
     position: Int
     label: String
-}
-
-type Order {
-    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
-}
-
-type OrderProduct implements ProductInterface {
-    quote_item_id: String
 }

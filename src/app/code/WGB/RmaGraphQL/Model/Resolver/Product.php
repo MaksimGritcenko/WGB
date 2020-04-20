@@ -14,15 +14,19 @@ declare(strict_types=1);
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
+use Amasty\Rma\Api\Data\RequestItemInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Catalog\Model\ProductRepository;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Item;
 use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider;
+use WGB\RmaGraphQL\Model\Request\ResourceModel;
+use \Amasty\Rma\Model;
 
 /**
  * Retrieves the Product list in orders
@@ -50,24 +54,38 @@ class Product implements ResolverInterface
      * @var DataPostProcessor
      */
     protected $postProcessor;
+    /**
+     * @var ResourceModel\Request
+     */
+    protected $requestResourceModel;
+    /**
+     * @var Model\Request\Repository
+     */
+    protected $requestRepository;
 
     /**
      * ProductResolver constructor.
      * @param ProductRepository $productRepository
      * @param DataProvider\Product $productDataProvider
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param ResourceModel\Request $requestResourceModel
+     * @param Model\Request\Repository $requestRepository
      * @param DataPostProcessor $postProcessor
      */
     public function __construct(
         ProductRepository $productRepository,
         DataProvider\Product $productDataProvider,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        ResourceModel\Request $requestResourceModel,
+        Model\Request\Repository $requestRepository,
         DataPostProcessor $postProcessor
     ) {
         $this->productRepository = $productRepository;
         $this->productDataProvider = $productDataProvider;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->postProcessor = $postProcessor;
+        $this->requestResourceModel = $requestResourceModel;
+        $this->requestRepository = $requestRepository;
     }
 
     /**
@@ -81,9 +99,27 @@ class Product implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
+
         if (!isset($value['products'])) {
             return [];
         }
+
+        $orderId = $value['base_order_info']['id'];
+        /** @var OrderInterface $order */
+        $returnRequestIds = array_map(
+            function ($entry) { return $entry['request_id']; },
+            $this->requestResourceModel->getRequestIdsForOrder($orderId)
+        );
+
+        /** @var RequestItemInterface[][] $returnRequestsItems */
+        $returnRequestsItems = array_reduce(
+            $returnRequestIds,
+            function ($carry, $reqId) {
+                $req = $this->requestRepository->getById($reqId);
+                $carry[] = $req->getRequestItems();
+                return $carry;
+            }, []
+        );
 
         $productSKUs = array_map(function ($item) {
             return $item['sku'];
@@ -120,6 +156,20 @@ class Product implements ResolverInterface
             $data[$key]['original_price'] = $item->getBaseOriginalPrice();
             $data[$key]['quote_item_id'] = $item->getItemId();
             $data[$key]['license_key'] = $item['license_key'];
+            $data[$key]['qty_returning'] = array_reduce(
+                $returnRequestsItems,
+                function($carry, $reqItems) use ($item) {
+
+                    /** @var RequestItemInterface $reqItem */
+                    foreach ($reqItems as $reqItem) {
+                        if ($reqItem->getOrderItemId() == $item->getItemId() + 1) {
+                            $carry += $reqItem->getRequestQty();
+                        }
+                    }
+
+                    return $carry;
+                }, 0
+            );
         }
 
         return $data;
