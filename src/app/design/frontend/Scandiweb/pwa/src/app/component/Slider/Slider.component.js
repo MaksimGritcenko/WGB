@@ -6,7 +6,8 @@ import { HORIZONTAL_INDEX, VERTICAL_INDEX } from 'Store/Slider/Slider.reducer';
 
 import './Slider.style.override.style';
 
-const SCROLL_START_INDEX = 20;
+const SCROLL_START_INDEX = 0.9;
+const TRANSITION_DELAY = 1300;
 export const ANIMATION_DRAG_EASING = 'cubic-bezier(0.25, 1, 0.5, 1)';
 export const ANIMATION_SCROLL_EASING = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
@@ -57,7 +58,7 @@ export default class Slider extends SourceSlider {
     componentDidUpdate(prevProps) {
         const { activeImage: prevActiveImage } = prevProps;
         const { activeImage, animationDuration } = this.props;
-        const { isGesturesEnabled } = this.state;
+        // const { isGesturesEnabled } = this.state;
 
         if (activeImage !== prevActiveImage) {
             const newTranslate = -activeImage * this.sliderWidth;
@@ -74,21 +75,32 @@ export default class Slider extends SourceSlider {
                 `${newTranslate}px`
             );
 
-            if (!isGesturesEnabled) {
-                setTimeout(() => {
-                    this.setState({ isGesturesEnabled: true });
-                }, animationDuration);
-            }
+            this.disableGestures();
         }
     }
 
     disableGestures() {
-        const { animationDuration } = this.props;
+        const {
+            sliderInAction,
+            animationDuration,
+            resetSliderInAction,
+            changeSliderInAction
+        } = this.props;
 
+        if (sliderInAction === VERTICAL_INDEX) return;
+
+        if (
+            sliderInAction !== HORIZONTAL_INDEX
+        ) {
+            changeSliderInAction(HORIZONTAL_INDEX);
+        }
+
+        window.lastScrolled = new Date().getTime();
         this.setState({ isGesturesEnabled: false });
 
         setTimeout(() => {
             this.setState({ isGesturesEnabled: true });
+            resetSliderInAction();
         }, animationDuration);
     }
 
@@ -98,8 +110,13 @@ export default class Slider extends SourceSlider {
 
     handleScroll = ({ deltaX }) => {
         const { isGesturesEnabled } = this.state;
+        const { sliderInAction } = this.props;
 
-        if (!isGesturesEnabled) return;
+        if (
+            !isGesturesEnabled
+            || sliderInAction
+            || (window.lastScrolled && new Date().getTime() - window.lastScrolled < TRANSITION_DELAY)
+        ) return;
 
         const { onActiveImageChange, activeImage, children } = this.props;
         const slideCount = children.length;
@@ -107,13 +124,13 @@ export default class Slider extends SourceSlider {
         if (deltaX < -SCROLL_START_INDEX && activeImage > 0) {
             onActiveImageChange(activeImage - 1);
             this.setAnimationEasing();
-            this.disableGestures();
+            setTimeout(this.disableGestures(), 0);
         }
 
         if (deltaX > SCROLL_START_INDEX && activeImage < slideCount - 1) {
             onActiveImageChange(activeImage + 1);
             this.setAnimationEasing();
-            this.disableGestures();
+            setTimeout(this.disableGestures(), 0);
         }
     };
 
