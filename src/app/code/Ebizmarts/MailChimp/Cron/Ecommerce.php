@@ -187,14 +187,7 @@ class Ecommerce
             }
         }
         foreach ($syncs as $mailchimpStoreId => $val) {
-            if ($val && !$this->_helper->getConfigValue(
-                \Ebizmarts\MailChimp\Helper\Data::XML_PATH_IS_SYNC . "/$mailchimpStoreId",
-                0,
-                'default'
-            )
-            ) {
-                $this->updateSyncFlagData($val['storeid'], $mailchimpStoreId);
-            }
+            $this->updateSyncFlagData($val['storeid'], $mailchimpStoreId);
         }
     }
 
