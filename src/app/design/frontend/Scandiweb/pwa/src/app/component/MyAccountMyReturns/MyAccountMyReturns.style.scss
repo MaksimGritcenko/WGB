@@ -1,11 +1,17 @@
 .MyAccountMyReturns {
+    @include mobile {
+        margin-top: 10px;
+    }
+
     &-New {
         margin-bottom: 1rem;
     }
 
     &-DropdownWrapper {
         display: flex;
-        width: 40%;
+        @include after-mobile {
+            width: 40%;
+        }
 
         button {
             flex: 1;
