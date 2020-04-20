@@ -16,7 +16,7 @@ export class ProductReturnQuery {
     // NEW return
 
     getRmaConfiguration() {
-        return new Field('rmaConfiguration')
+        return new Field('getRmaConfiguration')
             .addField(this._getReturnReasonsFields())
             .addField(this._getReturnResolutionsFields())
             .addField(this._getItemConditionsFields());
