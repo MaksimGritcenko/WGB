@@ -81,8 +81,6 @@ export class CheckoutContainer extends SourceCheckoutContainer {
             const { totals } = this.props;
             if (checkoutStep === BILLING_STEP) {
                 Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 2 });
-            } else {
-                Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 3 });
             }
         }
     }

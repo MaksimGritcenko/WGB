@@ -55,29 +55,29 @@ class Product {
         return attribute_value;
     }
 
-    /**
-     * Get product url
-     *
-     * @param item
-     * @return {string}
-     */
-    static getUrl(product, selectedVariant) {
-        const { url_key = '', configurable_options = {} } = product;
-        const { attributes = {} } = selectedVariant;
+    // /**
+    //  * Get product url
+    //  *
+    //  * @param item
+    //  * @return {string}
+    //  */
+    // static getUrl(product, selectedVariant) {
+    //     const { url_key = '', configurable_options = {} } = product;
+    //     const { attributes = {} } = selectedVariant;
 
-        const keyValueAttributes = Object.keys(configurable_options).reduce((acc, key) => {
-            if (attributes && key in attributes) {
-                const { attribute_value = '' } = attributes[key];
-                if (attribute_value) return { ...acc, [key]: attribute_value };
-            }
+    //     const keyValueAttributes = Object.keys(configurable_options).reduce((acc, key) => {
+    //         if (attributes && key in attributes) {
+    //             const { attribute_value = '' } = attributes[key];
+    //             if (attribute_value) return { ...acc, [key]: attribute_value };
+    //         }
 
-            return acc;
-        }, {});
+    //         return acc;
+    //     }, {});
 
-        const queryString = `?${convertKeyValuesToQueryString(keyValueAttributes)}`;
+    //     const queryString = `?${convertKeyValuesToQueryString(keyValueAttributes)}`;
 
-        return `/${ url_key }${queryString.length === 1 ? '' : queryString }`;
-    }
+    //     return `/${ url_key }${queryString.length === 1 ? '' : queryString }`;
+    // }
 
     static getSelectedVariant(product) {
         const { sku, variants } = product;
@@ -159,10 +159,10 @@ class Product {
 
         return {
             id: sku,
-            url: this.getUrl(product, selectedVariant) || '',
+            // url: this.getUrl(product, selectedVariant) || '',
             name,
-            price: roundPrice(discountValue || value) || '',
-            brand: this.getBrand(selectedVariant) || '',
+            price: +roundPrice(discountValue || value) || '',
+            brand: this.getBrand(selectedVariant) || 'Vagabond',
             variant: variantSku === sku ? '' : variantSku,
             category: this.getCategory(categories) || category
         };
