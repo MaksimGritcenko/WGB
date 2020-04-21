@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "483727c99d5c462ac93b30a7a0146a8f",
+    "content-hash": "10bae5148bcc521e295d2e904b738ea7",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -12012,6 +12012,36 @@
             ],
             "description": "Customization configuration for ScandiPWA",
             "time": "2020-03-26T10:07:32+00:00"
+        },
+        {
+            "name": "scandipwa/email-fix",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scandipwa/email-fix.git",
+                "reference": "1bbc5c14d83d9bcdf21f5cc8e824695e9aa827c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scandipwa/email-fix/zipball/1bbc5c14d83d9bcdf21f5cc8e824695e9aa827c6",
+                "reference": "1bbc5c14d83d9bcdf21f5cc8e824695e9aa827c6",
+                "shasum": ""
+            },
+            "require": {
+                "magento/magento2-base": "<2.3.5"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "src/registration.php"
+                ],
+                "psr-4": {
+                    "ScandiPWA\\EmailFix\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Email fix for ScandiPWA",
+            "time": "2020-04-06T09:26:24+00:00"
         },
         {
             "name": "scandipwa/installer",
