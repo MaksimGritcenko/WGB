@@ -12,8 +12,8 @@
 import { withRouter } from 'react-router-dom';
 
 import { getQueryParam } from 'Util/Url';
-import { HOME_PAGE } from 'Component/Header';
-import Event, { EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_HOME } from 'Util/Event';
+import { HOME_PAGE, SEARCH } from 'Component/Header';
+import Event, { EVENT_GTM_IMPRESSIONS_PLP, EVENT_GTM_IMPRESSIONS_HOME, EVENT_GTM_IMPRESSIONS_SEARCH } from 'Util/Event';
 
 
 import {
@@ -43,7 +43,7 @@ export class ProductListContainer extends SourceProductListContainer {
     _updateImpressions(prevProps) {
         const {
             pages, isLoading, selectedFilters: filters,
-            filter: { categoryUrlPath = '' }
+            category = {}
         } = this.props;
         const { isLoading: prevIsLoading } = prevProps;
         const currentPage = getQueryParam('page', location) || 1;
@@ -57,9 +57,13 @@ export class ProductListContainer extends SourceProductListContainer {
 
         if (currentRouteName === HOME_PAGE) {
             Event.dispatch(EVENT_GTM_IMPRESSIONS_HOME, { items: pages[currentPage], filters });
+        } else if (currentRouteName === SEARCH) {
+            Event.dispatch(EVENT_GTM_IMPRESSIONS_SEARCH, {
+                items: pages[currentPage], filters
+            });
         } else {
             Event.dispatch(EVENT_GTM_IMPRESSIONS_PLP, {
-                items: pages[currentPage], filters, category: categoryUrlPath
+                items: pages[currentPage], filters, category
             });
         }
     }
