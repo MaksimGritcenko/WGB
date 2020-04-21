@@ -38,7 +38,10 @@ type Order {
     base_order_info: BaseOrderInfo
     payment_info: PaymentInfo
     shipping_info: ShippingInfo
-    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
+    order_products: [OrderProduct]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
+    can_be_returned: Boolean
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanOrderBeReturned")
 }
 
 type OrderProduct implements ProductInterface {
