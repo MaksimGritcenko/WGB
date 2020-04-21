@@ -120,7 +120,8 @@ type ReturnDetails {
     status: Int
     state: String
     tracking: [ReturnTracking]
-    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+    items: [ReturnItemDetails]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
 }
 
 type ReturnTracking {
@@ -144,7 +145,16 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
-    status: Int
+    status: ReturnStatus
+}
+
+type ReturnStatus {
+    status_id: Int
+    state: String
+    state_label: String
+    priority: Int
+    title: String
+    label: String
 }
 
 type ReturnListEntry {
