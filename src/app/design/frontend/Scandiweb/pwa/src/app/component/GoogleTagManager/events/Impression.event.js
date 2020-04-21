@@ -141,9 +141,9 @@ class Impression extends BaseEvent {
      */
     getImpressions(productCollectionType = PLP_IMPRESSIONS, products, filters, category) {
         const { name: categoryName = '', url_path = '' } = category;
-
         const productCollection = this.getProductCollection(productCollectionType, products);
         const productCount = Object.values(productCollection || []).length;
+
         const offset = PRODUCT_IMPRESSION_COUNT - productCount < 0
             ? Math.abs(PRODUCT_IMPRESSION_COUNT - productCount)
             : 0;
