@@ -85,6 +85,17 @@ type RmaConfiguration {
     reasons: [ReturnReason]
     conditions: [ReturnItemCondition]
     resolutions: [ReturnResolution]
+    custom_fields: [ReturnCustomField]
+}
+
+input ReturnCustomFieldInput {
+    code: String!
+    value: String!
+}
+
+type ReturnCustomField {
+    code: String
+    label: String
 }
 
 type ReturnCarrier {
@@ -135,9 +146,9 @@ type ReturnListEntry {
     request_qty: Float
 }
 
-input CreateReturnInput {
+input  CreateReturnInput {
     order_id: String!
-    custom_fields: [String]
+    custom_fields: [ReturnCustomFieldInput]
     items: [ReturnItemInput]!
 }
 

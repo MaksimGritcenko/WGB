@@ -81,6 +81,15 @@ class CreateNewRequest implements ResolverInterface
         return $returnItems;
     }
 
+    private function getCustomFields($input) {
+        $customFieldsData = [];
+        foreach ($input['custom_fields'] as $field) {
+            $customFieldsData[$field['code']] = $field['value'];
+        }
+
+        return $customFieldsData;
+    }
+
     /**
      * @param $input
      * @param OrderInterface $order
@@ -96,7 +105,7 @@ class CreateNewRequest implements ResolverInterface
             ->setCustomerName(
                 $order->getBillingAddress()->getFirstname() . ' '
                 . $order->getBillingAddress()->getLastname()
-            )->setCustomFields($input['custom_fields'] ?? [])
+            )->setCustomFields($this->getCustomFields($input))
             ->setCustomerId($customerId)
             ->setRequestItems($this->getRequestItems($input));
         return $request;
