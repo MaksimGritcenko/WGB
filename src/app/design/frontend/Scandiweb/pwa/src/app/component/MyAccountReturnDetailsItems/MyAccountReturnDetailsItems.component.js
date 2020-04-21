@@ -1,12 +1,17 @@
+import PropTypes from 'prop-types';
 import MyAccountNewReturnItemSelect
     from 'Component/MyAccountNewReturnItemSelect/MyAccountNewReturnItemSelect.component';
 
 import './MyAccountReturnDetailsItems.style';
 
 export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemSelect {
-    renderItemDetails(item) {
-        const { name, qty } = item;
+    static propTypes = {
+        items: PropTypes.func.isRequired,
+        onItemChange: PropTypes.func.isRequired,
+        reasonData: PropTypes.object.isRequired
+    };
 
+    renderItemDetails(name, qty) {
         return (
             <div>
                 <p
@@ -35,20 +40,27 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
-    renderReasonBlock() {
+    renderReasonBlock(item) {
+        const {
+            status,
+            reason: { title: reasonTitle },
+            resolution: { title: resolutionTitle },
+            condition: { title: conditionTitle }
+        } = item;
+
         return (
             <div
               block="MyAccountReturnDetailsItems"
               elem="ReasonBlock"
             >
-                { this.renderReasonItem('Return Reason:', '<return reason>') }
-                { this.renderReasonItem('Items Condition:', '<items condition>') }
-                { this.renderReasonItem('Return Resolution:', '<return resolution>') }
+                { this.renderReasonItem('Return Reason:', reasonTitle) }
+                { this.renderReasonItem('Items Condition:', conditionTitle) }
+                { this.renderReasonItem('Return Resolution:', resolutionTitle) }
                 <span
                   block="MyAccountReturnDetailsItems"
                   elem="ReasonBlockStatus"
                 >
-                    { '<Item Status>' }
+                    { `Item Status: ${ status }` }
                 </span>
                 <span
                   block="MyAccountReturnDetailsItems"
@@ -61,15 +73,17 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
     }
 
     renderItemInfo(item) {
+        const { product, product: { name }, qty } = item;
+
         return (
             <figure block="CartItem" elem="Wrapper">
-                { this.renderImage(item) }
+                { this.renderImage(product) }
                 <figcaption
                   block="CartItem"
                   elem="Content"
                 >
-                    { this.renderItemDetails(item) }
-                    { this.renderReasonBlock() }
+                    { this.renderItemDetails(name, qty) }
+                    { this.renderReasonBlock(item) }
                 </figcaption>
             </figure>
         );

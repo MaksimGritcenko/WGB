@@ -17,11 +17,13 @@ import MyAccountReturnTableRow from './MyAccountReturnTableRow.component';
 export class MyAccountReturnTableRowContainer extends PureComponent {
     static propTypes = {
         currency_code: PropTypes.string,
-        row: orderType.isRequired
+        row: orderType.isRequired,
+        onClick: PropTypes.func
     };
 
     static defaultProps = {
-        currency_code: ''
+        currency_code: '',
+        onClick: () => {}
     };
 
     containerFunctions = {
@@ -29,8 +31,10 @@ export class MyAccountReturnTableRowContainer extends PureComponent {
     };
 
     onViewClick() {
-        const { row } = this.props;
+        const { row, onClick } = this.props;
         console.log(row);
+
+        onClick(row);
     }
 
     containerProps = () => {

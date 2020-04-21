@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MyAccountNewReturnCustomerTable from 'Component/MyAccountNewReturnCustomerTable';
 import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressTable';
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
+import Loader from 'Component/Loader';
 import Field from 'Component/Field';
 
 import './MyAccountNewReturn.style';
@@ -15,11 +16,10 @@ export default class MyAccountNewReturn extends PureComponent {
     static propTypes = {
         reasonData: PropTypes.object.isRequired,
         onNewRequestSubmit: PropTypes.func.isRequired,
-        items: PropTypes.array
-    };
-
-    static defaultProps = {
-        items: []
+        orderId: PropTypes.string.isRequired,
+        history: PropTypes.object.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        items: PropTypes.array.isRequired
     };
 
     state = {
@@ -28,7 +28,8 @@ export default class MyAccountNewReturn extends PureComponent {
             [Bank_IFS_C_CODE]: '',
             [BANK_ACCOUNT_NUMBER]: ''
         },
-        selectedItems: []
+        selectedItems: {},
+        hasItemsError: false
     };
 
     handleBankDetailFieldChange = (value, id) => {
@@ -42,13 +43,31 @@ export default class MyAccountNewReturn extends PureComponent {
     };
 
     handleRequestSubmitPress = () => {
-        const { onNewRequestSubmit } = this.props;
+        const { orderId, onNewRequestSubmit } = this.props;
         const { selectedItems } = this.state;
 
+        if (!Object.keys(selectedItems).length) return;
+
+        const isAllFilled = !Object.values(selectedItems).find(selectedItem => (
+            Object.values(selectedItem).find(item => !item) !== undefined
+        ));
+
+        if (!isAllFilled) {
+            this.setState({ hasItemsError: true });
+
+            return;
+        }
+
         onNewRequestSubmit({
-            items: selectedItems
-            // order_id: 000000007
+            items: selectedItems,
+            order_id: orderId
         });
+    };
+
+    handleBackPress = () => {
+        const { history } = this.props;
+
+        history.goBack();
     }
 
     renderBankDetailField(placeholder, id) {
@@ -102,7 +121,7 @@ export default class MyAccountNewReturn extends PureComponent {
                 <button
                   block="Button"
                   mods={ { isHollow: true } }
-                //   onClick={  }
+                  onClick={ this.handleBackPress }
                 >
                     { __('CANCEL') }
                 </button>
@@ -110,11 +129,18 @@ export default class MyAccountNewReturn extends PureComponent {
         );
     }
 
+    renderLoader() {
+        const { isLoading } = this.props;
+        return <Loader isLoading={ isLoading } />;
+    }
+
     render() {
         const { reasonData, items } = this.props;
+        const { hasItemsError } = this.state;
 
         return (
             <div block="MyAccountNewReturn">
+                { this.renderLoader() }
                 <div
                   block="MyAccountNewReturn"
                   elem="CustomerAndAddressBlocks"
@@ -126,6 +152,7 @@ export default class MyAccountNewReturn extends PureComponent {
                   onItemChange={ this.handleSelectedItemsChange }
                   reasonData={ reasonData }
                   items={ items }
+                  hasError={ hasItemsError }
                 />
                 { this.renderBankDetailFields() }
                 { this.renderActions() }

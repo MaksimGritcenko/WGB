@@ -1,0 +1,80 @@
+.MyAccountReturnDetailsTracking {
+    &-Title {
+        text-transform: none;
+        font-weight: normal;
+        font-family: var(--font-roboto);
+        line-height: 1;
+        font-size: 15px;
+        margin-top: 45px;
+        margin-bottom: 20px;
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    &-TableRow {
+        span {
+            display: inline-block;
+            font-size: 14px;
+
+            &:first-of-type {
+                width: 40%;
+            }
+        }
+
+        &_isHead {
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: solid 1px #c4c4c4;
+        }
+    }
+
+    &-Add {
+        margin-top: 45px;
+
+        @include after-mobile {
+            display: flex;
+            margin-bottom: 100px;
+        }
+
+        .Field {
+            margin: 0;
+
+            @include after-mobile {
+                margin-right: 20px;
+            }
+
+            &:first-of-type {
+                @include after-mobile {
+                    width: 180px;
+                }
+            }
+
+            &:last-of-type {
+                flex: 1;
+            }
+
+            input {
+                width: 100%;
+            }
+        }
+
+        .Button {
+            max-height: 36px;
+
+            @include after-mobile {
+                width: 180px;
+            }
+        }
+
+        .Field,
+        .Button {
+            &:not(:last-child) {
+                @include mobile {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+}

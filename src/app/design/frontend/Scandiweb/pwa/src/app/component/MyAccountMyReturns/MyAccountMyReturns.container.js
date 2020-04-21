@@ -1,4 +1,5 @@
 import { PureComponent } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MyAccountNewReturn from 'Component/MyAccountNewReturn';
@@ -45,7 +46,8 @@ export class MyAccountMyReturnsContainer extends PureComponent {
 
     containerFunctions = {
         setChosenOrderId: this.setChosenOrderId.bind(this),
-        handleReturnClick: this.handleReturnClick.bind(this)
+        handleReturnClick: this.handleReturnClick.bind(this),
+        handleReturnItemClick: this.handleReturnItemClick.bind(this)
     };
 
     componentDidMount() {
@@ -63,11 +65,11 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        const { history: { location: { pathname: prevPathname } } } = prevProps;
-        const { history: { location: { pathname } } } = this.props;
+    componentDidUpdate() {
+        const { activePage: prevActivePage } = this.state;
+        const activePage = this.getActivePage();
 
-        if (prevPathname !== pathname) {
+        if (prevActivePage !== activePage) {
             this.handlePageChange();
         }
     }
@@ -98,6 +100,13 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         this.handlePageChange();
     }
 
+    handleReturnItemClick(returnId) {
+        const { history } = this.props;
+
+        history.push({ pathname: `/my-account/my-returns/return-details&id=${ returnId }` });
+        this.handlePageChange();
+    }
+
     render() {
         const { activePage } = this.state;
 
@@ -112,4 +121,4 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountMyReturnsContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyAccountMyReturnsContainer));

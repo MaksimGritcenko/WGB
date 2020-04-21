@@ -1,20 +1,31 @@
 import { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import MyAccountNewReturnCustomerTable from 'Component/MyAccountNewReturnCustomerTable';
 import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressTable';
 import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
+import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
-import Field from 'Component/Field';
 
 import './MyAccountReturnDetails.style';
 
-const ACTIVE_STATUS_INDEX = 2;
-
 export default class MyAccountReturnDetails extends PureComponent {
     static propTypes = {
+        carriers: PropTypes.array.isRequired,
+        details: PropTypes.object.isRequired,
+        handleCancelRMA: PropTypes.func.isRequired,
+        isCancelDisabled: PropTypes.bool.isRequired
     };
 
     state = {
         isHowItWorksBlockExpanded: true
+    };
+
+    handleCancelRMA = () => {
+        const { handleCancelRMA, isCancelDisabled } = this.props;
+
+        if (isCancelDisabled) return;
+
+        handleCancelRMA();
     };
 
     toggleExpandableContent = () => {
@@ -46,95 +57,6 @@ export default class MyAccountReturnDetails extends PureComponent {
         );
     }
 
-    renderTrackingInformationTableHead() {
-        return (
-            <div
-              block="MyAccountReturnDetails"
-              elem="TrackingInformationTableRow"
-              mods={ { isHead: true } }
-            >
-                <span>Carrier</span>
-                <span>Tracking number</span>
-            </div>
-        );
-    }
-
-    renderTrackingInformationTableRow(carrier, trackingNumber) {
-        return (
-            <div
-              block="MyAccountReturnDetails"
-              elem="TrackingInformationTableRow"
-            >
-                <span>{ carrier }</span>
-                <span>{ trackingNumber }</span>
-            </div>
-        );
-    }
-
-    renderTrackingInformationTable() {
-        return (
-            <div>
-                { this.renderTrackingInformationTableHead() }
-                { [[1,1],[2,2],[3,3]].map(this.renderTrackingInformationTableRow) }
-            </div>
-        );
-    }
-
-    renderTrackingInformationAdd() {
-        const selectTitle = 'carriers';
-
-        return (
-            <div
-              block="MyAccountReturnDetails"
-              elem="TrackingInformationAdd"
-            >
-                <Field
-                  id={ selectTitle }
-                  name={ selectTitle }
-                  type="select"
-                  placeholder={ __('Please select') }
-                  selectOptions={ [
-                      { label: '1', value: '1' },
-                      { label: '2', value: '2' },
-                      { label: '3', value: '3' }
-                  ] }
-                  value={ '' }
-                //   onChange={ onChange }
-                />
-                <Field
-                  type="text"
-                  id="trackingnumber"
-                  name="trackingnumber"
-                  value={ '' }
-                //   onChange={ handleNicknameChange }
-                />
-                <button
-                  block="Button"
-                //   onClick={  }
-                >
-                    { __('ADD') }
-                </button>
-            </div>
-        );
-    }
-
-    renderTrackingInformation() {
-        if (ACTIVE_STATUS_INDEX === 1) return null;
-
-        return (
-            <div>
-                <h4
-                  block="MyAccountReturnDetails"
-                  elem="TrackingInformationTitle"
-                >
-                    Tracking Information
-                </h4>
-                { this.renderTrackingInformationTable() }
-                { this.renderTrackingInformationAdd() }
-            </div>
-        );
-    }
-
     renderProgressItem(name, itemIndex, activeIndex) {
         const index = itemIndex + 1;
         const isLastActive = activeIndex === index;
@@ -145,6 +67,7 @@ export default class MyAccountReturnDetails extends PureComponent {
               block="MyAccountReturnDetails"
               elem="ProgressItem"
               mods={ mods }
+              key={ itemIndex }
             >
                 <div
                   block="MyAccountReturnDetails"
@@ -170,7 +93,7 @@ export default class MyAccountReturnDetails extends PureComponent {
     }
 
     renderProgressBar() {
-        const activeIndex = ACTIVE_STATUS_INDEX;
+        const { details: { status } } = this.props;
 
         return (
             <div
@@ -182,21 +105,24 @@ export default class MyAccountReturnDetails extends PureComponent {
                     '2. Approved',
                     '3. Delivered',
                     '4. Completed'
-                ].map((item, index) => this.renderProgressItem(item, index, activeIndex)) }
+                ].map((item, index) => this.renderProgressItem(item, index, status)) }
             </div>
         );
     }
 
     renderCalcelRMAButton() {
+        const { isCancelDisabled } = this.props;
+
         return (
             <button
               block="Button"
               mods={ { isHollow: true } }
+              disabled={ isCancelDisabled }
               mix={ {
                   block: 'MyAccountReturnDetails',
                   elem: 'CancelRMAButton'
               } }
-            //   onClick={  }
+              onClick={ this.handleCancelRMA }
             >
                 { __('CANCEL RMA') }
             </button>
@@ -204,6 +130,12 @@ export default class MyAccountReturnDetails extends PureComponent {
     }
 
     render() {
+        const {
+            details,
+            carriers,
+            details: { items = [] }
+        } = this.props;
+
         return (
             <div block="MyAccountReturnDetails">
                 { this.renderProgressBar() }
@@ -215,8 +147,13 @@ export default class MyAccountReturnDetails extends PureComponent {
                     <MyAccountNewReturnAddressTable />
                 </div>
                 { this.renderHowItWorksBlock() }
-                <MyAccountReturnDetailsItems />
-                { this.renderTrackingInformation() }
+                <MyAccountReturnDetailsItems
+                  items={ items }
+                />
+                <MyAccountReturnDetailsTracking
+                  carriers={ carriers }
+                  details={ details }
+                />
                 { this.renderCalcelRMAButton() }
             </div>
         );

@@ -9,6 +9,7 @@ import './MyAccountMyReturns.style';
 class MyAccountMyReturns extends PureComponent {
     static propTypes = {
         handleReturnClick: PropTypes.func.isRequired,
+        handleReturnItemClick: PropTypes.func.isRequired,
         handleDropdownChange: PropTypes.func.isRequired,
         returnList: PropTypes.array.isRequired,
         areReturnsLoading: PropTypes.bool.isRequired
@@ -79,12 +80,14 @@ class MyAccountMyReturns extends PureComponent {
     }
 
     renderReturnRow = (row) => {
+        const { handleReturnItemClick } = this.props;
         const { request_id } = row;
 
         return (
             <MyAccountReturnTableRow
               key={ request_id }
               row={ row }
+              onClick={ () => handleReturnItemClick(request_id) }
             />
         );
     };

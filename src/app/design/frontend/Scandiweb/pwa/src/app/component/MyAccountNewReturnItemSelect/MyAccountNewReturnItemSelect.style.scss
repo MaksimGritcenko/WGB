@@ -49,8 +49,12 @@
     }
 
     &-SelectTitle {
-        font-size: 17px;
+        font-size: 14px;
         font-weight: bold;
+
+        @include after-mobile {
+            font-size: 17px;
+        }
     }
 
     &-SelectInput {
@@ -63,6 +67,12 @@
                 width: 350px;
             }
         }
+
+        .Field-Select {
+            @include mobile {
+                font-size: var(--font-size);
+            }
+        }
     }
 
     &-QtyBlockWrapper {
@@ -71,6 +81,40 @@
         .Field_type_number {
             display: inline-block;
             margin: 0 5px;
+
+            &.Field_hasError {
+                margin-bottom: 10px;
+
+                .Field-Message {
+                    position: absolute;
+                }
+
+                button {
+                    &:last-of-type {
+                        bottom: 0;
+                    }
+                }
+            }
+
+            input {
+                font-size: var(--font-size);
+            }
+
+            button {
+                @include mobile {
+                    width: unset;
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+
+    &-ItemImagePlaceholder {
+        &::after {
+            height: 160px;
+            display: inline-block;
+            width: 110px;
+            margin: 27px 1rem 27px calc(30px + 1rem);
         }
     }
 

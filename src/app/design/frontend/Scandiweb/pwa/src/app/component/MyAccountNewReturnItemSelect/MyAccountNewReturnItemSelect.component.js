@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'Component/Image';
 import Field from 'Component/Field';
+import TextPlaceholder from 'Component/TextPlaceholder';
 
 import './MyAccountNewReturnItemSelect.style';
 
@@ -9,7 +10,8 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     static propTypes = {
         items: PropTypes.array.isRequired,
         onItemChange: PropTypes.func.isRequired,
-        reasonData: PropTypes.object.isRequired
+        reasonData: PropTypes.object.isRequired,
+        hasError: PropTypes.bool.isRequired
     };
 
     state = {
@@ -17,14 +19,18 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     };
 
     handleItemSelect = (isChecked, id) => {
-        const { onItemChange } = this.props;
+        const { onItemChange, reasonData } = this.props;
         const { selectedItems: items } = this.state;
         const selectedItems = { ...items };
 
         if (isChecked) {
             delete selectedItems[id];
         } else {
-            selectedItems[id] = { quote_item_id: id };
+            selectedItems[id] = {
+                quote_item_id: id,
+                ...Object.keys(reasonData).reduce((acc, key) => ({ ...acc, [key]: '' }), {}),
+                qty: 0
+            };
         }
 
         this.setState({ selectedItems });
@@ -32,31 +38,41 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     };
 
     handleReasonBlockSelect(blockId, key, id) {
-        const { selectedItems, selectedItems: { [id]: selectedItem } } = this.state;
+        const { onItemChange } = this.props;
+        const {
+            selectedItems: items,
+            selectedItems: { [id]: selectedItem }
+        } = this.state;
 
-        this.setState({
-            selectedItems: {
-                ...selectedItems,
-                [id]: {
-                    ...selectedItem,
-                    [key]: blockId
-                }
+        const selectedItems = {
+            ...items,
+            [id]: {
+                ...selectedItem,
+                [key]: blockId
             }
-        });
+        };
+
+        this.setState({ selectedItems });
+        onItemChange(selectedItems);
     }
 
     handleQtyChange(qty, id) {
-        const { selectedItems, selectedItems: { [id]: selectedItem } } = this.state;
+        const { onItemChange } = this.props;
+        const {
+            selectedItems: items,
+            selectedItems: { [id]: selectedItem }
+        } = this.state;
 
-        this.setState({
-            selectedItems: {
-                ...selectedItems,
-                [id]: {
-                    ...selectedItem,
-                    qty
-                }
+        const selectedItems = {
+            ...items,
+            [id]: {
+                ...selectedItem,
+                qty
             }
-        });
+        };
+
+        this.setState({ selectedItems });
+        onItemChange(selectedItems);
     }
 
     renderImage({ name, thumbnail: { url: thumbnailUrl }, small_image: { url: small_imageUrl } }) {
@@ -98,6 +114,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     }
 
     renderReasonBlockSelect(title, data, id) {
+        const { hasError } = this.props;
         const { selectedItems: { [id]: item } } = this.state;
         const [key, options] = data;
         const value = item[key] || '';
@@ -122,6 +139,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                       block: 'MyAccountNewReturnItemSelect',
                       elem: 'SelectInput'
                   } }
+                  message={ hasError && !value && 'Select field!' }
                   selectOptions={ options }
                   value={ value }
                   onChange={ blockId => this.handleReasonBlockSelect(blockId, key, id) }
@@ -131,6 +149,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     }
 
     renderReasonBlockQty(id, orderedQty) {
+        const { hasError } = this.props;
         const { selectedItems: { [id]: { qty } } } = this.state;
 
         return (
@@ -145,6 +164,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                   type="number"
                   isControlled
                   min={ 0 }
+                  message={ hasError && !qty && 'Chose qty!' }
                   max={ orderedQty }
                   value={ qty }
                   onChange={ qty => this.handleQtyChange(qty, id) }
@@ -205,9 +225,9 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
 
     renderItem = (item, index) => {
         const { selectedItems } = this.state;
-        const { id: prevId } = item;
-        const id = `${ prevId }_${ index }`;
+        const { quote_item_id } = item;
 
+        const id = parseInt(quote_item_id, 10);
         const isChecked = !!selectedItems[id];
 
         return (
@@ -225,7 +245,19 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     renderItems() {
         const { items } = this.props;
 
-        if (!items.length) return <h3>Loading</h3>;
+        if (!items.length) {
+            return (
+                <>
+                    <TextPlaceholder
+                      mix={ {
+                          block: 'MyAccountNewReturnItemSelect',
+                          elem: 'ItemImagePlaceholder'
+                      } }
+                    />
+                    <TextPlaceholder />
+                </>
+            );
+        }
 
         return (
             <div>

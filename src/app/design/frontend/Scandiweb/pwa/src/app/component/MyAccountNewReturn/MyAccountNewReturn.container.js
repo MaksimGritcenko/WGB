@@ -31,7 +31,9 @@ export class MyAccountNewReturnContainer extends DataContainer {
 
     state = {
         reasonData: {},
-        isLoading: false
+        isLoading: false,
+        orderId: null,
+        items: []
     }
 
     containerFunctions = {
@@ -66,7 +68,7 @@ export class MyAccountNewReturnContainer extends DataContainer {
             ({ getRmaConfiguration, getOrderById: { order_products: items } }) => {
                 const reasonData = Object.entries(getRmaConfiguration).reduce((acc, [key, values]) => ({
                     ...acc,
-                    [key]: values.map(({ [`${ key.substring(0, key.length - 1) }_id`]: id, title }) => (
+                    [key.substring(0, key.length - 1)]: values.map(({ [`${ key.substring(0, key.length - 1) }_id`]: id, title }) => (
                         {
                             label: title,
                             value: id
@@ -74,7 +76,7 @@ export class MyAccountNewReturnContainer extends DataContainer {
                     ))
                 }), {});
 
-                this.setState({ reasonData, items });
+                this.setState({ reasonData, items, orderId });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
         );
@@ -105,7 +107,12 @@ export class MyAccountNewReturnContainer extends DataContainer {
     }
 
     render() {
-        const { reasonData, items } = this.state;
+        const {
+            reasonData,
+            items,
+            orderId,
+            isLoading
+        } = this.state;
 
         return (
             <MyAccountNewReturn
@@ -113,6 +120,8 @@ export class MyAccountNewReturnContainer extends DataContainer {
               { ...this.containerFunctions }
               reasonData={ reasonData }
               items={ items }
+              orderId={ orderId }
+              isLoading={ isLoading }
             />
         );
     }
