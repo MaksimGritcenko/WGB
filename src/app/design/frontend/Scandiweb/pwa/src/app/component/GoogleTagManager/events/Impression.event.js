@@ -140,6 +140,7 @@ class Impression extends BaseEvent {
      * @return {{price: string, name: string, variant: string, id: string, position: number, list: string, category: string, brand: string}[]}
      */
     getImpressions(productCollectionType = PLP_IMPRESSIONS, products, filters, category) {
+        console.log(category);
         const productCollection = this.getProductCollection(productCollectionType, products);
         const productCount = Object.values(productCollection || []).length;
         const offset = PRODUCT_IMPRESSION_COUNT - productCount < 0
