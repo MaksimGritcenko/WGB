@@ -33,8 +33,17 @@ export default class ProductCard extends SourceProductCard {
     };
 
     handleClick = () => {
-        const { product, currentVariantIndex: configurableVariantIndex } = this.props;
-        Event.dispatch(EVENT_GTM_PRODUCT_CLICK, { ...product, configurableVariantIndex });
+        const {
+            currentVariantIndex: configurableVariantIndex,
+            selectedFilters,
+            product
+        } = this.props;
+
+        const productToPass = Object.keys(selectedFilters).length
+            ? { ...product, configurableVariantIndex }
+            : product;
+
+        Event.dispatch(EVENT_GTM_PRODUCT_CLICK, productToPass);
 
         this.registerSharedElement();
     };

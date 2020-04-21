@@ -43,7 +43,7 @@ class AddToCartEvent extends BaseEvent {
         }
 
         const newProduct = {
-            ...ProductHelper.getProductData(product),
+            ...ProductHelper.getProductData(product, true),
             quantity
         };
 
