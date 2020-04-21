@@ -49,6 +49,11 @@ type OrderProduct implements ProductInterface {
     qty_returning: Int
 }
 
+type ProductReturnResolution {
+    resolution: ReturnResolution
+    value: Int
+}
+
 type BaseOrderInfo {
     id: Int
     total_qty_ordered: Int
@@ -81,6 +86,8 @@ interface ProductInterface {
     row_total: Float
     original_price: Float
     license_key: String
+    return_resolutions: [ProductReturnResolution]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsForProduct")
 }
 
 type RmaConfiguration {
