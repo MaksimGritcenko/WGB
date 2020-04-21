@@ -17,6 +17,8 @@ import GoogleTagManager, { EVENT_GENERAL } from 'Component/GoogleTagManager/Goog
  * Product helper, contain all related to product data prepare methods
  */
 class Product {
+    static DEFAULT_BRAND = 'Vagabond';
+
     /**
      * Get product listing category string
      *
@@ -131,9 +133,10 @@ class Product {
      *
      * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, list: string, category: string, brand: string}}
      */
-    static getProductData(product) {
+    static getProductData(product, isVariantPassed = false) {
         const {
             sku,
+            name,
             category = '',
             variants = [],
             categories = [],
@@ -141,7 +144,6 @@ class Product {
         } = product;
         const selectedVariant = variants[configurableVariantIndex] || product;
         const {
-            name,
             sku: variantSku,
             price: {
                 minimalPrice: {
@@ -162,9 +164,11 @@ class Product {
             // url: this.getUrl(product, selectedVariant) || '',
             name,
             price: +roundPrice(discountValue || value) || '',
-            brand: this.getBrand(selectedVariant) || 'Vagabond',
-            variant: variantSku === sku ? 'N/A' : variantSku,
-            category: this.getCategory(categories) || category
+            brand: this.getBrand(selectedVariant) || this.DEFAULT_BRAND,
+            category: this.getCategory(categories) || category,
+            variant: (variantSku === sku && !isVariantPassed)
+                ? 'N/A'
+                : variantSku
         };
     }
 }
