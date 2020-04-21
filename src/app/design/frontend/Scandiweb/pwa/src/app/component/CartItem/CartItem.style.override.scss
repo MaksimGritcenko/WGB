@@ -8,13 +8,7 @@
 
         &::after {
             @include mobile {
-                content: '';
-                height: 1px;
-                width: calc(100% - 2rem);
-                position: absolute;
-                bottom: 0;
-                left: 1rem;
-                background-color: var(--cart-item-bottom-border-color);
+                content: unset;
             }
         }
 
@@ -156,6 +150,10 @@
 
         &_isLikeTable {
             display: none;
+
+            @include mobile{
+                display: block;
+            }
         }
     }
 
