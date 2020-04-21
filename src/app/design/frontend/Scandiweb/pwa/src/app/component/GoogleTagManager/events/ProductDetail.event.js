@@ -62,7 +62,7 @@ class ProductDetail extends BaseEvent {
         this.pushEventData({
             ecommerce: {
                 detail: {
-                    products: ProductHelper.getProductData(product)
+                    products: [ProductHelper.getProductData(product)]
                 }
             }
         });

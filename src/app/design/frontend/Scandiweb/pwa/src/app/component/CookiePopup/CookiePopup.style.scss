@@ -21,9 +21,13 @@
     position: fixed;
     align-items: center;
     padding: 0 0 env(safe-area-inset-bottom);
-    z-index: 300;
+    z-index: 99;
     text-align: center;
     bottom: -200px;
+
+    @include mobile {
+        z-index: 300;
+    }
 
     a {
         text-decoration: underline;
