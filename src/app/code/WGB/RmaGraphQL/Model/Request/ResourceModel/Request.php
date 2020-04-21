@@ -9,6 +9,33 @@ use Amasty\Rma\Model\Status\ResourceModel\StatusStore;
 use Magento\Framework\DB\Select;
 
 class Request extends \Amasty\Rma\Model\Request\ResourceModel\Request {
+    protected function fetchAllFromSelect($select) {
+        $result = [];
+        if ($rows = $this->getConnection()->fetchAll($select)) {
+            foreach ($rows as $row) {
+                $result[] = $row;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $orderId
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getRequestIdsForOrder($orderId) {
+        $select = $this->getConnection()->select()->from(['request' => $this->getMainTable()])
+            ->reset(Select::COLUMNS)
+            ->columns([
+                'request.request_id'
+            ])
+            ->where('request.'.RequestInterface::ORDER_ID.' = '.$orderId);
+
+        return $this->fetchAllFromSelect($select);
+    }
+
     /**
      * @param $userId
      * @return array
@@ -37,13 +64,6 @@ class Request extends \Amasty\Rma\Model\Request\ResourceModel\Request {
             )
             ->group('request.request_id');
 
-        $result = [];
-        if ($rows = $this->getConnection()->fetchAll($select)) {
-            foreach ($rows as $row) {
-                $result[] = $row;
-            }
-        }
-
-        return $result;
+        return $this->fetchAllFromSelect($select);
     }
 }

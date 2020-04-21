@@ -53,21 +53,18 @@ export class MyAccountNewReturnContainer extends DataContainer {
     requestData() {
         const { showNotification, history: { location: { pathname } } } = this.props;
 
-        console.log(pathname);
         const orderId = pathname
             .split('/')[3]
             .split('&')[1]
             .split('=')[1];
-
-        console.log("orderId", orderId);
 
         this.fetchData(
             [
                 ProductReturnQuery.getRmaConfiguration(),
                 OrderQuery.getOrderByIdQuery(orderId)
             ],
-            ({ rmaConfiguration, getOrderById: { order_products: items } }) => {
-                const reasonData = Object.entries(rmaConfiguration).reduce((acc, [key, values]) => ({
+            ({ getRmaConfiguration, getOrderById: { order_products: items } }) => {
+                const reasonData = Object.entries(getRmaConfiguration).reduce((acc, [key, values]) => ({
                     ...acc,
                     [key]: values.map(({ [`${ key.substring(0, key.length - 1) }_id`]: id, title }) => (
                         {
@@ -76,8 +73,6 @@ export class MyAccountNewReturnContainer extends DataContainer {
                         }
                     ))
                 }), {});
-
-                console.log(reasonData);
 
                 this.setState({ reasonData, items });
             },

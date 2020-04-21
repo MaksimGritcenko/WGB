@@ -17,6 +17,7 @@ use Amasty\Rma\Api\Data\RequestInterface;
 use Amasty\Rma\Api\Data\RequestItemInterface;
 use Amasty\Rma\Api\Data\TrackingInterface;
 use Amasty\Rma\Api\Data\TrackingInterfaceFactory;
+use Amasty\Rma\Model\OptionSource\State;
 use GraphQL\Language\AST\FieldNode;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -29,6 +30,7 @@ use Amasty\Rma\Model\Condition;
 use Amasty\Rma\Model\Request;
 use Amasty\Rma\Model\Resolution;
 use Amasty\Rma\Observer\Rma;
+use Amasty\Rma\Api\StatusRepositoryInterface;
 use Magento\Sales\Model\Order\Item;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
@@ -70,6 +72,22 @@ class RequestDetails
      * @var Product
      */
     private $productDataProvider;
+    /**
+     * @var Rma\History
+     */
+    protected $rmaHistory;
+    /**
+     * @var DataPostProcessor
+     */
+    protected $postProcessor;
+    /**
+     * @var StatusRepositoryInterface
+     */
+    protected $statusRepository;
+    /**
+     * @var State
+     */
+    protected $stateOptionSource;
 
     public function __construct(
         Product $productDataProvider,
@@ -80,7 +98,9 @@ class RequestDetails
         Rma\History $rmaHistory,
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        DataPostProcessor $postProcessor
+        DataPostProcessor $postProcessor,
+        StatusRepositoryInterface $statusRepository,
+        State $stateOptionSource
     )
     {
         $this->productDataProvider = $productDataProvider;
@@ -92,6 +112,8 @@ class RequestDetails
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->rmaHistory = $rmaHistory;
         $this->postProcessor = $postProcessor;
+        $this->statusRepository = $statusRepository;
+        $this->stateOptionSource = $stateOptionSource;
     }
 
     /**
@@ -195,11 +217,13 @@ class RequestDetails
             }, $request->getTrackingNumbers()
         );
 
+        $states = $this->stateOptionSource->toArray();
         return [
             'id' => $request->getRequestId(),
             'order_id' => $request->getOrderId(),
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
+            'state' => $states[$this->statusRepository->getById($request->getStatus())->getState()],
             'items' => $requestItems,
             'productIds' => $productIds,
             'tracking' => $trackings
