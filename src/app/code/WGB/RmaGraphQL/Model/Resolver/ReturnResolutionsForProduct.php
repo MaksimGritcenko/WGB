@@ -14,23 +14,12 @@ declare(strict_types=1);
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Amasty\Rma\Api\Data\RequestItemInterface;
-use Amasty\Rma\Api\Data\ReturnOrderInterface;
 use Amasty\Rma\Model\ReturnRules\ReturnRulesProcessor;
 use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\Catalog\Model\ProductRepository;
-use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Model\Order\Item;
-use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
-use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
-use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider;
-use WGB\RmaGraphQL\Model\Request\ResourceModel;
-use \Amasty\Rma\Model;
 
 /**
  * Retrieves the Product list in orders
