@@ -97,6 +97,7 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
+    state: String
     tracking: [ReturnTracking]
     items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
 }
