@@ -163,7 +163,7 @@ class Product {
             name,
             price: +roundPrice(discountValue || value) || '',
             brand: this.getBrand(selectedVariant) || 'Vagabond',
-            variant: variantSku === sku ? '' : variantSku,
+            variant: variantSku === sku ? 'N/A' : variantSku,
             category: this.getCategory(categories) || category
         };
     }
