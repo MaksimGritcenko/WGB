@@ -10,9 +10,9 @@ export class MyAccountMyReturnsDropdownContainer extends PureComponent {
         orderList: ordersType.isRequired
     };
 
-    containerProps = {
+    containerProps = () => ({
         selectOptions: this._getSelectOptions()
-    };
+    });
 
     _getSelectOptions() {
         const { orderList } = this.props;
@@ -48,7 +48,7 @@ export class MyAccountMyReturnsDropdownContainer extends PureComponent {
         return (
             <MyAccountMyReturnsDropdown
               { ...this.props }
-              { ...this.containerProps }
+              { ...this.containerProps() }
             />
         );
     }
