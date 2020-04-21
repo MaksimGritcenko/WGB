@@ -58,12 +58,25 @@ class Config implements ResolverInterface
     )
     {
         $currentStoreId = $this->storeManager->getStore()->getId();
+        $currentStoreCustomFields = $this->configProvider->getCustomFields($currentStoreId);
 
         return [
             'carriers' => $this->configProvider->getCarriers($currentStoreId),
             'reasons' => $this->reasonRepository->getReasonsByStoreId($currentStoreId),
             'conditions' => $this->conditionRepository->getConditionsByStoreId($currentStoreId),
-            'resolutions' => $this->resolutionRepository->getResolutionsByStoreId($currentStoreId)
+            'resolutions' => $this->resolutionRepository->getResolutionsByStoreId($currentStoreId),
+            'custom_fields' => array_reduce(
+                array_keys($currentStoreCustomFields),
+                function ($carry, $key) use ($currentStoreCustomFields) {
+                    $carry[] = [
+                        'code' => $key,
+                        'label' => $currentStoreCustomFields[$key]
+                    ];
+
+                    return $carry;
+                },
+                []
+            )
         ];
     }
 }
