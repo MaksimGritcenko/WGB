@@ -147,10 +147,10 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
-    status: ItemReturnStatus
+    status: ReturnState
 }
 
-type ItemReturnStatus {
+type ReturnState {
     state: Int!
     state_label: String!
 }
@@ -159,12 +159,11 @@ type ReturnListEntry {
     order_id: String
     request_id: String
     created_at: String
-    status_id: String
-    status_label: String
+    status: ReturnState
     request_qty: Float
 }
 
-input  CreateReturnInput {
+input CreateReturnInput {
     order_id: String!
     custom_fields: [ReturnCustomFieldInput]
     items: [ReturnItemInput]!
