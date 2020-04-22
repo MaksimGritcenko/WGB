@@ -28,6 +28,11 @@ export class ProductListContainer extends SourceProductListContainer {
         pageSize: 15
     };
 
+    componentDidMount() {
+        super.componentDidMount();
+        this._updateImpressions({}, true);
+    }
+
     componentDidUpdate(prevProps) {
         const { sort, search, filter } = this.props;
         const { sort: prevSort, search: prevSearch, filter: prevFilter } = prevProps;
@@ -50,7 +55,8 @@ export class ProductListContainer extends SourceProductListContainer {
 
         if (!Object.keys(pages || {}).length
             || !Object.keys(pages[currentPage] || {}).length
-            || isLoading || isLoading === prevIsLoading
+            || isLoading
+            || isLoading === prevIsLoading
         ) return;
 
         const { currentRouteName } = window;
