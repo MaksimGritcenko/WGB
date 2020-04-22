@@ -17,6 +17,8 @@ import GoogleTagManager, { EVENT_GENERAL } from 'Component/GoogleTagManager/Goog
  * Product helper, contain all related to product data prepare methods
  */
 class Product {
+    static DEFAULT_BRAND = 'Vagabond';
+
     /**
      * Get product listing category string
      *
@@ -40,7 +42,7 @@ class Product {
      * @return {number|string}
      */
     static getQuantity({ qty }) {
-        return parseInt(qty, 10) || '';
+        return parseInt(qty, 10) || 0;
     }
 
     /**
@@ -54,30 +56,6 @@ class Product {
         const { brand: { attribute_value = '' } = {} } = attributes;
         return attribute_value;
     }
-
-    // /**
-    //  * Get product url
-    //  *
-    //  * @param item
-    //  * @return {string}
-    //  */
-    // static getUrl(product, selectedVariant) {
-    //     const { url_key = '', configurable_options = {} } = product;
-    //     const { attributes = {} } = selectedVariant;
-
-    //     const keyValueAttributes = Object.keys(configurable_options).reduce((acc, key) => {
-    //         if (attributes && key in attributes) {
-    //             const { attribute_value = '' } = attributes[key];
-    //             if (attribute_value) return { ...acc, [key]: attribute_value };
-    //         }
-
-    //         return acc;
-    //     }, {});
-
-    //     const queryString = `?${convertKeyValuesToQueryString(keyValueAttributes)}`;
-
-    //     return `/${ url_key }${queryString.length === 1 ? '' : queryString }`;
-    // }
 
     static getSelectedVariant(product) {
         const { sku, variants } = product;
@@ -108,12 +86,12 @@ class Product {
      *
      * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, list: string, category: string, brand: string}}
      */
-    static getItemData(item) {
+    static getItemData(item, isVariantPassed = false) {
         if (item && Object.values(item).length) {
             const { product = {}, sku = '' } = item;
             const configurableVariantIndex = this.getSelectedVariantIndex(product, sku);
 
-            return this.getProductData({ ...product, configurableVariantIndex });
+            return this.getProductData({ ...product, configurableVariantIndex }, isVariantPassed);
         }
 
         return {};
@@ -131,9 +109,10 @@ class Product {
      *
      * @return {{quantity: number, price: number, name: string, variant: string, id: string, availability: boolean, list: string, category: string, brand: string}}
      */
-    static getProductData(product) {
+    static getProductData(product, isVariantPassed = false) {
         const {
             sku,
+            name,
             category = '',
             variants = [],
             categories = [],
@@ -141,7 +120,6 @@ class Product {
         } = product;
         const selectedVariant = variants[configurableVariantIndex] || product;
         const {
-            name,
             sku: variantSku,
             price: {
                 minimalPrice: {
@@ -159,12 +137,13 @@ class Product {
 
         return {
             id: sku,
-            // url: this.getUrl(product, selectedVariant) || '',
             name,
             price: +roundPrice(discountValue || value) || '',
-            brand: this.getBrand(selectedVariant) || 'Vagabond',
-            variant: variantSku === sku ? '' : variantSku,
-            category: this.getCategory(categories) || category
+            brand: this.getBrand(selectedVariant) || this.DEFAULT_BRAND,
+            category: this.getCategory(categories) || category,
+            variant: (variantSku === sku && !isVariantPassed)
+                ? 'N/A'
+                : variantSku
         };
     }
 }

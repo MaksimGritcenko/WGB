@@ -74,11 +74,11 @@ class Purchase extends BaseEvent {
     }) {
         return {
             id: orderId,
-            tax: roundPrice(tax_amount),
+            tax: +roundPrice(tax_amount),
             coupon: coupon_code,
-            revenue: roundPrice(grand_total),
-            shipping: roundPrice(shipping_amount),
-            coupon_discount_amount: roundPrice(discount_amount)
+            revenue: +roundPrice(grand_total),
+            shipping: +roundPrice(shipping_amount),
+            coupon_discount_amount: +roundPrice(discount_amount)
         };
     }
 
