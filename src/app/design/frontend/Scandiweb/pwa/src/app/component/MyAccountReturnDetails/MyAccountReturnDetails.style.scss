@@ -1,4 +1,6 @@
 .MyAccountReturnDetails {
+    font-size: var(--font-size);
+
     &-ProgressBar {
         flex-direction: row;
         display: flex;
@@ -17,8 +19,19 @@
             height: 2px;
             width: 100%;
             position: absolute;
-            top: 14px;
+            top: 9px;
             left: 0;
+
+            @include after-mobile {
+                height: 3px;
+                top: 11px;
+            }
+        }
+
+        &:first-child {
+            &::after {
+                content: none;
+            }
         }
 
         &_isActive {
@@ -35,9 +48,9 @@
     }
 
     &-ProgressCircle {
-        height: 30px;
-        width: 30px;
-        border-radius: 15px;
+        height: 20px;
+        width: 20px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -45,15 +58,27 @@
         z-index: 5;
         color: white;
 
+        @include after-mobile {
+            height: 24px;
+            width: 24px;
+            border-radius: 12px;
+        }
+
         &_isActive {
             background-color: black;
         }
 
         &_isLastActive {
-            height: 40px;
-            width: 40px;
-            border-radius: 20px;
-            top: -5px;
+            height: 26px;
+            width: 26px;
+            border-radius: 13px;
+            top: -3px;
+
+            @include after-mobile {
+                height: 30px;
+                width: 30px;
+                border-radius: 15px;
+            }
         }
     }
 
@@ -64,6 +89,14 @@
         bottom: -25px;
         width: 100px;
         text-align: center;
+
+        @include mobile {
+            display: none;
+        }
+
+        &_isLastActive {
+            display: block;
+        }
     }
 
     &-ExpandableContentHeading,
@@ -72,7 +105,7 @@
         font-weight: normal;
         font-family: var(--font-roboto);
         line-height: 1;
-        font-size: 15px;
+        font-size: 17px;
 
         @include after-mobile {
             font-size: 20px;
@@ -96,7 +129,7 @@
 
     &-HowItWorksBlock {
         @include mobile {
-            margin-top: 45px;
+            margin-top: 30px;
         }
 
         &:last-of-type {
@@ -136,6 +169,7 @@
         }
     }
 
+    &-CancelRMATitle,
     &-CancelRMAButton {
         @include mobile {
             margin-top: 15px;
@@ -143,12 +177,31 @@
 
         @include after-mobile {
             position: absolute;
-            top: calc(-2rem - 33px);
+            top: -2px;
             right: 0;
         }
     }
 
+    &-CancelRMATitle {
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        color: var(--button-color);
+        background-color: var(--button-background);
+        font-size: 15px;
+
+        @include after-mobile {
+            width: 150px;
+        }
+    }
+
     .MyAccountNewReturnItemSelect-Title {
-        margin-top: 45px;
+        margin-top: 30px;
+
+        @include after-mobile {
+            margin-top: 45px;
+        }
     }
 }

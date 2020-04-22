@@ -13,7 +13,10 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
 
     renderItemDetails(name, qty) {
         return (
-            <div>
+            <div
+              block="MyAccountReturnDetailsItems"
+              elem="ItemDetails"
+            >
                 <p
                   block="CartItem"
                   elem="Heading"
@@ -40,9 +43,19 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
+    renderStatusBlock({ status }) {
+        return (
+            <span
+              block="MyAccountReturnDetailsItems"
+              elem="ReasonBlockStatus"
+            >
+                { `Item Status: ${ status }` }
+            </span>
+        );
+    }
+
     renderReasonBlock(item) {
         const {
-            status,
             reason: { title: reasonTitle },
             resolution: { title: resolutionTitle },
             condition: { title: conditionTitle }
@@ -56,12 +69,6 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 { this.renderReasonItem('Return Reason:', reasonTitle) }
                 { this.renderReasonItem('Items Condition:', conditionTitle) }
                 { this.renderReasonItem('Return Resolution:', resolutionTitle) }
-                <span
-                  block="MyAccountReturnDetailsItems"
-                  elem="ReasonBlockStatus"
-                >
-                    { `Item Status: ${ status }` }
-                </span>
                 <span
                   block="MyAccountReturnDetailsItems"
                   elem="ReasonBlockPayer"
@@ -84,6 +91,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 >
                     { this.renderItemDetails(name, qty) }
                     { this.renderReasonBlock(item) }
+                    { this.renderStatusBlock(item) }
                 </figcaption>
             </figure>
         );

@@ -83,7 +83,7 @@ export class ProductReturnQuery {
             .addField('id')
             .addField('order_id')
             .addField('created_at')
-            .addField('status');
+            .addField('state');
     }
 
     _getReturnTrackingFields() {
@@ -96,20 +96,18 @@ export class ProductReturnQuery {
 
     _getReturnItemFields() {
         return new Field('items')
-            // .addField('discount_amount')
-            // .addField('discount_percent')
-            // .addField('item_id')
-            // .addField('price')
             .addField(this._getReturnProductFields())
-            .addField('qty')
-            // .addField('row_total')
-            // .addField('sku')
-            // .addField('tax_amount')
-            // .addField('tax_percent')
             .addField(this._getReturnReasonFields('resolution'))
             .addField(this._getReturnReasonFields('reason'))
             .addField(this._getReturnReasonFields('condition'))
-            .addField('status');
+            .addField(this._getReturnStatusFields())
+            .addField('qty');
+    }
+
+    _getReturnStatusFields() {
+        return new Field('status')
+            .addField('state')
+            .addField('state_label');
     }
 
     _getReturnReasonFields(id) {
@@ -123,7 +121,6 @@ export class ProductReturnQuery {
             .addField(this._getReturnProductImageFields('small_image'))
             .addField(this._getReturnProductImageFields('thumbnail'))
             .addField('name');
-            // .addField('attributes');
     }
 
     _getReturnProductImageFields(id) {

@@ -25,6 +25,12 @@
         }
     }
 
+    &-TabList {
+        &_isNotActive {
+            display: none;
+        }
+    }
+
     &-TabContent {
         background: var(--my-account-content-background);
         padding: var(--page-padding-mobile);

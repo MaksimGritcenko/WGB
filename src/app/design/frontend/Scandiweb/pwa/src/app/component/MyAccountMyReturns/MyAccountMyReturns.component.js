@@ -12,7 +12,8 @@ class MyAccountMyReturns extends PureComponent {
         handleReturnItemClick: PropTypes.func.isRequired,
         handleDropdownChange: PropTypes.func.isRequired,
         returnList: PropTypes.array.isRequired,
-        areReturnsLoading: PropTypes.bool.isRequired
+        areReturnsLoading: PropTypes.bool.isRequired,
+        renderPageTitle: PropTypes.func.isRequired
     };
 
     state = {
@@ -115,10 +116,11 @@ class MyAccountMyReturns extends PureComponent {
     }
 
     render() {
-        const { areReturnsLoading } = this.props;
+        const { areReturnsLoading, renderPageTitle } = this.props;
 
         return (
             <div block="MyAccountMyReturns">
+                { renderPageTitle() }
                 <Loader isLoading={ areReturnsLoading } />
                 { this.renderNew() }
                 { this.renderTable() }

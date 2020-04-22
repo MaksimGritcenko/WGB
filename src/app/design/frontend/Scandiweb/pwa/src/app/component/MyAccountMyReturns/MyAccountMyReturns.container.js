@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MyAccountNewReturn from 'Component/MyAccountNewReturn';
 import MyAccountReturnDetails from 'Component/MyAccountReturnDetails';
+import { MY_RETURN as HEADER_MY_RETURN } from 'Component/Header';
+import { changeNavigationState } from 'Store/Navigation';
+import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { OrderDispatcher } from 'Store/Order';
 import { ReturnDispatcher } from 'Store/Return';
 import { ordersType } from 'Type/Account';
@@ -18,7 +21,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     getOrderList: () => OrderDispatcher.requestOrders(dispatch),
-    getReturnList: () => ReturnDispatcher.requestReturns(dispatch)
+    getReturnList: () => ReturnDispatcher.requestReturns(dispatch),
+    changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
 const MY_RETURN = 'myReturn';
@@ -31,7 +35,8 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         getOrderList: PropTypes.func.isRequired,
         returnList: PropTypes.array.isRequired,
         getReturnList: PropTypes.func.isRequired,
-        history: PropTypes.object.isRequired
+        history: PropTypes.object.isRequired,
+        changeHeaderState: PropTypes.func.isRequired
     };
 
     state = {
@@ -39,9 +44,18 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     };
 
     renderMap = {
-        [MY_RETURN]: MyAccountMyReturns,
-        [NEW_RETURN]: MyAccountNewReturn,
-        [RETURN_DETAILS]: MyAccountReturnDetails
+        [MY_RETURN]: {
+            component: MyAccountMyReturns,
+            title: 'My Return'
+        },
+        [NEW_RETURN]: {
+            component: MyAccountNewReturn,
+            title: 'New Return for Order #'
+        },
+        [RETURN_DETAILS]: {
+            component: MyAccountReturnDetails,
+            title: 'Return #'
+        }
     };
 
     containerFunctions = {
@@ -77,7 +91,8 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     getActivePage() {
         const { history: { location: { pathname } } } = this.props;
 
-        const url = pathname.split('/')[3];
+        const pathNameIndex = 3;
+        const url = pathname.split('/')[pathNameIndex];
 
         if (!url) return MY_RETURN;
         if (url.split('&')[0] === 'new-return') return NEW_RETURN;
@@ -90,7 +105,11 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     }
 
     handlePageChange() {
-        this.setState({ activePage: this.getActivePage() });
+        const activePage = this.getActivePage();
+
+        if (activePage === NEW_RETURN || activePage === RETURN_DETAILS) this.changeHeaderState();
+
+        this.setState({ activePage });
     }
 
     handleReturnClick(selectedOrderId) {
@@ -107,15 +126,44 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         this.handlePageChange();
     }
 
+    changeHeaderState() {
+        const {
+            changeHeaderState,
+            history
+        } = this.props;
+
+        changeHeaderState({
+            name: HEADER_MY_RETURN,
+            title: 'my return',
+            onBackClick: () => history.goBack()
+        });
+    }
+
+    renderPageTitle = () => {
+        const { activePage } = this.state;
+
+        const { title } = this.renderMap[activePage];
+
+        return (
+            <h1
+              block="MyAccount"
+              elem="Heading"
+            >
+                { title }
+            </h1>
+        );
+    };
+
     render() {
         const { activePage } = this.state;
 
-        const Page = this.renderMap[activePage];
+        const { component: Page } = this.renderMap[activePage];
 
         return (
             <Page
               { ...this.props }
               { ...this.containerFunctions }
+              renderPageTitle={ this.renderPageTitle }
             />
         );
     }

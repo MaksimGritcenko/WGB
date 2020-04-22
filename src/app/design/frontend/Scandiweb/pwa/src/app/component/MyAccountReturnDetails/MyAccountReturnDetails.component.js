@@ -8,12 +8,21 @@ import ExpandableContent from 'Component/ExpandableContent';
 
 import './MyAccountReturnDetails.style';
 
+const STATUS_STATE_CANCELED = 'Canceled';
+const STATUS_STATE_MAP = {
+    Processing: 1,
+    Approved: 2,
+    Delivered: 3,
+    Completed: 4
+}
+
 export default class MyAccountReturnDetails extends PureComponent {
     static propTypes = {
         carriers: PropTypes.array.isRequired,
         details: PropTypes.object.isRequired,
         handleCancelRMA: PropTypes.func.isRequired,
-        isCancelDisabled: PropTypes.bool.isRequired
+        isCancelDisabled: PropTypes.bool.isRequired,
+        renderPageTitle: PropTypes.func.isRequired
     };
 
     state = {
@@ -57,8 +66,10 @@ export default class MyAccountReturnDetails extends PureComponent {
         );
     }
 
-    renderProgressItem(name, itemIndex, activeIndex) {
+    renderProgressItem(name, itemIndex, state) {
         const index = itemIndex + 1;
+        const activeIndex = STATUS_STATE_MAP[state];
+
         const isLastActive = activeIndex === index;
         const mods = { isActive: index <= activeIndex, isLastActive };
 
@@ -83,6 +94,7 @@ export default class MyAccountReturnDetails extends PureComponent {
                     <span
                       block="MyAccountReturnDetails"
                       elem="ProgressName"
+                      mods={ { isLastActive } }
                     >
                         { name }
                     </span>
@@ -93,7 +105,9 @@ export default class MyAccountReturnDetails extends PureComponent {
     }
 
     renderProgressBar() {
-        const { details: { status } } = this.props;
+        const { details: { state } } = this.props;
+
+        if (state === STATUS_STATE_CANCELED) return null;
 
         return (
             <div
@@ -105,13 +119,26 @@ export default class MyAccountReturnDetails extends PureComponent {
                     '2. Approved',
                     '3. Delivered',
                     '4. Completed'
-                ].map((item, index) => this.renderProgressItem(item, index, status)) }
+                ].map((item, index) => this.renderProgressItem(item, index, state)) }
             </div>
         );
     }
 
+    renderCalcelRMATitle() {
+        return (
+            <span
+              block="MyAccountReturnDetails"
+              elem="CancelRMATitle"
+            >
+                CANCELED
+            </span>
+        );
+    }
+
     renderCalcelRMAButton() {
-        const { isCancelDisabled } = this.props;
+        const { isCancelDisabled, details: { state } } = this.props;
+
+        if (state === STATUS_STATE_CANCELED) return this.renderCalcelRMATitle();
 
         return (
             <button
@@ -133,11 +160,13 @@ export default class MyAccountReturnDetails extends PureComponent {
         const {
             details,
             carriers,
-            details: { items = [] }
+            details: { items = [] },
+            renderPageTitle
         } = this.props;
 
         return (
             <div block="MyAccountReturnDetails">
+                { renderPageTitle() }
                 { this.renderProgressBar() }
                 <div
                   block="MyAccountReturnDetails"

@@ -11,6 +11,10 @@ class MyAccount extends SourceMyAccount {
         [MY_RETURNS]: MyAccountMyReturns
     };
 
+    isTabListNotActive() {
+        return false;
+    }
+
     renderContent() {
         const {
             activeTab,
@@ -26,21 +30,27 @@ class MyAccount extends SourceMyAccount {
         }
 
         const TabContent = this.renderMap[activeTab];
-        const { name } = tabMap[activeTab];
+        const { name, noTitle } = tabMap[activeTab];
 
         return (
             <ContentWrapper
               label={ __('My Account page') }
               wrapperMix={ { block: 'MyAccount', elem: 'Wrapper' } }
             >
-                <MyAccountTabList
-                  tabMap={ tabMap }
-                  activeTab={ activeTab }
-                  changeActiveTab={ changeActiveTab }
-                  onSignOut={ onSignOut }
-                />
+                <div
+                  block="MyAccount"
+                  elem="TabList"
+                  mods={ { isNotActive: this.isTabListNotActive() } }
+                >
+                    <MyAccountTabList
+                      tabMap={ tabMap }
+                      activeTab={ activeTab }
+                      changeActiveTab={ changeActiveTab }
+                      onSignOut={ onSignOut }
+                    />
+                </div>
                 <div block="MyAccount" elem="TabContent">
-                    <h1 block="MyAccount" elem="Heading">{ name }</h1>
+                    { !noTitle && <h1 block="MyAccount" elem="Heading">{ name }</h1> }
                     <TabContent history={ history } />
                 </div>
             </ContentWrapper>

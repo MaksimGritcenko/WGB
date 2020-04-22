@@ -64,7 +64,8 @@ class MyAccount extends MyAccountContainer {
         },
         [MY_RETURNS]: {
             url: '/my-returns',
-            name: __('My Returns')
+            name: __('My Returns'),
+            noTitle: true
         }
     };
 

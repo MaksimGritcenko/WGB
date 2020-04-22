@@ -91,7 +91,7 @@ export class MyAccountNewReturnContainer extends DataContainer {
     };
 
     onNewRequestSubmit(options) {
-        const { showSuccessNotification } = this.props;
+        const { showSuccessNotification, history } = this.props;
         const mutation = ProductReturnQuery.getNewReturnMutation(options);
 
         this.setState({ isLoading: true });
@@ -101,6 +101,8 @@ export class MyAccountNewReturnContainer extends DataContainer {
                 this.setState({ isLoading: false }, () => {
                     showSuccessNotification(__(`Return successfully made, order ID: ${ return_id }`));
                 });
+
+                history.goBack();
             },
             this.onError
         );
