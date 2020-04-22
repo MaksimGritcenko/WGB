@@ -30,7 +30,7 @@ export class ProductListContainer extends SourceProductListContainer {
 
     componentDidMount() {
         super.componentDidMount();
-        this._updateImpressions({}, true);
+        this._updateImpressions({});
     }
 
     componentDidUpdate(prevProps) {
@@ -50,7 +50,7 @@ export class ProductListContainer extends SourceProductListContainer {
             pages, isLoading, selectedFilters: filters,
             category = {}
         } = this.props;
-        const { isLoading: prevIsLoading } = prevProps;
+        const { isLoading: prevIsLoading, pages: prevPages } = prevProps;
         const currentPage = getQueryParam('page', location) || 1;
 
         if (!Object.keys(pages || {}).length
@@ -64,9 +64,11 @@ export class ProductListContainer extends SourceProductListContainer {
         if (currentRouteName === HOME_PAGE) {
             Event.dispatch(EVENT_GTM_IMPRESSIONS_HOME, { items: pages[currentPage], filters });
         } else if (currentRouteName === SEARCH) {
-            Event.dispatch(EVENT_GTM_IMPRESSIONS_SEARCH, {
-                items: pages[currentPage], filters
-            });
+            if (JSON.stringify(prevPages) !== JSON.stringify(pages)) {
+                Event.dispatch(EVENT_GTM_IMPRESSIONS_SEARCH, {
+                    items: pages[currentPage], filters
+                });
+            }
         } else {
             Event.dispatch(EVENT_GTM_IMPRESSIONS_PLP, {
                 items: pages[currentPage], filters, category
