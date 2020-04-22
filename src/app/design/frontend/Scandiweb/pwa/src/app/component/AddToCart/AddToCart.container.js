@@ -74,8 +74,6 @@ export class AddToCartContainer extends SourceAddToCartContainer {
             quantity
         }).then(
             () => {
-                console.log(productToAdd, quantity);
-
                 Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
                     product: productToAdd,
                     quantity,
