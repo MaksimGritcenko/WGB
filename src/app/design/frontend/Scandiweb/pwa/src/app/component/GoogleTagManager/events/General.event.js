@@ -13,7 +13,6 @@
 import Event, { EVENT_GTM_META_UPDATE, EVENT_GTM_GENERAL_INIT } from 'Util/Event';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
-export const PRODUCT_URL_STRING = '/product/';
 export const GENERAL_EVENT_DELAY = 500;
 
 /**
@@ -60,14 +59,12 @@ class General extends BaseEvent {
         let prevLocation = history.location;
 
         history.listen((location) => { // On page change
-            const { pathname, search } = location;
-            const { pathname: prevPathname, search: prevSearch } = prevLocation;
+            const { pathname } = location;
+            const { pathname: prevPathname } = prevLocation;
 
-            // no need to fire event when on PDP only attributes have changed
+            // prevents from firing general on filter change (PLP) and on attribute change (PDP)
             if (
-                pathname.slice(0, PRODUCT_URL_STRING.length) === PRODUCT_URL_STRING
-                && pathname === prevPathname
-                && search !== prevSearch
+                pathname === prevPathname
             ) return;
 
             this.saveCartDataToStorage();
