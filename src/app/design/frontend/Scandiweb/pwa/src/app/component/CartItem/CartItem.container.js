@@ -18,7 +18,7 @@ export class CartItemContainer extends SourceCartItemContainer {
      * @return {void}
      */
     handleChangeQuantity(quantity) {
-        const { item, item: { product, qty } } = this.props;
+        const { item, item: { qty } } = this.props;
 
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, sku } } = this.props;
@@ -27,8 +27,9 @@ export class CartItemContainer extends SourceCartItemContainer {
                     .then(() => {
                         if (qty < quantity) {
                             Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
-                                product: { ...product, sku },
-                                quantity: quantity - qty
+                                product: item,
+                                quantity: quantity - qty,
+                                isItem: true
                             });
                         } else {
                             Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
