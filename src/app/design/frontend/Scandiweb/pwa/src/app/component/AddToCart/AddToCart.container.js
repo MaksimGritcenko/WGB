@@ -34,34 +34,12 @@ export class AddToCartContainer extends SourceAddToCartContainer {
         } = this.props;
 
         buttonRef.current.blur();
-        const { variants, type_id, configurable_options = {} } = product;
+        const { variants, type_id } = product;
 
         if (!this._validateAddToCart()) {
             onProductValidationError(type_id);
             return;
         }
-
-        const { attributes = [] } = configurableVariantIndex >= 0 && variants.length
-            ? variants[configurableVariantIndex]
-            : {};
-
-        const parameters = Object.values(attributes).reduce(
-            (parameters, { attribute_code, attribute_value }) => {
-                const option = Object.values(configurable_options)
-                    .find(({ attribute_code: code }) => code === attribute_code);
-
-                if (option) return { ...parameters, [attribute_code]: attribute_value };
-
-                return parameters;
-            }, {}
-        );
-
-        Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
-            product,
-            quantity,
-            configurableVariantIndex,
-            parameters
-        });
 
         this.setState({ isLoading: true });
 
@@ -95,10 +73,33 @@ export class AddToCartContainer extends SourceAddToCartContainer {
             product: productToAdd,
             quantity
         }).then(
-            () => this._afterAdded()
+            () => {
+                console.log(productToAdd, quantity);
+
+                Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                    product: productToAdd,
+                    quantity,
+                    configurableVariantIndex
+                });
+
+                this._afterAdded();
+            }
         ).catch(
             () => this.resetLoading()
         );
+    }
+
+    _afterAdded() {
+        const {
+            showNotification,
+            setQuantityToDefault
+        } = this.props;
+
+        showNotification('success', __('Product added to cart!'));
+        setQuantityToDefault();
+
+        this.removeProductFromWishlist();
+        this.setState({ isLoading: false });
     }
 }
 

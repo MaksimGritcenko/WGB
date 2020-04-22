@@ -18,23 +18,26 @@ export class CartItemContainer extends SourceCartItemContainer {
      * @return {void}
      */
     handleChangeQuantity(quantity) {
-        const { item, item: { sku, product, qty } } = this.props;
-
-        if (qty < quantity) {
-            Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
-                product: { ...product, sku },
-                quantity: quantity - qty
-            });
-        } else {
-            Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
-                item,
-                quantity: qty - quantity
-            });
-        }
+        const { item, item: { product, qty } } = this.props;
 
         this.setState({ isLoading: true }, () => {
             const { changeItemQty, item: { item_id, sku } } = this.props;
-            this.hideLoaderAfterPromise(changeItemQty({ item_id, quantity, sku }));
+            this.hideLoaderAfterPromise(
+                changeItemQty({ item_id, quantity, sku })
+                    .then(() => {
+                        if (qty < quantity) {
+                            Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                                product: { ...product, sku },
+                                quantity: quantity - qty
+                            });
+                        } else {
+                            Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
+                                item,
+                                quantity: qty - quantity
+                            });
+                        }
+                    })
+            );
         });
     }
 
@@ -46,11 +49,15 @@ export class CartItemContainer extends SourceCartItemContainer {
             const { removeProduct, item } = this.props;
             const { item_id, qty: quantity } = item;
 
-            this.hideLoaderAfterPromise(removeProduct(item_id));
-            Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
-                item,
-                quantity
-            });
+            this.hideLoaderAfterPromise(
+                removeProduct(item_id)
+                    .then(() => {
+                        Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
+                            item,
+                            quantity
+                        });
+                    })
+            );
         });
     }
 

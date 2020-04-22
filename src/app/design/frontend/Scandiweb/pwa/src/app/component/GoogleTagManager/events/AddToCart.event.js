@@ -26,11 +26,10 @@ class AddToCartEvent extends BaseEvent {
         Event.observer(EVENT_GTM_PRODUCT_ADD_TO_CART, ({
             product,
             quantity,
-            parameters,
             configurableVariantIndex,
             massAddAction = false
         }) => {
-            this.handle({ configurableVariantIndex, parameters, ...product }, quantity || 1, massAddAction);
+            this.handle({ configurableVariantIndex, ...product }, quantity || 1, massAddAction);
         });
     }
 
