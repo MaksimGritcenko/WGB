@@ -106,7 +106,6 @@ export class ProductReturnQuery {
 
     _getReturnItemStatusFields() {
         return new Field('status')
-            .addField('state')
             .addField('state_label');
     }
 

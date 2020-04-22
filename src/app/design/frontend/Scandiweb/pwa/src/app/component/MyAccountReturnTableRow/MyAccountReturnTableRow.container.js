@@ -32,7 +32,6 @@ export class MyAccountReturnTableRowContainer extends PureComponent {
 
     onViewClick() {
         const { row, onClick } = this.props;
-        console.log(row);
 
         onClick(row);
     }

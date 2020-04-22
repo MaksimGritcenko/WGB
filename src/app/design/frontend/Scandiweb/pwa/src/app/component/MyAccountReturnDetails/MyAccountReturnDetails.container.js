@@ -1,11 +1,11 @@
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ProductReturnQuery } from 'Query';
 import Loader from 'Component/Loader';
 import { OrderDispatcher } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
-import DataContainer from 'Util/Request/DataContainer';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 import MyAccountReturnDetails from './MyAccountReturnDetails.component';
 
 export const mapStateToProps = state => ({
@@ -17,10 +17,11 @@ export const mapDispatchToProps = dispatch => ({
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
-export class MyAccountReturnDetailsContainer extends DataContainer {
+export class MyAccountReturnDetailsContainer extends PureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        history: PropTypes.object.isRequired
     };
 
     containerFunctions = {
@@ -48,11 +49,10 @@ export class MyAccountReturnDetailsContainer extends DataContainer {
 
         this.setState({ isLoading: true, isCancelDisabled: true });
 
-        this.fetchData(
-            [
-                ProductReturnQuery.getReturnCarriers(),
-                ProductReturnQuery.getReturnDetails(returnId)
-            ],
+        return fetchQuery([
+            ProductReturnQuery.getReturnCarriers(),
+            ProductReturnQuery.getReturnDetails(returnId)
+        ]).then(
             ({ getRmaConfiguration: { carriers: carrierData }, getReturnDetailsById }) => {
                 const carriers = Object.values(carrierData).map(({ code, label }) => ({
                     label,
@@ -71,7 +71,7 @@ export class MyAccountReturnDetailsContainer extends DataContainer {
     }
 
     handleCancelRMA() {
-        const { showSuccessNotification } = this.props;
+        const { showSuccessNotification, history } = this.props;
         const { details: { id } } = this.state;
 
         const mutation = ProductReturnQuery.getCancelReturnRequest({ request_id: id });
@@ -84,7 +84,7 @@ export class MyAccountReturnDetailsContainer extends DataContainer {
                     showSuccessNotification(__('Return successfully canceled!'));
                 });
 
-                return true;
+                history.goBack();
             },
             this.onError
         );

@@ -2,6 +2,8 @@ import SourceMyAccount from 'SourceRoute/MyAccount/MyAccount.component';
 import MyAccountMyReturns from 'Component/MyAccountMyReturns';
 import ContentWrapper from 'Component/ContentWrapper';
 import MyAccountTabList from 'Component/MyAccountTabList';
+import { NEW_RETURN, RETURN_DETAILS } from 'Component/MyAccountMyReturns/MyAccountMyReturns.container';
+import getActivePage from 'Util/Url/ReturnUrl';
 
 import { MY_RETURNS } from 'Type/Account';
 
@@ -12,6 +14,11 @@ class MyAccount extends SourceMyAccount {
     };
 
     isTabListNotActive() {
+        const { history: { location: { pathname } } } = this.props;
+        const activePage = getActivePage(pathname);
+
+        if (activePage === NEW_RETURN || activePage === RETURN_DETAILS) return true;
+
         return false;
     }
 

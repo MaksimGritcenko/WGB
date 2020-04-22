@@ -8,21 +8,28 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
     static propTypes = {
         carriers: PropTypes.array.isRequired,
         details: PropTypes.object.isRequired,
-        handleTrackingInformationAdd: PropTypes.object.isRequired
+        handleTrackingInformationAdd: PropTypes.func.isRequired
     };
 
     state = {
         trackingCode: '',
         trackingNumber: '',
+        carrier: '',
         errors: {
             trackingCode: false,
             trackingNumber: false
-        }
+        },
+        newTrackingInfo: []
     };
 
     handleTrackingInformationAdd = () => {
         const { handleTrackingInformationAdd, details: { id } } = this.props;
-        const { trackingCode, trackingNumber } = this.state;
+        const {
+            trackingCode,
+            trackingNumber,
+            carrier,
+            newTrackingInfo
+        } = this.state;
 
         if (!trackingCode || !trackingNumber) {
             this.setState({
@@ -41,15 +48,24 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
             tracking_number: trackingNumber
         }).then(value => value && this.setState({
             trackingCode: '',
-            trackingNumber: ''
+            trackingNumber: '',
+            carrier: '',
+            newTrackingInfo: [
+                ...newTrackingInfo,
+                { carrier, tracking_number: trackingNumber }
+            ]
         }));
     };
 
     handleSelectChange = (trackingCode) => {
+        const { carriers } = this.props;
         const { errors } = this.state;
+
+        const carrier = carriers.find(({ value }) => value === trackingCode).label;
 
         this.setState({
             trackingCode,
+            carrier,
             errors: {
                 ...errors,
                 trackingCode: false
@@ -74,6 +90,9 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
         const { trackingCode, trackingNumber, errors } = this.state;
         const selectTitle = 'carriers';
 
+        const selectErrorMessage = errors.trackingCode ? { message: 'Select field!' } : {};
+        const trackingNumberErrorMessage = errors.trackingNumber ? { message: 'This field is required!' } : {};
+
         return (
             <div
               block="MyAccountReturnDetailsTracking"
@@ -86,16 +105,16 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
                   placeholder={ __('Please select') }
                   selectOptions={ carriers }
                   value={ trackingCode }
-                  message={ errors.trackingCode && 'Select field!' }
                   onChange={ this.handleSelectChange }
+                  { ...selectErrorMessage }
                 />
                 <Field
                   type="text"
                   id="trackingcode"
                   name="trackingcode"
                   value={ trackingNumber }
-                  message={ errors.trackingNumber && 'This field is required!' }
                   onChange={ this.handleTrackingCodeInput }
+                  { ...trackingNumberErrorMessage }
                 />
                 <button
                   block="Button"
@@ -120,11 +139,12 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
         );
     }
 
-    renderTrackingInformationTableRow({ carrier, tracking_number }) {
+    renderTrackingInformationTableRow({ carrier, tracking_number }, index) {
         return (
             <div
               block="MyAccountReturnDetailsTracking"
               elem="TableRow"
+              key={ index }
             >
                 <span>{ carrier }</span>
                 <span>{ tracking_number }</span>
@@ -134,21 +154,23 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
 
     renderTrackingInformationTable() {
         const { details: { tracking = [] } } = this.props;
+        const { newTrackingInfo } = this.state;
 
-        if (!tracking.length) return <span>No tracking</span>;
+        if (!tracking.length && !newTrackingInfo.length) return <span>No tracking</span>;
 
         return (
             <div>
                 { this.renderTrackingInformationTableHead() }
                 { tracking.map(this.renderTrackingInformationTableRow) }
+                { newTrackingInfo.map(this.renderTrackingInformationTableRow) }
             </div>
         );
     }
 
     render() {
-        const { details: { status } } = this.props;
+        const { details: { state } } = this.props;
 
-        // if (status === 1) return null;
+        if (state === 'Processing' || state === 'Canceled') return null;
 
         return (
             <>

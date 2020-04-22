@@ -1,11 +1,11 @@
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ProductReturnQuery, OrderQuery } from 'Query';
 import { OrderDispatcher } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
 import { customerType } from 'Type/Account';
-import DataContainer from 'Util/Request/DataContainer';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
 import MyAccountNewReturn from './MyAccountNewReturn.component';
 
 export const RETURN_REASONS = 'returnReasons';
@@ -22,19 +22,20 @@ export const mapDispatchToProps = dispatch => ({
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
-export class MyAccountNewReturnContainer extends DataContainer {
+export class MyAccountNewReturnContainer extends PureComponent {
     static propTypes = {
         customer: customerType.isRequired,
         showNotification: PropTypes.func.isRequired,
-        showSuccessNotification: PropTypes.func.isRequired
+        showSuccessNotification: PropTypes.func.isRequired,
+        history: PropTypes.object.isRequired
     };
 
     state = {
         reasonData: {},
         isLoading: false,
-        orderId: null,
+        orderId: '',
         items: []
-    }
+    };
 
     containerFunctions = {
         getShippingAddress: this.getShippingAddress.bind(this),
@@ -43,43 +44,6 @@ export class MyAccountNewReturnContainer extends DataContainer {
 
     componentDidMount() {
         this.requestData();
-    }
-
-    getShippingAddress() {
-        const { customer: { addresses = [] } } = this.props;
-        const key = 'default_shipping';
-
-        return addresses.find(({ [key]: defaultAddress }) => defaultAddress);
-    }
-
-    requestData() {
-        const { showNotification, history: { location: { pathname } } } = this.props;
-
-        const orderId = pathname
-            .split('/')[3]
-            .split('&')[1]
-            .split('=')[1];
-
-        this.fetchData(
-            [
-                ProductReturnQuery.getRmaConfiguration(),
-                OrderQuery.getOrderByIdQuery(orderId)
-            ],
-            ({ getRmaConfiguration, getOrderById: { order_products: items } }) => {
-                const reasonData = Object.entries(getRmaConfiguration).reduce((acc, [key, values]) => ({
-                    ...acc,
-                    [key.substring(0, key.length - 1)]: values.map(({ [`${ key.substring(0, key.length - 1) }_id`]: id, title }) => (
-                        {
-                            label: title,
-                            value: id
-                        }
-                    ))
-                }), {});
-
-                this.setState({ reasonData, items, orderId });
-            },
-            e => showNotification('error', 'Error fetching New Return!', e)
-        );
     }
 
     onError = (e) => {
@@ -105,6 +69,42 @@ export class MyAccountNewReturnContainer extends DataContainer {
                 history.goBack();
             },
             this.onError
+        );
+    }
+
+    getShippingAddress() {
+        const { customer: { addresses = [] } } = this.props;
+        const key = 'default_shipping';
+
+        return addresses.find(({ [key]: defaultAddress }) => defaultAddress);
+    }
+
+    requestData() {
+        const { showNotification, history: { location: { pathname } } } = this.props;
+
+        const orderId = pathname
+            .split('/')[3]
+            .split('&')[1]
+            .split('=')[1];
+
+        return fetchQuery([
+            ProductReturnQuery.getRmaConfiguration(),
+            OrderQuery.getOrderByIdQuery(orderId)
+        ]).then(
+            ({ getRmaConfiguration, getOrderById: { order_products: items } }) => {
+                const reasonData = Object.entries(getRmaConfiguration).reduce((acc, [key, values]) => ({
+                    ...acc,
+                    [key.substring(0, key.length - 1)]: values.map(({ [`${ key.substring(0, key.length - 1) }_id`]: id, title }) => (
+                        {
+                            label: title,
+                            value: id
+                        }
+                    ))
+                }), {});
+
+                this.setState({ reasonData, items, orderId });
+            },
+            e => showNotification('error', 'Error fetching New Return!', e)
         );
     }
 

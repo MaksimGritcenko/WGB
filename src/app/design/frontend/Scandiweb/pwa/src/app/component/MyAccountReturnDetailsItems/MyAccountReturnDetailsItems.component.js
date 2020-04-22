@@ -6,9 +6,7 @@ import './MyAccountReturnDetailsItems.style';
 
 export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemSelect {
     static propTypes = {
-        items: PropTypes.func.isRequired,
-        onItemChange: PropTypes.func.isRequired,
-        reasonData: PropTypes.object.isRequired
+        items: PropTypes.array.isRequired
     };
 
     renderItemDetails(name, qty) {
@@ -43,13 +41,13 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
-    renderStatusBlock({ status }) {
+    renderStatusBlock(state_label) {
         return (
             <span
               block="MyAccountReturnDetailsItems"
               elem="ReasonBlockStatus"
             >
-                { `Item Status: ${ status }` }
+                { `Item Status: ${ state_label }` }
             </span>
         );
     }
@@ -80,7 +78,12 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
     }
 
     renderItemInfo(item) {
-        const { product, product: { name }, qty } = item;
+        const {
+            product,
+            product: { name },
+            qty,
+            status: { state_label }
+        } = item;
 
         return (
             <figure block="CartItem" elem="Wrapper">
@@ -91,7 +94,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 >
                     { this.renderItemDetails(name, qty) }
                     { this.renderReasonBlock(item) }
-                    { this.renderStatusBlock(item) }
+                    { this.renderStatusBlock(state_label) }
                 </figcaption>
             </figure>
         );

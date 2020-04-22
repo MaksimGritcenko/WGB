@@ -10,7 +10,6 @@ class MyAccountMyReturns extends PureComponent {
     static propTypes = {
         handleReturnClick: PropTypes.func.isRequired,
         handleReturnItemClick: PropTypes.func.isRequired,
-        handleDropdownChange: PropTypes.func.isRequired,
         returnList: PropTypes.array.isRequired,
         areReturnsLoading: PropTypes.bool.isRequired,
         renderPageTitle: PropTypes.func.isRequired
