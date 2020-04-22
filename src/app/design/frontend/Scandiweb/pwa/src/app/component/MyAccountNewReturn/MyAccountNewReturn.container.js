@@ -34,7 +34,8 @@ export class MyAccountNewReturnContainer extends PureComponent {
         reasonData: {},
         isLoading: false,
         orderId: '',
-        items: []
+        items: [],
+        customFields: []
     };
 
     containerFunctions = {
@@ -61,7 +62,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
         this.setState({ isLoading: true });
 
         return fetchMutation(mutation).then(
-            ({ return_id }) => {
+            ({ createReturnRequest: { return_id } }) => {
                 this.setState({ isLoading: false }, () => {
                     showSuccessNotification(__(`Return successfully made, order ID: ${ return_id }`));
                 });
@@ -91,8 +92,17 @@ export class MyAccountNewReturnContainer extends PureComponent {
             ProductReturnQuery.getRmaConfiguration(),
             OrderQuery.getOrderByIdQuery(orderId)
         ]).then(
-            ({ getRmaConfiguration, getOrderById: { order_products: items } }) => {
-                const reasonData = Object.entries(getRmaConfiguration).reduce((acc, [key, values]) => ({
+            ({
+                getRmaConfiguration: {
+                    reasons,
+                    resolutions,
+                    conditions,
+                    custom_fields: customFields
+                }, getOrderById: { order_products: items }
+            }) => {
+                const reasonBlock = { reasons, resolutions, conditions };
+
+                const reasonData = Object.entries(reasonBlock).reduce((acc, [key, values]) => ({
                     ...acc,
                     [key.substring(0, key.length - 1)]: values.map(({ [`${ key.substring(0, key.length - 1) }_id`]: id, title }) => (
                         {
@@ -102,7 +112,12 @@ export class MyAccountNewReturnContainer extends PureComponent {
                     ))
                 }), {});
 
-                this.setState({ reasonData, items, orderId });
+                this.setState({
+                    reasonData,
+                    items,
+                    orderId,
+                    customFields
+                });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
         );
@@ -113,7 +128,8 @@ export class MyAccountNewReturnContainer extends PureComponent {
             reasonData,
             items,
             orderId,
-            isLoading
+            isLoading,
+            customFields
         } = this.state;
 
         return (
@@ -124,6 +140,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
               items={ items }
               orderId={ orderId }
               isLoading={ isLoading }
+              customFields={ customFields }
             />
         );
     }

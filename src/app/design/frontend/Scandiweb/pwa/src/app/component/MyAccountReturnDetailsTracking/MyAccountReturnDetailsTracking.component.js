@@ -170,7 +170,7 @@ export default class MyAccountReturnDetailsTracking extends PureComponent {
     render() {
         const { details: { state } } = this.props;
 
-        if (state === 'Processing' || state === 'Canceled') return null;
+        if (state !== 'Approved') return null;
 
         return (
             <>
