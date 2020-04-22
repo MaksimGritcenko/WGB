@@ -81,7 +81,15 @@ class CreateNewRequest implements ResolverInterface
         return $returnItems;
     }
 
+    /**
+     * @param array $input
+     * @return array
+     */
     private function getCustomFields($input) {
+        if (!isset($input['custom_fields'])) {
+            return [];
+        }
+
         $customFieldsData = [];
         foreach ($input['custom_fields'] as $field) {
             $customFieldsData[$field['code']] = $field['value'];
