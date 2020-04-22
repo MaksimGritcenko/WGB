@@ -9,10 +9,10 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Amasty\Rma\Model\ConfigProvider;
 
 /**
- * Class CanOrderBeReturned
+ * Class OrderCanBeReturnedByStatus
  * @package WGB\RmaGraphQL\Model\Resolver
  */
-class CanOrderBeReturned implements ResolverInterface
+class OrderCanBeReturnedByStatus implements ResolverInterface
 {
     /**
      * @var StoreManagerInterface

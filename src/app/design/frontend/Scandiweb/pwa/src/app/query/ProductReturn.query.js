@@ -100,11 +100,11 @@ export class ProductReturnQuery {
             .addField(this._getReturnReasonFields('resolution'))
             .addField(this._getReturnReasonFields('reason'))
             .addField(this._getReturnReasonFields('condition'))
-            .addField(this._getReturnStatusFields())
+            .addField(this._getReturnItemStatusFields())
             .addField('qty');
     }
 
-    _getReturnStatusFields() {
+    _getReturnItemStatusFields() {
         return new Field('status')
             .addField('state')
             .addField('state_label');

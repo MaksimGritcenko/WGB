@@ -40,13 +40,24 @@ type Order {
     shipping_info: ShippingInfo
     order_products: [OrderProduct]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
-    can_be_returned: Boolean
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanOrderBeReturned")
+    can_be_returned_by_status: Boolean
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\OrderCanBeReturnedByStatus")
+}
+
+interface ProductInterface {
+    qty: Int
+    row_total: Float
+    original_price: Float
+    license_key: String
+    return_resolutions: [ProductReturnResolution]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsForProduct")
 }
 
 type OrderProduct implements ProductInterface {
     quote_item_id: String
     qty_returning: Int
+#    no_return_reason: Boolean
+#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanItemsBeReturned")
 }
 
 type ProductReturnResolution {
@@ -79,15 +90,6 @@ type ShippingInfo {
     shipping_description: String
     shipping_amount: Float
     tracking_numbers: [String]
-}
-
-interface ProductInterface {
-    qty: Int
-    row_total: Float
-    original_price: Float
-    license_key: String
-    return_resolutions: [ProductReturnResolution]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsForProduct")
 }
 
 type RmaConfiguration {
@@ -145,16 +147,12 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
-    status: ReturnStatus
+    status: ItemReturnStatus
 }
 
-type ReturnStatus {
-    status_id: Int
-    state: String
-    state_label: String
-    priority: Int
-    title: String
-    label: String
+type ItemReturnStatus {
+    state: Int!
+    state_label: String!
 }
 
 type ReturnListEntry {

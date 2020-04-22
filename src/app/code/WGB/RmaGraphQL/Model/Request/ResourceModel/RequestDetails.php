@@ -20,6 +20,7 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order\Item;
 
 use Amasty\Rma\Api\Data\RequestInterface;
 use Amasty\Rma\Api\Data\RequestItemInterface;
@@ -31,8 +32,8 @@ use Amasty\Rma\Model\Condition;
 use Amasty\Rma\Model\Request;
 use Amasty\Rma\Model\Resolution;
 use Amasty\Rma\Observer\Rma;
+use Amasty\Rma\Model\OptionSource\ItemStatus;
 use Amasty\Rma\Api\StatusRepositoryInterface;
-use Magento\Sales\Model\Order\Item;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
 use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
@@ -93,6 +94,10 @@ class RequestDetails
      * @var array
      */
     protected $states;
+    /**
+     * @var ItemStatus
+     */
+    protected $itemStatuses;
 
     public function __construct(
         Product $productDataProvider,
@@ -105,7 +110,8 @@ class RequestDetails
         SearchCriteriaBuilder $searchCriteriaBuilder,
         DataPostProcessor $postProcessor,
         StatusRepositoryInterface $statusRepository,
-        State $stateOptionSource
+        State $stateOptionSource,
+        ItemStatus $itemStatuses
     )
     {
         $this->productDataProvider = $productDataProvider;
@@ -119,6 +125,7 @@ class RequestDetails
         $this->postProcessor = $postProcessor;
         $this->statusRepository = $statusRepository;
         $this->stateOptionSource = $stateOptionSource;
+        $this->itemStatuses = $itemStatuses;
 
         $this->states = $this->stateOptionSource->toArray();
     }
@@ -174,30 +181,27 @@ class RequestDetails
      */
     public function getById($id)
     {
-        /** @var RequestInterface $request */
         $request = $this->requestRepository->getById($id);
-
-        /** @var OrderInterface $order */
         $order = $this->orderRepository->get($request->getOrderId());
-
         /** @var OrderItemInterface $orderItems */
         $orderItems = $order->getItems();
-
         $productIds = array_map(
             function($item) {
                 return $item->getProductId();
             },
             $orderItems
         );
+        $itemStatuses = $this->itemStatuses->toArray();
 
-        $requestItems = array_map(function ($requestItem) use ($orderItems) {
-            /** @var RequestItemInterface $requestItem */
+        $requestItems = array_map(function ($requestItem) use ($orderItems, $itemStatuses) {
             $orderItem = $this->getItemFromOrder($orderItems, $requestItem);
+
             $reason = $this->reasonRepository->getById($requestItem->getReasonId());
             $condition = $this->conditionRepository->getById($requestItem->getConditionId());
             $resolution = $this->resolutionRepository->getById($requestItem->getResolutionId());
-            $status = $this->statusRepository->getById($requestItem->getItemStatus());
-            $status['state_label'] = $this->states[$status->getState()];
+
+            $status_id = $requestItem->getItemStatus();
+            $status_description = $itemStatuses[$status_id];
 
             return [
                 'discount_amount' => $orderItem->getDiscountAmount(),
@@ -213,7 +217,10 @@ class RequestDetails
                 'reason' => $reason,
                 'condition' => $condition,
                 'resolution' => $resolution,
-                'status' => $status
+                'status' => [
+                    'state' => $status_id,
+                    'state_label' => $status_description
+                ]
             ];
 
         }, $request->getRequestItems());
