@@ -17,9 +17,19 @@ import { RELATED, UPSELL } from 'Store/LinkedProducts/LinkedProducts.reducer';
 import './ProductPage.style.override';
 
 export default class ProductPage extends SourceProductPage {
+    componentDidMount() {
+        const { areDetailsLoaded } = this.props;
+
+        if (areDetailsLoaded) {
+            this._gtmProductDetail();
+        }
+        this.freezeScroll();
+    }
+
     componentDidUpdate(prevProps) {
         const { areDetailsLoaded, location: { pathname } } = this.props;
         const { areDetailsLoaded: prevAreDetailsLoaded, location: { pathname: prevPathname } } = prevProps;
+
 
         if (
             (areDetailsLoaded && areDetailsLoaded !== prevAreDetailsLoaded)
@@ -27,6 +37,10 @@ export default class ProductPage extends SourceProductPage {
         ) {
             this._gtmProductDetail();
         }
+    }
+
+    componentWillUnmount() {
+        this.unFreezeScroll();
     }
 
     _gtmProductDetail() {
@@ -131,14 +145,6 @@ export default class ProductPage extends SourceProductPage {
         if (isMobile.any()) {
             document.body.classList.remove('overscrollDisabled');
         }
-    }
-
-    componentDidMount() {
-        this.freezeScroll();
-    }
-
-    componentWillUnmount() {
-        this.unFreezeScroll();
     }
 
     renderProductLinks() {
