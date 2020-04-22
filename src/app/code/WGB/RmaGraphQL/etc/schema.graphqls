@@ -56,8 +56,15 @@ interface ProductInterface {
 type OrderProduct implements ProductInterface {
     quote_item_id: String
     qty_returning: Int
-#    no_return_reason: Boolean
-#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanItemsBeReturned")
+    returnability: Returnability
+}
+
+type Returnability {
+    is_returnable: Boolean
+    reason_id: Int
+    reason_text: String
+    available_qty: Float
+    available_resolutions: [ProductReturnResolution]
 }
 
 type ProductReturnResolution {
