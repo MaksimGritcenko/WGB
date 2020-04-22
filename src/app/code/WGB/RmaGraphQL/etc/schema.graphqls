@@ -38,12 +38,20 @@ type Order {
     base_order_info: BaseOrderInfo
     payment_info: PaymentInfo
     shipping_info: ShippingInfo
-    order_products: [OrderProduct] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
+    order_products: [OrderProduct]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
+    can_be_returned: Boolean
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanOrderBeReturned")
 }
 
 type OrderProduct implements ProductInterface {
     quote_item_id: String
     qty_returning: Int
+}
+
+type ProductReturnResolution {
+    resolution: ReturnResolution
+    value: Int
 }
 
 type BaseOrderInfo {
@@ -78,6 +86,8 @@ interface ProductInterface {
     row_total: Float
     original_price: Float
     license_key: String
+    return_resolutions: [ProductReturnResolution]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsForProduct")
 }
 
 type RmaConfiguration {
@@ -85,6 +95,17 @@ type RmaConfiguration {
     reasons: [ReturnReason]
     conditions: [ReturnItemCondition]
     resolutions: [ReturnResolution]
+    custom_fields: [ReturnCustomField]
+}
+
+input ReturnCustomFieldInput {
+    code: String!
+    value: String!
+}
+
+type ReturnCustomField {
+    code: String
+    label: String
 }
 
 type ReturnCarrier {
@@ -99,7 +120,8 @@ type ReturnDetails {
     status: Int
     state: String
     tracking: [ReturnTracking]
-    items: [ReturnItemDetails] @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+    items: [ReturnItemDetails]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
 }
 
 type ReturnTracking {
@@ -123,7 +145,16 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
-    status: Int
+    status: ReturnStatus
+}
+
+type ReturnStatus {
+    status_id: Int
+    state: String
+    state_label: String
+    priority: Int
+    title: String
+    label: String
 }
 
 type ReturnListEntry {
@@ -135,9 +166,9 @@ type ReturnListEntry {
     request_qty: Float
 }
 
-input CreateReturnInput {
+input  CreateReturnInput {
     order_id: String!
-    custom_fields: [String]
+    custom_fields: [ReturnCustomFieldInput]
     items: [ReturnItemInput]!
 }
 

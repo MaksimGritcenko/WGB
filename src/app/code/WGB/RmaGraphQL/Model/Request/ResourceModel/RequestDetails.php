@@ -13,11 +13,6 @@
 
 namespace WGB\RmaGraphQL\Model\Request\ResourceModel;
 
-use Amasty\Rma\Api\Data\RequestInterface;
-use Amasty\Rma\Api\Data\RequestItemInterface;
-use Amasty\Rma\Api\Data\TrackingInterface;
-use Amasty\Rma\Api\Data\TrackingInterfaceFactory;
-use Amasty\Rma\Model\OptionSource\State;
 use GraphQL\Language\AST\FieldNode;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -25,6 +20,12 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
+
+use Amasty\Rma\Api\Data\RequestInterface;
+use Amasty\Rma\Api\Data\RequestItemInterface;
+use Amasty\Rma\Api\Data\TrackingInterface;
+use Amasty\Rma\Api\Data\TrackingInterfaceFactory;
+use Amasty\Rma\Model\OptionSource\State;
 use Amasty\Rma\Model\Reason;
 use Amasty\Rma\Model\Condition;
 use Amasty\Rma\Model\Request;
@@ -88,6 +89,10 @@ class RequestDetails
      * @var State
      */
     protected $stateOptionSource;
+    /**
+     * @var array
+     */
+    protected $states;
 
     public function __construct(
         Product $productDataProvider,
@@ -114,6 +119,8 @@ class RequestDetails
         $this->postProcessor = $postProcessor;
         $this->statusRepository = $statusRepository;
         $this->stateOptionSource = $stateOptionSource;
+
+        $this->states = $this->stateOptionSource->toArray();
     }
 
     /**
@@ -189,6 +196,8 @@ class RequestDetails
             $reason = $this->reasonRepository->getById($requestItem->getReasonId());
             $condition = $this->conditionRepository->getById($requestItem->getConditionId());
             $resolution = $this->resolutionRepository->getById($requestItem->getResolutionId());
+            $status = $this->statusRepository->getById($requestItem->getItemStatus());
+            $status['state_label'] = $this->states[$status->getState()];
 
             return [
                 'discount_amount' => $orderItem->getDiscountAmount(),
@@ -204,7 +213,7 @@ class RequestDetails
                 'reason' => $reason,
                 'condition' => $condition,
                 'resolution' => $resolution,
-                'status' => $requestItem->getItemStatus()
+                'status' => $status
             ];
 
         }, $request->getRequestItems());
@@ -217,13 +226,12 @@ class RequestDetails
             }, $request->getTrackingNumbers()
         );
 
-        $states = $this->stateOptionSource->toArray();
         return [
             'id' => $request->getRequestId(),
             'order_id' => $request->getOrderId(),
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
-            'state' => $states[$this->statusRepository->getById($request->getStatus())->getState()],
+            'state' => $this->states[$this->statusRepository->getById($request->getStatus())->getState()],
             'items' => $requestItems,
             'productIds' => $productIds,
             'tracking' => $trackings
