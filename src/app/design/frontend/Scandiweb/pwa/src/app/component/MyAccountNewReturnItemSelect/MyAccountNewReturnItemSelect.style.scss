@@ -1,0 +1,131 @@
+.MyAccountNewReturnItemSelect {
+    &-Title {
+        text-transform: none;
+        font-weight: normal;
+        font-family: var(--font-roboto);
+        line-height: 1;
+        font-size: 17px;
+
+        @include mobile {
+            margin-top: 20px;
+        }
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    &-ItemWrapper {
+        display: flex;
+        padding: 15px 0;
+        border-bottom: solid 1px #ebebea;
+
+        @include mobile {
+            flex-direction: column;
+        }
+    }
+
+    &-ItemField {
+        flex: 1;
+        margin: 0;
+        height: max-content;
+
+        label:first-of-type {
+            padding-left: 30px;
+        }
+
+        label:last-of-type {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    &-ReasonBlockWrapper {
+        padding: 20px 30px;
+        border: solid 2px #0f0e0e;
+    }
+
+    &-SelectWrapper {
+        &:not(:first-of-type) {
+            margin-top: 20px;
+        }
+    }
+
+    &-SelectTitle {
+        font-size: 14px;
+        font-weight: bold;
+
+        @include after-mobile {
+            font-size: 17px;
+        }
+    }
+
+    &-SelectInput {
+        margin-top: 0;
+
+        .Field-SelectWrapper {
+            width: 100%;
+
+            @include desktop {
+                width: 350px;
+            }
+        }
+
+        .Field-Select {
+            @include mobile {
+                font-size: var(--font-size);
+            }
+        }
+    }
+
+    &-QtyBlockWrapper {
+        font-size: var(--font-size);
+
+        .Field_type_number {
+            display: inline-block;
+            margin: 0 5px;
+
+            &.Field_hasError {
+                margin-bottom: 10px;
+
+                .Field-Message {
+                    position: absolute;
+                }
+
+                button {
+                    &:last-of-type {
+                        bottom: 0;
+                    }
+                }
+            }
+
+            input {
+                font-size: var(--font-size);
+            }
+
+            button {
+                @include mobile {
+                    width: unset;
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+
+    &-ItemImagePlaceholder {
+        &::after {
+            height: 160px;
+            display: inline-block;
+            width: 110px;
+            margin: 27px 1rem 27px calc(30px + 1rem);
+        }
+    }
+
+    .CartItem-Wrapper {
+        &::after {
+            content: none;
+        }
+    }
+}
