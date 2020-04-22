@@ -31,7 +31,7 @@ class MyAccountMyReturnsDropdown extends PureComponent {
 
     getSelectValueText(value) {
         const { selectOptions } = this.props;
-        const foundOption = selectOptions.filter(option => option.value.toString() === value)[0];
+        const foundOption = selectOptions.filter(option => option.value.toString() === value.toString())[0];
 
         return foundOption.label;
     }
