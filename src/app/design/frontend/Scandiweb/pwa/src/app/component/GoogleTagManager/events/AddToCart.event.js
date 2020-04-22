@@ -27,22 +27,27 @@ class AddToCartEvent extends BaseEvent {
             product,
             quantity,
             configurableVariantIndex,
-            massAddAction = false
+            massAddAction = false,
+            isItem = false
         }) => {
-            this.handle({ configurableVariantIndex, ...product }, quantity || 1, massAddAction);
+            this.handle({ configurableVariantIndex, ...product }, quantity || 1, isItem, massAddAction);
         });
     }
 
     /**
      * Handle product add to cart
      */
-    handler(product, quantity, massAddAction) {
+    handler(product, quantity, isItem, massAddAction) {
         if (!massAddAction && this.spamProtection(SPAM_PROTECTION_DELAY)) {
             return;
         }
 
+        const productData = isItem
+            ? ProductHelper.getItemData(product)
+            : ProductHelper.getProductData(product, true);
+
         const newProduct = {
-            ...ProductHelper.getProductData(product, true),
+            ...productData,
             quantity
         };
 
