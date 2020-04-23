@@ -8,6 +8,7 @@ import { HeaderAndFooterReducer } from 'Store/HeaderAndFooter';
 import { SocialLoginReducer } from 'Store/SocialLogins';
 import { ContactFormReducer } from 'Store/ContactForm';
 import { GeoIPReducer } from 'Store/GeoIP';
+import { ReturnReducer } from 'Store/Return';
 
 export const reducers = {
     ...SourceReducers,
@@ -15,7 +16,8 @@ export const reducers = {
     HeaderAndFooterReducer,
     SocialLoginReducer,
     ContactFormReducer,
-    GeoIPReducer
+    GeoIPReducer,
+    ReturnReducer
 };
 
 const store = createStore(
