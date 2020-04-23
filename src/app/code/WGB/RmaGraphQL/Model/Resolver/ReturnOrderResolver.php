@@ -92,8 +92,10 @@ class ReturnOrderResolver implements ResolverInterface
             throw new GraphQlNoSuchEntityException(__('Customer ID is invalid.'));
         }
 
-        foreach ($returnOrder->getItems() as $returnOrderItem) {
-            $itemsData[] = $returnOrderItem;
+        if ($returnOrder) {
+            foreach ($returnOrder->getItems() as $returnOrderItem) {
+                $itemsData[] = $returnOrderItem;
+            }
         }
 
         $tracksCollection = $order->getTracksCollection();

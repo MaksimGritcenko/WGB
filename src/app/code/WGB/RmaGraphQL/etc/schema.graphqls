@@ -42,8 +42,6 @@ type Order {
     shipping_info: ShippingInfo
     order_products: [OrderProduct]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
-    can_be_returned_by_status: Boolean
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\OrderCanBeReturnedByStatus")
 }
 
 interface ProductInterface {
@@ -79,25 +77,11 @@ type BaseOrderInfo {
     increment_id: String
     created_at: String
     status: String
+    status_can_be_returned: Boolean
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\StatusCanBeReturned")
     status_label: String
     grand_total: Float
     sub_total: Float
-}
-
-type PaymentInfo {
-    method: String
-    cc_owner: String
-    cc_last_4: String
-    cc_type: String
-    additional_information: AdditionalCustomerInfo
-}
-
-type ShippingInfo {
-    shipping_method: String
-    shipping_address: OrderCustomerAddress
-    shipping_description: String
-    shipping_amount: Float
-    tracking_numbers: [String]
 }
 
 type RmaConfiguration {
