@@ -98,6 +98,12 @@ type RmaConfiguration {
     conditions: [ReturnItemCondition]
     resolutions: [ReturnResolution]
     custom_fields: [ReturnCustomField]
+    contact_data: ReturnContactData
+}
+
+type ReturnContactData {
+    email: String
+    phone_number: String
 }
 
 input ReturnCustomFieldInput {

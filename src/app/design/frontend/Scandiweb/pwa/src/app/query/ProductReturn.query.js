@@ -22,7 +22,14 @@ export class ProductReturnQuery {
             .addField(this._getReturnReasonsFields())
             .addField(this._getReturnResolutionsFields())
             .addField(this._getItemConditionsFields())
-            .addField(this._getItemCustomFieldsFields());
+            .addField(this._getItemCustomFieldsFields())
+            .addField(this._getAdminContactDataFields());
+    }
+
+    _getAdminContactDataFields() {
+        return new Field('contact_data')
+            .addField('email')
+            .addField('phone_number');
     }
 
     _getReturnReasonsFields() {

@@ -17,7 +17,9 @@ export default class MyAccountNewReturn extends PureComponent {
         isLoading: PropTypes.bool.isRequired,
         items: PropTypes.array.isRequired,
         customFields: PropTypes.array.isRequired,
-        renderPageTitle: PropTypes.func.isRequired
+        renderPageTitle: PropTypes.func.isRequired,
+        contactData: PropTypes.object.isRequired,
+        createdAt: PropTypes.string.isRequired
     };
 
     state = {
@@ -134,7 +136,13 @@ export default class MyAccountNewReturn extends PureComponent {
     }
 
     render() {
-        const { reasonData, items, renderPageTitle } = this.props;
+        const {
+            reasonData,
+            items,
+            renderPageTitle,
+            contactData,
+            createdAt
+        } = this.props;
         const { hasItemsError } = this.state;
 
         return (
@@ -153,6 +161,8 @@ export default class MyAccountNewReturn extends PureComponent {
                   reasonData={ reasonData }
                   items={ items }
                   hasError={ hasItemsError }
+                  contactData={ contactData }
+                  createdAt={ createdAt }
                 />
                 { this.renderBankDetailFields() }
                 { this.renderActions() }

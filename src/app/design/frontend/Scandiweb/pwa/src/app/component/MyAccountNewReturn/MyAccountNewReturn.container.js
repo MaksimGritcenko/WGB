@@ -35,7 +35,9 @@ export class MyAccountNewReturnContainer extends PureComponent {
         isLoading: false,
         orderId: '',
         items: [],
-        customFields: []
+        customFields: [],
+        contactData: {},
+        createdAt: ''
     };
 
     containerFunctions = {
@@ -97,8 +99,12 @@ export class MyAccountNewReturnContainer extends PureComponent {
                     reasons,
                     resolutions,
                     conditions,
-                    custom_fields: customFields
-                }, getOrderById: { order_products: items }
+                    custom_fields: customFields,
+                    contact_data: contactData
+                }, getOrderById: {
+                    order_products: items,
+                    base_order_info: { created_at: createdAt }
+                }
             }) => {
                 const reasonBlock = { reasons, resolutions, conditions };
 
@@ -116,7 +122,9 @@ export class MyAccountNewReturnContainer extends PureComponent {
                     reasonData,
                     items,
                     orderId,
-                    customFields
+                    customFields,
+                    contactData,
+                    createdAt
                 });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
@@ -129,7 +137,9 @@ export class MyAccountNewReturnContainer extends PureComponent {
             items,
             orderId,
             isLoading,
-            customFields
+            customFields,
+            contactData,
+            createdAt
         } = this.state;
 
         return (
@@ -141,6 +151,8 @@ export class MyAccountNewReturnContainer extends PureComponent {
               orderId={ orderId }
               isLoading={ isLoading }
               customFields={ customFields }
+              contactData={ contactData }
+              createdAt={ createdAt }
             />
         );
     }
