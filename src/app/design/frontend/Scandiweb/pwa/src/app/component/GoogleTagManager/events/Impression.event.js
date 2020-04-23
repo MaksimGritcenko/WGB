@@ -35,7 +35,7 @@ export const RECOMMENDED_IMPRESSIONS = 'recommended';
  *
  * @type {number}
  */
-export const SPAM_PROTECTION_DELAY = 4000;
+export const SPAM_PROTECTION_DELAY = 2000;
 export const PRODUCT_IMPRESSION_COUNT = 36;
 export const PRODUCT_IMPRESSION_CHUNK_SIZE = 4;
 export const EVENT_HANDLE_DELAY = 700;
@@ -100,7 +100,7 @@ class Impression extends BaseEvent {
      * @param products Product list
      * @param filters Category filters
      */
-    handler(productCollectionType = PLP_IMPRESSIONS, products = [], filters = {}, category = '') {
+    handler(productCollectionType = PLP_IMPRESSIONS, products = [], filters = {}, category = {}) {
         const impressions = this.getImpressions(productCollectionType, products, filters, category);
         const storage = this.getStorage();
         const impressionUID = this.getImpressionUID(impressions);
@@ -140,8 +140,10 @@ class Impression extends BaseEvent {
      * @return {{price: string, name: string, variant: string, id: string, position: number, list: string, category: string, brand: string}[]}
      */
     getImpressions(productCollectionType = PLP_IMPRESSIONS, products, filters, category) {
+        const { name: categoryName = '', url_path = '' } = category;
         const productCollection = this.getProductCollection(productCollectionType, products);
         const productCount = Object.values(productCollection || []).length;
+
         const offset = PRODUCT_IMPRESSION_COUNT - productCount < 0
             ? Math.abs(PRODUCT_IMPRESSION_COUNT - productCount)
             : 0;
@@ -152,9 +154,9 @@ class Impression extends BaseEvent {
             .map((product, index) => {
                 const configurableVariantIndex = getCurrentVariantIndexFromFilters(product, filters);
                 return {
-                    ...ProductHelper.getProductData({ ...product, configurableVariantIndex, category }),
+                    ...ProductHelper.getProductData({ ...product, configurableVariantIndex, category: url_path }),
                     position: offset + index + 1,
-                    list: this.getProductCollectionList(productCollectionType, product)
+                    list: this.getProductCollectionList(productCollectionType, product, categoryName)
                 };
             });
     }
@@ -189,7 +191,7 @@ class Impression extends BaseEvent {
      *
      * @return {string}
      */
-    getProductCollectionList(productCollectionType = PLP_IMPRESSIONS, product) {
+    getProductCollectionList(productCollectionType = PLP_IMPRESSIONS, product, categoryName = '') {
         switch (productCollectionType) {
         case HOME_IMPRESSIONS:
             return 'Homepage';
@@ -198,11 +200,13 @@ class Impression extends BaseEvent {
         case SEARCH_IMPRESSIONS:
             return 'Search results';
         case WISHLIST_IMPRESSIONS:
-            return 'wishlist';
+            return 'Wishlist';
         case CHECKOUT_CROSS_SELL_IMPRESSIONS:
             return 'Cross sell impressions';
         case PLP_IMPRESSIONS:
-            return 'PLP';
+            return categoryName
+                ? `PLP - ${ categoryName }`
+                : 'PLP';
         default:
             return ProductHelper.getList(product);
         }

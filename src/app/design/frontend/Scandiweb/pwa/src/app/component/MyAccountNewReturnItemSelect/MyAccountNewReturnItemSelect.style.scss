@@ -30,6 +30,15 @@
         margin: 0;
         height: max-content;
 
+        &_isDisabled {
+            &[type='checkbox']:disabled + label {
+                &:last-of-type {
+                    cursor: not-allowed;
+                    border: 1px solid var(--input-border-color);
+                }
+            }
+        }
+
         label:first-of-type {
             padding-left: 30px;
         }
@@ -45,6 +54,13 @@
     &-ReasonBlockWrapper {
         padding: 20px 30px;
         border: solid 2px #0f0e0e;
+
+        &_isRulesBlock {
+            @include after-mobile {
+                width: 45%;
+                max-width: 400px;
+            }
+        }
     }
 
     &-SelectWrapper {
@@ -121,6 +137,17 @@
             width: 110px;
             margin: 27px 1rem 27px calc(30px + 1rem);
         }
+    }
+
+    &-ReasonBlockRuleTitle,
+    &-ReasonBlockRule {
+        font-size: 15px;
+        display: block;
+    }
+
+    &-ReasonBlockRuleTitle {
+        font-size: 17px;
+        margin-bottom: 10px;
     }
 
     .CartItem-Wrapper {

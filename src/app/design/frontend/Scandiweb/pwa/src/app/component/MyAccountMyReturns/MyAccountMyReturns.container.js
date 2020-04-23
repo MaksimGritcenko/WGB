@@ -10,6 +10,7 @@ import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { OrderDispatcher } from 'Store/Order';
 import { ReturnDispatcher } from 'Store/Return';
 import { ordersType } from 'Type/Account';
+import getActivePage from 'Util/Url/ReturnUrl';
 import MyAccountMyReturns from './MyAccountMyReturns.component';
 
 export const mapStateToProps = state => ({
@@ -25,9 +26,9 @@ export const mapDispatchToProps = dispatch => ({
     changeHeaderState: state => dispatch(changeNavigationState(TOP_NAVIGATION_TYPE, state))
 });
 
-const MY_RETURN = 'myReturn';
-const NEW_RETURN = 'newReturn';
-const RETURN_DETAILS = 'returnDetails';
+export const MY_RETURN = 'myReturn';
+export const NEW_RETURN = 'newReturn';
+export const RETURN_DETAILS = 'returnDetails';
 
 export class MyAccountMyReturnsContainer extends PureComponent {
     static propTypes = {
@@ -84,31 +85,34 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         const activePage = this.getActivePage();
 
         if (prevActivePage !== activePage) {
-            this.handlePageChange();
+            this.handlePageChange(prevActivePage);
         }
     }
 
     getActivePage() {
         const { history: { location: { pathname } } } = this.props;
 
-        const pathNameIndex = 3;
-        const url = pathname.split('/')[pathNameIndex];
-
-        if (!url) return MY_RETURN;
-        if (url.split('&')[0] === 'new-return') return NEW_RETURN;
-
-        return RETURN_DETAILS;
+        return getActivePage(pathname);
     }
 
     setChosenOrderId(id) {
         this.chosenOrderId = id;
     }
 
-    handlePageChange() {
+    handleReturnListReload(prevActivePage, activePage) {
+        const { getReturnList } = this.props;
+
+        if (activePage !== MY_RETURN || prevActivePage === MY_RETURN) return;
+
+        getReturnList();
+    }
+
+    handlePageChange(prevActivePage) {
         const activePage = this.getActivePage();
 
         if (activePage === NEW_RETURN || activePage === RETURN_DETAILS) this.changeHeaderState();
 
+        this.handleReturnListReload(prevActivePage, activePage);
         this.setState({ activePage });
     }
 

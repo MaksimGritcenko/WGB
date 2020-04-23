@@ -11,17 +11,21 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         items: PropTypes.array.isRequired,
         onItemChange: PropTypes.func.isRequired,
         reasonData: PropTypes.object.isRequired,
-        hasError: PropTypes.bool.isRequired
+        hasError: PropTypes.bool.isRequired,
+        contactData: PropTypes.object.isRequired,
+        createdAt: PropTypes.string.isRequired
     };
 
     state = {
         selectedItems: {}
     };
 
-    handleItemSelect = (isChecked, id) => {
+    handleItemSelect = (isChecked, id, isDisabled) => {
         const { onItemChange, reasonData } = this.props;
         const { selectedItems: items } = this.state;
         const selectedItems = { ...items };
+
+        if (isDisabled) return;
 
         if (isChecked) {
             delete selectedItems[id];
@@ -73,6 +77,19 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
 
         this.setState({ selectedItems });
         onItemChange(selectedItems);
+    }
+
+    isItemExpared(returnResolutions) {
+        const { createdAt } = this.props;
+        const createdAtDate = new Date(createdAt);
+
+        const { value: returnPeriod } = returnResolutions.find(
+            ({ resolution: { title } }) => title === 'Return'
+        );
+
+        if (createdAtDate.setDate(createdAtDate.getDate() + returnPeriod) > new Date() || returnPeriod === 0) return true;
+
+        return false;
     }
 
     renderImage({ name, thumbnail: { url: thumbnailUrl }, small_image: { url: small_imageUrl } }) {
@@ -174,28 +191,74 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlock(item, isChecked, id) {
-        const { qty, qty_returning } = item;
-        if (!isChecked) return null;
+    renderReasonBlockRules() {
+        const { contactData: { phone_number, email } } = this.props;
 
+        return (
+            <>
+                <span
+                  block="MyAccountNewReturnItemSelect"
+                  elem="ReasonBlockRuleTitle"
+                >
+                    The return for this product can’t be processed.
+                    The return period expired.
+                </span>
+                <span
+                  block="MyAccountNewReturnItemSelect"
+                  elem="ReasonBlockRule"
+                >
+                    If you have questions, please contact the store administrator:
+                </span>
+                <span
+                  block="MyAccountNewReturnItemSelect"
+                  elem="ReasonBlockRule"
+                >
+                    { phone_number || 'No phone number' }
+                </span>
+                <span
+                  block="MyAccountNewReturnItemSelect"
+                  elem="ReasonBlockRule"
+                >
+                    { email || 'No email' }
+                </span>
+            </>
+        );
+    }
+
+    renderReasonBlockInputs(id, qty, qty_returning) {
         const { reasonData } = this.props;
 
         const data = Object.entries(reasonData);
 
         return (
-            <div
-              block="MyAccountNewReturnItemSelect"
-              elem="ReasonBlockWrapper"
-            >
+            <>
                 { this.renderReasonBlockQty(id, qty - qty_returning) }
                 { this.renderReasonBlockSelect('Return Reason', data[0], id) }
                 { this.renderReasonBlockSelect('Item Condition', data[1], id) }
                 { this.renderReasonBlockSelect('Return Resolution', data[2], id) }
+            </>
+        );
+    }
+
+    renderReasonBlock(item, id, isChecked, isDisabled) {
+        const { qty, qty_returning } = item;
+
+        if (!isChecked && !isDisabled) return null;
+
+        return (
+            <div
+              block="MyAccountNewReturnItemSelect"
+              elem="ReasonBlockWrapper"
+              mods={ { isRulesBlock: isDisabled } }
+            >
+                { isDisabled
+                    ? this.renderReasonBlockRules()
+                    : this.renderReasonBlockInputs(id, qty, qty_returning) }
             </div>
         );
     }
 
-    renderItemField(item, id, isChecked) {
+    renderItemField(item, id, isChecked, isDisabled) {
         return (
             <Field
               id={ id }
@@ -204,8 +267,10 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
               type="checkbox"
               mix={ {
                   block: 'MyAccountNewReturnItemSelect',
-                  elem: 'ItemField'
+                  elem: 'ItemField',
+                  mods: { isDisabled }
               } }
+              isDisabled={ isDisabled }
               label={ (
                 <figure block="CartItem" elem="Wrapper">
                     { this.renderImage(item) }
@@ -218,17 +283,18 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                 </figure>
               ) }
               checked={ isChecked }
-              onChange={ () => this.handleItemSelect(isChecked, id) }
+              onChange={ () => this.handleItemSelect(isChecked, id, isDisabled) }
             />
         );
     }
 
     renderItem = (item, index) => {
         const { selectedItems } = this.state;
-        const { quote_item_id } = item;
+        const { quote_item_id, return_resolutions } = item;
 
         const id = parseInt(quote_item_id, 10);
         const isChecked = !!selectedItems[id];
+        const isDisabled = this.isItemExpared(return_resolutions);
 
         return (
             <div
@@ -236,8 +302,8 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
               elem="ItemWrapper"
               key={ index }
             >
-                { this.renderItemField(item, id, isChecked) }
-                { this.renderReasonBlock(item, isChecked, id) }
+                { this.renderItemField(item, id, isChecked, isDisabled) }
+                { this.renderReasonBlock(item, id, isChecked, isDisabled) }
             </div>
         );
     };

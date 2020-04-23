@@ -76,7 +76,11 @@ class Config implements ResolverInterface
                     return $carry;
                 },
                 []
-            )
+            ),
+            'contact_data' => [
+                'email' => $this->configProvider->getAdministratorEmail(),
+                'phone_number' => $this->configProvider->getAdministratorPhoneNumber(),
+            ]
         ];
     }
 }

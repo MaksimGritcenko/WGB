@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd3eaafd1bc6d2718d882ec5f7a13ac7",
+    "content-hash": "10bae5148bcc521e295d2e904b738ea7",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1056,6 +1056,51 @@
                 "MIT"
             ],
             "description": "Dotmailer integration for Magento 2 Open Source"
+        },
+        {
+            "name": "ebizmarts/mailchimp-lib",
+            "version": "3.0.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ebizmarts/mailchimp-lib.git",
+                "reference": "776bfe4aac742aaeb2b0053c45427db22d1e302c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ebizmarts/mailchimp-lib/zipball/776bfe4aac742aaeb2b0053c45427db22d1e302c",
+                "reference": "776bfe4aac742aaeb2b0053c45427db22d1e302c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mailchimp": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ebizmarts Corp.",
+                    "email": "info@ebizmarts.com",
+                    "homepage": "http://ebizmarts.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API client library for the MailChimp",
+            "homepage": "https://github.com/ebizmarts/mailchimp-lib",
+            "keywords": [
+                "api",
+                "email",
+                "mailchimp"
+            ],
+            "time": "2020-03-05T17:49:01+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -11967,6 +12012,36 @@
             ],
             "description": "Customization configuration for ScandiPWA",
             "time": "2020-03-26T10:07:32+00:00"
+        },
+        {
+            "name": "scandipwa/email-fix",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scandipwa/email-fix.git",
+                "reference": "1bbc5c14d83d9bcdf21f5cc8e824695e9aa827c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scandipwa/email-fix/zipball/1bbc5c14d83d9bcdf21f5cc8e824695e9aa827c6",
+                "reference": "1bbc5c14d83d9bcdf21f5cc8e824695e9aa827c6",
+                "shasum": ""
+            },
+            "require": {
+                "magento/magento2-base": "<2.3.5"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "src/registration.php"
+                ],
+                "psr-4": {
+                    "ScandiPWA\\EmailFix\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Email fix for ScandiPWA",
+            "time": "2020-04-06T09:26:24+00:00"
         },
         {
             "name": "scandipwa/installer",

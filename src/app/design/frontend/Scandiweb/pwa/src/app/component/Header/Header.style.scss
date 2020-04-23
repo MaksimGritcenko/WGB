@@ -243,7 +243,7 @@
         &_menu_subcategory {
             .Header-Button_type {
                 &_close {
-                    @include after-mobile {
+                    @include after-mobile{
                         @include button-visible;
                     }
                 }
@@ -317,9 +317,17 @@
         }
 
         &_cms-page {
-            .Header-Button_type_back {
-                @include mobile {
-                    order: -1;
+            .Header {
+                &-Button_type_back {
+                    @include mobile {
+                        order: -1;
+                    }
+                }
+
+                &-MenuWrapper {
+                    @include mobile {
+                        display: none;
+                    }
                 }
             }
         }
@@ -436,7 +444,7 @@
             }
 
             &_searchButton {
-                order: -1;
+                order: 0;
 
                 @include after-mobile {
                     order: 1;
@@ -455,6 +463,10 @@
                 }
             }
         }
+    }
+
+    &-MenuWrapper {
+        order: -1;
     }
 
     &-SearchWrapper {

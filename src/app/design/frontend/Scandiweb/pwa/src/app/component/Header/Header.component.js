@@ -152,8 +152,11 @@ export default class Header extends SourceHeader {
             title: true
         },
         [CUSTOMER_ACCOUNT_PAGE]: {
-            back: true,
-            title: true
+            menu: true,
+            searchButton: true,
+            title: true,
+            wishlist: true,
+            minicart: true
         },
         [HOME_PAGE]: {
             menu: true,

@@ -52,8 +52,23 @@ class General extends BaseEvent {
             this.handle();
         }, GENERAL_EVENT_DELAY);
 
-        this.getGTM().props.history.listen(() => { // On page change
+        // eslint-disable-next-line prefer-destructuring
+        const history = this.getGTM().props.history;
+
+        // eslint-disable-next-line fp/no-let
+        let prevLocation = history.location;
+
+        history.listen((location) => { // On page change
+            const { pathname } = location;
+            const { pathname: prevPathname } = prevLocation;
+
+            // prevents from firing general on filter change (PLP) and on attribute change (PDP)
+            if (
+                pathname === prevPathname
+            ) return;
+
             this.saveCartDataToStorage();
+            prevLocation = location;
 
             setTimeout(() => {
                 this.handle();

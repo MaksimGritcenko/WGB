@@ -5,6 +5,10 @@
         }
     }
 
+    &-StickyButtonWrapper {
+        margin-bottom: 2rem;
+    }
+
     &-Success {
         text-align: center;
 
@@ -86,5 +90,9 @@
     select,
     input {
         font-size: 14px;
+
+        @include mobile {
+            font-size: 16px;
+        }
     }
 }
