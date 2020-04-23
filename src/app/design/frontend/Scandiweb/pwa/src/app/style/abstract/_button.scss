@@ -27,6 +27,7 @@
     will-change: background-color, color, border;
     transition-timing-function: ease-out;
     transition-duration: .25s;
+    line-height: 1;
     cursor: pointer;
     border: {
         width: var(--button-border-width);
@@ -35,7 +36,7 @@
     }
 
     @include mobile {
-        font-size: 18px;
+        font-size: 15px;
     }
 
     &:hover,

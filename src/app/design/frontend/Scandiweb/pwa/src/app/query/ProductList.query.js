@@ -17,6 +17,32 @@ import { Field } from 'Util/Query';
  * @class ProductListQuery
  */
 export class ProductListQuery extends SourceProductListQuery {
+    _getResolutionFields() {
+        return [
+            'resolution_id',
+            'title',
+            'position',
+            'label'
+        ];
+    }
+
+    _getResolutionField() {
+        return new Field('resolution')
+            .addFieldList(this._getResolutionFields());
+    }
+
+    _getProductReturnResolutionsFields() {
+        return [
+            this._getResolutionField(),
+            'value'
+        ];
+    }
+
+    _getProductReturnResolutionsField() {
+        return new Field('return_resolutions')
+            .addFieldList(this._getProductReturnResolutionsFields());
+    }
+
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const { isSingleProduct } = this.options;
 
@@ -35,6 +61,7 @@ export class ProductListQuery extends SourceProductListQuery {
             'special_to_date',
             this._getAttributesField(isVariant),
             this._getTierPricesField(),
+            this._getProductReturnResolutionsField(),
             ...(!isVariant
                 ? [
                     'url_key',

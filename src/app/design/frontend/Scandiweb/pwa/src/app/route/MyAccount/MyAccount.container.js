@@ -16,7 +16,8 @@ import {
     DASHBOARD,
     MY_WISHLIST,
     MY_ORDERS,
-    NEWSLETTER_SUBSCRIPTION
+    NEWSLETTER_SUBSCRIPTION,
+    MY_RETURNS
 } from 'Type/Account';
 
 import { CUSTOMER_ACCOUNT_PAGE } from 'Component/Header';
@@ -47,7 +48,7 @@ class MyAccount extends MyAccountContainer {
         },
         [ADDRESS_BOOK]: {
             url: '/address-book',
-            name: __('Address book')
+            name: __('Address Book')
         },
         [MY_WISHLIST]: {
             url: '/my-favorites',
@@ -55,11 +56,16 @@ class MyAccount extends MyAccountContainer {
         },
         [MY_ORDERS]: {
             url: '/my-orders',
-            name: __('My orders')
+            name: __('My Orders')
         },
         [NEWSLETTER_SUBSCRIPTION]: {
             url: '/newsletter-subscription',
             name: __('Newsletter Subscription')
+        },
+        [MY_RETURNS]: {
+            url: '/my-returns',
+            name: __('My Returns'),
+            noTitle: true
         }
     };
 

@@ -66,6 +66,7 @@ export const CONTACT_US = 'contact-us';
 export const SIGN_IN = 'sign-in';
 export const STORES = 'stores';
 export const STORES_SUB = 'stores_sub';
+export const MY_RETURN = 'my-return';
 
 
 export const PAGE = 'page';
@@ -200,6 +201,10 @@ export default class Header extends SourceHeader {
             searchButton: true,
             wishlist: true,
             minicart: true
+        },
+        [MY_RETURN]: {
+            back: true,
+            title: true
         }
     };
 
