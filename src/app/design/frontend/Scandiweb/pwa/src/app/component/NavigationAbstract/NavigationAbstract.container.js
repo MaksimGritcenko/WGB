@@ -2,7 +2,6 @@ import isMobile from 'Util/Mobile';
 import { history } from 'Route';
 import { CATEGORY_FILTER_OVERLAY_ID } from 'Component/CategoryFilterOverlay/CategoryFilterOverlay.component';
 import {
-    FAVORITES,
     CATEGORY,
     SEARCH
 } from 'Component/Header/Header.component';
@@ -70,7 +69,7 @@ export class NavigationAbstractContainer extends SourceNavigationAbstractContain
         const { name: newName } = newNavigationState;
 
         // Update the state if new name is set
-        if (name !== newName && name !== FAVORITES) {
+        if (name !== newName) {
             setNavigationState(newNavigationState);
         }
 

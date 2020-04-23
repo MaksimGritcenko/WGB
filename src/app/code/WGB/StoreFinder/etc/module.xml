@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="WGB_StoreFinder" setup_version="0.4.0">
+        <sequence>
+            <module name="Scandiweb_StoreFinder"/>
+            <module name="ScandiPWA_Route717" />
+        </sequence>
+    </module>
+</config>

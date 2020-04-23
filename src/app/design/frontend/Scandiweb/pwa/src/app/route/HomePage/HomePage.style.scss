@@ -1,6 +1,7 @@
 .HomePage {
     position: fixed;
     width: 100vw;
+    top: calc(-1 * env(safe-area-inset-top));
     height: 100vh;
 
     .CmsPage {
@@ -20,7 +21,7 @@
 
     &-SliderSwitchArrow {
         position: fixed;
-        bottom: 1%;
+        bottom: calc(1% + (env(safe-area-inset-top) * .8));
         left: 50%;
         transform: translateX(-50%) rotate(-90deg);
         width: 30px;
@@ -94,5 +95,9 @@
                 margin-top: 10px;
             }
         }
+    }
+
+    .scrollDisabled & {
+        opacity: 0;
     }
 }

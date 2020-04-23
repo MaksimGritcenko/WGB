@@ -12,6 +12,7 @@ const POPUP_HIDE_DURATION = 200;
 
 export class CookiePopup extends SourceCookiePopup {
     state = {
+        isAccepted: BrowserDatabase.getItem(COOKIE_POPUP) || false,
         display: false
     };
 
@@ -49,14 +50,16 @@ export class CookiePopup extends SourceCookiePopup {
             return null;
         }
 
+        const absoluteCookieLink = cookieLink[0] === '/'
+            ? cookieLink
+            : `/${ cookieLink }`;
+
         return (
             <Link
               block="CookiePopup"
               elem="Link"
-              to={ cookieLink }
+              to={ absoluteCookieLink }
             >
-                <br />
-                { __('Click here for more information on our ') }
                 <u>{ __('Cookies policy.') }</u>
             </Link>
         );
@@ -93,11 +96,11 @@ export class CookiePopup extends SourceCookiePopup {
         } = this.props;
 
         // Handle country loading failed - ignore country notice and show cookie notice
-        if (isCountryLoadingFailed) {
+        if (isCountryLoadingFailed || !userLocation) {
             return true;
         }
 
-        return allowedCountries.filter(country => country.id === userLocation);
+        return allowedCountries.filter(country => country.id === userLocation).length;
     }
 
     renderCookieNotice() {
@@ -106,6 +109,8 @@ export class CookiePopup extends SourceCookiePopup {
         return (
         <p>
             { cookieText }
+            <br />
+            { __('Click here for more information on our ') }
             { this.renderCookieLink() }
         </p>
         );

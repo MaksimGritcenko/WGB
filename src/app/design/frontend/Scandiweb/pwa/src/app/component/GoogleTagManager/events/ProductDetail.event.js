@@ -14,7 +14,7 @@ import Event, { EVENT_GTM_PRODUCT_DETAIL, EVENT_GTM_GENERAL_INIT } from 'Util/Ev
 import ProductHelper from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
-export const SPAM_PROTECTION_TIMEOUT = 10000;
+export const SPAM_PROTECTION_TIMEOUT = 2000;
 export const EVENT_EXECUTION_DELAY = 500;
 
 /**
@@ -62,7 +62,7 @@ class ProductDetail extends BaseEvent {
         this.pushEventData({
             ecommerce: {
                 detail: {
-                    products: ProductHelper.getProductData(product)
+                    products: [ProductHelper.getProductData(product)]
                 }
             }
         });

@@ -63,12 +63,13 @@ export class CheckoutContainer extends SourceCheckoutContainer {
         );
     }
 
-    componentDidUpdate(_, prevState) {
+    componentDidUpdate(prevProps, prevState) {
+        const { customer: { addresses: prevAddresses = {} } } = prevProps;
         const { customer: { addresses } } = this.props;
         const { shippingMethods } = this.state;
 
         if (isSignedIn()
-            && (addresses && addresses.length === 0)
+            && (addresses && addresses.length === 0 && prevAddresses.length !== 0)
             && shippingMethods.length) {
             this.resetShippingMethods();
         }
@@ -80,8 +81,6 @@ export class CheckoutContainer extends SourceCheckoutContainer {
             const { totals } = this.props;
             if (checkoutStep === BILLING_STEP) {
                 Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 2 });
-            } else {
-                Event.dispatch(EVENT_GTM_CHECKOUT, { totals, step: 3 });
             }
         }
     }

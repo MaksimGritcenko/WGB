@@ -78,6 +78,13 @@ export class SearchOverlayContainer extends PureComponent {
         }
     };
 
+    onFocus = () => {
+        window.scrollTo({
+            top: -100,
+            behavior: 'smooth'
+        });
+    };
+
     getProductLinkTo(product) {
         const { url_key } = product;
 
@@ -129,6 +136,7 @@ export class SearchOverlayContainer extends PureComponent {
                   autoComplete="off"
                   block="SearchOverlay"
                   elem="Input"
+                  onFocus={ this.onFocus }
                   onKeyDown={ this.onSearchEnterPress }
                   onChange={ this.onSearchBarChange }
                   value={ searchCriteria }

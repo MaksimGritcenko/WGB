@@ -18,7 +18,7 @@
         font-size: 20px;
 
         @include after-mobile {
-            font-size: 40px;
+            font-size: 30px;
             margin-top: 60px
         }
     }
@@ -39,6 +39,7 @@
 
     &-Summary {
         bottom: 0;
+        padding-bottom: env(safe-area-inset-top);
 
         @include mobile {
             border: none;

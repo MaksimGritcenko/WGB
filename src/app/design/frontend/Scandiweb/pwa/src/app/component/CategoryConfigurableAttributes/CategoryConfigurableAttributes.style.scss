@@ -22,32 +22,20 @@
 .CategoryConfigurableAttributes {
     &-SwatchList,
     &-DropDownList {
-        text-align: center;
-
         @include after-mobile {
             --option-size: 33px;
         }
-    }
-
-    &-SwatchList {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: var(--product-configurable-attributes-direction);
-        align-items: center;
-        flex-direction: column;
-        align-items: start;
-        font-size: 16px;
-        font-weight: 100;
-        text-transform: uppercase;
 
         &-More {
+            display: none;
             color: var(--option-text-color);
             margin-left: 15px;
             font-size: 15px;
             text-transform: uppercase;
+            margin-bottom: 12px;
 
-            @include mobile {
-                margin-bottom: 25px;
+            &_isLong {
+                display: block;
             }
 
             &::after,
@@ -78,16 +66,23 @@
             &_isOpen::before {
                 transform: scale(0);
             }
-
-            @include after-mobile {
-                margin-bottom: 12px;
-            }
         }
+    }
+
+    &-SwatchList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: var(--product-configurable-attributes-direction);
+        align-items: center;
+        flex-direction: column;
+        align-items: start;
+        font-size: 16px;
+        font-weight: 100;
+        text-transform: uppercase;
     }
 
     &-DropDownList {
         width: 100%;
-        margin-bottom: 20px;
 
         & > * > * {
             @include mobile {

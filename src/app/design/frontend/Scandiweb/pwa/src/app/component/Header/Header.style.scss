@@ -105,6 +105,7 @@
     width: 100%;
     z-index: 100;
     background-color: var(--header-background);
+    padding-top: env(safe-area-inset-top);
 
     @include after-mobile {
         display: flex;
@@ -164,7 +165,10 @@
     &_name {
         &_favorites,
         &_contact-us,
-        &_sign-in {
+        &_sign-in,
+        &_stores,
+        &_stores_sub,
+        &_popup {
             --header-background: var(--header-default-background);
         }
 
@@ -177,13 +181,23 @@
 
                     .Header-Filter {
                         display: flex;
+                        height: 17px;
+
+                        &-Button {
+                            &_isFilterEmpty {
+                                display: none;
+                            }
+                        }
                     }
+
                 }
             }
 
             &.Header_isSearch {
-                .Header-LogoWrapper {
-                    @include logo-visible;
+                .Header {
+                    &-LogoWrapper {
+                        @include logo-visible;
+                    }
                 }
             }
         }
@@ -203,6 +217,8 @@
         }
 
         &_cart {
+            --header-background: var(--header-default-background);
+
             .Header-Button_type_minicart {
                 @include after-mobile {
                     --header-color: var(--header-desktop-button-color);
@@ -215,10 +231,12 @@
                 --header-desktop-search-bar-width: calc(50% - 100px);
             }
 
-            .Header-SearchBar {
-                @include after-mobile {
-                    border: 1px solid var(--header-search-field-border-color);
-                    background-color: var(--header-search-field-visible-background);
+            .Header {
+                &-SearchBar {
+                   @include after-mobile {
+                        border: 1px solid var(--header-search-field-border-color);
+                        background-color: var(--header-search-field-visible-background);
+                    }
                 }
             }
         }
@@ -226,7 +244,7 @@
         &_menu_subcategory {
             .Header-Button_type {
                 &_close {
-                    @include after-mobile {
+                    @include after-mobile{
                         @include button-visible;
                     }
                 }
@@ -248,6 +266,8 @@
         }
 
         &_checkout {
+            --header-background: var(--header-default-background);
+
             .Header-Button,
             .Header-SearchWrapper {
                 @include after-mobile {
@@ -256,7 +276,6 @@
             }
 
             .Header-Title {
-                font-family: var(--font-roboto);
                 font-weight: bold;
             }
         }
@@ -289,10 +308,28 @@
             }
         }
 
+        &_customer_account_page,
         &_cms-page {
+            --header-background: var(--header-default-background);
+
             .Header-Title {
-                font-family: var(--font-roboto);
                 font-weight: bold;
+            }
+        }
+
+        &_cms-page {
+            .Header {
+                &-Button_type_back {
+                    @include mobile {
+                        order: -1;
+                    }
+                }
+
+                &-MenuWrapper {
+                    @include mobile {
+                        display: none;
+                    }
+                }
             }
         }
     }
@@ -408,7 +445,7 @@
             }
 
             &_searchButton {
-                order: -1;
+                order: 0;
 
                 @include after-mobile {
                     order: 1;
@@ -418,7 +455,19 @@
             &_wishlist {
                 order: 1;
             }
+
+            &_back {
+                &.Header-Button_isVisible {
+                    svg {
+                        left: -4px;
+                    }
+                }
+            }
         }
+    }
+
+    &-MenuWrapper {
+        order: -1;
     }
 
     &-SearchWrapper {
@@ -551,9 +600,5 @@
         @include after-mobile {
             order: 2;
         }
-    }
-
-    &-MenuWrapper {
-        order: -2;
     }
 }

@@ -329,7 +329,7 @@ class BaseEvent {
 
         return {
             items_qty,
-            total: roundPrice(subtotal + tax_amount),
+            total: +roundPrice(subtotal + tax_amount),
             currency: quote_currency_code,
             itemsData
         };

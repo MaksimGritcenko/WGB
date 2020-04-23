@@ -1,9 +1,8 @@
 import { Field } from 'Util/Query';
 
 export class GeoIPQuery {
-    getQuery(ip) {
-        return new Field('getLocationByIp')
-            .addArgument('ip', 'String!', ip)
+    getQuery() {
+        return new Field('getUserLocation')
             .addField('country')
             .addField('country_name');
     }
