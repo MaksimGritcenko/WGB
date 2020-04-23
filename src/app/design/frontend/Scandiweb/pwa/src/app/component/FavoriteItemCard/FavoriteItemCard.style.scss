@@ -32,6 +32,10 @@
         max-width: 250px;
         padding: 0 15px;
 
+        @include mobile {
+            padding: 0 0 0 15px;
+        }
+
         @include desktop {
             padding: unset;
         }
@@ -132,7 +136,9 @@
         padding: unset;
 
         @include mobile {
-            margin-left: 15px;
+            height: 0;
+            width: 100%;
+            padding-bottom: 170%
         }
 
         @include desktop {
@@ -168,6 +174,11 @@
     &-Figure {
         display: flex;
         flex-grow: unset;
+
+        @include mobile {
+            display: block;
+            width: 50%;
+        }
     }
 
     &-Link {
