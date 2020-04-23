@@ -15,12 +15,9 @@ declare(strict_types=1);
 namespace WGB\RmaGraphQL\Model\Resolver;
 
 use Amasty\Rma\Api\Data\ReturnOrderItemInterface;
-use Amasty\Rma\Api\Data\ReturnRulesResolutionsInterface;
-use Amasty\Rma\Api\ReturnRulesRepositoryInterface;
 use Amasty\Rma\Model\OptionSource\NoReturnableReasons;
 use Amasty\Rma\Model\Resolution\Repository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
@@ -84,10 +81,6 @@ class Product implements ResolverInterface
      * @var Repository
      */
     protected $resolutionRepository;
-    /**
-     * @var \WGB\RmaGraphQL\Model\Resolver\NoReturnableReasons
-     */
-    protected $noReturnableReasons;
 
     /**
      * ProductResolver constructor.
@@ -187,7 +180,11 @@ class Product implements ResolverInterface
         /** @var ReturnOrderItemInterface $returnItem */
         foreach ($value['products'] as $key => $returnItem) {
             /** @var $item Item */
-            $item = $returnItem->getItem();
+            if ($returnItem instanceof ReturnOrderItemInterface) {
+                $item = $returnItem->getItem();
+            } else {
+                $item = $returnItem;
+            }
 
 
             $data[$key] = $productsData[$item->getProductId()];
