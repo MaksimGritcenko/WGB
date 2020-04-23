@@ -209,3 +209,8 @@ type ReturnResolution {
     position: Int
     label: String
 }
+
+type QuoteData {
+    is_show_rma_info_cart: Boolean
+        @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnRulesForCart")
+}
