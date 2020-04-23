@@ -14,7 +14,7 @@ import Event, { EVENT_GTM_PRODUCT_REMOVE_FROM_CART } from 'Util/Event';
 import ProductHelper from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
-export const SPAM_PROTECTION_DELAY = 2000;
+export const SPAM_PROTECTION_DELAY = 200;
 /**
  * Product add to cart event
  */

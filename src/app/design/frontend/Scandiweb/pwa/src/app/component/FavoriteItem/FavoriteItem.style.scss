@@ -1,8 +1,14 @@
 .FavoriteItem {
     margin-bottom: 15px;
+    display: flex;
+
+    @include mobile {
+        margin: 0 15px 15px;
+        justify-content: center;
+        align-items: center;
+    }
 
     @include after-mobile {
-        display: flex;
         flex-direction: column;
         align-items: center;
     }
