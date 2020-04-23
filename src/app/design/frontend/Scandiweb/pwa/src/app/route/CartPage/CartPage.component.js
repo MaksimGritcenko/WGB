@@ -21,7 +21,7 @@ export default class CartPage extends SourceCartPage {
     }
 
     renderCartItems() {
-        const { isEditing, totals: { items, quote_currency_code } } = this.props;
+        const { isEditing, totals: { items, quote_currency_code, is_show_rma_info_cart } } = this.props;
 
         if (!items || items.length < 1) {
             return (
@@ -44,6 +44,7 @@ export default class CartPage extends SourceCartPage {
                           currency_code={ quote_currency_code }
                           isEditing={ !isMobile.any() || isEditing }
                           isLikeTable
+                          isReturnRulesShowed={ is_show_rma_info_cart }
                         />
                     )) }
                 </ul>

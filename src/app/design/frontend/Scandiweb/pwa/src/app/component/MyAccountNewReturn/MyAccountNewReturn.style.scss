@@ -1,0 +1,74 @@
+.MyAccountNewReturn {
+    &-CustomerAndAddressBlocks {
+        display: flex;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        .MyAccountDashboard-DefaultAddress {
+            @include after-mobile {
+                max-width: 400px;
+                width: 50%;
+            }
+        }
+    }
+
+    &-Actions {
+        margin-top: 20px;
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include after-mobile {
+            margin-top: 40px;
+        }
+
+        button {
+            &:first-of-type {
+                margin-right: 10px;
+
+                @include mobile {
+                    flex: 1
+                }
+
+                @include after-mobile {
+                    margin-right: 20px;
+                    width: 100%;
+                    max-width: 350px;
+                }
+            }
+
+            &:last-of-type {
+                @include mobile {
+                    width: max-content;
+                }
+            }
+        }
+    }
+
+    &-BankDetailField {
+        margin: 0;
+
+        input {
+            margin-top: 16px;
+            width: 100%;
+
+            @include after-mobile {
+                max-width: 350px;
+            }
+        }
+    }
+
+    &-BankDetailTitle {
+        text-transform: none;
+        font-weight: normal;
+        font-family: var(--font-roboto);
+        margin-top: 20px;
+
+        @include after-mobile {
+            margin-top: 45px;
+        }
+    }
+}

@@ -219,6 +219,7 @@ return [
         'Amasty_Base' => 1,
         'Amasty_Geoip' => 1,
         'Amasty_GeoipRedirect' => 1,
+        'Amasty_Rma' => 1,
         'Amazon_Core' => 1,
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
@@ -271,6 +272,7 @@ return [
         'WGB_StoreFinder' => 1,
         'WGB_StoreFinderGraphQl' => 1,
         'Wgb_GeoIpGraphQL' => 1,
+        'Wgb_RmaGraphQL' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];

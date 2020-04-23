@@ -1,0 +1,207 @@
+.MyAccountReturnDetails {
+    font-size: var(--font-size);
+
+    &-ProgressBar {
+        flex-direction: row;
+        display: flex;
+        padding: 15px 20px 30px;
+        margin-bottom: 20px;
+    }
+
+    &-ProgressItem {
+        &:not(:first-child) {
+            flex: 1;
+        }
+
+        &::after {
+            content: '';
+            background-color: grey;
+            height: 2px;
+            width: 100%;
+            position: absolute;
+            top: 9px;
+            left: 0;
+
+            @include after-mobile {
+                height: 3px;
+                top: 11px;
+            }
+        }
+
+        &:first-child {
+            &::after {
+                content: none;
+            }
+        }
+
+        &_isActive {
+            &::after {
+                background-color: black;
+            }
+        }
+    }
+
+    &-ProgressContent {
+        width: max-content;
+        margin-left: auto;
+        max-height: 30px;
+    }
+
+    &-ProgressCircle {
+        height: 20px;
+        width: 20px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: grey;
+        z-index: 5;
+        color: white;
+
+        @include after-mobile {
+            height: 24px;
+            width: 24px;
+            border-radius: 12px;
+        }
+
+        &_isActive {
+            background-color: black;
+        }
+
+        &_isLastActive {
+            height: 26px;
+            width: 26px;
+            border-radius: 13px;
+            top: -3px;
+
+            @include after-mobile {
+                height: 30px;
+                width: 30px;
+                border-radius: 15px;
+            }
+        }
+    }
+
+    &-ProgressName {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -25px;
+        width: 100px;
+        text-align: center;
+
+        @include mobile {
+            display: none;
+        }
+
+        &_isLastActive {
+            display: block;
+        }
+    }
+
+    &-ExpandableContentHeading,
+    &-SubTitle {
+        text-transform: none;
+        font-weight: normal;
+        font-family: var(--font-roboto);
+        line-height: 1;
+        font-size: 17px;
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    &-CustomerAndAddressBlocks {
+        display: flex;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        .MyAccountDashboard-DefaultAddress {
+            @include after-mobile {
+                max-width: 400px;
+                width: 50%;
+            }
+        }
+    }
+
+    &-HowItWorksBlock {
+        @include mobile {
+            margin-top: 30px;
+        }
+
+        &:last-of-type {
+            border: none;
+        }
+    }
+
+    &-HowItWorksDescription {
+        padding-top: 10px;
+        margin-top: 15px;
+        border-top: solid 1px #c4c4c4;
+        font-size: 15px;
+
+        @include after-mobile {
+            font-size: 20px;
+        }
+    }
+
+    &-ExpandableContentContent {
+        display: none;
+
+        &_isContentExpanded {
+            display: block;
+            padding: 0;
+        }
+    }
+
+    &-ExpandableContentButton {
+        @include mobile {
+            min-height: unset;
+        }
+
+        &::after {
+            @include mobile {
+                top: 5px;
+            }
+        }
+    }
+
+    &-CancelRMATitle,
+    &-CancelRMAButton {
+        @include mobile {
+            margin-top: 15px;
+        }
+
+        @include after-mobile {
+            position: absolute;
+            top: -2px;
+            right: 0;
+        }
+    }
+
+    &-CancelRMATitle {
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        color: var(--button-color);
+        background-color: var(--button-background);
+        font-size: 15px;
+
+        @include after-mobile {
+            width: 150px;
+        }
+    }
+
+    .MyAccountNewReturnItemSelect-Title {
+        margin-top: 30px;
+
+        @include after-mobile {
+            margin-top: 45px;
+        }
+    }
+}
