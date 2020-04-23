@@ -14,6 +14,11 @@ declare(strict_types=1);
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
+use Amasty\Rma\Api\Data\ReturnOrderItemInterface;
+use Amasty\Rma\Api\Data\ReturnRulesResolutionsInterface;
+use Amasty\Rma\Api\ReturnRulesRepositoryInterface;
+use Amasty\Rma\Model\OptionSource\NoReturnableReasons;
+use Amasty\Rma\Model\Resolution\Repository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
@@ -27,7 +32,6 @@ use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider;
 
-use Amasty\Rma\Model\OptionSource\NoReturnableReasons;
 use Amasty\Rma\Api\Data\RequestItemInterface;
 use Amasty\Rma\Model;
 use Amasty\Rma\Model\ReturnRules\ReturnRulesProcessor;
@@ -76,6 +80,14 @@ class Product implements ResolverInterface
      * @var Model\Order\CreateReturnProcessor
      */
     protected $createReturnProcessor;
+    /**
+     * @var Repository
+     */
+    protected $resolutionRepository;
+    /**
+     * @var \WGB\RmaGraphQL\Model\Resolver\NoReturnableReasons
+     */
+    protected $noReturnableReasons;
 
     /**
      * ProductResolver constructor.
@@ -87,6 +99,7 @@ class Product implements ResolverInterface
      * @param Model\Order\CreateReturnProcessor $createReturnProcessor
      * @param DataPostProcessor $postProcessor
      * @param ReturnRulesProcessor $returnRulesProcessor
+     * @param Repository $resolutionRepository
      */
     public function __construct(
         ProductRepository $productRepository,
@@ -96,7 +109,8 @@ class Product implements ResolverInterface
         Model\Request\Repository $requestRepository,
         Model\Order\CreateReturnProcessor $createReturnProcessor,
         DataPostProcessor $postProcessor,
-        ReturnRulesProcessor $returnRulesProcessor
+        ReturnRulesProcessor $returnRulesProcessor,
+        Repository $resolutionRepository
     ) {
         $this->productRepository = $productRepository;
         $this->productDataProvider = $productDataProvider;
@@ -106,6 +120,7 @@ class Product implements ResolverInterface
         $this->requestRepository = $requestRepository;
         $this->returnRulesProcessor = $returnRulesProcessor;
         $this->createReturnProcessor = $createReturnProcessor;
+        $this->resolutionRepository = $resolutionRepository;
     }
 
     /**
@@ -141,8 +156,9 @@ class Product implements ResolverInterface
             }, []
         );
 
-        $productSKUs = array_map(function ($item) {
-            return $item['sku'];
+        $productSKUs = array_map(function ($returnItem) {
+            /** @var ReturnOrderItemInterface $returnItem */
+            return $returnItem->getItem()->getSku();
         }, $value['products']);
 
         $attributeCodes = $this->getFieldsFromProductInfo($info, 'order_products');
@@ -168,8 +184,12 @@ class Product implements ResolverInterface
 
         $data = [];
 
-        foreach ($value['products'] as $key => $item) {
+        /** @var ReturnOrderItemInterface $returnItem */
+        foreach ($value['products'] as $key => $returnItem) {
             /** @var $item Item */
+            $item = $returnItem->getItem();
+
+
             $data[$key] = $productsData[$item->getProductId()];
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
@@ -179,7 +199,6 @@ class Product implements ResolverInterface
             $data[$key]['qty_returning'] = array_reduce(
                 $returnRequestsItems,
                 function($carry, $reqItems) use ($item) {
-
                     /** @var RequestItemInterface $reqItem */
                     foreach ($reqItems as $reqItem) {
                         if ($reqItem->getOrderItemId() == $item->getItemId() + 1) {
@@ -190,116 +209,38 @@ class Product implements ResolverInterface
                     return $carry;
                 }, 0
             );
-            $data[$key]['returnability'] = $this->process(
-                $orderId, $item, $value['base_order_info']['created_at']
-            );
+            $data[$key]['returnability'] = [
+                'is_returnable' => $returnItem->isReturnable(),
+                'no_returnable_reason_id' => $returnItem->getNoReturnableReason(),
+                'no_returnable_reason_label' => $this->getNoReturnReasonDescriptionById(
+                    $returnItem->getNoReturnableReason()
+                ),
+                'resolutions' => $returnItem->getResolutions(),
+            ];
         }
 
         return $data;
     }
 
     /**
-     * @param int $orderId
-     * @param Item $item
-     * @param string $orderCreatedAt
-     * @return array
+     * @param int $id
+     * @return \Magento\Framework\Phrase
+     * @throws \Exception
      */
-    protected function process($orderId, $item, $orderCreatedAt) {
-        $alreadyRequestedItem = $this
-            ->createReturnProcessor
-            ->getAlreadyRequestedItems($orderId);
-
-        $qtyShipped = $item->getQtyShipped();
-        $qtyCanceled = $item->getQtyCanceled();
-        $qtyRefunded = $item->getQtyRefunded();
-
-        if ($qtyShipped < 0.0001) {
-            return [
-                'is_returnable' => false,
-                'reason_id' => 3,
-                'reason_text' => 'This product wasn\'t shipped.'
-            ];
+    protected function getNoReturnReasonDescriptionById($id) {
+        switch ($id) {
+            case NoReturnableReasons::ALREADY_RETURNED:
+                return __('Rma request for this product is already created.');
+            case NoReturnableReasons::EXPIRED_PERIOD:
+                return __('The return period expired.');
+            case NoReturnableReasons::REFUNDED:
+                return __('This product is already refunded.');
+            case NoReturnableReasons::ITEM_WASNT_SHIPPED:
+                return __('This product wasn\'t shipped.');
+            case NoReturnableReasons::ITEM_WAS_ON_SALE:
+                return __('This product was on sale.');
+            default:
+                throw new \Exception('Unexpected return denial reason id: '.$id);
         }
-
-        $rmaQty = $alreadyRequestedItem[$item->getItemId()]['qty'] ?? 0;
-        $orderAvailableQty = $qtyShipped - $qtyCanceled - $qtyRefunded;
-
-        if ($orderAvailableQty - $rmaQty <= 0.0001) {
-            if ($rmaQty == 0) {
-                return [
-                    'is_returnable' => false,
-                    'reason_id' => 2,
-                    'reason_text' => 'This product is already refunded.'
-                ];
-            } else {
-                return [
-                    'is_returnable' => false,
-                    'reason_id' => 0,
-                    'reason_text' => 'Rma request for this product is already created.'
-                ];
-            }
-        } else {
-            if ($availableResolutions = $this->getReturnResolutionsForItem($item, $orderCreatedAt)) {
-                return [
-                    'is_returnable' => true,
-                    'available_qty' => $orderAvailableQty - $rmaQty,
-                    'available_resolutions' => $availableResolutions
-                ];
-            } elseif ($item->getPrice() !== $item->getOriginalPrice()) {
-                return [
-                    'is_returnable' => false,
-                    'reason_id' => 4,
-                    'reason_text' => 'This product was on sale.'
-                ];
-            } else {
-                return [
-                    'is_returnable' => false,
-                    'reason_id' => 1,
-                    'reason_text' => 'The return period expired.'
-                ];
-            }
-        }
-
-        return $returnOrder;
-    }
-
-    public function getReturnResolutionsForItem($item, $orderCreatedAt) {
-//        try {
-            $resolutions = $this->returnRulesProcessor->getResolutionsForProduct($item);
-//        } catch (NoSuchEntityException $e) {
-//            return false;
-//        }
-        foreach($resolutions as $resolution) {
-            var_dump(123);
-            var_dump($resolution->debug());
-        }
-
-        $currentTime = time();
-        $orderCreationTime = strtotime($orderCreatedAt);
-        $daysSinceOrder = floor(($currentTime - $orderCreationTime) / 86400);
-
-        foreach ($resolutions as $resolution) {
-            if ($resolution['value'] == "0") {
-                continue;
-            }
-
-            var_dump([
-                'ago' => $daysSinceOrder,
-                'overall' => $resolution['value']
-            ]);
-
-            if ($daysSinceOrder < $resolution['value']) {
-                $availableResolutions[] = [
-                    'resolution' => $resolution['resolution'],
-                    'value' => $resolution['value'] - $daysSinceOrder
-                ];
-            }
-        }
-
-        if (!empty($availableResolutions)) {
-            return $availableResolutions;
-        }
-
-        return false;
     }
 }

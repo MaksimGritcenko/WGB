@@ -14,6 +14,8 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
     getReturnDetailsById(return_id: Int): ReturnDetails
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+    getReturnOrderByOrderId(order_id: Int): Order
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
 
 input CancelRequestInput {
@@ -61,10 +63,9 @@ type OrderProduct implements ProductInterface {
 
 type Returnability {
     is_returnable: Boolean
-    reason_id: Int
-    reason_text: String
-    available_qty: Float
-    available_resolutions: [ProductReturnResolution]
+    no_returnable_reason_id: Int
+    no_returnable_reason_label: String
+    resolutions: [ReturnResolution]
 }
 
 type ProductReturnResolution {
