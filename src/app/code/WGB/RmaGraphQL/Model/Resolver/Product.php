@@ -208,10 +208,11 @@ class Product implements ResolverInterface
             );
             $data[$key]['returnability'] = [
                 'is_returnable' => $returnItem->isReturnable(),
-                'no_returnable_reason_id' => $returnItem->getNoReturnableReason(),
-                'no_returnable_reason_label' => $this->getNoReturnReasonDescriptionById(
+                // Explicitly set values to null in order not to get wrong results based on 0 as int default value
+                'no_returnable_reason_id' => !$returnItem->isReturnable() ? $returnItem->getNoReturnableReason() : null,
+                'no_returnable_reason_label' => !$returnItem->isReturnable() ? $this->getNoReturnReasonDescriptionById(
                     $returnItem->getNoReturnableReason()
-                ),
+                ) : null,
                 'resolutions' => $returnItem->getResolutions(),
             ];
         }
