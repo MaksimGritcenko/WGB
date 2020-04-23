@@ -57,7 +57,17 @@ export class AddToCartContainer extends SourceAddToCartContainer {
                     product: groupedProductItem,
                     quantity
                 });
-            })).then(() => this._afterAdded());
+            })).then(() => {
+                Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
+                    product: {
+                        items,
+                        quantities: groupedProductQuantity
+                    },
+                    isGrouped: true
+                });
+
+                this._afterAdded();
+            });
 
             return;
         }
