@@ -8,10 +8,6 @@ import Field from 'Component/Field';
 
 import './MyAccountNewReturn.style';
 
-const BANK_NAME = 'bankName';
-const Bank_IFS_C_CODE = 'bankIFSCCode';
-const BANK_ACCOUNT_NUMBER = 'bankAccountNumber';
-
 export default class MyAccountNewReturn extends PureComponent {
     static propTypes = {
         reasonData: PropTypes.object.isRequired,
@@ -20,15 +16,12 @@ export default class MyAccountNewReturn extends PureComponent {
         history: PropTypes.object.isRequired,
         isLoading: PropTypes.bool.isRequired,
         items: PropTypes.array.isRequired,
+        customFields: PropTypes.array.isRequired,
         renderPageTitle: PropTypes.func.isRequired
     };
 
     state = {
-        bankDetails: {
-            [BANK_NAME]: '',
-            [Bank_IFS_C_CODE]: '',
-            [BANK_ACCOUNT_NUMBER]: ''
-        },
+        bankDetails: {},
         selectedItems: {},
         hasItemsError: false
     };
@@ -45,7 +38,7 @@ export default class MyAccountNewReturn extends PureComponent {
 
     handleRequestSubmitPress = () => {
         const { orderId, onNewRequestSubmit } = this.props;
-        const { selectedItems } = this.state;
+        const { selectedItems, bankDetails } = this.state;
 
         if (!Object.keys(selectedItems).length) return;
 
@@ -59,9 +52,12 @@ export default class MyAccountNewReturn extends PureComponent {
             return;
         }
 
+        const custom_fields = Object.entries(bankDetails).map(([code, value]) => ({ code, value }));
+
         onNewRequestSubmit({
             items: selectedItems,
-            order_id: orderId
+            order_id: orderId,
+            custom_fields
         });
     };
 
@@ -71,27 +67,31 @@ export default class MyAccountNewReturn extends PureComponent {
         history.goBack();
     };
 
-    renderBankDetailField(placeholder, id) {
-        const { bankDetails: { [id]: value } } = this.state;
+    renderBankDetailField = ({ code, label }) => {
+        const { bankDetails: { [code]: value } } = this.state;
 
         return (
             <Field
               type="text"
-              placeholder={ __(placeholder) }
-              id={ id }
-              name={ id }
+              placeholder={ label }
+              id={ code }
+              name={ code }
               mix={ {
                   block: 'MyAccountNewReturn',
                   elem: 'BankDetailField'
               } }
-              onChange={ value => this.handleBankDetailFieldChange(value, id) }
+              onChange={ value => this.handleBankDetailFieldChange(value, code) }
               value={ value }
               validation={ ['notEmpty'] }
             />
         );
-    }
+    };
 
     renderBankDetailFields() {
+        const { customFields } = this.props;
+
+        if (!customFields.length) return null;
+
         return (
             <div>
                 <h4
@@ -100,9 +100,7 @@ export default class MyAccountNewReturn extends PureComponent {
                 >
                     Bank Details:
                 </h4>
-                { this.renderBankDetailField('Bank Name', BANK_NAME) }
-                { this.renderBankDetailField('Bank IFS C Code', Bank_IFS_C_CODE) }
-                { this.renderBankDetailField('Bank Account Number', BANK_ACCOUNT_NUMBER) }
+                { customFields.map(this.renderBankDetailField) }
             </div>
         );
     }

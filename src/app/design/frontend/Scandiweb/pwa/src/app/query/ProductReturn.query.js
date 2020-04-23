@@ -21,7 +21,8 @@ export class ProductReturnQuery {
         return new Field('getRmaConfiguration')
             .addField(this._getReturnReasonsFields())
             .addField(this._getReturnResolutionsFields())
-            .addField(this._getItemConditionsFields());
+            .addField(this._getItemConditionsFields())
+            .addField(this._getItemCustomFieldsFields());
     }
 
     _getReturnReasonsFields() {
@@ -40,6 +41,12 @@ export class ProductReturnQuery {
         return new Field('conditions')
             .addField('condition_id')
             .addField('title');
+    }
+
+    _getItemCustomFieldsFields() {
+        return new Field('custom_fields')
+            .addField('code')
+            .addField('label');
     }
 
     getNewReturnMutation(options) {
