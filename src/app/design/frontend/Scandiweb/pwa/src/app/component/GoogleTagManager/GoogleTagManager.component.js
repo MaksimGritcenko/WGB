@@ -21,6 +21,7 @@ import RemoveFromCartEvent from 'Component/GoogleTagManager/events/RemoveFromCar
 import ProductDetailEvent from 'Component/GoogleTagManager/events/ProductDetail.event';
 import PurchaseEvent from 'Component/GoogleTagManager/events/Purchase.event';
 import CheckoutEvent from 'Component/GoogleTagManager/events/Checkout.event';
+import CheckoutOptionEvent from 'Component/GoogleTagManager/events/CheckoutOption.event';
 
 /**
  * Event list
@@ -33,6 +34,7 @@ export const EVENT_REMOVE_FROM_CART = 'removeFromCart';
 export const EVENT_PRODUCT_DETAIL = 'productDetail';
 export const EVENT_PURCHASE = 'purchase';
 export const EVENT_CHECKOUT = 'checkout';
+export const EVENT_CHECKOUT_OPTION = 'checkoutOption';
 
 /**
  * Const
@@ -72,6 +74,7 @@ class GoogleTagManager extends PureComponent {
         [EVENT_GENERAL]: General,
         [EVENT_PURCHASE]: PurchaseEvent,
         [EVENT_CHECKOUT]: CheckoutEvent,
+        [EVENT_CHECKOUT_OPTION]: CheckoutOptionEvent,
         [EVENT_IMPRESSION]: Impression,
         [EVENT_ADD_TO_CART]: AddToCartEvent,
         [EVENT_PRODUCT_CLICK]: ProductClickEvent,
