@@ -5,8 +5,39 @@ type Mutation {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\AddTrackingToRequest")
     cancelReturnRequest(input: CancelRequestInput!): CancelRequestOutput
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CancelRequest")
-    # sendMessage(input: SendMessageInput!): SendMessageOutput
-    # @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\SendMessage")
+    sendRmaMessage(input: SendRmaMessageInput!): SendRmaMessageOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\SendMessage")
+    getRmaChatForRequest(request_id: String!): RmaChatForRequest
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetChatForRequest")
+}
+
+type RmaChatForRequest {
+    messages: [RmaChatMessage]
+}
+
+type RmaChatMessage {
+    is_manager: Boolean
+    is_system: Boolean
+    message: String
+    username: String
+    created_at: String
+    message_id: String
+    files: [RmaFile]
+}
+
+type RmaFile {
+    filename: String
+    link: String
+}
+
+input SendRmaMessageInput {
+    request_id: String!
+    message_text: String!
+    encoded_files: [String]
+}
+
+type SendRmaMessageOutput {
+    success: Boolean
 }
 
 type Query {
@@ -19,14 +50,6 @@ type Query {
     getOrderById(id: Int!): Order
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
-
-# input SendMessageInput {
-
-# }
-
-# type SendMessageOutput {
-
-# }
 
 input CancelRequestInput {
     request_id: String
