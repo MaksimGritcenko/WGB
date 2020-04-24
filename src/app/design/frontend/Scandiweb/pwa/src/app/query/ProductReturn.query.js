@@ -9,8 +9,7 @@ export class ProductReturnQuery {
             .addField('order_id')
             .addField('request_id')
             .addField('request_qty')
-            .addField('status_id')
-            .addField('status_label');
+            .addField(this._getReturnStatusFields());
     }
 
     // ---------------------- //
@@ -52,6 +51,12 @@ export class ProductReturnQuery {
 
     _getItemCustomFieldsFields() {
         return new Field('custom_fields')
+            .addField(this._getItemCustomFieldFields())
+            .addField('label');
+    }
+
+    _getItemCustomFieldFields() {
+        return new Field('fields')
             .addField('code')
             .addField('label');
     }
@@ -114,11 +119,11 @@ export class ProductReturnQuery {
             .addField(this._getReturnReasonFields('resolution'))
             .addField(this._getReturnReasonFields('reason'))
             .addField(this._getReturnReasonFields('condition'))
-            .addField(this._getReturnItemStatusFields())
+            .addField(this._getReturnStatusFields())
             .addField('qty');
     }
 
-    _getReturnItemStatusFields() {
+    _getReturnStatusFields() {
         return new Field('status')
             .addField('state_label');
     }

@@ -79,19 +79,6 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         onItemChange(selectedItems);
     }
 
-    isItemExpared(returnResolutions) {
-        const { createdAt } = this.props;
-        const createdAtDate = new Date(createdAt);
-
-        const { value: returnPeriod } = returnResolutions.find(
-            ({ resolution: { title } }) => title === 'Return'
-        );
-
-        if (createdAtDate.setDate(createdAtDate.getDate() + returnPeriod) > new Date() || returnPeriod === 0) return true;
-
-        return false;
-    }
-
     renderImage({ name, thumbnail: { url: thumbnailUrl }, small_image: { url: small_imageUrl } }) {
         return (
             <>
@@ -130,10 +117,9 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockSelect(title, data, id) {
+    renderReasonBlockSelect(title, options, key, id) {
         const { hasError } = this.props;
         const { selectedItems: { [id]: item } } = this.state;
-        const [key, options] = data;
         const value = item[key] || '';
 
         return (
@@ -191,8 +177,10 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockRules() {
+    renderReasonBlockRules(noReturnableReasonLabel) {
         const { contactData: { phone_number, email } } = this.props;
+
+        const title = noReturnableReasonLabel || 'The return for this product can’t be processed.';
 
         return (
             <>
@@ -200,8 +188,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                   block="MyAccountNewReturnItemSelect"
                   elem="ReasonBlockRuleTitle"
                 >
-                    The return for this product can’t be processed.
-                    The return period expired.
+                    { title }
                 </span>
                 <span
                   block="MyAccountNewReturnItemSelect"
@@ -225,23 +212,27 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockInputs(id, qty, qty_returning) {
-        const { reasonData } = this.props;
+    renderReasonBlockInputs(id, qty, qty_returning, { returnability: { resolutions } }) {
+        const { reasonData: { reason, condition } } = this.props;
 
-        const data = Object.entries(reasonData);
+        const resolutionOptions = resolutions.map(({ resolution_id, label }) => ({ label, value: resolution_id }));
 
         return (
             <>
                 { this.renderReasonBlockQty(id, qty - qty_returning) }
-                { this.renderReasonBlockSelect('Return Reason', data[0], id) }
-                { this.renderReasonBlockSelect('Item Condition', data[1], id) }
-                { this.renderReasonBlockSelect('Return Resolution', data[2], id) }
+                { this.renderReasonBlockSelect('Return Reason', reason, 'reason', id) }
+                { this.renderReasonBlockSelect('Item Condition', condition, 'condition', id) }
+                { this.renderReasonBlockSelect('Return Resolution', resolutionOptions, 'resolution', id) }
             </>
         );
     }
 
     renderReasonBlock(item, id, isChecked, isDisabled) {
-        const { qty, qty_returning } = item;
+        const {
+            qty,
+            qty_returning,
+            returnability: { no_returnable_reason_label }
+        } = item;
 
         if (!isChecked && !isDisabled) return null;
 
@@ -252,8 +243,8 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
               mods={ { isRulesBlock: isDisabled } }
             >
                 { isDisabled
-                    ? this.renderReasonBlockRules()
-                    : this.renderReasonBlockInputs(id, qty, qty_returning) }
+                    ? this.renderReasonBlockRules(no_returnable_reason_label)
+                    : this.renderReasonBlockInputs(id, qty, qty_returning, item) }
             </div>
         );
     }
@@ -290,11 +281,11 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
 
     renderItem = (item, index) => {
         const { selectedItems } = this.state;
-        const { quote_item_id, return_resolutions } = item;
+        const { quote_item_id, returnability: { is_returnable } } = item;
 
         const id = parseInt(quote_item_id, 10);
         const isChecked = !!selectedItems[id];
-        const isDisabled = this.isItemExpared(return_resolutions);
+        const isDisabled = !is_returnable;
 
         return (
             <div

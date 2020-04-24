@@ -14,6 +14,8 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
     getReturnDetailsById(return_id: Int): ReturnDetails
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+    getOrderById(id: Int!): Order
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
 
 input CancelRequestInput {
@@ -40,8 +42,6 @@ type Order {
     shipping_info: ShippingInfo
     order_products: [OrderProduct]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
-    can_be_returned_by_status: Boolean
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\OrderCanBeReturnedByStatus")
 }
 
 interface ProductInterface {
@@ -55,9 +55,15 @@ interface ProductInterface {
 
 type OrderProduct implements ProductInterface {
     quote_item_id: String
-    qty_returning: Int
-#    no_return_reason: Boolean
-#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanItemsBeReturned")
+    qty_returning: Int @doc(description: "Returnability must be used to determine whether the item is returnable")
+    returnability: Returnability
+}
+
+type Returnability {
+    is_returnable: Boolean
+    no_returnable_reason_id: Int
+    no_returnable_reason_label: String
+    resolutions: [ReturnResolution]
 }
 
 type ProductReturnResolution {
@@ -71,25 +77,11 @@ type BaseOrderInfo {
     increment_id: String
     created_at: String
     status: String
+    status_can_be_returned: Boolean
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\StatusCanBeReturned")
     status_label: String
     grand_total: Float
     sub_total: Float
-}
-
-type PaymentInfo {
-    method: String
-    cc_owner: String
-    cc_last_4: String
-    cc_type: String
-    additional_information: AdditionalCustomerInfo
-}
-
-type ShippingInfo {
-    shipping_method: String
-    shipping_address: OrderCustomerAddress
-    shipping_description: String
-    shipping_amount: Float
-    tracking_numbers: [String]
 }
 
 type RmaConfiguration {
@@ -97,7 +89,7 @@ type RmaConfiguration {
     reasons: [ReturnReason]
     conditions: [ReturnItemCondition]
     resolutions: [ReturnResolution]
-    custom_fields: [ReturnCustomField]
+    custom_fields: ReturnCustomFields
     contact_data: ReturnContactData
 }
 
@@ -109,6 +101,11 @@ type ReturnContactData {
 input ReturnCustomFieldInput {
     code: String!
     value: String!
+}
+
+type ReturnCustomFields {
+    fields: [ReturnCustomField]
+    label: String
 }
 
 type ReturnCustomField {
@@ -126,6 +123,7 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
+    status_description: String
     state: String
     tracking: [ReturnTracking]
     items: [ReturnItemDetails]
@@ -153,10 +151,10 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
-    status: ItemReturnStatus
+    status: ReturnState
 }
 
-type ItemReturnStatus {
+type ReturnState {
     state: Int!
     state_label: String!
 }
@@ -165,12 +163,11 @@ type ReturnListEntry {
     order_id: String
     request_id: String
     created_at: String
-    status_id: String
-    status_label: String
+    status: ReturnState
     request_qty: Float
 }
 
-input  CreateReturnInput {
+input CreateReturnInput {
     order_id: String!
     custom_fields: [ReturnCustomFieldInput]
     items: [ReturnItemInput]!

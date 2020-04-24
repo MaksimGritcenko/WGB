@@ -160,13 +160,16 @@ export default class MyAccountReturnDetails extends PureComponent {
         const {
             details,
             carriers,
-            details: { items = [] },
+            details: {
+                items = [],
+                id = ''
+            },
             renderPageTitle
         } = this.props;
 
         return (
             <div block="MyAccountReturnDetails">
-                { renderPageTitle() }
+                { renderPageTitle(id) }
                 { this.renderProgressBar() }
                 <div
                   block="MyAccountReturnDetails"

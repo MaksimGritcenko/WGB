@@ -42,6 +42,7 @@ class MyAccountMyReturns extends PureComponent {
                     <button
                       block="Button"
                       onClick={ this.handleReturnClick }
+                      disabled={ !this.state.selectedOrderId }
                     >
                     { __('Return') }
                     </button>
