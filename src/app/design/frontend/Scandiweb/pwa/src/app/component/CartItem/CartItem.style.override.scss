@@ -53,13 +53,15 @@
     }
 
     &-Options {
+        line-height: 1;
+
         @include mobile {
             margin-top: 10px;
         }
 
         &_isLikeTable {
             @include after-mobile {
-                margin-top: 5px;
+                margin-top: 10px;
             }
         }
     }
@@ -181,5 +183,43 @@
                 height: 100%;
             }
         }
+    }
+
+    &-ReturnRuleWrapper {
+        width: 100%;
+
+        @include mobile {
+            display: none;
+        }
+
+        &_isMobile {
+            display: block;
+            width: auto;
+            margin: 0 15px 15px;
+            border: solid 2px #0f0e0e;
+            padding: 10px 15px;
+
+            @include after-mobile {
+                display: none;
+            }
+        }
+    }
+
+    &-ReturnRule {
+        line-height: 1;
+        display: block;
+
+        &:not(:first-child) {
+            margin-top: 10px;
+        }
+
+        @include after-mobile {
+            margin-top: 10px;
+        }
+    }
+
+    &-ReturnRuleTitle {
+        font-size: var(--font-size);
+        font-weight: bold;
     }
 }
