@@ -82,7 +82,7 @@ class ReturnOrderResolver implements ResolverInterface
         $customerId = $context->getUserId();
         $this->checkCustomerAccount->execute($customerId, $context->getUserType());
 
-        $orderId = $args['order_id'];
+        $orderId = $args['id'];
         $order = $this->orderRepository->get($orderId);
 
         /** @var ReturnOrderInterface|bool $returnOrder */

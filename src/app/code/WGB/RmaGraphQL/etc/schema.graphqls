@@ -14,7 +14,7 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
     getReturnDetailsById(return_id: Int): ReturnDetails
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
-    getReturnOrderByOrderId(order_id: Int): ReturnOrder
+    getOrderById(id: Int!): Order
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
 
@@ -36,7 +36,7 @@ type AddTrackingOutput {
     success: Boolean
 }
 
-type ReturnOrder {
+type Order {
     base_order_info: BaseOrderInfo
     payment_info: PaymentInfo
     shipping_info: ShippingInfo
