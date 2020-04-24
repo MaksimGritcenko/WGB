@@ -5,6 +5,8 @@ type Mutation {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\AddTrackingToRequest")
     cancelReturnRequest(input: CancelRequestInput!): CancelRequestOutput
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CancelRequest")
+    # sendMessage(input: SendMessageInput!): SendMessageOutput
+    # @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\SendMessage")
 }
 
 type Query {
@@ -17,6 +19,14 @@ type Query {
     getOrderById(id: Int!): Order
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
+
+# input SendMessageInput {
+
+# }
+
+# type SendMessageOutput {
+
+# }
 
 input CancelRequestInput {
     request_id: String
@@ -55,7 +65,7 @@ interface ProductInterface {
 
 type OrderProduct implements ProductInterface {
     quote_item_id: String
-    qty_returning: Int
+    qty_returning: Int @doc(description: "Returnability must be used to determine whether the item is returnable")
     returnability: Returnability
 }
 
