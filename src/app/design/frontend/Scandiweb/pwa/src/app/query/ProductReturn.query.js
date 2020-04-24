@@ -51,6 +51,12 @@ export class ProductReturnQuery {
 
     _getItemCustomFieldsFields() {
         return new Field('custom_fields')
+            .addField(this._getItemCustomFieldFields())
+            .addField('label')
+    }
+
+    _getItemCustomFieldFields() {
+        return new Field('fields')
             .addField('code')
             .addField('label');
     }

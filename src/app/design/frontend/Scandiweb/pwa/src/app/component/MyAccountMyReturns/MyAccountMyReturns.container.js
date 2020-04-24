@@ -71,13 +71,8 @@ export class MyAccountMyReturnsContainer extends PureComponent {
             returnList, getReturnList
         } = this.props;
 
-        if (!orderList.length) {
-            getOrderList();
-        }
-
-        if (!returnList.length) {
-            getReturnList();
-        }
+        getOrderList();
+        getReturnList();
     }
 
     componentDidUpdate() {
