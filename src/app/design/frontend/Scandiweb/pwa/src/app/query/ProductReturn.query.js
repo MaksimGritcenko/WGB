@@ -100,6 +100,7 @@ export class ProductReturnQuery {
             .addField(this._getReturnTrackingFields())
             .addField(this._getReturnItemFields())
             .addField('id')
+            .addField('file')
             .addField('order_id')
             .addField('created_at')
             .addField('state');

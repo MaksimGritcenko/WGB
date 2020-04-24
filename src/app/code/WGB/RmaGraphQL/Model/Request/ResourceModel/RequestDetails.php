@@ -248,6 +248,7 @@ class RequestDetails
 
         return [
             'id' => $request->getRequestId(),
+            'file' => $request->getShippingLabel(),
             'order_id' => $request->getOrderId(),
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
