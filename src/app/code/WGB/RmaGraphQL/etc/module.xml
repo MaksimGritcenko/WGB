@@ -3,6 +3,7 @@
 	<module name="Wgb_RmaGraphQL" setup_version="1.0.0">
 		<sequence>
 			<module name="Magento_GraphQl"/>
+			<module name="Amasty_Rma"/>
 		</sequence>
 	</module>
 </config>
