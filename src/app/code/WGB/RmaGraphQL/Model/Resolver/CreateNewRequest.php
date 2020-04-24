@@ -75,7 +75,7 @@ class CreateNewRequest implements ResolverInterface
                 ->setResolutionId((int)$item['resolution'])
                 ->setReasonId((int)$item['reason'])
                 ->setConditionId((int)$item['condition'])
-                ->setOrderItemId((int)$item['quote_item_id'] + 1);
+                ->setOrderItemId((int)$item['quote_item_id']);
         }
 
         return $returnItems;

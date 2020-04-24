@@ -6,6 +6,10 @@ afterTerminate:
   - docker-compose -f mutagen.docker-compose.yml -f mutagen.docker-compose.local.yml -f docker-compose.ssl.yml -f mutagen.docker-compose.frontend.yml ps
   - docker-compose -f mutagen.docker-compose.yml -f mutagen.docker-compose.local.yml -f docker-compose.ssl.yml -f mutagen.docker-compose.frontend.yml down
 sync:
+  defaults:
+    ignore:
+      paths:
+        - "node_modules/"
   app:
     alpha: "./src"
     beta: "docker://mutagen-powered-app/var/www/public"

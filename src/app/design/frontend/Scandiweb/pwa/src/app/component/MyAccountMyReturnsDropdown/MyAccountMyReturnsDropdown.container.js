@@ -24,12 +24,12 @@ export class MyAccountMyReturnsDropdownContainer extends PureComponent {
                         id,
                         created_at,
                         grand_total,
-                        status_label
+                        status_can_be_returned
                     }
                 } = order;
 
-                // Handle pending orders
-                if (status_label.toUpperCase() !== COMPLETE_STATUS) {
+                // Handle orders with statuses which cannot be returned
+                if (!status_can_be_returned) {
                     return list;
                 }
 

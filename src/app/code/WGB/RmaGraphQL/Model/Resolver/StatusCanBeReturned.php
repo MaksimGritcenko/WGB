@@ -9,10 +9,10 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Amasty\Rma\Model\ConfigProvider;
 
 /**
- * Class OrderCanBeReturnedByStatus
+ * Class StatusCanBeReturned
  * @package WGB\RmaGraphQL\Model\Resolver
  */
-class OrderCanBeReturnedByStatus implements ResolverInterface
+class StatusCanBeReturned implements ResolverInterface
 {
     /**
      * @var StoreManagerInterface
@@ -40,10 +40,21 @@ class OrderCanBeReturnedByStatus implements ResolverInterface
         array $args = null
     )
     {
+        $orderStatus = $value['status'];
+
+        return $this->isReturnable($orderStatus);
+    }
+
+    /**
+     * @param int $status
+     * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function isReturnable($status) {
         $currentStoreId = $this->storeManager->getStore()->getId();
 
         if ($statuses = $this->configProvider->getAllowedOrderStatuses($currentStoreId)) {
-            if (!in_array($value['base_order_info']['status'], $statuses)) {
+            if (!in_array($status, $statuses)) {
                 return false;
             }
         }

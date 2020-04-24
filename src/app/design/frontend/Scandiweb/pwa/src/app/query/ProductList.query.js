@@ -17,32 +17,6 @@ import { Field } from 'Util/Query';
  * @class ProductListQuery
  */
 export class ProductListQuery extends SourceProductListQuery {
-    _getResolutionFields() {
-        return [
-            'resolution_id',
-            'title',
-            'position',
-            'label'
-        ];
-    }
-
-    _getResolutionField() {
-        return new Field('resolution')
-            .addFieldList(this._getResolutionFields());
-    }
-
-    _getProductReturnResolutionsFields() {
-        return [
-            this._getResolutionField(),
-            'value'
-        ];
-    }
-
-    _getProductReturnResolutionsField() {
-        return new Field('return_resolutions')
-            .addFieldList(this._getProductReturnResolutionsFields());
-    }
-
     _getProductInterfaceFields(isVariant, isForLinkedProducts = false) {
         const { isSingleProduct } = this.options;
 
@@ -61,7 +35,6 @@ export class ProductListQuery extends SourceProductListQuery {
             'special_to_date',
             this._getAttributesField(isVariant),
             this._getTierPricesField(),
-            this._getProductReturnResolutionsField(),
             ...(!isVariant
                 ? [
                     'url_key',
@@ -87,6 +60,7 @@ export class ProductListQuery extends SourceProductListQuery {
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
                     this._getProductLinksField(),
+                    this._getReturnResolutions(),
                     ...(!isVariant
                         ? [
                             this._getCategoriesField(),
@@ -104,6 +78,40 @@ export class ProductListQuery extends SourceProductListQuery {
     _getProdcutCategoriesField() {
         return new Field('categories')
             .addField('url_path');
+    }
+
+    _getReturnResolutions() {
+        return new Field('return_resolutions')
+            .addField(this._getResolution())
+            .addField('value');
+    }
+
+    _getResolution() {
+        return new Field('resolution')
+            .addField('resolution_id')
+            .addField('title')
+            .addField('position')
+            .addField('label');
+    }
+
+    _getProductFields() {
+        const { requireInfo } = this.options;
+
+        if (requireInfo) {
+            return [
+                'min_price',
+                'max_price',
+                this._getSortField(),
+                this._getFiltersField()
+            ];
+        }
+
+        return [
+            'total_count',
+            this._getItemsField(),
+            this._getPageInfoField(),
+            'is_show_rma_info_pdp'
+        ];
     }
 }
 

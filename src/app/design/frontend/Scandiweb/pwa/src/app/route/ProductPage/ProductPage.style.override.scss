@@ -54,6 +54,11 @@
         }
     }
 
+    &-ProductInformationWrapper {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
     .ExpandableContent {
         @include after-mobile {
             border-bottom: 1px solid #dcdcdc6e;

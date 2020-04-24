@@ -35,7 +35,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
         isLoading: false,
         orderId: '',
         items: [],
-        customFields: [],
+        customFields: {},
         contactData: {},
         createdAt: ''
     };
