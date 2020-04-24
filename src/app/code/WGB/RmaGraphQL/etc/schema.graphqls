@@ -89,7 +89,7 @@ type RmaConfiguration {
     reasons: [ReturnReason]
     conditions: [ReturnItemCondition]
     resolutions: [ReturnResolution]
-    custom_fields: [ReturnCustomField]
+    custom_fields: ReturnCustomFields
     contact_data: ReturnContactData
 }
 
@@ -101,6 +101,11 @@ type ReturnContactData {
 input ReturnCustomFieldInput {
     code: String!
     value: String!
+}
+
+type ReturnCustomFields {
+    fields: [ReturnCustomField]
+    label: String
 }
 
 type ReturnCustomField {
@@ -118,6 +123,7 @@ type ReturnDetails {
     order_id: String
     created_at: String
     status: Int
+    status_description: String
     state: String
     tracking: [ReturnTracking]
     items: [ReturnItemDetails]

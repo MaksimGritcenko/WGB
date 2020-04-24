@@ -34,6 +34,7 @@ use Amasty\Rma\Model\Resolution;
 use Amasty\Rma\Observer\Rma;
 use Amasty\Rma\Model\OptionSource\ItemStatus;
 use Amasty\Rma\Api\StatusRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
 use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
@@ -98,6 +99,10 @@ class RequestDetails
      * @var ItemStatus
      */
     protected $itemStatuses;
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
 
     public function __construct(
         Product $productDataProvider,
@@ -111,7 +116,8 @@ class RequestDetails
         DataPostProcessor $postProcessor,
         StatusRepositoryInterface $statusRepository,
         State $stateOptionSource,
-        ItemStatus $itemStatuses
+        ItemStatus $itemStatuses,
+        StoreManagerInterface $storeManager
     )
     {
         $this->productDataProvider = $productDataProvider;
@@ -126,6 +132,7 @@ class RequestDetails
         $this->statusRepository = $statusRepository;
         $this->stateOptionSource = $stateOptionSource;
         $this->itemStatuses = $itemStatuses;
+        $this->storeManager = $storeManager;
 
         $this->states = $this->stateOptionSource->toArray();
     }
@@ -233,12 +240,19 @@ class RequestDetails
             }, $request->getTrackingNumbers()
         );
 
+        $status = $this->statusRepository->getById(
+            $request->getStatus(),
+            $this->storeManager->getStore()->getId()
+        );
+        $statusDescription = $status->getStoreData()->getDescription();
+
         return [
             'id' => $request->getRequestId(),
             'order_id' => $request->getOrderId(),
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
-            'state' => $this->states[$this->statusRepository->getById($request->getStatus())->getState()],
+            'status_description' => $statusDescription,
+            'state' => $this->states[$status->getState()],
             'items' => $requestItems,
             'productIds' => $productIds,
             'tracking' => $trackings

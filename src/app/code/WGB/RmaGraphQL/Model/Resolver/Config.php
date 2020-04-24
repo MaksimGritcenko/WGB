@@ -65,18 +65,21 @@ class Config implements ResolverInterface
             'reasons' => $this->reasonRepository->getReasonsByStoreId($currentStoreId),
             'conditions' => $this->conditionRepository->getConditionsByStoreId($currentStoreId),
             'resolutions' => $this->resolutionRepository->getResolutionsByStoreId($currentStoreId),
-            'custom_fields' => array_reduce(
-                array_keys($currentStoreCustomFields),
-                function ($carry, $key) use ($currentStoreCustomFields) {
-                    $carry[] = [
-                        'code' => $key,
-                        'label' => $currentStoreCustomFields[$key]
-                    ];
+            'custom_fields' => [
+                'fields' => array_reduce(
+                    array_keys($currentStoreCustomFields),
+                    function ($carry, $key) use ($currentStoreCustomFields) {
+                        $carry[] = [
+                            'code' => $key,
+                            'label' => $currentStoreCustomFields[$key]
+                        ];
 
-                    return $carry;
-                },
-                []
-            ),
+                        return $carry;
+                    },
+                    []
+                ),
+                'label' => $this->configProvider->getCustomFieldsLabel($currentStoreId)
+            ],
             'contact_data' => [
                 'email' => $this->configProvider->getAdministratorEmail(),
                 'phone_number' => $this->configProvider->getAdministratorPhoneNumber(),
