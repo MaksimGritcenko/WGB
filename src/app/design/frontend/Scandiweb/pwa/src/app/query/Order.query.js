@@ -2,6 +2,18 @@ import { OrderQuery as SourceOrderQuery } from 'SourceQuery/Order.query';
 import { Field } from 'Util/Query';
 
 export class OrderQuery extends SourceOrderQuery {
+    _getBaseOrderInfoFields(isList) {
+        return [
+            'id',
+            'increment_id',
+            'created_at',
+            'status_label',
+            'status_can_be_returned',
+            'grand_total',
+            ...(isList ? [] : ['sub_total'])
+        ];
+    }
+
     _getOrderProductsFields() {
         return [
             ...this._getDefaultFields(),
