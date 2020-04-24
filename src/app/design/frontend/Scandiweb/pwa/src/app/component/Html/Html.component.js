@@ -10,7 +10,6 @@ const AMASTY = 'am-print-shipping-label action primary';
 const PRINT = 'window.print()';
 
 export default class Html extends SourceHtml {
-
     replaceLinks({ attribs, children }) {
         const { href, onclick, ...attrs } = attribs;
         const child_label = children[0].data.replace(/\u21b5/g, '').replace(/\s/g, '');
