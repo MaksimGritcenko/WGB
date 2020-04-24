@@ -99,7 +99,10 @@ export class MyAccountNewReturnContainer extends PureComponent {
                     reasons,
                     resolutions,
                     conditions,
-                    custom_fields: customFields,
+                    custom_fields: {
+                        fields: customFields,
+                        label: customFieldsLabel
+                    },
                     contact_data: contactData
                 }, getOrderById: {
                     order_products: items,

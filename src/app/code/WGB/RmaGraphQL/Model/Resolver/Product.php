@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace WGB\RmaGraphQL\Model\Resolver;
 
-use Amasty\Rma\Api\Data\RequestItemInterface;
+use Amasty\Rma\Api\Data\ReturnOrderItemInterface;
+use Amasty\Rma\Model\OptionSource\NoReturnableReasons;
+use Amasty\Rma\Model\Resolution\Repository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -22,11 +24,16 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Item;
+
 use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
 use ScandiPWA\Performance\Model\Resolver\ResolveInfoFieldsTrait;
 use ScandiPWA\CatalogGraphQl\Model\Resolver\Products\DataProvider;
+
+use Amasty\Rma\Api\Data\RequestItemInterface;
+use Amasty\Rma\Model;
+use Amasty\Rma\Model\ReturnRules\ReturnRulesProcessor;
+
 use WGB\RmaGraphQL\Model\Request\ResourceModel;
-use \Amasty\Rma\Model;
 
 /**
  * Retrieves the Product list in orders
@@ -62,6 +69,18 @@ class Product implements ResolverInterface
      * @var Model\Request\Repository
      */
     protected $requestRepository;
+    /**
+     * @var ReturnRulesProcessor
+     */
+    protected $returnRulesProcessor;
+    /**
+     * @var Model\Order\CreateReturnProcessor
+     */
+    protected $createReturnProcessor;
+    /**
+     * @var Repository
+     */
+    protected $resolutionRepository;
 
     /**
      * ProductResolver constructor.
@@ -70,7 +89,10 @@ class Product implements ResolverInterface
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param ResourceModel\Request $requestResourceModel
      * @param Model\Request\Repository $requestRepository
+     * @param Model\Order\CreateReturnProcessor $createReturnProcessor
      * @param DataPostProcessor $postProcessor
+     * @param ReturnRulesProcessor $returnRulesProcessor
+     * @param Repository $resolutionRepository
      */
     public function __construct(
         ProductRepository $productRepository,
@@ -78,7 +100,10 @@ class Product implements ResolverInterface
         SearchCriteriaBuilder $searchCriteriaBuilder,
         ResourceModel\Request $requestResourceModel,
         Model\Request\Repository $requestRepository,
-        DataPostProcessor $postProcessor
+        Model\Order\CreateReturnProcessor $createReturnProcessor,
+        DataPostProcessor $postProcessor,
+        ReturnRulesProcessor $returnRulesProcessor,
+        Repository $resolutionRepository
     ) {
         $this->productRepository = $productRepository;
         $this->productDataProvider = $productDataProvider;
@@ -86,6 +111,9 @@ class Product implements ResolverInterface
         $this->postProcessor = $postProcessor;
         $this->requestResourceModel = $requestResourceModel;
         $this->requestRepository = $requestRepository;
+        $this->returnRulesProcessor = $returnRulesProcessor;
+        $this->createReturnProcessor = $createReturnProcessor;
+        $this->resolutionRepository = $resolutionRepository;
     }
 
     /**
@@ -121,8 +149,9 @@ class Product implements ResolverInterface
             }, []
         );
 
-        $productSKUs = array_map(function ($item) {
-            return $item['sku'];
+        $productSKUs = array_map(function ($returnItem) {
+            /** @var ReturnOrderItemInterface $returnItem */
+            return $returnItem->getItem()->getSku();
         }, $value['products']);
 
         $attributeCodes = $this->getFieldsFromProductInfo($info, 'order_products');
@@ -148,8 +177,16 @@ class Product implements ResolverInterface
 
         $data = [];
 
-        foreach ($value['products'] as $key => $item) {
+        /** @var ReturnOrderItemInterface $returnItem */
+        foreach ($value['products'] as $key => $returnItem) {
             /** @var $item Item */
+            if ($returnItem instanceof ReturnOrderItemInterface) {
+                $item = $returnItem->getItem();
+            } else {
+                $item = $returnItem;
+            }
+
+
             $data[$key] = $productsData[$item->getProductId()];
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
@@ -159,7 +196,6 @@ class Product implements ResolverInterface
             $data[$key]['qty_returning'] = array_reduce(
                 $returnRequestsItems,
                 function($carry, $reqItems) use ($item) {
-
                     /** @var RequestItemInterface $reqItem */
                     foreach ($reqItems as $reqItem) {
                         if ($reqItem->getOrderItemId() == $item->getItemId() + 1) {
@@ -170,8 +206,39 @@ class Product implements ResolverInterface
                     return $carry;
                 }, 0
             );
+            $data[$key]['returnability'] = [
+                'is_returnable' => $returnItem->isReturnable(),
+                // Explicitly set values to null in order not to get wrong results based on 0 as int default value
+                'no_returnable_reason_id' => !$returnItem->isReturnable() ? $returnItem->getNoReturnableReason() : null,
+                'no_returnable_reason_label' => !$returnItem->isReturnable() ? $this->getNoReturnReasonDescriptionById(
+                    $returnItem->getNoReturnableReason()
+                ) : null,
+                'resolutions' => $returnItem->getResolutions(),
+            ];
         }
 
         return $data;
+    }
+
+    /**
+     * @param int $id
+     * @return \Magento\Framework\Phrase
+     * @throws \Exception
+     */
+    protected function getNoReturnReasonDescriptionById($id) {
+        switch ($id) {
+            case NoReturnableReasons::ALREADY_RETURNED:
+                return __('Rma request for this product is already created.');
+            case NoReturnableReasons::EXPIRED_PERIOD:
+                return __('The return period expired.');
+            case NoReturnableReasons::REFUNDED:
+                return __('This product is already refunded.');
+            case NoReturnableReasons::ITEM_WASNT_SHIPPED:
+                return __('This product wasn\'t shipped.');
+            case NoReturnableReasons::ITEM_WAS_ON_SALE:
+                return __('This product was on sale.');
+            default:
+                throw new \Exception('Unexpected return denial reason id: '.$id);
+        }
     }
 }
