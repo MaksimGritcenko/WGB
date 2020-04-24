@@ -198,7 +198,7 @@ class Product implements ResolverInterface
                 function($carry, $reqItems) use ($item) {
                     /** @var RequestItemInterface $reqItem */
                     foreach ($reqItems as $reqItem) {
-                        if ($reqItem->getOrderItemId() == $item->getItemId() + 1) {
+                        if ($reqItem->getOrderItemId() == $item->getItemId()) {
                             $carry += $reqItem->getRequestQty();
                         }
                     }
