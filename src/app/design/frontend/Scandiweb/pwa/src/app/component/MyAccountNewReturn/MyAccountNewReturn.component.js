@@ -16,7 +16,7 @@ export default class MyAccountNewReturn extends PureComponent {
         history: PropTypes.object.isRequired,
         isLoading: PropTypes.bool.isRequired,
         items: PropTypes.array.isRequired,
-        customFields: PropTypes.array.isRequired,
+        customFields: PropTypes.object.isRequired,
         renderPageTitle: PropTypes.func.isRequired,
         contactData: PropTypes.object.isRequired,
         createdAt: PropTypes.string.isRequired
@@ -90,9 +90,9 @@ export default class MyAccountNewReturn extends PureComponent {
     };
 
     renderBankDetailFields() {
-        const { customFields } = this.props;
+        const { customFields: { fields = [], label } } = this.props;
 
-        if (!customFields.length) return null;
+        if (!fields.length) return null;
 
         return (
             <div>
@@ -100,14 +100,18 @@ export default class MyAccountNewReturn extends PureComponent {
                   block="MyAccountNewReturn"
                   elem="BankDetailTitle"
                 >
-                    Bank Details:
+                    { label }
                 </h4>
-                { customFields.map(this.renderBankDetailField) }
+                { fields.map(this.renderBankDetailField) }
             </div>
         );
     }
 
     renderActions() {
+        const { selectedItems } = this.state;
+
+        const isSubmitDisabled = !Object.keys(selectedItems).length;
+
         return (
             <div
               block="MyAccountNewReturn"
@@ -116,6 +120,7 @@ export default class MyAccountNewReturn extends PureComponent {
                 <button
                   block="Button"
                   onClick={ this.handleRequestSubmitPress }
+                  disabled={ isSubmitDisabled }
                 >
                     { __('SUBMIT REQUEST') }
                 </button>

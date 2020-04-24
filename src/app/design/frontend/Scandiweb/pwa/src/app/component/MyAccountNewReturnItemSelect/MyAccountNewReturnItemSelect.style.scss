@@ -55,11 +55,9 @@
         padding: 20px 30px;
         border: solid 2px #0f0e0e;
 
-        &_isRulesBlock {
-            @include after-mobile {
-                width: 45%;
-                max-width: 400px;
-            }
+        @include after-mobile {
+            width: 45%;
+            max-width: 400px;
         }
     }
 
@@ -80,14 +78,6 @@
 
     &-SelectInput {
         margin-top: 0;
-
-        .Field-SelectWrapper {
-            width: 100%;
-
-            @include desktop {
-                width: 350px;
-            }
-        }
 
         .Field-Select {
             @include mobile {
