@@ -117,10 +117,9 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockSelect(title, data, id) {
+    renderReasonBlockSelect(title, options, key, id) {
         const { hasError } = this.props;
         const { selectedItems: { [id]: item } } = this.state;
-        const [key, options] = data;
         const value = item[key] || '';
 
         return (
@@ -213,17 +212,17 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockInputs(id, qty, qty_returning) {
-        const { reasonData } = this.props;
+    renderReasonBlockInputs(id, qty, qty_returning, { returnability: { resolutions } }) {
+        const { reasonData: { reason, condition } } = this.props;
 
-        const data = Object.entries(reasonData);
+        const resolutionOptions = resolutions.map(({ resolution_id, label }) => ({ label, value: resolution_id }));
 
         return (
             <>
                 { this.renderReasonBlockQty(id, qty - qty_returning) }
-                { this.renderReasonBlockSelect('Return Reason', data[0], id) }
-                { this.renderReasonBlockSelect('Item Condition', data[1], id) }
-                { this.renderReasonBlockSelect('Return Resolution', data[2], id) }
+                { this.renderReasonBlockSelect('Return Reason', reason, 'reason', id) }
+                { this.renderReasonBlockSelect('Item Condition', condition, 'condition', id) }
+                { this.renderReasonBlockSelect('Return Resolution', resolutionOptions, 'resolution', id) }
             </>
         );
     }
@@ -245,7 +244,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
             >
                 { isDisabled
                     ? this.renderReasonBlockRules(no_returnable_reason_label)
-                    : this.renderReasonBlockInputs(id, qty, qty_returning) }
+                    : this.renderReasonBlockInputs(id, qty, qty_returning, item) }
             </div>
         );
     }

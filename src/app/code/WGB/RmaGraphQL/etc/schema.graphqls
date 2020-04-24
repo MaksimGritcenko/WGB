@@ -18,10 +18,6 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
 
-# input SendMessageInput {
-
-# }
-
 input CancelRequestInput {
     request_id: String
 }

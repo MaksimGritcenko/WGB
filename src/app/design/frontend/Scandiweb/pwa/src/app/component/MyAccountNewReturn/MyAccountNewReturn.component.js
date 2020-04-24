@@ -146,14 +146,15 @@ export default class MyAccountNewReturn extends PureComponent {
             items,
             renderPageTitle,
             contactData,
-            createdAt
+            createdAt,
+            orderId = ''
         } = this.props;
         const { hasItemsError } = this.state;
 
         return (
             <div block="MyAccountNewReturn">
                 { this.renderLoader() }
-                { renderPageTitle() }
+                { renderPageTitle(orderId) }
                 <div
                   block="MyAccountNewReturn"
                   elem="CustomerAndAddressBlocks"

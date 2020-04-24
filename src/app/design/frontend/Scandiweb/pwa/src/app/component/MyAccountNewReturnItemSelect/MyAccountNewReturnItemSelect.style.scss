@@ -6,11 +6,11 @@
         line-height: 1;
         font-size: 17px;
 
-        @include mobile {
+        @include before-desktop {
             margin-top: 20px;
         }
 
-        @include after-mobile {
+        @include desktop {
             font-size: 20px;
         }
     }
@@ -20,7 +20,7 @@
         padding: 15px 0;
         border-bottom: solid 1px #ebebea;
 
-        @include mobile {
+        @include before-desktop {
             flex-direction: column;
         }
     }
@@ -55,7 +55,7 @@
         padding: 20px 30px;
         border: solid 2px #0f0e0e;
 
-        @include after-mobile {
+        @include desktop {
             width: 45%;
             max-width: 400px;
         }
@@ -71,7 +71,7 @@
         font-size: 14px;
         font-weight: bold;
 
-        @include after-mobile {
+        @include desktop {
             font-size: 17px;
         }
     }
@@ -80,7 +80,7 @@
         margin-top: 0;
 
         .Field-Select {
-            @include mobile {
+            @include before-desktop {
                 font-size: var(--font-size);
             }
         }
@@ -112,7 +112,7 @@
             }
 
             button {
-                @include mobile {
+                @include before-desktop {
                     width: unset;
                     font-size: 1.3rem;
                 }
