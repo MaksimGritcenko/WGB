@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "483727c99d5c462ac93b30a7a0146a8f",
+    "content-hash": "8cf7847a47aab28bf37d4a5dd110388d",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -12147,6 +12147,36 @@
             ],
             "description": "N/A",
             "time": "2019-12-09T13:43:28+00:00"
+        },
+        {
+            "name": "scandipwa/m2-patches",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scandipwa/m2-patches.git",
+                "reference": "09aba180fae60f7016a18d6af91c6b1d4a2649c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scandipwa/m2-patches/zipball/09aba180fae60f7016a18d6af91c6b1d4a2649c0",
+                "reference": "09aba180fae60f7016a18d6af91c6b1d4a2649c0",
+                "shasum": ""
+            },
+            "require": {
+                "magento/magento2-base": "<2.3.5"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "src/registration.php"
+                ],
+                "psr-4": {
+                    "ScandiPWA\\M2Patches\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Patches for M2 specific to ScandiPWA",
+            "time": "2020-04-24T13:49:25+00:00"
         },
         {
             "name": "scandipwa/menu-organizer",
