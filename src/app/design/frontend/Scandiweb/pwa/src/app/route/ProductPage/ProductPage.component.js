@@ -8,6 +8,7 @@ import ProductLinks from 'Component/ProductLinks';
 import DragBar from 'Component/DragBar';
 import Link from 'Component/Link';
 import ProductInformation from 'Component/ProductInformation';
+import ProducReturnRules from 'Component/ProducReturnRules';
 import ConditionalWrapper from 'Component/ConditionalWrapper';
 import ContentWrapper from 'Component/ContentWrapper';
 import isMobile from 'Util/Mobile';
@@ -166,6 +167,33 @@ export default class ProductPage extends SourceProductPage {
         );
     }
 
+    renderProductInformations() {
+        const {
+            parameters,
+            dataSource,
+            areDetailsLoaded,
+            product: { return_resolutions: returnResolutions },
+            isRmaInfoShowed
+        } = this.props;
+
+        return (
+            <div
+              block="ProductPage"
+              elem="ProductInformationWrapper"
+            >
+                <ProductInformation
+                  product={ { ...dataSource, parameters } }
+                  areDetailsLoaded={ areDetailsLoaded }
+                />
+                <ProducReturnRules
+                  areDetailsLoaded={ areDetailsLoaded }
+                  returnResolutions={ returnResolutions }
+                  isRmaInfoShowed={ isRmaInfoShowed }
+                />
+            </div>
+        );
+    }
+
     renderAdditionalSections() {
         const {
             productOrVariant,
@@ -192,10 +220,7 @@ export default class ProductPage extends SourceProductPage {
                   areDetailsLoaded={ areDetailsLoaded }
                   configurableVariantIndex={ configurableVariantIndex }
                 />
-                <ProductInformation
-                  product={ { ...dataSource, parameters } }
-                  areDetailsLoaded={ areDetailsLoaded }
-                />
+                { this.renderProductInformations() }
                 { isMobile.any() ? this.renderProductLinks() : null }
             </ConditionalWrapper>
         );

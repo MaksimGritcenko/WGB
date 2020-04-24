@@ -87,6 +87,7 @@ export class ProductListQuery extends SourceProductListQuery {
                     this._getMediaGalleryField(),
                     this._getSimpleProductFragment(),
                     this._getProductLinksField(),
+                    this._getReturnResolutions(),
                     ...(!isVariant
                         ? [
                             this._getCategoriesField(),
@@ -104,6 +105,40 @@ export class ProductListQuery extends SourceProductListQuery {
     _getProdcutCategoriesField() {
         return new Field('categories')
             .addField('url_path');
+    }
+
+    _getReturnResolutions() {
+        return new Field('return_resolutions')
+            .addField(this._getResolution())
+            .addField('value');
+    }
+
+    _getResolution() {
+        return new Field('resolution')
+            .addField('resolution_id')
+            .addField('title')
+            .addField('position')
+            .addField('label');
+    }
+
+    _getProductFields() {
+        const { requireInfo } = this.options;
+
+        if (requireInfo) {
+            return [
+                'min_price',
+                'max_price',
+                this._getSortField(),
+                this._getFiltersField()
+            ];
+        }
+
+        return [
+            'total_count',
+            this._getItemsField(),
+            this._getPageInfoField(),
+            'is_show_rma_info_pdp'
+        ];
     }
 }
 
