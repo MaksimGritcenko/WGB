@@ -57,6 +57,8 @@ class ReturnResolutionsForProduct implements ResolverInterface
             throw new LocalizedException(__('"model" value should be specified'));
         }
 
-        return $this->returnRulesProcessor->getResolutionsForProduct($value['model']);
+        $resolutions =  $this->returnRulesProcessor->getResolutionsForProduct($value['model']);
+
+        return $resolutions ? $resolutions : [];
     }
 }
