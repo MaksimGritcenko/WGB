@@ -10,37 +10,6 @@ const AMASTY = 'am-print-shipping-label action primary';
 const PRINT = 'window.print()';
 
 export default class Html extends SourceHtml {
-    rules = [
-        {
-            query: { name: ['widget'] },
-            replace: this.replaceWidget
-        },
-        {
-            query: { name: ['a'] },
-            replace: this.replaceLinks
-        },
-        {
-            query: { name: ['img'] },
-            replace: this.replaceImages
-        },
-        {
-            query: { name: ['input'] },
-            replace: this.replaceInput
-        },
-        {
-            query: { name: ['script'] },
-            replace: this.getDefaultStatusesreplaceScript
-        },
-        {
-            query: { name: ['style'] },
-            replace: this.replaceStyle
-        },
-        {
-            query: { name: ['table'] },
-            replace: this.wrapTable
-        }
-    ];
-
 
     replaceLinks({ attribs, children }) {
         const { href, onclick, ...attrs } = attribs;

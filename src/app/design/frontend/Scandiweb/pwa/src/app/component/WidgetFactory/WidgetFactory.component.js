@@ -47,11 +47,4 @@ export default class WidgetFactory extends SourceWidgetFactory {
             component: ProductListWidget
         }
     };
-
-    render() {
-        const { type } = this.props;
-        const { component: Widget } = this.renderMap[type] || {};
-
-        return Widget !== undefined ? <Widget { ...this.props } /> : null;
-    }
 }
