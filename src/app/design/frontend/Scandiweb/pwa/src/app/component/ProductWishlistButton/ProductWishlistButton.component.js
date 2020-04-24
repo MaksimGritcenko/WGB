@@ -19,7 +19,7 @@ export default class ProductWishlistButton extends SourceProductWishlistButton {
 
     renderFilled() {
         return (
-            <svg width="40px" height="40px" viewBox="0 0 297 414" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <svg width="20px" height="25px" viewBox="0 0 297 414" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter x="-4.5%" y="-3.2%" width="109.0%" height="106.4%" filterUnits="objectBoundingBox" id="filter-1">
                         <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1" />

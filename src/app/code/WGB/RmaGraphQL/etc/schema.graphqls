@@ -1,0 +1,216 @@
+type Mutation {
+    createReturnRequest(input: CreateReturnInput!): CreateReturnOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CreateNewRequest")
+    addTrackingToRequest(input: AddTrackingInput!): AddTrackingOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\AddTrackingToRequest")
+    cancelReturnRequest(input: CancelRequestInput!): CancelRequestOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CancelRequest")
+}
+
+type Query {
+    getRmaConfiguration : RmaConfiguration
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
+    getReturnList: [ReturnListEntry]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
+    getReturnDetailsById(return_id: Int): ReturnDetails
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+}
+
+input CancelRequestInput {
+    request_id: String
+}
+
+type CancelRequestOutput {
+    success: Boolean
+}
+
+input AddTrackingInput {
+    request_id: String
+    tracking_code: String
+    tracking_number: String
+}
+
+type AddTrackingOutput {
+    success: Boolean
+}
+
+type Order {
+    base_order_info: BaseOrderInfo
+    payment_info: PaymentInfo
+    shipping_info: ShippingInfo
+    order_products: [OrderProduct]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Product")
+    can_be_returned_by_status: Boolean
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\OrderCanBeReturnedByStatus")
+}
+
+interface ProductInterface {
+    qty: Int
+    row_total: Float
+    original_price: Float
+    license_key: String
+    return_resolutions: [ProductReturnResolution]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnResolutionsForProduct")
+}
+
+type OrderProduct implements ProductInterface {
+    quote_item_id: String
+    qty_returning: Int
+#    no_return_reason: Boolean
+#    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CanItemsBeReturned")
+}
+
+type ProductReturnResolution {
+    resolution: ReturnResolution
+    value: Int
+}
+
+type BaseOrderInfo {
+    id: Int
+    total_qty_ordered: Int
+    increment_id: String
+    created_at: String
+    status: String
+    status_label: String
+    grand_total: Float
+    sub_total: Float
+}
+
+type PaymentInfo {
+    method: String
+    cc_owner: String
+    cc_last_4: String
+    cc_type: String
+    additional_information: AdditionalCustomerInfo
+}
+
+type ShippingInfo {
+    shipping_method: String
+    shipping_address: OrderCustomerAddress
+    shipping_description: String
+    shipping_amount: Float
+    tracking_numbers: [String]
+}
+
+type RmaConfiguration {
+    carriers: [ReturnCarrier]
+    reasons: [ReturnReason]
+    conditions: [ReturnItemCondition]
+    resolutions: [ReturnResolution]
+    custom_fields: [ReturnCustomField]
+    contact_data: ReturnContactData
+}
+
+type ReturnContactData {
+    email: String
+    phone_number: String
+}
+
+input ReturnCustomFieldInput {
+    code: String!
+    value: String!
+}
+
+type ReturnCustomField {
+    code: String
+    label: String
+}
+
+type ReturnCarrier {
+    code: String
+    label: String
+}
+
+type ReturnDetails {
+    id: String
+    order_id: String
+    created_at: String
+    status: Int
+    state: String
+    tracking: [ReturnTracking]
+    items: [ReturnItemDetails]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+}
+
+type ReturnTracking {
+    carrier: String,
+    tracking_id: String,
+    tracking_code: String,
+    tracking_number: String
+}
+
+type ReturnItemDetails {
+    discount_amount: Float
+    discount_percent: Float
+    item_id: String
+    price: Float
+    product: OrderProduct
+    qty: Float
+    row_total: Float
+    sku: String
+    tax_amount: Float
+    tax_percent: Float
+    reason: ReturnReason
+    condition: ReturnItemCondition
+    resolution: ReturnResolution
+    status: ItemReturnStatus
+}
+
+type ItemReturnStatus {
+    state: Int!
+    state_label: String!
+}
+
+type ReturnListEntry {
+    order_id: String
+    request_id: String
+    created_at: String
+    status_id: String
+    status_label: String
+    request_qty: Float
+}
+
+input  CreateReturnInput {
+    order_id: String!
+    custom_fields: [ReturnCustomFieldInput]
+    items: [ReturnItemInput]!
+}
+
+type CreateReturnOutput {
+    return_id: String
+}
+
+input ReturnItemInput {
+    quote_item_id: Int!
+    qty: Float!
+    condition: Int!
+    reason: Int!
+    resolution: Int!
+}
+
+type ReturnReason {
+    reason_id: Int
+    title: String
+    payer: Int @doc(description: "0 - Customer; 1 - Shop owner; 2 - Do not show")
+    position: Int
+    label: String
+}
+
+type ReturnItemCondition {
+    condition_id: Int
+    title: String
+    position: Int
+    label: String
+}
+
+type ReturnResolution {
+    resolution_id: Int
+    title: String
+    position: Int
+    label: String
+}
+
+type QuoteData {
+    is_show_rma_info_cart: Boolean
+        @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnRulesForCart")
+}

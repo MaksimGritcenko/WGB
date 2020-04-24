@@ -10,12 +10,14 @@ import './CartItem.style.override';
 export default class CartItem extends SourceCartItem {
     static propTypes = {
         ...this.propTypes,
-        isNotEditing: PropTypes.bool
+        isNotEditing: PropTypes.bool,
+        isReturnRulesShowed: PropTypes.bool
     };
 
     static defaultProps = {
         ...this.defaultProps,
-        isNotEditing: false
+        isNotEditing: false,
+        isReturnRulesShowed: false
     };
 
     renderDeleteButton() {
@@ -76,6 +78,39 @@ export default class CartItem extends SourceCartItem {
             </div>
         );
     }
+
+    renderReturnRule = ({ resolution: { title }, value }, index) => (
+        <span
+          block="CartItem"
+          elem="ReturnRule"
+          key={ index }
+        >
+            <span
+              block="CartItem"
+              elem="ReturnRuleTitle"
+            >
+                { `${ title } period: ` }
+            </span>
+            { value }
+        </span>
+    );
+
+    renderReturnRules(isMobile = false) {
+        const { item: { product: { return_resolutions } }, isReturnRulesShowed } = this.props;
+
+        if (!isReturnRulesShowed) return null;
+
+        return (
+            <div
+              block="CartItem"
+              elem="ReturnRuleWrapper"
+              mods={ { isMobile } }
+            >
+                { return_resolutions.map(this.renderReturnRule) }
+            </div>
+        );
+    }
+
 
     renderConfiguration() {
         const {
@@ -159,6 +194,7 @@ export default class CartItem extends SourceCartItem {
                       mods: { isLikeTable }
                   } }
                 />
+                { this.renderReturnRules() }
             </>
         );
     }
@@ -241,6 +277,7 @@ export default class CartItem extends SourceCartItem {
                 { this.renderDeleteButton() }
                 { this.renderContent() }
                 { this.renderActions() }
+                { this.renderReturnRules(true) }
             </li>
         );
     }

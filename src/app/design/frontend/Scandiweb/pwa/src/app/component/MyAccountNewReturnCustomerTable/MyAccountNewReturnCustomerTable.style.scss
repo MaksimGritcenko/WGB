@@ -1,0 +1,18 @@
+.MyAccountNewReturnCustomerTable {
+    &-MainWrapper {
+        flex: 1;
+
+        @include after-mobile {
+            margin-right: 45px;
+        }
+    }
+
+    &-CustomerTableTitle {
+        border-bottom: 1px solid var(--secondary-dark-color);
+        font-size: var(--font-size);
+        font-family: var(--font-roboto);
+        text-transform: none;
+        font-weight: bold;
+        padding: 10px;
+    }
+}
