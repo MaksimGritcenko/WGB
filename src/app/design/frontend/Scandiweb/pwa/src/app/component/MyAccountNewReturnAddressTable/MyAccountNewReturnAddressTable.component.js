@@ -5,8 +5,6 @@ import MyAccountAddressTable from 'Component/MyAccountAddressTable';
 import Link from 'Component/Link';
 import { ADDRESS_BOOK } from 'Type/Account';
 
-import './MyAccountNewReturnAddressTable.style';
-
 export default class MyAccountNewReturnCustomerTable extends PureComponent {
     static propTypes = {
         getShippingAddress: PropTypes.func.isRequired
@@ -25,7 +23,7 @@ export default class MyAccountNewReturnCustomerTable extends PureComponent {
     renderNoDefaultAddressConfigured(name) {
         return (
             <div key={ name }>
-                <p block="MyAccountDashboard" elem="Info">{ __('No %s address configured.', name) }</p>
+                <p block="MyAccountDashboard" elem="Info">{ __('No default %s address configured.', name) }</p>
                 { this.renderLinkToAddressBook() }
             </div>
         );

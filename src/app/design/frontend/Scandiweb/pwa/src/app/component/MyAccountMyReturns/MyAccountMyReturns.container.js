@@ -11,6 +11,7 @@ import { OrderDispatcher } from 'Store/Order';
 import { ReturnDispatcher } from 'Store/Return';
 import { ordersType } from 'Type/Account';
 import getActivePage from 'Util/Url/ReturnUrl';
+import TextPlaceholder from 'Component/TextPlaceholder';
 import MyAccountMyReturns from './MyAccountMyReturns.component';
 
 export const mapStateToProps = state => ({
@@ -71,13 +72,8 @@ export class MyAccountMyReturnsContainer extends PureComponent {
             returnList, getReturnList
         } = this.props;
 
-        if (!orderList.length) {
-            getOrderList();
-        }
-
-        if (!returnList.length) {
-            getReturnList();
-        }
+        getOrderList();
+        getReturnList();
     }
 
     componentDidUpdate() {
@@ -143,10 +139,14 @@ export class MyAccountMyReturnsContainer extends PureComponent {
         });
     }
 
-    renderPageTitle = () => {
+    renderPageTitle = (customValue) => {
         const { activePage } = this.state;
 
         const { title } = this.renderMap[activePage];
+
+        const id = customValue !== undefined
+            ? <TextPlaceholder content={ customValue } length="short" />
+            : '';
 
         return (
             <h1
@@ -154,6 +154,7 @@ export class MyAccountMyReturnsContainer extends PureComponent {
               elem="Heading"
             >
                 { title }
+                { id }
             </h1>
         );
     };

@@ -10,7 +10,8 @@ import {
 
 const mapStateToProps = state => ({
     ...sourceMapStateToProps(state),
-    currentCategory: state.CategoryReducer.category
+    currentCategory: state.CategoryReducer.category,
+    isRmaInfoShowed: state.ProductReducer.isRmaInfoShowed
 });
 
 export class ProductPageContainer extends SourceProductPageContainer {
