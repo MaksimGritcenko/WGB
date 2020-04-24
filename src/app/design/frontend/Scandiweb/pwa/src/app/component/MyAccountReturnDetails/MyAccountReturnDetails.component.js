@@ -5,6 +5,7 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
+import Html from 'Component/Html';
 
 import './MyAccountReturnDetails.style';
 
@@ -44,6 +45,7 @@ export default class MyAccountReturnDetails extends PureComponent {
     };
 
     renderHowItWorksBlock() {
+        const { details: { status_description } } = this.props;
         const { isHowItWorksBlockExpanded } = this.state;
 
         return (
@@ -60,7 +62,7 @@ export default class MyAccountReturnDetails extends PureComponent {
                   block="MyAccountReturnDetails"
                   elem="HowItWorksDescription"
                 >
-                    { '<Description of step 2.Approved>' }
+                    <Html content={ status_description || '<span>No description</span>' } />
                 </div>
             </ExpandableContent>
         );
