@@ -3,12 +3,28 @@
     --social-login-provider-hover-background-color: var(--secondary-base-color);
 }
 
+@mixin button-size {
+    @include mobile {
+        height: 41px;
+    }
+
+    @include after-mobile {
+        height: 36px;
+    }
+}
+
 .MyAccountOverlay {
     font-family: 'Roboto', sans-serif;
     justify-self: flex-end;
     grid-column: 3;
     right: 0;
     padding-top: 1rem;
+
+    &-Content input {
+        @include after-mobile {
+            max-width: 345px;
+        }
+    }
 
     &-Back {
         display: none;
@@ -57,23 +73,31 @@
         display: flex;
         width: 100%;
         justify-content: center;
+        max-width: 410px;
 
         @include after-mobile {
             width: 37.5%;
-            max-width: 410px;
+            max-width: 375px;
         }
 
         .Form {
-            max-width: 410px;
+            max-width: 375px;
+
+            @include mobile {
+                max-width: 410px;
+            }
         }
 
         &_right {
+            width: 100%;
             display: block;
 
             .MyAccountOverlay {
                 &-Additional {
                     .Button{
-                        width: 345px;
+                        @include button-size;
+                        width: 100%;
+                        max-width: 345px;
 
                         &:focus {
                             border-style: solid;
@@ -196,37 +220,40 @@
 
     &-Member {
         padding-top: 35px;
-        max-width: 345px;
+        max-width: 410px;
         margin: 0 auto;
 
         @include after-mobile {
+            max-width: 345px;
             padding-top: 12px;
         }
 
         h4 {
             margin-bottom: 20px;
-
-            @include after-mobile {
-                width: 150%;
-            }
         }
 
         .Button {
+            @include button-size;
             width: 100%;
             font-weight: normal;
         }
     }
 
     &-NewUser {
-        max-width: 345px;
         padding-top: 35px;
+        max-width: 410px;
         margin: 0 auto;
+
+        @include after-mobile {
+            max-width: 345px;
+        }
 
         h4 {
             margin-bottom: 20px;
         }
 
         .Button {
+            @include button-size;
             width: 100%;
             font-weight: normal;
         }
@@ -268,7 +295,12 @@
     &-Buttons {
         margin: unset;
 
+        @include after-mobile {
+            max-width: 345px;
+        }
+
         .Button {
+            @include button-size;
             width: 100%;
         }
     }
@@ -332,11 +364,7 @@
 
         @include after-mobile {
             display: block;
-            padding: 0 15px 35px 15px;
-        }
-
-        @include desktop {
-            width: 150%;
+            padding: 0 1rem 35px 1rem;
         }
 
         h4 {
@@ -350,6 +378,7 @@
         }
 
         .Button {
+            @include button-size;
             margin-top: 0;
         }
 
@@ -411,7 +440,7 @@
             align-items: center;
 
             p {
-                line-height: 37px;
+                line-height: 39px;
                 margin: auto;
                 text-transform: uppercase;
                 font-size: 18px;
@@ -438,6 +467,7 @@
 
         @include after-mobile {
             padding-top: 40px;
+            max-width: 345px;
         }
     }
 
@@ -445,7 +475,7 @@
         border: solid 1px #3c5a9a;
         background-color: #3c5a9a;
         transition: 0.5s;
-        max-height: 39px;
+        max-height: 41px;
 
         &:hover {
             text-decoration: none;
@@ -461,7 +491,7 @@
         border: solid 1px #df4c3a;
         background-color: #df4c3a;
         transition: 0.5s;
-        max-height: 39px;
+        max-height: 41px;
 
         &:hover {
         text-decoration: none;
