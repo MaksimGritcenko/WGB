@@ -6,10 +6,12 @@ import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
+import media from 'Util/Media';
 
 import './MyAccountReturnDetails.style';
 
 const STATUS_STATE_CANCELED = 'Canceled';
+const STATUS_STATE_PROCESSING = 'Processing';
 const STATUS_STATE_MAP = {
     Processing: 1,
     Approved: 2,
@@ -45,8 +47,13 @@ export default class MyAccountReturnDetails extends PureComponent {
     };
 
     renderHowItWorksBlock() {
-        const { details: { status_description } } = this.props;
+        const { details: { status_description = '' } } = this.props;
         const { isHowItWorksBlockExpanded } = this.state;
+
+        const htmlContent = status_description.replace(
+            /\{{media url=&quot;(.*?)\&quot;}}/g,
+            value => media(value.match('url=&quot;(.*)&quot;')[1])
+        );
 
         return (
             <ExpandableContent
@@ -62,7 +69,9 @@ export default class MyAccountReturnDetails extends PureComponent {
                   block="MyAccountReturnDetails"
                   elem="HowItWorksDescription"
                 >
-                    <Html content={ status_description || '<span>No description</span>' } />
+                    { status_description
+                        ? <Html content={ htmlContent } />
+                        : <span>No description</span> }
                 </div>
             </ExpandableContent>
         );
@@ -141,6 +150,8 @@ export default class MyAccountReturnDetails extends PureComponent {
         const { isCancelDisabled, details: { state } } = this.props;
 
         if (state === STATUS_STATE_CANCELED) return this.renderCalcelRMATitle();
+
+        if (state !== STATUS_STATE_PROCESSING) return null;
 
         return (
             <button

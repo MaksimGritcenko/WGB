@@ -37,7 +37,8 @@ export class MyAccountNewReturnContainer extends PureComponent {
         items: [],
         customFields: {},
         contactData: {},
-        createdAt: ''
+        createdAt: '',
+        shippingCover: {}
     };
 
     containerFunctions = {
@@ -118,13 +119,18 @@ export class MyAccountNewReturnContainer extends PureComponent {
                     ))
                 }), {});
 
+                const shippingCover = reasons.reduce((acc, { reason_id, payer }) => ({
+                    ...acc, [reason_id]: payer
+                }), {});
+
                 this.setState({
                     reasonData,
                     items,
                     orderId,
                     customFields,
                     contactData,
-                    createdAt
+                    createdAt,
+                    shippingCover
                 });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
@@ -139,7 +145,8 @@ export class MyAccountNewReturnContainer extends PureComponent {
             isLoading,
             customFields,
             contactData,
-            createdAt
+            createdAt,
+            shippingCover
         } = this.state;
 
         return (
@@ -153,6 +160,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
               customFields={ customFields }
               contactData={ contactData }
               createdAt={ createdAt }
+              shippingCover={ shippingCover }
             />
         );
     }

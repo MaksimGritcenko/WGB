@@ -13,12 +13,23 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         reasonData: PropTypes.object.isRequired,
         hasError: PropTypes.bool.isRequired,
         contactData: PropTypes.object.isRequired,
-        createdAt: PropTypes.string.isRequired
+        shippingCover: PropTypes.object.isRequired
     };
 
     state = {
         selectedItems: {}
     };
+
+    getPayer(payerId) {
+        switch (payerId) {
+        case 0:
+            return 'You are supposed to cover shipping costs';
+        case 1:
+            return 'The Store is supposed to cover shipping costs';
+        default:
+            return null;
+        }
+    }
 
     handleItemSelect = (isChecked, id, isDisabled) => {
         const { onItemChange, reasonData } = this.props;
@@ -122,6 +133,8 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         const { selectedItems: { [id]: item } } = this.state;
         const value = item[key] || '';
 
+        const message = (hasError && !value && 'Select field!') || '';
+
         return (
             <div
               block="MyAccountNewReturnItemSelect"
@@ -142,7 +155,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                       block: 'MyAccountNewReturnItemSelect',
                       elem: 'SelectInput'
                   } }
-                  message={ hasError && !value && 'Select field!' }
+                  message={ message }
                   selectOptions={ options }
                   value={ value }
                   onChange={ blockId => this.handleReasonBlockSelect(blockId, key, id) }
@@ -212,6 +225,27 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
+    renderShippingCover(id) {
+        const { selectedItems: { [id]: { reason: reasonId } } } = this.state;
+
+        if (!reasonId) return null;
+
+        const { shippingCover } = this.props;
+
+        const payerText = this.getPayer(shippingCover[reasonId]);
+
+        if (!payerText) return null;
+
+        return (
+            <span
+              block="MyAccountNewReturnItemSelect"
+              elem="ShippingCover"
+            >
+                { payerText }
+            </span>
+        );
+    }
+
     renderReasonBlockInputs(id, qty, qty_returning, { returnability: { resolutions } }) {
         const { reasonData: { reason, condition } } = this.props;
 
@@ -223,6 +257,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                 { this.renderReasonBlockSelect('Return Reason', reason, 'reason', id) }
                 { this.renderReasonBlockSelect('Item Condition', condition, 'condition', id) }
                 { this.renderReasonBlockSelect('Return Resolution', resolutionOptions, 'resolution', id) }
+                { this.renderShippingCover(id) }
             </>
         );
     }
@@ -252,8 +287,8 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     renderItemField(item, id, isChecked, isDisabled) {
         return (
             <Field
-              id={ id }
-              name={ id }
+              id={ `${ id }` }
+              name={ `${ id }` }
               value={ id }
               type="checkbox"
               mix={ {

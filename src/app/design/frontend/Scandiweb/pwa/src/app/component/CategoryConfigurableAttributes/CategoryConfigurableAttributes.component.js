@@ -15,7 +15,7 @@ import CategoryExpandableContent from 'Component/CategoryExpandableContent';
 import SourceCategoryConfigurableAttributes from 'SourceComponent/CategoryConfigurableAttributes/CategoryConfigurableAttributes.component';
 import './CategoryConfigurableAttributes.style.scss';
 
-export const VIEW_MORE_ITEMS_LIMIT = 4;
+export const VIEW_MORE_ITEMS_LIMIT = 3;
 
 export const MAX_NUMBER_OF_PLACEHOLDERS = 3;
 

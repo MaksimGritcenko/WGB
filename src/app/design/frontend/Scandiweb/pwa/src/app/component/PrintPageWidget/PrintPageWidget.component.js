@@ -11,6 +11,8 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
+const BUTTON_NAME = 'Print Packing Slip';
+
 export default class PrintPageWidget extends PureComponent {
     static propTypes = {
         label: PropTypes.string
@@ -21,8 +23,10 @@ export default class PrintPageWidget extends PureComponent {
     };
 
     print = () => {
-        const printableElements = document.getElementsByClassName('MyAccount-TabContent')[0].innerHTML;
-        const ORDER_HTML = `<html><head><title></title></head><body>${ printableElements }</body></html>`;
+        // eslint-disable-next-line max-len
+        const customer_address = document.getElementsByClassName('MyAccountReturnDetails-CustomerAndAddressBlocks')[0].innerHTML;
+        const items = document.getElementsByClassName('MyAccountReturnDetailsItems')[0].innerHTML;
+        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }${ items }</body></html>`;
         const ORIGINAL_PAGE = document.body.innerHTML;
         document.body.innerHTML = ORDER_HTML;
         window.print();
@@ -31,14 +35,13 @@ export default class PrintPageWidget extends PureComponent {
     };
 
     render() {
-        const { label } = this.props;
         return (
             <div block="RmaWidget">
                 <button
                   block="Button"
                   onClick={ () => this.print() }
                 >
-                    { label }
+                    { BUTTON_NAME }
                 </button>
             </div>
         );
