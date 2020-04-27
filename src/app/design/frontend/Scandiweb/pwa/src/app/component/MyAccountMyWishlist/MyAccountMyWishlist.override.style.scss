@@ -24,4 +24,10 @@
             }
         }
     }
+
+    & li.FavoriteItemCard:last-child {
+        @include after-mobile {
+            margin-bottom: auto;
+        }
+    }
 }

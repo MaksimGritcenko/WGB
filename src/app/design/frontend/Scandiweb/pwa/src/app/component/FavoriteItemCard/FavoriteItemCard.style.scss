@@ -14,12 +14,18 @@
     display: flex;
     justify-content: center;
 
+    @include after-mobile {
+        justify-content: unset;
+    }
+
     &::before {
         content: none;
     }
 
     &:last-child {
-        margin-bottom: .6rem;
+        @include mobile {
+            margin-bottom: .6rem;
+        }
     }
 
     &-Content {
@@ -47,14 +53,11 @@
         align-items: center;
         max-width: 220px;
 
-        @include desktop {
+        @include after-mobile {
             align-self: center;
-            margin-top: 9px;
         }
 
         @include tablet {
-            margin-top: 9px;
-            align-self: center;
             justify-content: flex-end;
         }
     }
@@ -64,6 +67,7 @@
     &-SKU,
     &-Price {
         color:var(--link-color);
+        line-height: 1.5;
         font-size: 13px;
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
@@ -75,6 +79,10 @@
 
         &_isLoaded {
             text-overflow: ellipsis;
+        }
+
+        @include after-mobile {
+            margin-top: 10px;
         }
 
         @include desktop {
@@ -107,11 +115,19 @@
             text-align: unset;
             right: unset;
         }
+
+        @include after-mobile {
+            margin-top: 5px;
+        }
     }
 
     &-Name {
         @include desktop {
-                left: 10px;
+            left: 10px;
+        }
+
+        @include after-mobile {
+            margin-top: 5px;
         }
     }
 

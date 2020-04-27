@@ -1,8 +1,5 @@
-import { connect } from 'react-redux';
 import {
-    MyAccountNewReturnItemSelectContainer as SourceMyAccountNewReturnItemSelectContainer,
-    mapStateToProps,
-    mapDispatchToProps
+    MyAccountNewReturnItemSelectContainer as SourceMyAccountNewReturnItemSelectContainer
 } from 'Component/MyAccountNewReturnItemSelect/MyAccountNewReturnItemSelect.container';
 
 import MyAccountReturnDetailsItems from './MyAccountReturnDetailsItems.component';
@@ -18,4 +15,4 @@ export class MyAccountNewReturnItemSelectContainer extends SourceMyAccountNewRet
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountNewReturnItemSelectContainer);
+export default MyAccountNewReturnItemSelectContainer;
