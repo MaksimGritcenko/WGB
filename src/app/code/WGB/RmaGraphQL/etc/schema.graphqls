@@ -11,6 +11,17 @@ type Mutation {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetChatForRequest")
 }
 
+type Query {
+    getRmaConfiguration : RmaConfiguration
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
+    getReturnList: [ReturnListEntry]
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
+    getReturnDetailsById(return_id: Int): ReturnDetails
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+    getOrderById(id: Int!): Order
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
+}
+
 type RmaChatForRequest {
     messages: [RmaChatMessage]
 }
@@ -33,22 +44,16 @@ type RmaFile {
 input SendRmaMessageInput {
     request_id: String!
     message_text: String!
-    encoded_files: [String]
+    encoded_files: [EncodedFile]
+}
+
+input EncodedFile {
+    name: String!
+    encoded_file: String!
 }
 
 type SendRmaMessageOutput {
     success: Boolean
-}
-
-type Query {
-    getRmaConfiguration : RmaConfiguration
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Config")
-    getReturnList: [ReturnListEntry]
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
-    getReturnDetailsById(return_id: Int): ReturnDetails
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
-    getOrderById(id: Int!): Order
-    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
 }
 
 input CancelRequestInput {

@@ -10,7 +10,7 @@
  */
 
 import { getReturnList, setLoading } from 'Store/Return';
-import { fetchQuery } from 'Util/Request';
+import { fetchQuery, fetchMutation } from 'Util/Request';
 import { showNotification } from 'Store/Notification';
 import { ProductReturnQuery } from 'Query';
 
@@ -28,6 +28,19 @@ export class ReturnDispatcher {
                 dispatch(setLoading(false));
                 dispatch(showNotification('error', error[0].message));
             }
+        );
+    }
+
+    sendMessage(requestId, messageText = '', messageFiles = [], dispatch) {
+        const mutation = ProductReturnQuery.sendMessage({
+            request_id: requestId,
+            message_text: messageText,
+            encoded_files: messageFiles
+        });
+
+        fetchMutation(mutation).then(
+            () => {},
+            e => showNotification('error', 'Error sending message!', e)
         );
     }
 }

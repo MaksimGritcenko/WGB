@@ -100,10 +100,11 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
-    renderItem = item => (
+    renderItem = (item, index) => (
         <div
           block="MyAccountNewReturnItemSelect"
           elem="ItemWrapper"
+          key={ index }
         >
             { this.renderItemInfo(item) }
         </div>

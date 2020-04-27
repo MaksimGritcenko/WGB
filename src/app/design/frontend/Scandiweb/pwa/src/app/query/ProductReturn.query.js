@@ -1,8 +1,18 @@
 import { Field } from 'Util/Query';
 
 export class ProductReturnQuery {
-    // My Return
+    /**
+     * CHAT
+     */
+    sendMessage(input) {
+        return new Field('sendRmaMessage')
+            .addArgument('input', 'SendRmaMessageInput!', input)
+            .addField('success');
+    }
 
+    /**
+     * MY RETURN
+     */
     getReturnList() {
         return new Field('getReturnList')
             .addField('created_at')
@@ -12,10 +22,9 @@ export class ProductReturnQuery {
             .addField(this._getReturnStatusFields());
     }
 
-    // ---------------------- //
-    // NEW return
-    // ---------------------- //
-
+    /**
+     * NEW RETURN
+     */
     getRmaConfiguration() {
         return new Field('getRmaConfiguration')
             .addField(this._getReturnReasonsFields())
@@ -67,10 +76,9 @@ export class ProductReturnQuery {
             .addField('return_id');
     }
 
-    // ---------------------- //
-    // Return Details
-    // ---------------------- //
-
+    /**
+     * RETURN DETAILS
+     */
     getReturnTrackingInfo(input) {
         return new Field('addTrackingToRequest')
             .addArgument('input', 'AddTrackingInput!', input)

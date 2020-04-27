@@ -5,6 +5,7 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
+import MyAccountReturnDetailsChat from 'Component/MyAccountReturnDetailsChat';
 
 import './MyAccountReturnDetails.style';
 
@@ -159,8 +160,8 @@ export default class MyAccountReturnDetails extends PureComponent {
     render() {
         const {
             details,
-            carriers,
             details: { items = [] },
+            carriers,
             renderPageTitle
         } = this.props;
 
@@ -182,6 +183,9 @@ export default class MyAccountReturnDetails extends PureComponent {
                 <MyAccountReturnDetailsTracking
                   carriers={ carriers }
                   details={ details }
+                />
+                <MyAccountReturnDetailsChat
+                  requestId={ details.id }
                 />
                 { this.renderCalcelRMAButton() }
             </div>
