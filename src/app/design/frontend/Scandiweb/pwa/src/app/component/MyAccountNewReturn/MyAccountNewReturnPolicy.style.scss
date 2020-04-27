@@ -1,0 +1,27 @@
+.MyAccountNewReturnPolicy {
+    display: flex;
+    margin-left: 0;
+
+    &-Text{
+        padding: 10px 0 0 20px;
+        display: flex;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: normal;
+
+        @include mobile{
+            font-size: 13px;
+            line-height: 25px;
+        }
+    }
+
+    a {
+        text-decoration: underline;
+        line-height: 20px;
+
+        @include mobile{
+            line-height: 25px;
+            font-size: 13px;
+        }
+    }
+}
