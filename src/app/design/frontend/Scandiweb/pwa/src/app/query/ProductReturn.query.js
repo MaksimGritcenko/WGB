@@ -61,7 +61,7 @@ export class ProductReturnQuery {
     _getItemCustomFieldsFields() {
         return new Field('custom_fields')
             .addField(this._getItemCustomFieldFields())
-            .addField('label')
+            .addField('label');
     }
 
     _getItemCustomFieldFields() {
@@ -108,9 +108,11 @@ export class ProductReturnQuery {
             .addField(this._getReturnTrackingFields())
             .addField(this._getReturnItemFields())
             .addField('id')
+            .addField('file')
             .addField('order_id')
             .addField('created_at')
-            .addField('state');
+            .addField('state')
+            .addField('status_description');
     }
 
     _getReturnTrackingFields() {

@@ -21,18 +21,19 @@ export class OrderQuery extends SourceOrderQuery {
             this._prepareAttributes(),
             'quote_item_id',
             'qty_returning',
-            this._getReturnResolutions()
+            this._getOrderReturnability()
         ];
     }
 
-    _getReturnResolutions() {
-        return new Field('return_resolutions')
-            .addField(this._getResolution())
-            .addField('value');
+    _getOrderReturnability() {
+        return new Field('returnability')
+            .addField('is_returnable')
+            .addField('no_returnable_reason_label')
+            .addField(this._getReturnResolutions());
     }
 
-    _getResolution() {
-        return new Field('resolution')
+    _getReturnResolutions() {
+        return new Field('resolutions')
             .addField('resolution_id')
             .addField('title')
             .addField('position')

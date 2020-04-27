@@ -26,7 +26,7 @@ class MyAccountOrderTableRow extends PureComponent {
                 order_id,
                 request_id,
                 created_at,
-                status_label,
+                status: { state_label },
                 request_qty
             },
             onViewClick
@@ -38,7 +38,7 @@ class MyAccountOrderTableRow extends PureComponent {
                 <td block="hidden-mobile">{ request_qty }</td>
                 <td block="hidden-mobile">{ request_id }</td>
                 <td>{ getFormattedDate(created_at) }</td>
-                <td>{ status_label }</td>
+                <td>{ state_label }</td>
             </tr>
         );
     }
