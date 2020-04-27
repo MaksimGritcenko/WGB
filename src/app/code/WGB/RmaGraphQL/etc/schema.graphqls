@@ -95,6 +95,12 @@ type OrderProduct implements ProductInterface {
     quote_item_id: String
     qty_returning: Int @doc(description: "Returnability must be used to determine whether the item is returnable")
     returnability: Returnability
+    chosen_attributes: [OrderProductChosenAttribute]
+}
+
+type OrderProductChosenAttribute {
+    label: String
+    value: String
 }
 
 type Returnability {

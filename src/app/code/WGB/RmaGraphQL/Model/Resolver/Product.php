@@ -17,6 +17,8 @@ namespace WGB\RmaGraphQL\Model\Resolver;
 use Amasty\Rma\Api\Data\ReturnOrderItemInterface;
 use Amasty\Rma\Model\OptionSource\NoReturnableReasons;
 use Amasty\Rma\Model\Resolution\Repository;
+use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
+use Magento\Eav\Api\Data\AttributeOptionInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -81,6 +83,10 @@ class Product implements ResolverInterface
      * @var Repository
      */
     protected $resolutionRepository;
+    /**
+     * @var ProductAttributeRepositoryInterface
+     */
+    protected $attributeRepository;
 
     /**
      * ProductResolver constructor.
@@ -93,6 +99,7 @@ class Product implements ResolverInterface
      * @param DataPostProcessor $postProcessor
      * @param ReturnRulesProcessor $returnRulesProcessor
      * @param Repository $resolutionRepository
+     * @param ProductAttributeRepositoryInterface $attributeRepository
      */
     public function __construct(
         ProductRepository $productRepository,
@@ -103,7 +110,8 @@ class Product implements ResolverInterface
         Model\Order\CreateReturnProcessor $createReturnProcessor,
         DataPostProcessor $postProcessor,
         ReturnRulesProcessor $returnRulesProcessor,
-        Repository $resolutionRepository
+        Repository $resolutionRepository,
+        ProductAttributeRepositoryInterface $attributeRepository
     ) {
         $this->productRepository = $productRepository;
         $this->productDataProvider = $productDataProvider;
@@ -114,6 +122,7 @@ class Product implements ResolverInterface
         $this->returnRulesProcessor = $returnRulesProcessor;
         $this->createReturnProcessor = $createReturnProcessor;
         $this->resolutionRepository = $resolutionRepository;
+        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -186,7 +195,6 @@ class Product implements ResolverInterface
                 $item = $returnItem;
             }
 
-
             $data[$key] = $productsData[$item->getProductId()];
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
@@ -205,6 +213,29 @@ class Product implements ResolverInterface
 
                     return $carry;
                 }, 0
+            );
+            $data[$key]['chosen_attributes'] = array_map(
+                function($code, $value) {
+                    $attribute = $this->attributeRepository->get($code);
+                    $options = $attribute->getOptions();
+
+                    /** @var AttributeOptionInterface $selectedOption */
+                    $selectedOptionKey = array_filter(
+                        $options,
+                        function($option) use ($value) {
+                            return $option->getValue() == $value;
+                        }
+                    );
+
+                    $selectedOption = current($selectedOptionKey);
+
+                    return [
+                        'label' => $attribute->getDefaultFrontendLabel(),
+                        'value' => $selectedOption->getLabel()
+                    ];
+                },
+                array_keys($item->getProductOptions()['info_buyRequest']['super_attribute']),
+                $item->getProductOptions()['info_buyRequest']['super_attribute']
             );
             $data[$key]['returnability'] = [
                 'is_returnable' => $returnItem->isReturnable(),
