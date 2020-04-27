@@ -146,7 +146,7 @@ class RequestDetails
     {
         /** @var OrderItemInterface $orderItem */
         foreach ($orderItems as $orderItem) {
-            if ($orderItem->getItemId() + 1 == $requestItem->getOrderItemId()) {
+            if ($orderItem->getItemId() == $requestItem->getOrderItemId()) {
                 return $orderItem;
             }
         }
