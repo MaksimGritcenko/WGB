@@ -197,9 +197,9 @@ export default class MyAccountReturnDetails extends PureComponent {
                   carriers={ carriers }
                   details={ details }
                 />
-                <MyAccountReturnDetailsChat
+                {/* <MyAccountReturnDetailsChat
                   requestId={ details.id }
-                />
+                /> */}
                 { this.renderCalcelRMAButton() }
             </div>
         );
