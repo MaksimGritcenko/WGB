@@ -103,7 +103,8 @@ export class ProductReturnQuery {
             .addField('file')
             .addField('order_id')
             .addField('created_at')
-            .addField('state');
+            .addField('state')
+            .addField('status_description');
     }
 
     _getReturnTrackingFields() {
