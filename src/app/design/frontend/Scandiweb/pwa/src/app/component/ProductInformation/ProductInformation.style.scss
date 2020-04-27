@@ -79,6 +79,10 @@
         @include mobile {
             margin-top: 2rem;
         }
+
+        &_type_returns {
+            margin-top: 0;
+        }
     }
 
     &-ValueLabel,
