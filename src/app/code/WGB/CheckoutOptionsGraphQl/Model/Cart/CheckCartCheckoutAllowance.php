@@ -54,7 +54,7 @@ class CheckCartCheckoutAllowance extends \Magento\QuoteGraphQl\Model\Cart\CheckC
         if (false === $isAllowedGuestCheckout) {
             throw new GraphQlAuthorizationException(
                 __(
-                    '123Guest checkout is not allowed. ' .
+                    'Guest checkout is not allowed. ' .
                     'Register a customer account or login with existing one.'
                 )
             );
