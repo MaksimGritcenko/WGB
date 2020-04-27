@@ -21,7 +21,7 @@ use Magento\Quote\Model\Quote;
 /**
  * Checks if guest checkout is allowed.
  */
-class CheckCartCheckoutAllowance
+class CheckCartCheckoutAllowance extends \Magento\QuoteGraphQl\Model\Cart\CheckCartCheckoutAllowance
 {
     /**
      * @var CheckoutHelper
