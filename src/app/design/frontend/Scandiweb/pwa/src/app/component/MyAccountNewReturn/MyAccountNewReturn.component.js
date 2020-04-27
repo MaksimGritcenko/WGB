@@ -33,7 +33,8 @@ export default class MyAccountNewReturn extends PureComponent {
             [BANK_ACCOUNT_NUMBER]: ''
         },
         selectedItems: {},
-        hasItemsError: false
+        hasItemsError: false,
+        policy_is_checked: false
     };
 
     handleBankDetailFieldChange = (value, id) => {
@@ -74,6 +75,15 @@ export default class MyAccountNewReturn extends PureComponent {
         history.goBack();
     };
 
+    setPolicyChecked = () => {
+        const { policy_is_checked } = this.state;
+        if (policy_is_checked) {
+            this.setState({ policy_is_checked: false });
+        } else {
+            this.setState({ policy_is_checked: true });
+        }
+    };
+
     renderBankDetailField(placeholder, id) {
         const { bankDetails: { [id]: value } } = this.state;
 
@@ -110,6 +120,7 @@ export default class MyAccountNewReturn extends PureComponent {
         );
     }
 
+
     renderPolicy() {
         const { policy } = this.props;
         if (policy.policy_status) {
@@ -121,10 +132,10 @@ export default class MyAccountNewReturn extends PureComponent {
                   value="Policy"
                   type="checkbox"
                   mix={ {
-                      block: 'MyAccountNewReturnPolicy',
+                      block: 'MyAccountNewReturnPolicy'
                   } }
-                  checked={ null }
-                  onChange={ null }
+                  checked={ this.setPolicyChecked }
+                  onChange={ this.setPolicyChecked }
                 />
                 <div block="MyAccountNewReturnPolicy" elem="Text">
                 <p>I have read and understand the&nbsp;</p>
@@ -138,6 +149,7 @@ export default class MyAccountNewReturn extends PureComponent {
     }
 
     renderActions() {
+        const { policy_is_checked } = this.state;
         return (
             <div
               block="MyAccountNewReturn"
@@ -146,6 +158,7 @@ export default class MyAccountNewReturn extends PureComponent {
                 <button
                   block="Button"
                   onClick={ this.handleRequestSubmitPress }
+                  disabled={ !policy_is_checked }
                 >
                     { __('SUBMIT REQUEST') }
                 </button>
