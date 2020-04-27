@@ -6,6 +6,7 @@ import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
 import Html from 'Component/Html';
+import media from 'Util/Media';
 
 import './MyAccountReturnDetails.style';
 
@@ -45,8 +46,13 @@ export default class MyAccountReturnDetails extends PureComponent {
     };
 
     renderHowItWorksBlock() {
-        const { details: { status_description } } = this.props;
+        const { details: { status_description = '' } } = this.props;
         const { isHowItWorksBlockExpanded } = this.state;
+
+        const htmlContent = status_description.replace(
+            /\{{media url=&quot;(.*?)\&quot;}}/g,
+            value => media(value.match('url=&quot;(.*)&quot;')[1])
+        );
 
         return (
             <ExpandableContent
@@ -62,7 +68,9 @@ export default class MyAccountReturnDetails extends PureComponent {
                   block="MyAccountReturnDetails"
                   elem="HowItWorksDescription"
                 >
-                    <Html content={ status_description || '<span>No description</span>' } />
+                    { status_description
+                        ? <Html content={ htmlContent } />
+                        : <span>No description</span> }
                 </div>
             </ExpandableContent>
         );
