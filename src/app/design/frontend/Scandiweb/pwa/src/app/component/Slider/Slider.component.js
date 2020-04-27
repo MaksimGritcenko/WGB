@@ -79,6 +79,10 @@ export default class Slider extends SourceSlider {
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('wheel', this.handleScroll, true);
+    }
+
     disableGestures() {
         const {
             sliderInAction,
