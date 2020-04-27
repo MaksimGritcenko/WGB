@@ -1,5 +1,5 @@
-import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import DataContainer from 'Util/Request/DataContainer';
 import { connect } from 'react-redux';
 import { ProductReturnQuery, OrderQuery } from 'Query';
 import { OrderDispatcher } from 'Store/Order';
@@ -22,7 +22,7 @@ export const mapDispatchToProps = dispatch => ({
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
-export class MyAccountNewReturnContainer extends PureComponent {
+export class MyAccountNewReturnContainer extends DataContainer  {
     static propTypes = {
         customer: customerType.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -34,7 +34,8 @@ export class MyAccountNewReturnContainer extends PureComponent {
         reasonData: {},
         isLoading: false,
         orderId: '',
-        items: []
+        items: [],
+        policy: {}
     };
 
     containerFunctions = {
@@ -44,6 +45,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
 
     componentDidMount() {
         this.requestData();
+        this.requestPolicy();
     }
 
     onError = (e) => {
@@ -77,6 +79,14 @@ export class MyAccountNewReturnContainer extends PureComponent {
         const key = 'default_shipping';
 
         return addresses.find(({ [key]: defaultAddress }) => defaultAddress);
+    }
+
+    requestPolicy() {
+        return this.fetchData(
+            [ProductReturnQuery.getRmaPolicy()],
+            ({ getRmaPolicy }) => this.setState({ policy: getRmaPolicy }),
+            e => showNotification('error', 'Error fetching Policy Data!', e)
+        );
     }
 
     requestData() {
@@ -119,6 +129,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
         return (
             <MyAccountNewReturn
               { ...this.props }
+              { ...this.state }
               { ...this.containerFunctions }
               reasonData={ reasonData }
               items={ items }

@@ -5,8 +5,10 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Loader from 'Component/Loader';
 import Field from 'Component/Field';
+import Link from 'Component/Link';
 
 import './MyAccountNewReturn.style';
+import './MyAccountNewReturnPolicy.style';
 
 const BANK_NAME = 'bankName';
 const Bank_IFS_C_CODE = 'bankIFSCCode';
@@ -20,6 +22,7 @@ export default class MyAccountNewReturn extends PureComponent {
         history: PropTypes.object.isRequired,
         isLoading: PropTypes.bool.isRequired,
         items: PropTypes.array.isRequired,
+        policy: PropTypes.object.isRequired,
         renderPageTitle: PropTypes.func.isRequired
     };
 
@@ -107,6 +110,33 @@ export default class MyAccountNewReturn extends PureComponent {
         );
     }
 
+    renderPolicy() {
+        const { policy } = this.props;
+        if (policy.policy_status) {
+            return (
+                <div block="MyAccountNewReturnPolicy">
+                <Field
+                  id="Policy"
+                  name="Policy"
+                  value="Policy"
+                  type="checkbox"
+                  mix={ {
+                      block: 'MyAccountNewReturnPolicy',
+                  } }
+                  checked={ null }
+                  onChange={ null }
+                />
+                <div block="MyAccountNewReturnPolicy" elem="Text">
+                <p>I have read and understand the&nbsp;</p>
+                <Link to={ policy.policy_page_url }>Return Policy*</Link>
+                </div>
+                </div>
+            );
+        }
+
+        return <></>;
+    }
+
     renderActions() {
         return (
             <div
@@ -157,6 +187,7 @@ export default class MyAccountNewReturn extends PureComponent {
                   hasError={ hasItemsError }
                 />
                 { this.renderBankDetailFields() }
+                { this.renderPolicy() }
                 { this.renderActions() }
             </div>
         );

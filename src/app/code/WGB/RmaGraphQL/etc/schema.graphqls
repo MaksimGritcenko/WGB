@@ -14,6 +14,8 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnsForUser")
     getReturnDetailsById(return_id: Int): ReturnDetails
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
+    getRmaPolicy : RmaPolicy
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Policy")
 }
 
 input CancelRequestInput {
@@ -22,6 +24,10 @@ input CancelRequestInput {
 
 type CancelRequestOutput {
     success: Boolean
+}
+type RmaPolicy {
+    policy_status: Boolean
+    policy_page_url: String
 }
 
 input AddTrackingInput {
@@ -93,6 +99,7 @@ type ShippingInfo {
 }
 
 type RmaConfiguration {
+    policy: Boolean
     carriers: [ReturnCarrier]
     reasons: [ReturnReason]
     conditions: [ReturnItemCondition]

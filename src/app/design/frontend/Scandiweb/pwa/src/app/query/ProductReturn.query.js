@@ -24,6 +24,12 @@ export class ProductReturnQuery {
             .addField(this._getItemConditionsFields());
     }
 
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
+    }
+
     _getReturnReasonsFields() {
         return new Field('reasons')
             .addField('reason_id')
