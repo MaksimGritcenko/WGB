@@ -11,6 +11,7 @@ import media from 'Util/Media';
 import './MyAccountReturnDetails.style';
 
 const STATUS_STATE_CANCELED = 'Canceled';
+const STATUS_STATE_PROCESSING = 'Processing';
 const STATUS_STATE_MAP = {
     Processing: 1,
     Approved: 2,
@@ -149,6 +150,8 @@ export default class MyAccountReturnDetails extends PureComponent {
         const { isCancelDisabled, details: { state } } = this.props;
 
         if (state === STATUS_STATE_CANCELED) return this.renderCalcelRMATitle();
+
+        if (state !== STATUS_STATE_PROCESSING) return null;
 
         return (
             <button
