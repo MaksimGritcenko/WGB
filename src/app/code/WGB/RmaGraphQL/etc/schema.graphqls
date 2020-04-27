@@ -183,6 +183,7 @@ type ReturnTracking {
 }
 
 type ReturnItemDetails {
+    name: String
     discount_amount: Float
     discount_percent: Float
     item_id: String
@@ -196,6 +197,7 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
+    chosen_attributes: [OrderProductChosenAttribute]
     status: ReturnState
 }
 

@@ -126,6 +126,36 @@ class Product implements ResolverInterface
     }
 
     /**
+     * @param Item $item
+     * @return array[]
+     */
+    public function getChosenAttributes($item) {
+        return array_map(
+            function($code, $value) {
+                $attribute = $this->attributeRepository->get($code);
+                $options = $attribute->getOptions();
+
+                /** @var AttributeOptionInterface $selectedOption */
+                $selectedOptionKey = array_filter(
+                    $options,
+                    function($option) use ($value) {
+                        return $option->getValue() == $value;
+                    }
+                );
+
+                $selectedOption = current($selectedOptionKey);
+
+                return [
+                    'label' => $attribute->getDefaultFrontendLabel(),
+                    'value' => $selectedOption->getLabel()
+                ];
+            },
+            array_keys($item->getProductOptions()['info_buyRequest']['super_attribute']),
+            $item->getProductOptions()['info_buyRequest']['super_attribute']
+        );
+    }
+
+    /**
      * Get All Product Items of Order.
      * @inheritdoc
      */
@@ -214,29 +244,7 @@ class Product implements ResolverInterface
                     return $carry;
                 }, 0
             );
-            $data[$key]['chosen_attributes'] = array_map(
-                function($code, $value) {
-                    $attribute = $this->attributeRepository->get($code);
-                    $options = $attribute->getOptions();
-
-                    /** @var AttributeOptionInterface $selectedOption */
-                    $selectedOptionKey = array_filter(
-                        $options,
-                        function($option) use ($value) {
-                            return $option->getValue() == $value;
-                        }
-                    );
-
-                    $selectedOption = current($selectedOptionKey);
-
-                    return [
-                        'label' => $attribute->getDefaultFrontendLabel(),
-                        'value' => $selectedOption->getLabel()
-                    ];
-                },
-                array_keys($item->getProductOptions()['info_buyRequest']['super_attribute']),
-                $item->getProductOptions()['info_buyRequest']['super_attribute']
-            );
+            $data[$key]['chosen_attributes'] = $this->getChosenAttributes($item);
             $data[$key]['returnability'] = [
                 'is_returnable' => $returnItem->isReturnable(),
                 // Explicitly set values to null in order not to get wrong results based on 0 as int default value
