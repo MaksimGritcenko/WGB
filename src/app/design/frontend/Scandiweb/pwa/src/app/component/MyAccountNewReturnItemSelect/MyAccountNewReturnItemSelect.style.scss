@@ -140,6 +140,11 @@
         margin-bottom: 10px;
     }
 
+    &-ShippingCover {
+        display: block;
+        margin-top: 20px;
+    }
+
     .CartItem-Wrapper {
         &::after {
             content: none;
