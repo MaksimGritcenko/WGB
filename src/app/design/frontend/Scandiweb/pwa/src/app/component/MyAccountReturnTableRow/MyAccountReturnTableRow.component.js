@@ -11,6 +11,7 @@
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { getFormattedDate } from 'Store/Order/Order.reducer';
 import './MyAccountReturnTableRow.style';
 
 class MyAccountOrderTableRow extends PureComponent {
@@ -36,7 +37,7 @@ class MyAccountOrderTableRow extends PureComponent {
                 <td>{ order_id ? `#${order_id}` : '' }</td>
                 <td block="hidden-mobile">{ request_qty }</td>
                 <td block="hidden-mobile">{ request_id }</td>
-                <td>{ created_at }</td>
+                <td>{ getFormattedDate(created_at) }</td>
                 <td>{ status_label }</td>
             </tr>
         );
