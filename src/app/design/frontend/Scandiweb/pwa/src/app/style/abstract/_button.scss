@@ -45,8 +45,7 @@
     }
 
     &:not([disabled]) {
-        &:hover,
-        &:focus {
+        &:hover {
             @include after-mobile {
                 border-color: var(--button-hover-border);
                 background-color: var(--button-hover-background);
