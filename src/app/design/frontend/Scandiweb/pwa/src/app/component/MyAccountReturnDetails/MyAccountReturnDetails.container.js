@@ -47,11 +47,14 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
             .split('&')[1]
             .split('=')[1];
 
-        this.setState({ isLoading: true, isCancelDisabled: true });
+        this.setState({
+            isLoading: true,
+            isCancelDisabled: true
+        });
 
         return fetchQuery([
             ProductReturnQuery.getReturnCarriers(),
-            ProductReturnQuery.getReturnDetails(returnId)
+            ProductReturnQuery.getReturnDetails(returnId),
         ]).then(
             ({ getRmaConfiguration: { carriers: carrierData }, getReturnDetailsById }) => {
                 const carriers = Object.values(carrierData).map(({ code, label }) => ({

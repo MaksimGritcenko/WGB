@@ -191,6 +191,29 @@ export class ProductReturnQuery {
             .addField('url')
             .addField('label');
     }
+
+    getRmaChat(returnId) {
+        return new Field('getRmaChatForRequest')
+            .addArgument('request_id', 'String!', returnId)
+            .addField(this._getRmaChatMessageFields());
+    }
+
+    _getRmaChatMessageFields() {
+        return new Field('messages')
+            .addField(this._getRmaFileFields())
+            .addField('is_manager')
+            .addField('is_system')
+            .addField('message')
+            .addField('username')
+            .addField('created_at')
+            .addField('message_id');
+    }
+
+    _getRmaFileFields() {
+        return new Field('files')
+            .addField('filename')
+            .addField('link');
+    }
 }
 
 export default new ProductReturnQuery();
