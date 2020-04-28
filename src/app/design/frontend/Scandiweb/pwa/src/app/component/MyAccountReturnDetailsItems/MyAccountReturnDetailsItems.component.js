@@ -20,7 +20,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         }
     }
 
-    renderItemDetails(name, qty) {
+    renderItemDetails(name, qty, chosen_attributes) {
         return (
             <div
               block="MyAccountReturnDetailsItems"
@@ -33,7 +33,10 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 >
                     { name }
                 </p>
-                <span>{ `Qty: ${ qty }` }</span>
+                <p>{ `Qty: ${ qty }` }</p>
+                { chosen_attributes.map(attr => {
+                    return <p>{ attr.label }: { attr.value }</p>
+                }) }
             </div>
         );
     }
@@ -104,8 +107,9 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
     renderItemInfo(item) {
         const {
             product,
-            product: { name },
             qty,
+            chosen_attributes,
+            name,
             status: { state_label }
         } = item;
 
@@ -116,7 +120,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                   block="CartItem"
                   elem="Content"
                 >
-                    { this.renderItemDetails(name, qty) }
+                    { this.renderItemDetails(name, qty, chosen_attributes) }
                     { this.renderReasonBlock(item) }
                     { this.renderStatusBlock(state_label) }
                 </figcaption>
