@@ -129,6 +129,12 @@ export class ProductReturnQuery {
             .addField('status_description');
     }
 
+    getShippingLabel(returnId) {
+        return new Field('getShippingLabel')
+            .addArgument('return_id', 'Int!', returnId)
+            .addField('file');
+    }
+
     _getReturnTrackingFields() {
         return new Field('tracking')
             .addField('carrier')
