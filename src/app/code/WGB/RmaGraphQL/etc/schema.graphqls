@@ -20,6 +20,8 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
     getOrderById(id: Int!): Order
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
+    getRmaPolicy : RmaPolicy
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Policy")
 }
 
 type RmaChatForRequest {
@@ -62,6 +64,11 @@ input CancelRequestInput {
 
 type CancelRequestOutput {
     success: Boolean
+}
+
+type RmaPolicy {
+    policy_status: Boolean
+    policy_page_url: String
 }
 
 input AddTrackingInput {

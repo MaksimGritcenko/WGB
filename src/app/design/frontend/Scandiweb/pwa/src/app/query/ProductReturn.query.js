@@ -34,10 +34,23 @@ export class ProductReturnQuery {
             .addField(this._getAdminContactDataFields());
     }
 
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
+    }
+
+
     _getAdminContactDataFields() {
         return new Field('contact_data')
             .addField('email')
             .addField('phone_number');
+    }
+
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
     }
 
     _getReturnReasonsFields() {
