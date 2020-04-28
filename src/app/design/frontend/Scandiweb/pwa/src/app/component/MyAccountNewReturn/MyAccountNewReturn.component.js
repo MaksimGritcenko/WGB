@@ -5,7 +5,6 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Loader from 'Component/Loader';
 import Field from 'Component/Field';
-import Link from 'Component/Link';
 
 import './MyAccountNewReturn.style';
 import './MyAccountNewReturnPolicy.style';
@@ -22,7 +21,8 @@ export default class MyAccountNewReturn extends PureComponent {
         renderPageTitle: PropTypes.func.isRequired,
         contactData: PropTypes.object.isRequired,
         createdAt: PropTypes.string.isRequired,
-        shippingCover: PropTypes.object.isRequired
+        shippingCover: PropTypes.object.isRequired,
+        policy: PropTypes.object.isRequired
     };
 
     state = {
@@ -71,6 +71,15 @@ export default class MyAccountNewReturn extends PureComponent {
         const { history } = this.props;
 
         history.goBack();
+    };
+
+    setPolicyChecked = () => {
+        const { policy_is_checked } = this.state;
+        if (!policy_is_checked) {
+            this.setState({ policy_is_checked: true });
+        } else {
+            this.setState({ policy_is_checked: false });
+        }
     };
 
     renderBankDetailField = ({ code, label }, index) => {
@@ -138,18 +147,18 @@ export default class MyAccountNewReturn extends PureComponent {
                 <div block="MyAccountNewReturnPolicy">
                 <Field
                   id="Policy"
+                  key="Policy"
                   name="Policy"
                   value="Policy"
                   type="checkbox"
                   mix={ {
                       block: 'MyAccountNewReturnPolicy'
                   } }
-                  checked={ this.setPolicyChecked }
                   onChange={ this.setPolicyChecked }
                 />
                     <div block="MyAccountNewReturnPolicy" elem="Text">
                         <p>I have read and understand the&nbsp;</p>
-                        <Link to={ policy.policy_page_url }>Return Policy*</Link>
+                        <a href={ policy.policy_page_url }>Return Policy*</a>
                     </div>
                 </div>
             );

@@ -38,7 +38,8 @@ export class MyAccountNewReturnContainer extends DataContainer {
         customFields: {},
         contactData: {},
         createdAt: '',
-        shippingCover: {}
+        shippingCover: {},
+        policy: {}
     };
 
     containerFunctions = {
