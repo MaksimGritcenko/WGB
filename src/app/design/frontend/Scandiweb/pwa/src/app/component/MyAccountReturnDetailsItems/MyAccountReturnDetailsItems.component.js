@@ -9,7 +9,6 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         items: PropTypes.array.isRequired
     };
 
-    renderItemDetails(name, qty, chosen_attributes) {
     getPayer(payerId) {
         switch (payerId) {
         case 0:
@@ -19,6 +18,27 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         default:
             return null;
         }
+    }
+
+    renderItemDetails(name, qty, chosen_attributes) {
+        return (
+            <div
+              block="MyAccountReturnDetailsItems"
+              elem="ItemDetails"
+            >
+                <p
+                  block="CartItem"
+                  elem="Heading"
+                  itemProp="name"
+                >
+                    { name }
+                </p>
+                <p>{ `Qty: ${ qty }` }</p>
+                { chosen_attributes.map(attr => {
+                    return <p>{ attr.label }: { attr.value }</p>
+                }) }
+            </div>
+        );
     }
 
     renderItemDetails(name, qty, chosen_attributes) {
