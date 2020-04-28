@@ -22,6 +22,8 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
     getRmaPolicy : RmaPolicy
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Policy")
+    getShippingLabel(return_id: Int): ShippingLabelData
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ShippingLabel")
 }
 
 type RmaChatForRequest {
