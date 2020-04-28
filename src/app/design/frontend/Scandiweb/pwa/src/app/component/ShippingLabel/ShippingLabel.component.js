@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 
 import './ShippingLabel.style';
 
+const BUTTON_NAME = 'Download Shipping Label';
 const FILE_NAME = 'Shipping-Label';
 
 class ShippingLabel extends PureComponent {
@@ -31,7 +32,7 @@ class ShippingLabel extends PureComponent {
     }
 
     render() {
-        const { label, url } = this.props;
+        const { url } = this.props;
         return (
         <div block="RmaWidget">
             <a
@@ -39,7 +40,7 @@ class ShippingLabel extends PureComponent {
               href={ url }
               download={ FILE_NAME }
             >
-            { label }
+            { BUTTON_NAME }
             </a>
         </div>
         );

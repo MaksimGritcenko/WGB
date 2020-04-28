@@ -1,7 +1,16 @@
+import PropTypes from 'prop-types';
 import FieldSource from 'SourceComponent/Field/Field.component';
 import './Field.style';
 
 export default class Field extends FieldSource {
+    static propTypes = {
+        ...this.propTypes,
+        label: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.string
+        ])
+    };
+
     renderTextarea() {
         const {
             id,
