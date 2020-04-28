@@ -10,6 +10,18 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
     };
 
     renderItemDetails(name, qty, chosen_attributes) {
+    getPayer(payerId) {
+        switch (payerId) {
+        case 0:
+            return 'You should pay for Shipping';
+        case 1:
+            return 'Store should pay for shipping';
+        default:
+            return null;
+        }
+    }
+
+    renderItemDetails(name, qty, chosen_attributes) {
         return (
             <div
               block="MyAccountReturnDetailsItems"
@@ -55,6 +67,24 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
+    renderPayer(item) {
+        const {
+            reason: { payer: payerId }
+        } = item;
+        const payer = this.getPayer(payerId);
+
+        if (!payer) return null;
+
+        return (
+            <span
+              block="MyAccountReturnDetailsItems"
+              elem="ReasonBlockPayer"
+            >
+                { payer }
+            </span>
+        );
+    }
+
     renderReasonBlock(item) {
         const {
             reason: { title: reasonTitle },
@@ -70,12 +100,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 { this.renderReasonItem('Return Reason:', reasonTitle) }
                 { this.renderReasonItem('Items Condition:', conditionTitle) }
                 { this.renderReasonItem('Return Resolution:', resolutionTitle) }
-                <span
-                  block="MyAccountReturnDetailsItems"
-                  elem="ReasonBlockPayer"
-                >
-                    Store pays for Shipping.
-                </span>
+                { this.renderPayer(item) }
             </div>
         );
     }

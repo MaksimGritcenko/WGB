@@ -74,6 +74,8 @@ export class MyAccountMyReturnsContainer extends PureComponent {
 
         getOrderList();
         getReturnList();
+
+        this.handleFirstLoadHeaderChange();
     }
 
     componentDidUpdate() {
@@ -93,6 +95,12 @@ export class MyAccountMyReturnsContainer extends PureComponent {
 
     setChosenOrderId(id) {
         this.chosenOrderId = id;
+    }
+
+    handleFirstLoadHeaderChange() {
+        const activePage = this.getActivePage();
+
+        if (activePage === NEW_RETURN || activePage === RETURN_DETAILS) setTimeout(() => this.changeHeaderState(), 1);
     }
 
     handleReturnListReload(prevActivePage, activePage) {

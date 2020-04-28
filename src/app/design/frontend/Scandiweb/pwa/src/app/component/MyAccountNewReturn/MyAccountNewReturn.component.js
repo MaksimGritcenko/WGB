@@ -19,7 +19,8 @@ export default class MyAccountNewReturn extends PureComponent {
         customFields: PropTypes.object.isRequired,
         renderPageTitle: PropTypes.func.isRequired,
         contactData: PropTypes.object.isRequired,
-        createdAt: PropTypes.string.isRequired
+        createdAt: PropTypes.string.isRequired,
+        shippingCover: PropTypes.object.isRequired
     };
 
     state = {
@@ -69,11 +70,12 @@ export default class MyAccountNewReturn extends PureComponent {
         history.goBack();
     };
 
-    renderBankDetailField = ({ code, label }) => {
+    renderBankDetailField = ({ code, label }, index) => {
         const { bankDetails: { [code]: value } } = this.state;
 
         return (
             <Field
+              key={ index }
               type="text"
               placeholder={ label }
               id={ code }
@@ -147,7 +149,8 @@ export default class MyAccountNewReturn extends PureComponent {
             renderPageTitle,
             contactData,
             createdAt,
-            orderId = ''
+            orderId = '',
+            shippingCover
         } = this.props;
         const { hasItemsError } = this.state;
 
@@ -169,6 +172,7 @@ export default class MyAccountNewReturn extends PureComponent {
                   hasError={ hasItemsError }
                   contactData={ contactData }
                   createdAt={ createdAt }
+                  shippingCover={ shippingCover }
                 />
                 { this.renderBankDetailFields() }
                 { this.renderActions() }

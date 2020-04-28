@@ -456,13 +456,16 @@
     }
 
     &-Social {
-        padding: 0 15px;
         max-width: 410px;
         margin: auto;
 
         h4 {
             text-align: left;
             margin-bottom: 20px;
+        }
+
+        @include mobile {
+            padding: 0 15px;
         }
 
         @include after-mobile {

@@ -43,7 +43,8 @@ export class ProductReturnQuery {
     _getReturnReasonsFields() {
         return new Field('reasons')
             .addField('reason_id')
-            .addField('title');
+            .addField('title')
+            .addField('payer');
     }
 
     _getReturnResolutionsFields() {
@@ -133,7 +134,7 @@ export class ProductReturnQuery {
         return new Field('items')
             .addField(this._getReturnProductFields())
             .addField(this._getReturnReasonFields('resolution'))
-            .addField(this._getReturnReasonFields('reason'))
+            .addField(this._getReturnReasonReasonFields())
             .addField(this._getReturnReasonFields('condition'))
             .addField(this._getReturnStatusFields())
             .addField(this._getChosenAttributesField())
@@ -149,6 +150,12 @@ export class ProductReturnQuery {
     _getReturnReasonFields(id) {
         return new Field(id)
             .addField('title');
+    }
+
+    _getReturnReasonReasonFields() {
+        return new Field('reason')
+            .addField('title')
+            .addField('payer');
     }
 
     _getReturnProductFields() {

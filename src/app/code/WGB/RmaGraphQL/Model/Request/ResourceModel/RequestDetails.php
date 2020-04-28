@@ -254,9 +254,16 @@ class RequestDetails
         );
         $statusDescription = $status->getStoreData()->getDescription();
 
+        $issetfile = $request->getShippingLabel();
+        if(isset($issetfile)){
+            $file = $request->getShippingLabel();
+        }else{
+            $file= " ";
+        }
+
         return [
             'id' => $request->getRequestId(),
-            'file' => $request->getShippingLabel(),
+            'file' => $file,
             'order_id' => $request->getOrderId(),
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
