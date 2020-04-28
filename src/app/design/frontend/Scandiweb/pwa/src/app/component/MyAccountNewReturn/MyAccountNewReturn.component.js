@@ -54,11 +54,12 @@ export default class MyAccountNewReturn extends PureComponent {
 
         if (!isAllFilled) {
             this.setState({ hasItemsError: true });
-
             return;
         }
 
-        const custom_fields = Object.entries(bankDetails).map(([code, value]) => ({ code, value }));
+        const custom_fields = Object.entries(bankDetails).map(
+            ([code, value]) => ({ code, value })
+        );
 
         onNewRequestSubmit({
             items: selectedItems,
@@ -104,16 +105,9 @@ export default class MyAccountNewReturn extends PureComponent {
     };
 
     isButtonEnabled() {
-        const { selectedItems } = this.state;
+        const { selectedItems, policy_is_checked } = this.state;
         const isSubmitDisabled = !Object.keys(selectedItems).length;
-        const { policy_is_checked } = this.state;
         const { policy } = this.props;
-
-        if (!policy.policy_status) {
-            if (!isSubmitDisabled) {
-                return false;
-            }
-        }
 
         if (isSubmitDisabled || !policy_is_checked) {
             return true;
@@ -141,30 +135,31 @@ export default class MyAccountNewReturn extends PureComponent {
     }
 
     renderPolicy() {
-        const { policy } = this.props;
-        if (policy.policy_status) {
-            return (
-                <div block="MyAccountNewReturnPolicy">
-                <Field
-                  id="Policy"
-                  key="Policy"
-                  name="Policy"
-                  value="Policy"
-                  type="checkbox"
-                  mix={ {
-                      block: 'MyAccountNewReturnPolicy'
-                  } }
-                  onChange={ this.setPolicyChecked }
-                />
-                    <div block="MyAccountNewReturnPolicy" elem="Text">
-                        <p>I have read and understand the&nbsp;</p>
-                        <a href={ policy.policy_page_url }>Return Policy*</a>
-                    </div>
-                </div>
-            );
+        const { policy: { policy_status, policy_page_url} } = this.props;
+
+        if (!policy_status) {
+            return null;
         }
 
-        return (<></>);
+        return (
+            <div block="MyAccountNewReturnPolicy">
+            <Field
+              id="Policy"
+              key="Policy"
+              name="Policy"
+              value="Policy"
+              type="checkbox"
+              mix={ {
+                  block: 'MyAccountNewReturnPolicy'
+              } }
+              onChange={ this.setPolicyChecked }
+            />
+                <div block="MyAccountNewReturnPolicy" elem="Text">
+                    <p>I have read and understand the&nbsp;</p>
+                    <a href={ policy_page_url }>Return Policy*</a>
+                </div>
+            </div>
+        );
     }
 
     renderActions() {
