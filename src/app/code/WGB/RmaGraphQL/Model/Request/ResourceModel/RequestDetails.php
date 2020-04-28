@@ -103,6 +103,10 @@ class RequestDetails
      * @var StoreManagerInterface
      */
     protected $storeManager;
+    /**
+     * @var \WGB\RmaGraphQL\Model\Resolver\Product
+     */
+    protected $productResolver;
 
     public function __construct(
         Product $productDataProvider,
@@ -117,7 +121,8 @@ class RequestDetails
         StatusRepositoryInterface $statusRepository,
         State $stateOptionSource,
         ItemStatus $itemStatuses,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        \WGB\RmaGraphQL\Model\Resolver\Product $productResolver
     )
     {
         $this->productDataProvider = $productDataProvider;
@@ -134,6 +139,7 @@ class RequestDetails
         $this->itemStatuses = $itemStatuses;
         $this->storeManager = $storeManager;
 
+        $this->productResolver = $productResolver;
         $this->states = $this->stateOptionSource->toArray();
     }
 
@@ -146,7 +152,7 @@ class RequestDetails
     {
         /** @var OrderItemInterface $orderItem */
         foreach ($orderItems as $orderItem) {
-            if ($orderItem->getItemId() + 1 == $requestItem->getOrderItemId()) {
+            if ($orderItem->getItemId() == $requestItem->getOrderItemId()) {
                 return $orderItem;
             }
         }
@@ -211,8 +217,10 @@ class RequestDetails
             $status_description = $itemStatuses[$status_id];
 
             return [
+                'name' => $orderItem->getParentItem()->getName(),
                 'discount_amount' => $orderItem->getDiscountAmount(),
                 'discount_percent' => $orderItem->getDiscountPercent(),
+                'chosen_attributes' => $this->productResolver->getChosenAttributes($orderItem),
                 'item_id' => $orderItem->getItemId(),
                 'price' => $orderItem->getPrice(),
                 'product_id' => $orderItem->getProductId(),
