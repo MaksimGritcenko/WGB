@@ -5,12 +5,14 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
+import MyAccountReturnDetailsChat from 'Component/MyAccountReturnDetailsChat';
 import Html from 'Component/Html';
 import media from 'Util/Media';
 
 import './MyAccountReturnDetails.style';
 
 const STATUS_STATE_CANCELED = 'Canceled';
+const STATUS_STATE_PROCESSING = 'Processing';
 const STATUS_STATE_MAP = {
     Processing: 1,
     Approved: 2,
@@ -150,6 +152,8 @@ export default class MyAccountReturnDetails extends PureComponent {
 
         if (state === STATUS_STATE_CANCELED) return this.renderCalcelRMATitle();
 
+        if (state !== STATUS_STATE_PROCESSING) return null;
+
         return (
             <button
               block="Button"
@@ -196,6 +200,9 @@ export default class MyAccountReturnDetails extends PureComponent {
                   carriers={ carriers }
                   details={ details }
                 />
+                {/* <MyAccountReturnDetailsChat
+                  requestId={ details.id }
+                /> */}
                 { this.renderCalcelRMAButton() }
             </div>
         );

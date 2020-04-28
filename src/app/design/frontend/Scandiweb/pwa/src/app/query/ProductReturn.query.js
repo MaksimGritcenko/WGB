@@ -1,21 +1,31 @@
 import { Field } from 'Util/Query';
 
 export class ProductReturnQuery {
-    // My Return
+    /**
+     * CHAT
+     */
+    sendMessage(input) {
+        return new Field('sendRmaMessage')
+            .addArgument('input', 'SendRmaMessageInput!', input)
+            .addField('success');
+    }
 
+    /**
+     * MY RETURN
+     */
     getReturnList() {
         return new Field('getReturnList')
             .addField('created_at')
             .addField('order_id')
+            .addField('increment_id')
             .addField('request_id')
             .addField('request_qty')
             .addField(this._getReturnStatusFields());
     }
 
-    // ---------------------- //
-    // NEW return
-    // ---------------------- //
-
+    /**
+     * NEW RETURN
+     */
     getRmaConfiguration() {
         return new Field('getRmaConfiguration')
             .addField(this._getReturnReasonsFields())
@@ -25,16 +35,30 @@ export class ProductReturnQuery {
             .addField(this._getAdminContactDataFields());
     }
 
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
+    }
+
+
     _getAdminContactDataFields() {
         return new Field('contact_data')
             .addField('email')
             .addField('phone_number');
     }
 
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
+    }
+
     _getReturnReasonsFields() {
         return new Field('reasons')
             .addField('reason_id')
-            .addField('title');
+            .addField('title')
+            .addField('payer');
     }
 
     _getReturnResolutionsFields() {
@@ -67,10 +91,9 @@ export class ProductReturnQuery {
             .addField('return_id');
     }
 
-    // ---------------------- //
-    // Return Details
-    // ---------------------- //
-
+    /**
+     * RETURN DETAILS
+     */
     getReturnTrackingInfo(input) {
         return new Field('addTrackingToRequest')
             .addArgument('input', 'AddTrackingInput!', input)
@@ -100,11 +123,17 @@ export class ProductReturnQuery {
             .addField(this._getReturnTrackingFields())
             .addField(this._getReturnItemFields())
             .addField('id')
-            .addField('file')
+            // .addField('file')
             .addField('order_id')
             .addField('created_at')
             .addField('state')
             .addField('status_description');
+    }
+
+    getShippingLabel(returnId) {
+        return new Field('getShippingLabel')
+            .addArgument('return_id', 'Int!', returnId)
+            .addField('file');
     }
 
     _getReturnTrackingFields() {
@@ -115,13 +144,21 @@ export class ProductReturnQuery {
             .addField('tracking_number');
     }
 
+    _getChosenAttributesField() {
+        return new Field('chosen_attributes')
+            .addField('label')
+            .addField('value');
+    }
+
     _getReturnItemFields() {
         return new Field('items')
             .addField(this._getReturnProductFields())
             .addField(this._getReturnReasonFields('resolution'))
-            .addField(this._getReturnReasonFields('reason'))
+            .addField(this._getReturnReasonReasonFields())
             .addField(this._getReturnReasonFields('condition'))
             .addField(this._getReturnStatusFields())
+            .addField(this._getChosenAttributesField())
+            .addField('name')
             .addField('qty');
     }
 
@@ -133,6 +170,12 @@ export class ProductReturnQuery {
     _getReturnReasonFields(id) {
         return new Field(id)
             .addField('title');
+    }
+
+    _getReturnReasonReasonFields() {
+        return new Field('reason')
+            .addField('title')
+            .addField('payer');
     }
 
     _getReturnProductFields() {

@@ -28,7 +28,16 @@
     }
 
     &-ItemDetails {
+        flex-direction: column;
         flex: 2;
+
+        p {
+            font-weight: initial;
+        }
+    }
+
+    &-ItemAttributes {
+        margin-top: 3px;
     }
 
     .CartItem {

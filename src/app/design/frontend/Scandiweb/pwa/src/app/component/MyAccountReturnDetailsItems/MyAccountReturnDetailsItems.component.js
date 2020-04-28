@@ -9,7 +9,18 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         items: PropTypes.array.isRequired
     };
 
-    renderItemDetails(name, qty) {
+    getPayer(payerId) {
+        switch (payerId) {
+        case 0:
+            return 'You should pay for Shipping';
+        case 1:
+            return 'Store should pay for shipping';
+        default:
+            return null;
+        }
+    }
+
+    renderItemDetails(name, qty, chosen_attributes) {
         return (
             <div
               block="MyAccountReturnDetailsItems"
@@ -22,7 +33,31 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 >
                     { name }
                 </p>
-                <span>{ `Qty: ${ qty }` }</span>
+                <p>{ `Qty: ${ qty }` }</p>
+                { chosen_attributes.map(attr => {
+                    return <p>{ attr.label }: { attr.value }</p>
+                }) }
+            </div>
+        );
+    }
+
+    renderItemDetails(name, qty, chosen_attributes) {
+        return (
+            <div
+              block="MyAccountReturnDetailsItems"
+              elem="ItemDetails"
+            >
+                <p
+                  block="CartItem"
+                  elem="Heading"
+                  itemProp="name"
+                >
+                    { name }
+                </p>
+                <p>{ `Qty: ${ qty }` }</p>
+                { chosen_attributes.map(attr => {
+                    return <p>{ attr.label }: { attr.value }</p>
+                }) }
             </div>
         );
     }
@@ -52,6 +87,24 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
+    renderPayer(item) {
+        const {
+            reason: { payer: payerId }
+        } = item;
+        const payer = this.getPayer(payerId);
+
+        if (!payer) return null;
+
+        return (
+            <span
+              block="MyAccountReturnDetailsItems"
+              elem="ReasonBlockPayer"
+            >
+                { payer }
+            </span>
+        );
+    }
+
     renderReasonBlock(item) {
         const {
             reason: { title: reasonTitle },
@@ -67,12 +120,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                 { this.renderReasonItem('Return Reason:', reasonTitle) }
                 { this.renderReasonItem('Items Condition:', conditionTitle) }
                 { this.renderReasonItem('Return Resolution:', resolutionTitle) }
-                <span
-                  block="MyAccountReturnDetailsItems"
-                  elem="ReasonBlockPayer"
-                >
-                    Store pays for Shipping.
-                </span>
+                { this.renderPayer(item) }
             </div>
         );
     }
@@ -80,8 +128,9 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
     renderItemInfo(item) {
         const {
             product,
-            product: { name },
             qty,
+            chosen_attributes,
+            name,
             status: { state_label }
         } = item;
 
@@ -92,7 +141,7 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                   block="CartItem"
                   elem="Content"
                 >
-                    { this.renderItemDetails(name, qty) }
+                    { this.renderItemDetails(name, qty, chosen_attributes) }
                     { this.renderReasonBlock(item) }
                     { this.renderStatusBlock(state_label) }
                 </figcaption>
@@ -100,10 +149,11 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         );
     }
 
-    renderItem = item => (
+    renderItem = (item, index) => (
         <div
           block="MyAccountNewReturnItemSelect"
           elem="ItemWrapper"
+          key={ index }
         >
             { this.renderItemInfo(item) }
         </div>

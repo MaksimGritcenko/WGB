@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import DataContainer from 'Util/Request/DataContainer';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ProductReturnQuery, OrderQuery } from 'Query';
@@ -22,7 +22,7 @@ export const mapDispatchToProps = dispatch => ({
     showSuccessNotification: message => dispatch(showNotification('success', message))
 });
 
-export class MyAccountNewReturnContainer extends PureComponent {
+export class MyAccountNewReturnContainer extends DataContainer {
     static propTypes = {
         customer: customerType.isRequired,
         showNotification: PropTypes.func.isRequired,
@@ -37,7 +37,9 @@ export class MyAccountNewReturnContainer extends PureComponent {
         items: [],
         customFields: {},
         contactData: {},
-        createdAt: ''
+        createdAt: '',
+        shippingCover: {},
+        policy: {}
     };
 
     containerFunctions = {
@@ -47,6 +49,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
 
     componentDidMount() {
         this.requestData();
+        this.requestPolicy();
     }
 
     onError = (e) => {
@@ -80,6 +83,14 @@ export class MyAccountNewReturnContainer extends PureComponent {
         const key = 'default_shipping';
 
         return addresses.find(({ [key]: defaultAddress }) => defaultAddress);
+    }
+
+    requestPolicy() {
+        return this.fetchData(
+            [ProductReturnQuery.getRmaPolicy()],
+            ({ getRmaPolicy }) => this.setState({ policy: getRmaPolicy }),
+            e => showNotification('error', 'Error fetching Policy Data!', e)
+        );
     }
 
     requestData() {
@@ -118,13 +129,18 @@ export class MyAccountNewReturnContainer extends PureComponent {
                     ))
                 }), {});
 
+                const shippingCover = reasons.reduce((acc, { reason_id, payer }) => ({
+                    ...acc, [reason_id]: payer
+                }), {});
+
                 this.setState({
                     reasonData,
                     items,
                     orderId,
                     customFields,
                     contactData,
-                    createdAt
+                    createdAt,
+                    shippingCover
                 });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
@@ -139,12 +155,14 @@ export class MyAccountNewReturnContainer extends PureComponent {
             isLoading,
             customFields,
             contactData,
-            createdAt
+            createdAt,
+            shippingCover
         } = this.state;
 
         return (
             <MyAccountNewReturn
               { ...this.props }
+              { ...this.state }
               { ...this.containerFunctions }
               reasonData={ reasonData }
               items={ items }
@@ -153,6 +171,7 @@ export class MyAccountNewReturnContainer extends PureComponent {
               customFields={ customFields }
               contactData={ contactData }
               createdAt={ createdAt }
+              shippingCover={ shippingCover }
             />
         );
     }

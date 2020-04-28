@@ -29,7 +29,11 @@ export default class ProducReturnRules extends PureComponent {
         const { returnResolutions } = this.props;
 
         return (
-            <dl block="ProductInformation" elem="Attributes">
+            <dl
+              block="ProductInformation"
+              elem="Attributes"
+              mods={ { type: 'returns' } }
+            >
                 { returnResolutions.map(this.renderReturnRule) }
             </dl>
         );
@@ -39,7 +43,10 @@ export default class ProducReturnRules extends PureComponent {
         return (
             <ExpandableContent
               heading={ __('Product Returns') }
-              mix={ { block: 'ProductInformation', elem: 'Content' } }
+              mix={ {
+                  block: 'ProductInformation',
+                  elem: 'Content'
+              } }
             >
                 { this.renderReturnRules() }
             </ExpandableContent>

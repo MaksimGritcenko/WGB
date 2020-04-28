@@ -7,6 +7,7 @@ import Loader from 'Component/Loader';
 import Field from 'Component/Field';
 
 import './MyAccountNewReturn.style';
+import './MyAccountNewReturnPolicy.style';
 
 export default class MyAccountNewReturn extends PureComponent {
     static propTypes = {
@@ -19,13 +20,16 @@ export default class MyAccountNewReturn extends PureComponent {
         customFields: PropTypes.object.isRequired,
         renderPageTitle: PropTypes.func.isRequired,
         contactData: PropTypes.object.isRequired,
-        createdAt: PropTypes.string.isRequired
+        createdAt: PropTypes.string.isRequired,
+        shippingCover: PropTypes.object.isRequired,
+        policy: PropTypes.object.isRequired
     };
 
     state = {
         bankDetails: {},
         selectedItems: {},
-        hasItemsError: false
+        hasItemsError: false,
+        policy_is_checked: false
     };
 
     handleBankDetailFieldChange = (value, id) => {
@@ -50,11 +54,12 @@ export default class MyAccountNewReturn extends PureComponent {
 
         if (!isAllFilled) {
             this.setState({ hasItemsError: true });
-
             return;
         }
 
-        const custom_fields = Object.entries(bankDetails).map(([code, value]) => ({ code, value }));
+        const custom_fields = Object.entries(bankDetails).map(
+            ([code, value]) => ({ code, value })
+        );
 
         onNewRequestSubmit({
             items: selectedItems,
@@ -69,11 +74,21 @@ export default class MyAccountNewReturn extends PureComponent {
         history.goBack();
     };
 
-    renderBankDetailField = ({ code, label }) => {
+    setPolicyChecked = () => {
+        const { policy_is_checked } = this.state;
+        if (!policy_is_checked) {
+            this.setState({ policy_is_checked: true });
+        } else {
+            this.setState({ policy_is_checked: false });
+        }
+    };
+
+    renderBankDetailField = ({ code, label }, index) => {
         const { bankDetails: { [code]: value } } = this.state;
 
         return (
             <Field
+              key={ index }
               type="text"
               placeholder={ label }
               id={ code }
@@ -88,6 +103,18 @@ export default class MyAccountNewReturn extends PureComponent {
             />
         );
     };
+
+    isButtonEnabled() {
+        const { selectedItems, policy_is_checked } = this.state;
+        const isSubmitDisabled = !Object.keys(selectedItems).length;
+        const { policy } = this.props;
+
+        if (isSubmitDisabled || !policy_is_checked) {
+            return true;
+        }
+
+        return false;
+    }
 
     renderBankDetailFields() {
         const { customFields: { fields = [], label } } = this.props;
@@ -107,11 +134,35 @@ export default class MyAccountNewReturn extends PureComponent {
         );
     }
 
+    renderPolicy() {
+        const { policy: { policy_status, policy_page_url} } = this.props;
+
+        if (!policy_status) {
+            return null;
+        }
+
+        return (
+            <div block="MyAccountNewReturnPolicy">
+                <Field
+                  id="Policy"
+                  key="Policy"
+                  name="Policy"
+                  value="Policy"
+                  type="checkbox"
+                  mix={ {
+                      block: 'MyAccountNewReturnPolicy'
+                  } }
+                  onChange={ this.setPolicyChecked }
+                />
+                <div block="MyAccountNewReturnPolicy" elem="Text">
+                    <p>I have read and understand the&nbsp;</p>
+                    <a href={ policy_page_url }>Return Policy*</a>
+                </div>
+            </div>
+        );
+    }
+
     renderActions() {
-        const { selectedItems } = this.state;
-
-        const isSubmitDisabled = !Object.keys(selectedItems).length;
-
         return (
             <div
               block="MyAccountNewReturn"
@@ -120,7 +171,7 @@ export default class MyAccountNewReturn extends PureComponent {
                 <button
                   block="Button"
                   onClick={ this.handleRequestSubmitPress }
-                  disabled={ isSubmitDisabled }
+                  disabled={ this.isButtonEnabled() }
                 >
                     { __('SUBMIT REQUEST') }
                 </button>
@@ -147,7 +198,8 @@ export default class MyAccountNewReturn extends PureComponent {
             renderPageTitle,
             contactData,
             createdAt,
-            orderId = ''
+            orderId = '',
+            shippingCover
         } = this.props;
         const { hasItemsError } = this.state;
 
@@ -169,8 +221,10 @@ export default class MyAccountNewReturn extends PureComponent {
                   hasError={ hasItemsError }
                   contactData={ contactData }
                   createdAt={ createdAt }
+                  shippingCover={ shippingCover }
                 />
                 { this.renderBankDetailFields() }
+                { this.renderPolicy() }
                 { this.renderActions() }
             </div>
         );
