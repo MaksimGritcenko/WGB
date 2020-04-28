@@ -44,7 +44,7 @@ use ScandiPWA\Performance\Model\Resolver\Products\DataPostProcessor;
  *
  * @package Wgb\RmaGraphQL\Model\Resolver
  */
-class RequestDetails
+class ShippingLabelData
 {
     use ResolveInfoFieldsTrait;
     /**
@@ -189,73 +189,16 @@ class RequestDetails
     public function getById($id)
     {
         $request = $this->requestRepository->getById($id);
-        $order = $this->orderRepository->get($request->getOrderId());
-        /** @var OrderItemInterface $orderItems */
-        $orderItems = $order->getItems();
-        $productIds = array_map(
-            function($item) {
-                return $item->getProductId();
-            },
-            $orderItems
-        );
-        $itemStatuses = $this->itemStatuses->toArray();
 
-        $requestItems = array_map(function ($requestItem) use ($orderItems, $itemStatuses) {
-            $orderItem = $this->getItemFromOrder($orderItems, $requestItem);
-
-            $reason = $this->reasonRepository->getById($requestItem->getReasonId());
-            $condition = $this->conditionRepository->getById($requestItem->getConditionId());
-            $resolution = $this->resolutionRepository->getById($requestItem->getResolutionId());
-
-            $status_id = $requestItem->getItemStatus();
-            $status_description = $itemStatuses[$status_id];
-
-            return [
-                'discount_amount' => $orderItem->getDiscountAmount(),
-                'discount_percent' => $orderItem->getDiscountPercent(),
-                'item_id' => $orderItem->getItemId(),
-                'price' => $orderItem->getPrice(),
-                'product_id' => $orderItem->getProductId(),
-                'qty' => $requestItem->getQty(),
-                'row_total' => $orderItem->getRowTotal(),
-                'sku' => $orderItem->getSku(),
-                'tax_amount' => $orderItem->getTaxAmount(),
-                'tax_percent' => $orderItem->getTaxPercent(),
-                'reason' => $reason,
-                'condition' => $condition,
-                'resolution' => $resolution,
-                'status' => [
-                    'state' => $status_id,
-                    'state_label' => $status_description
-                ]
-            ];
-
-        }, $request->getRequestItems());
-
-        $trackings = array_map(
-            function ($tracking) {
-                /** @var TrackingInterface $tracking */
-                $tracking['carrier'] = $this->rmaHistory->getCarrier($tracking->getTrackingCode());
-                return $tracking;
-            }, $request->getTrackingNumbers()
-        );
-
-        $status = $this->statusRepository->getById(
-            $request->getStatus(),
-            $this->storeManager->getStore()->getId()
-        );
-        $statusDescription = $status->getStoreData()->getDescription();
+        $issetfile = $request->getShippingLabel();
+        if(isset($issetfile)){
+            $file = $request->getShippingLabel();
+        }else{
+            $file= " ";
+        }
 
         return [
-            'id' => $request->getRequestId(),
-            'order_id' => $request->getOrderId(),
-            'created_at' => $request->getCreatedAt(),
-            'status' => $request->getStatus(),
-            'status_description' => $statusDescription,
-            'state' => $this->states[$status->getState()],
-            'items' => $requestItems,
-            'productIds' => $productIds,
-            'tracking' => $trackings
+            'file' => $file,
         ];
     }
 }

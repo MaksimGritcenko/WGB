@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ProductReturnQuery } from 'Query';
 import { history } from 'Route';
+import { fetchQuery } from 'Util/Request';
 import ShippingLabel from './ShippingLabel.component';
+
 
 const BASE_PATH = '/media/amasty/rma';
 class ShippingLabelContainer extends DataContainer {
@@ -28,8 +30,13 @@ class ShippingLabelContainer extends DataContainer {
         }
     }
 
+    // eslint-disable-next-line consistent-return
     buildLabelUrl(filename) {
         const { id } = this.state;
+        // eslint-disable-next-line no-magic-numbers
+        if (filename.length < 5) {
+            return (this.setState({ url: 'none' }));
+        }
         const path = `${BASE_PATH}/${id}/${filename}`;
         this.setState({ url: path });
     }
@@ -46,9 +53,14 @@ class ShippingLabelContainer extends DataContainer {
 
         this.setState({ id: returnId });
 
-        this.fetchData(
-            [ProductReturnQuery.getReturnDetails(returnId)],
-            ({ getReturnDetailsById }) => this.setState({ details: getReturnDetailsById })
+        return fetchQuery([
+            ProductReturnQuery.getShippingLabel(returnId)
+        ]).then(
+            ({ getShippingLabel }) => {
+                this.setState({
+                    details: getShippingLabel
+                });
+            }
         );
     }
 
