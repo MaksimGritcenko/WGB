@@ -1,8 +1,18 @@
 import { Field } from 'Util/Query';
 
 export class ProductReturnQuery {
-    // My Return
+    /**
+     * CHAT
+     */
+    sendMessage(input) {
+        return new Field('sendRmaMessage')
+            .addArgument('input', 'SendRmaMessageInput!', input)
+            .addField('success');
+    }
 
+    /**
+     * MY RETURN
+     */
     getReturnList() {
         return new Field('getReturnList')
             .addField('created_at')
@@ -12,10 +22,9 @@ export class ProductReturnQuery {
             .addField(this._getReturnStatusFields());
     }
 
-    // ---------------------- //
-    // NEW return
-    // ---------------------- //
-
+    /**
+     * NEW RETURN
+     */
     getRmaConfiguration() {
         return new Field('getRmaConfiguration')
             .addField(this._getReturnReasonsFields())
@@ -81,10 +90,9 @@ export class ProductReturnQuery {
             .addField('return_id');
     }
 
-    // ---------------------- //
-    // Return Details
-    // ---------------------- //
-
+    /**
+     * RETURN DETAILS
+     */
     getReturnTrackingInfo(input) {
         return new Field('addTrackingToRequest')
             .addArgument('input', 'AddTrackingInput!', input)
@@ -114,7 +122,7 @@ export class ProductReturnQuery {
             .addField(this._getReturnTrackingFields())
             .addField(this._getReturnItemFields())
             .addField('id')
-            .addField('file')
+            // .addField('file')
             .addField('order_id')
             .addField('created_at')
             .addField('state')
@@ -129,6 +137,12 @@ export class ProductReturnQuery {
             .addField('tracking_number');
     }
 
+    _getChosenAttributesField() {
+        return new Field('chosen_attributes')
+            .addField('label')
+            .addField('value');
+    }
+
     _getReturnItemFields() {
         return new Field('items')
             .addField(this._getReturnProductFields())
@@ -136,6 +150,8 @@ export class ProductReturnQuery {
             .addField(this._getReturnReasonReasonFields())
             .addField(this._getReturnReasonFields('condition'))
             .addField(this._getReturnStatusFields())
+            .addField(this._getChosenAttributesField())
+            .addField('name')
             .addField('qty');
     }
 

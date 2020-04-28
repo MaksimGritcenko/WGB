@@ -5,6 +5,10 @@ type Mutation {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\AddTrackingToRequest")
     cancelReturnRequest(input: CancelRequestInput!): CancelRequestOutput
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\CancelRequest")
+    sendRmaMessage(input: SendRmaMessageInput!): SendRmaMessageOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\SendMessage")
+    getRmaChatForRequest(request_id: String!): RmaChatForRequest
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetChatForRequest")
 }
 
 type Query {
@@ -18,6 +22,40 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
     getRmaPolicy : RmaPolicy
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Policy")
+}
+
+type RmaChatForRequest {
+    messages: [RmaChatMessage]
+}
+
+type RmaChatMessage {
+    is_manager: Boolean
+    is_system: Boolean
+    message: String
+    username: String
+    created_at: String
+    message_id: String
+    files: [RmaFile]
+}
+
+type RmaFile {
+    filename: String
+    link: String
+}
+
+input SendRmaMessageInput {
+    request_id: String!
+    message_text: String!
+    encoded_files: [EncodedFile]
+}
+
+input EncodedFile {
+    name: String!
+    encoded_file: String!
+}
+
+type SendRmaMessageOutput {
+    success: Boolean
 }
 
 input CancelRequestInput {
@@ -64,6 +102,12 @@ type OrderProduct implements ProductInterface {
     quote_item_id: String
     qty_returning: Int @doc(description: "Returnability must be used to determine whether the item is returnable")
     returnability: Returnability
+    chosen_attributes: [OrderProductChosenAttribute]
+}
+
+type OrderProductChosenAttribute {
+    label: String
+    value: String
 }
 
 type Returnability {
@@ -146,6 +190,7 @@ type ReturnTracking {
 }
 
 type ReturnItemDetails {
+    name: String
     discount_amount: Float
     discount_percent: Float
     item_id: String
@@ -159,6 +204,7 @@ type ReturnItemDetails {
     reason: ReturnReason
     condition: ReturnItemCondition
     resolution: ReturnResolution
+    chosen_attributes: [OrderProductChosenAttribute]
     status: ReturnState
 }
 
