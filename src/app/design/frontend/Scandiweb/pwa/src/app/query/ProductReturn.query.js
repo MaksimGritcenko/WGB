@@ -17,6 +17,7 @@ export class ProductReturnQuery {
         return new Field('getReturnList')
             .addField('created_at')
             .addField('order_id')
+            .addField('increment_id')
             .addField('request_id')
             .addField('request_qty')
             .addField(this._getReturnStatusFields());
