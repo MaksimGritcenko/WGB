@@ -15,7 +15,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
         ]).isRequired,
         // Other
         onFileAttach: PropTypes.func.isRequired,
-        sendMessage: PropTypes.func.isRequired,
+        sendMessageClick: PropTypes.func.isRequired,
         isButtonDisabled: PropTypes.bool
     };
 
@@ -27,7 +27,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
         const {
             onFileAttach,
             fileFormRef,
-            sendMessage,
+            sendMessageClick,
             isButtonDisabled,
             messageAreaRef
         } = this.props;
@@ -63,7 +63,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
                 </div>
                 <button
                   block="Button"
-                  onClick={ sendMessage }
+                  onClick={ sendMessageClick }
                   disabled={ isButtonDisabled }
                 >
                     Send
