@@ -1,4 +1,10 @@
 .MyAccountMyReturnsDropdown {
     margin-top: 0;
     flex: 8;
+
+    .Field-Select {
+        @include desktop {
+            width: 345px;
+        }
+    }
 }

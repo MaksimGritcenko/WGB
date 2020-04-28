@@ -226,6 +226,7 @@ class Product implements ResolverInterface
             }
 
             $data[$key] = $productsData[$item->getProductId()];
+            $data[$key]['name'] = $item->getParentItem()->getName();
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
             $data[$key]['original_price'] = $item->getBaseOriginalPrice();

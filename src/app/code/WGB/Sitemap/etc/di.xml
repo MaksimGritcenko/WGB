@@ -4,4 +4,6 @@
                 type="WGB\Sitemap\Model\ItemProvider\Product" />
     <preference for="Magento\Sitemap\Model\ItemProvider\Category"
                 type="WGB\Sitemap\Model\ItemProvider\Category" />
+    <preference for="Magento\Sitemap\Controller\Adminhtml\Sitemap\Generate"
+                type="WGB\Sitemap\Controller\Adminhtml\Sitemap\Generate" />
 </config>

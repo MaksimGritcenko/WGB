@@ -6,7 +6,9 @@
     }
 
     &-StickyButtonWrapper {
-        margin-bottom: 2rem;
+        @include after-mobile {
+            margin-bottom: 2rem;
+        }
     }
 
     &-Success {

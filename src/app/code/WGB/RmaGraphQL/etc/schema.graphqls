@@ -220,6 +220,7 @@ type ReturnState {
 
 type ReturnListEntry {
     order_id: String
+    increment_id: String
     request_id: String
     created_at: String
     status: ReturnState
