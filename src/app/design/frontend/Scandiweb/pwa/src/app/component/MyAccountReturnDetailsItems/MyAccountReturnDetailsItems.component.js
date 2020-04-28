@@ -9,7 +9,6 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
         items: PropTypes.array.isRequired
     };
 
-    renderItemDetails(name, qty, chosen_attributes) {
     getPayer(payerId) {
         switch (payerId) {
         case 0:
