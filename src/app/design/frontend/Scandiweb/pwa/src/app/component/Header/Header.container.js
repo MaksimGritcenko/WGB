@@ -15,7 +15,8 @@ import Header, {
     DRAGBAR_OPEN,
     MENU,
     SEARCH,
-    FILTER
+    FILTER,
+    CUSTOMER_ACCOUNT_PAGE
 } from 'Component/Header/Header.component';
 import { CART_OVERLAY_ID } from 'Component/CartOverlay/CartOverlay.container';
 import { history } from 'Route';
@@ -51,6 +52,15 @@ export class HeaderContainer extends SourceHeaderContainer {
         goToPreviousNavigationState: PropTypes.func.isRequired,
         hideActiveOverlay: PropTypes.func.isRequired,
         header_logo_src: PropTypes.string
+    };
+
+    routeMap = {
+        ...this.routeMap,
+        '/my-account': {
+            name: CUSTOMER_ACCOUNT_PAGE,
+            title: 'My Account',
+            onBackClick: () => history.goBack()
+        }
     };
 
     static defaultProps = {

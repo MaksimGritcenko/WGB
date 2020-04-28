@@ -38,7 +38,7 @@ export class MyAccountNewReturnContainer extends DataContainer {
         customFields: {},
         contactData: {},
         createdAt: '',
-        policy: {}
+        shippingCover: {}
     };
 
     containerFunctions = {
@@ -128,13 +128,18 @@ export class MyAccountNewReturnContainer extends DataContainer {
                     ))
                 }), {});
 
+                const shippingCover = reasons.reduce((acc, { reason_id, payer }) => ({
+                    ...acc, [reason_id]: payer
+                }), {});
+
                 this.setState({
                     reasonData,
                     items,
                     orderId,
                     customFields,
                     contactData,
-                    createdAt
+                    createdAt,
+                    shippingCover
                 });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
@@ -149,7 +154,8 @@ export class MyAccountNewReturnContainer extends DataContainer {
             isLoading,
             customFields,
             contactData,
-            createdAt
+            createdAt,
+            shippingCover
         } = this.state;
 
         return (
@@ -164,6 +170,7 @@ export class MyAccountNewReturnContainer extends DataContainer {
               customFields={ customFields }
               contactData={ contactData }
               createdAt={ createdAt }
+              shippingCover={ shippingCover }
             />
         );
     }
