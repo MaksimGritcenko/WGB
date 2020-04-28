@@ -15,6 +15,7 @@ import './ShippingLabel.style';
 
 const BUTTON_NAME = 'Download Shipping Label';
 const FILE_NAME = 'Shipping-Label';
+const EMPTY_LABEL = 'none';
 
 class ShippingLabel extends PureComponent {
     static propTypes = {
@@ -22,27 +23,33 @@ class ShippingLabel extends PureComponent {
         url: PropTypes.string.isRequired
     };
 
-    static defaultProps = {
-        // eslint-disable-next-line react/default-props-match-prop-types
-        label: 'Download Shipping Label'
-    };
-
-    componentDidUpdate() {
-
-    }
-
     render() {
         const { url } = this.props;
+        if (url === EMPTY_LABEL) {
+            return (
+            <div block="RmaWidget">
+                <a
+                  block="Button"
+                  href={ url }
+                  download={ FILE_NAME }
+                  disabled="true"
+                >
+                { BUTTON_NAME }
+                </a>
+            </div>
+            );
+        }
+
         return (
-        <div block="RmaWidget">
-            <a
-              block="Button"
-              href={ url }
-              download={ FILE_NAME }
-            >
-            { BUTTON_NAME }
-            </a>
-        </div>
+            <div block="RmaWidget">
+                <a
+                  block="Button"
+                  href={ url }
+                  download={ FILE_NAME }
+                >
+                { BUTTON_NAME }
+                </a>
+            </div>
         );
     }
 }
