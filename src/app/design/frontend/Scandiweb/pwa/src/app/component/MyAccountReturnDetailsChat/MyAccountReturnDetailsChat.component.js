@@ -50,13 +50,14 @@ class MyAccountReturnDetailsChat extends PureComponent {
                     >
                         { __('Attach File') }
                     </label>
-                    <input type="file"
-                        id="amrma-attach"
-                        accept=".pdf,.png,.jpg,.gif"
-                        multiple
-                        block="amrma-attach"
-                        onChange={ onFileAttach }
-                        ref={ fileFormRef }
+                    <input
+                      type="file"
+                      id="amrma-attach"
+                      accept=".pdf,.png,.jpg,.jpeg,.gif"
+                      multiple
+                      block="amrma-attach"
+                      onChange={ onFileAttach }
+                      ref={ fileFormRef }
                     />
                     <input type="hidden" name="attach-files" id="amrma-attached-files" data-amrma-js="file-input"/>
                 </div>
