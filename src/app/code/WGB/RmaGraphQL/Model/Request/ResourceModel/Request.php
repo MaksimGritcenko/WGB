@@ -10,8 +10,13 @@ use Amasty\Rma\Model\Status\Repository;
 use Amasty\Rma\Model\Status\ResourceModel\StatusStore;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Sales\Api\OrderRepositoryInterface;
 
 class Request extends \Amasty\Rma\Model\Request\ResourceModel\Request {
+        /**
+         * @var OrderRepository
+         */
+    protected $orderRepository;
     /**
      * @var Repository
      */
@@ -25,12 +30,14 @@ class Request extends \Amasty\Rma\Model\Request\ResourceModel\Request {
         Context $context,
         Repository $statusRepository,
         State $state,
-        $connectionName = null
+        $connectionName = null,
+        OrderRepositoryInterface $orderRepository
     )
     {
         parent::__construct($context, $connectionName);
         $this->statusRepository = $statusRepository;
         $this->states = $state->toArray();
+        $this->orderRepository = $orderRepository;
     }
 
     protected function fetchAllFromSelect($select) {
@@ -96,6 +103,10 @@ class Request extends \Amasty\Rma\Model\Request\ResourceModel\Request {
                     'state' => $state_id,
                     'state_label' => $state_label
                 ];
+                $orderId = $line['order_id'];
+                $order = $this->orderRepository->get($orderId);
+                $orderIncrementId = $order->getIncrementId();
+                $line['increment_id'] = $orderIncrementId;
 
                 return $line;
             },
