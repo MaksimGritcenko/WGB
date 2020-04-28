@@ -2,6 +2,12 @@ import { OrderQuery as SourceOrderQuery } from 'SourceQuery/Order.query';
 import { Field } from 'Util/Query';
 
 export class OrderQuery extends SourceOrderQuery {
+    _getChosenAttributesField() {
+        return new Field('chosen_attributes')
+            .addField('label')
+            .addField('value');
+    }
+
     _getBaseOrderInfoFields(isList) {
         return [
             'id',
@@ -19,6 +25,7 @@ export class OrderQuery extends SourceOrderQuery {
             ...this._getDefaultFields(),
             ...this._prepareImageFields(),
             this._prepareAttributes(),
+            this._getChosenAttributesField(),
             'quote_item_id',
             'qty_returning',
             this._getOrderReturnability()

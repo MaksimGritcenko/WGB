@@ -22,6 +22,7 @@ export class MyAccountMyReturnsDropdownContainer extends PureComponent {
                 const {
                     base_order_info: {
                         id,
+                        increment_id,
                         created_at,
                         grand_total,
                         status_can_be_returned
@@ -36,7 +37,7 @@ export class MyAccountMyReturnsDropdownContainer extends PureComponent {
                 list.push({
                     id,
                     value: id,
-                    label: `Order #${id} - ${created_at} - ${grand_total}`
+                    label: `Order #${increment_id} - ${created_at} - ${grand_total}`
                 });
 
                 return list;

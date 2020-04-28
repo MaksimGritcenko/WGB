@@ -113,10 +113,13 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     }
 
     renderItemDetails(item) {
-        const { name } = item;
+        const { name, chosen_attributes } = item;
 
         return (
-            <>
+            <div
+              block="MyAccountReturnDetailsItems"
+              elem="ItemDetails"
+            >
                 <p
                   block="CartItem"
                   elem="Heading"
@@ -124,7 +127,15 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
                 >
                     { name }
                 </p>
-            </>
+                <p
+                  block="MyAccountReturnDetailsItems"
+                  elem="ItemAttributes"
+                >
+                    { chosen_attributes.map(attr => {
+                        return <p>{ attr.label }: { attr.value }</p>
+                    }) }
+                </p>
+            </div>
         );
     }
 
