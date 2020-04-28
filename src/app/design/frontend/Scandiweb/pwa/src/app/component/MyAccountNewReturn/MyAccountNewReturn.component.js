@@ -143,17 +143,17 @@ export default class MyAccountNewReturn extends PureComponent {
 
         return (
             <div block="MyAccountNewReturnPolicy">
-            <Field
-              id="Policy"
-              key="Policy"
-              name="Policy"
-              value="Policy"
-              type="checkbox"
-              mix={ {
-                  block: 'MyAccountNewReturnPolicy'
-              } }
-              onChange={ this.setPolicyChecked }
-            />
+                <Field
+                  id="Policy"
+                  key="Policy"
+                  name="Policy"
+                  value="Policy"
+                  type="checkbox"
+                  mix={ {
+                      block: 'MyAccountNewReturnPolicy'
+                  } }
+                  onChange={ this.setPolicyChecked }
+                />
                 <div block="MyAccountNewReturnPolicy" elem="Text">
                     <p>I have read and understand the&nbsp;</p>
                     <a href={ policy_page_url }>Return Policy*</a>
