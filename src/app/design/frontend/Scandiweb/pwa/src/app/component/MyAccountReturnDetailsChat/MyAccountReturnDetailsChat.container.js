@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { showNotification } from 'Store/Notification';
-import ReturnDispatcher from 'Store/Return'
+import { ReturnDispatcher } from 'Store/Return'
 import MyAccountReturnDetailsChat from './MyAccountReturnDetailsChat.component';
 
 // TODO implement retrieval with RMA config
