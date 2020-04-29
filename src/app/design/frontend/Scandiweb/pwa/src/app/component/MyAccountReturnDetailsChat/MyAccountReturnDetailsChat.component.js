@@ -21,14 +21,36 @@ class MyAccountReturnDetailsChat extends PureComponent {
         onFileAttach: PropTypes.func.isRequired,
         sendMessageClick: PropTypes.func.isRequired,
         sendMessage: PropTypes.func.isRequired,
-        isButtonDisabled: PropTypes.bool,
         chatMessages: PropTypes.array.isRequired,
         isChatLoading: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
-        isButtonDisabled: false
     };
+
+    state = {
+        isSendDisabled: true
+    }
+
+    handleTextAreaChange = ({ target: { value } }) => {
+        const { isSendDisabled } = this.state;
+
+        if (value && isSendDisabled) this.setState({ isSendDisabled: false });
+        if (!value && !isSendDisabled) this.setState({ isSendDisabled: true });
+    }
+
+    handleSendMessageClick = () => {
+        const { sendMessageClick } = this.props;
+
+        sendMessageClick();
+        this.setState({ isSendDisabled: true });
+    }
+
+    handleAttachClick = () => {
+        const { fileFormRef } = this.props;
+
+        fileFormRef.current.click();
+    }
 
     renderInputTextArea() {
         const {
@@ -41,30 +63,30 @@ class MyAccountReturnDetailsChat extends PureComponent {
               rows="1"
               mix={ { block: 'MyAccountReturnDetailsChat', elem: 'InputSectionTextArea' } }
               placeholder={ __('Message') }
+              onChange={ this.handleTextAreaChange }
               ref={ messageAreaRef }
             />
         )
     }
 
     renderInputSection() {
-        const {
-            sendMessageClick,
-            isButtonDisabled
-        } = this.props;
+        const { isSendDisabled } = this.state;
 
         return (
             <div
               block="MyAccountReturnDetailsChat"
               elem="InputSectionWrapper"
             >
-                <button>
+                <button
+                  onClick={ this.handleAttachClick }
+                >
                     { attachmentIcon }
                 </button>
                 { this.renderInputTextArea() }
                 <button
                   block="Button"
-                  onClick={ sendMessageClick }
-                  disabled={ isButtonDisabled }
+                  onClick={ this.handleSendMessageClick }
+                  disabled={ isSendDisabled }
                 >
                     Send
                 </button>
@@ -115,26 +137,17 @@ class MyAccountReturnDetailsChat extends PureComponent {
         return (
             <div block="MyAccountReturnDetailsChat">
                 { this.renderSOme() }
-                <h3>Message</h3>
                 <div
                   block="amrma-attach-file"
                 >
-                    <label
-                      htmlFor="amrma-attach"
-                      block="amrma-label"
-                    >
-                        { __('Attach File') }
-                    </label>
                     <input
                       type="file"
-                      id="amrma-attach"
                       accept=".pdf,.png,.jpg,.jpeg,.gif"
                       multiple
                       block="amrma-attach"
                       onChange={ onFileAttach }
                       ref={ fileFormRef }
                     />
-                    <input type="hidden" name="attach-files" id="amrma-attached-files" data-amrma-js="file-input"/>
                 </div>
             </div>
         );

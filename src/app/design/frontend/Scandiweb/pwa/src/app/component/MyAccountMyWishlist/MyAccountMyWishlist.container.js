@@ -64,8 +64,9 @@ export class MyAccountMyWishlistContainer extends SourceMyAccountMyWishlistConta
         if (!isWishlistLoading && Object.keys(wishlistItems).length > 0) {
             const items = Object.values(wishlistItems).reduce((acc, item) => {
                 if (!Object.keys(item).length) return acc;
-                const { sku, wishlist: { sku: variantSku = sku, quantity } = {} } = item;
-                return [...acc, { ...item, sku: variantSku, quantity }];
+
+                const { sku, wishlist: { sku: variantSku = sku } = {} } = item;
+                return [...acc, { product: item, sku: variantSku }];
             }, []);
 
             Event.dispatch(EVENT_GTM_IMPRESSIONS_WISHLIST, { items });

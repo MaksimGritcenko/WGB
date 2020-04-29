@@ -93,7 +93,7 @@ class SendMessage implements ResolverInterface
         );
     }
 
-    public function uploadFiles($files, $maxFileSize)
+    private function uploadFiles($files, $maxFileSize)
     {
         $path = $this->getRmaTempPath();
         $writer = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
@@ -106,33 +106,68 @@ class SendMessage implements ResolverInterface
                 // File sizes validated on FE, this just to ensure security
                 continue;
             }
-
             $extension = mb_strtolower(
                 '.' . pathinfo($name, PATHINFO_EXTENSION)
             );
 
             $fileHash = $this->mathRandom->getUniqueHash() . $extension;
+            $filePath = $path . $fileHash;
 
-            if ($writer->isExist($path . $fileHash)) {
-                $this->deleteTemp($fileHash);
+            if ($writer->isExist($filePath)) {
+                unlink($filePath);
             }
 
-            $mediaPath = $this->filesystem
-                ->getDirectoryRead(DirectoryList::MEDIA)
-                ->getAbsolutePath();
-            $media = $mediaPath . self::MEDIA_PATH;
-            if (file_put_contents($fileHash, $file)) {
+            if (file_put_contents($filePath, $file)) {
                 $result[] = [
                     self::FILEHASH => $fileHash,
                     self::FILENAME => (string)$name,
                     self::EXTENSION => $extension
                 ];
             } else {
-                throw new \Exception('failed saving file');
+                throw new \Exception('Failed saving file');
             }
         }
 
         return $result;
+    }
+
+    public function saveMessage($userId, $requestId, $messageText, $encodedFiles = []) {
+        $maxFileSize = (int)$this->configProvider->getMaxFileSize();
+
+        // Throws on wrong user
+        $request = $this->requestRepository->getById(
+            $requestId,
+            $userId
+        );
+
+        $message = $this->chatRepository->getEmptyMessageModel()
+            ->setMessage($messageText)
+            ->setIsManager(0)
+            ->setIsRead(0)
+            ->setRequestId($request->getRequestId())
+            ->setCustomerId($request->getCustomerId())
+            ->setName($request->getCustomerName());
+
+        if ($encodedFiles) {
+            $decodedFiles = [];
+            foreach ($encodedFiles as $encodedFile) {
+                $fileName = $encodedFile['name'];
+                $decodedFile = base64_decode($encodedFile['encoded_file']);
+                $decodedFiles[$fileName] = $decodedFile;
+            }
+            $uploadedFiles = $this->uploadFiles($decodedFiles, $maxFileSize);
+            $messageFiles = array_map(
+                function($file) {
+                    return $this->chatRepository->getEmptyMessageFileModel()
+                        ->setFilepath($file[FileUpload::FILEHASH])
+                        ->setFilename($file[FileUpload::FILENAME]);
+                }, $uploadedFiles
+            );
+
+            $message->setMessageFiles($messageFiles);
+        }
+
+        $this->chatRepository->save($message);
     }
 
     public function resolve(
@@ -144,29 +179,12 @@ class SendMessage implements ResolverInterface
     )
     {
         $input = $args['input'];
-        $maxFileSize = (int)$this->configProvider->getMaxFileSize();
 
-        // Throws on wrong user
-        $request = $this->requestRepository->getById(
+        $this->saveMessage(
+            $context->getUserId(),
             $input['request_id'],
-            $context->getUserId()
-        );
-
-        if ($input['encoded_files']) {
-            $decodedFiles = [];
-            foreach ($input['encoded_files'] as $encodedFile) {
-                $fileName = $encodedFile['name'];
-                $decodedFile = base64_decode($encodedFile['encoded_file']);
-                $decodedFiles[$fileName] = $decodedFile;
-            }
-
-            $uploadedFiles = $this->uploadFiles($decodedFiles, $maxFileSize);
-        }
-
-        $this->frontendRmaController->saveNewReturnMessage(
-            $request,
             $input['message_text'],
-            isset($uploadedFiles) ? $uploadedFiles : []
+            $input['encoded_files']
         );
 
         return [ 'success' => true ];

@@ -56,7 +56,7 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
             ProductReturnQuery.getReturnCarriers(),
             ProductReturnQuery.getReturnDetails(returnId),
         ]).then(
-            ({ getRmaConfiguration: { carriers: carrierData }, getReturnDetailsById }) => {
+            ({ getRmaConfiguration: { carriers: carrierData }, getReturnDetailsById, max_file_size }) => {
                 const carriers = Object.values(carrierData).map(({ code, label }) => ({
                     label,
                     value: code
@@ -64,6 +64,7 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
 
                 this.setState({
                     carriers,
+                    max_file_size,
                     details: getReturnDetailsById,
                     isCancelDisabled: false,
                     isLoading: false
@@ -98,7 +99,8 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
             carriers,
             details,
             isLoading,
-            isCancelDisabled
+            isCancelDisabled,
+            max_file_size
         } = this.state;
 
         return (
@@ -107,6 +109,7 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
                 <MyAccountReturnDetails
                   { ...this.props }
                   { ...this.containerFunctions }
+                  max_file_size={ max_file_size }
                   carriers={ carriers }
                   details={ details }
                   isCancelDisabled={ isCancelDisabled }
