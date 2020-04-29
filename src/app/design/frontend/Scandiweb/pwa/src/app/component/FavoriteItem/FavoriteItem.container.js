@@ -127,7 +127,7 @@ export class FavoriteItemContainer extends PureComponent {
                 showNotification('success', __('Product Added To Cart'));
 
                 Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
-                    product: { ...product, sku },
+                    product: { ...product, configurableVariantIndex },
                     quantity
                 });
             })
