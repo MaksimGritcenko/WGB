@@ -39,7 +39,7 @@
 
     &-Summary {
         bottom: 0;
-        padding-bottom: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
 
         @include mobile {
             border: none;

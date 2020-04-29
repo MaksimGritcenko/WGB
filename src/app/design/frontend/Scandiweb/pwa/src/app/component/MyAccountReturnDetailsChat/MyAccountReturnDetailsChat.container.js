@@ -1,9 +1,12 @@
 import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { history } from 'Route';
 
 import { showNotification } from 'Store/Notification';
-import ReturnDispatcher from 'Store/Return/Return.dispatcher';
+import { ReturnDispatcher } from 'Store/Return'
+import { ProductReturnQuery } from 'Query';
+import { fetchMutation } from 'Util/Request';
 import MyAccountReturnDetailsChat from './MyAccountReturnDetailsChat.component';
 
 // TODO implement retrieval with RMA config
@@ -24,8 +27,38 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
     };
 
     state = {
-        isSendButtonDisabled: true
+        isSendButtonDisabled: true,
+        isChatLoading: false,
+        chatMessages: []
     };
+
+    componentDidMount() {
+        this.requestChat();
+    }
+
+    requestChat() {
+        const { location: { pathname } } = history;
+
+        this.setState({ isChatLoading: true });
+
+        const returnId = pathname
+            .split('/')[3]
+            .split('&')[1]
+            .split('=')[1];
+
+        const mutation = ProductReturnQuery.getRmaChat(`${ returnId }`);
+
+        return fetchMutation(mutation).then(
+            ({ getRmaChatForRequest: { messages } }) => {
+                console.log(messages);
+                this.setState({
+                    isChatLoading: false,
+                    chatMessages: messages
+                });
+            },
+            this.onError
+        );
+    }
 
     onFileAttach() {
         const filesFromForm = this.fileFormRef.current.files || [];
@@ -96,11 +129,15 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
     });
 
     render() {
+        const { chatMessages, isChatLoading } = this.state;
+
         return (
             <MyAccountReturnDetailsChat
               { ...this.props }
               { ...this.containerFunctions() }
               { ...this.containerProps() }
+              chatMessages={ chatMessages }
+              isChatLoading={ isChatLoading }
             />
         );
     }
