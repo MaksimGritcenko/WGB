@@ -130,6 +130,11 @@ class Product implements ResolverInterface
      * @return array[]
      */
     public function getChosenAttributes($item) {
+        // Handle no attributes selected
+        if (!isset($item->getProductOptions()['info_buyRequest']['super_attribute'])) {
+            return [];
+        }
+
         return array_map(
             function($code, $value) {
                 $attribute = $this->attributeRepository->get($code);
@@ -226,7 +231,10 @@ class Product implements ResolverInterface
             }
 
             $data[$key] = $productsData[$item->getProductId()];
-            $data[$key]['name'] = $item->getParentItem()->getName();
+            // Retrieve parent item name if parent item present
+            if ($item->getParentItem() != null) {
+                $data[$key]['name'] = $item->getParentItem()->getName();
+            }
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
             $data[$key]['original_price'] = $item->getBaseOriginalPrice();
