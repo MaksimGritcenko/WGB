@@ -32,7 +32,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
         isSendDisabled: true
     }
 
-    hangleTextAreChange = ({ target: { value } }) => {
+    handleTextAreaChange = ({ target: { value } }) => {
         const { isSendDisabled } = this.state;
 
         if (value && isSendDisabled) this.setState({ isSendDisabled: false });
@@ -46,6 +46,12 @@ class MyAccountReturnDetailsChat extends PureComponent {
         this.setState({ isSendDisabled: true });
     }
 
+    handleAttachClick = () => {
+        const { fileFormRef } = this.props;
+
+        fileFormRef.current.click();
+    }
+
     renderInputTextArea() {
         const {
             messageAreaRef
@@ -57,7 +63,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
               rows="1"
               mix={ { block: 'MyAccountReturnDetailsChat', elem: 'InputSectionTextArea' } }
               placeholder={ __('Message') }
-              onChange={ this.hangleTextAreChange }
+              onChange={ this.handleTextAreaChange }
               ref={ messageAreaRef }
             />
         )
@@ -71,7 +77,9 @@ class MyAccountReturnDetailsChat extends PureComponent {
               block="MyAccountReturnDetailsChat"
               elem="InputSectionWrapper"
             >
-                <button>
+                <button
+                  onClick={ this.handleAttachClick }
+                >
                     { attachmentIcon }
                 </button>
                 { this.renderInputTextArea() }
@@ -129,26 +137,17 @@ class MyAccountReturnDetailsChat extends PureComponent {
         return (
             <div block="MyAccountReturnDetailsChat">
                 { this.renderSOme() }
-                <h3>Message</h3>
                 <div
                   block="amrma-attach-file"
                 >
-                    <label
-                      htmlFor="amrma-attach"
-                      block="amrma-label"
-                    >
-                        { __('Attach File') }
-                    </label>
                     <input
                       type="file"
-                      id="amrma-attach"
                       accept=".pdf,.png,.jpg,.jpeg,.gif"
                       multiple
                       block="amrma-attach"
                       onChange={ onFileAttach }
                       ref={ fileFormRef }
                     />
-                    <input type="hidden" name="attach-files" id="amrma-attached-files" data-amrma-js="file-input"/>
                 </div>
             </div>
         );

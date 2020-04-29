@@ -9,9 +9,6 @@ import { ProductReturnQuery } from 'Query';
 import { fetchMutation } from 'Util/Request';
 import MyAccountReturnDetailsChat from './MyAccountReturnDetailsChat.component';
 
-// TODO implement retrieval with RMA config
-const MAX_FILE_SIZE = 1000; // KB
-
 export const mapStateToProps = state => ({  });
 
 export const mapDispatchToProps = dispatch => ({
@@ -19,6 +16,27 @@ export const mapDispatchToProps = dispatch => ({
     sendMessage: (requestId, messageText, messageFiles) => ReturnDispatcher.sendMessage(requestId, messageText, messageFiles, dispatch),
     updateMessageList: () => ReturnDispatcher.updateMessageList(requestId, dispatch)
 });
+
+export const fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = error => reject(error);
+});
+
+export const encodeFormFiles = async (filesFromForm) => {
+    return Object.values(filesFromForm).reduce(
+        async (previousPromise, file) => {
+            const acc = await previousPromise;
+            acc.push({
+                name: file.name,
+                encoded_file: await fileToBase64(file)
+            });
+
+            return acc;
+        }, Promise.resolve([])
+    )
+}
 
 export class MyAccountReturnDetailsChatContainer extends PureComponent {
     static propTypes = {
@@ -50,7 +68,6 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
         return fetchMutation(mutation).then(
             ({ getRmaChatForRequest: { messages } }) => {
-                console.log(messages);
                 this.setState({
                     isChatLoading: false,
                     chatMessages: messages
@@ -62,17 +79,19 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
     onFileAttach() {
         const filesFromForm = this.fileFormRef.current.files || [];
+        const { max_file_size } = this.props;
+        console.log(max_file_size);
 
         Object.entries(filesFromForm).forEach(
             /** @param {File} file */
             ([index, file]) => {
                 // Handle file size more than max allowed
-                if (file.size > MAX_FILE_SIZE) {
+                if (file.size > max_file_size) {
                     this.setState(() => ({ isSendButtonDisabled: true }));
                     showNotification('error', __(
                         'File %s has exceeded the maximum file size limit of %s KB',
                         file.name,
-                        MAX_FILE_SIZE
+                        max_file_size
                     ));
                 }
             }
@@ -85,28 +104,20 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         this.requestChat();
     }
 
-    sendMessageClick = () => {
+    sendMessageClick = async () => {
         const { requestId, sendMessage } = this.props;
         const filesFromForm = this.fileFormRef.current.files || [];
         const messageText = this.messageAreaRef.current.value;
+        const messageFiles = await encodeFormFiles(filesFromForm);
 
-        const messageFiles = Object.entries(filesFromForm).reduce(
-            (acc, [index, file]) => {
-                acc.push({
-                    // Key names matter
-                    name: file.name.substr(0, file.name.lastIndexOf('.')),
-                    encoded_file: btoa(file) // base 64 encoding
-                });
+        try {
+            sendMessage(requestId, messageText, messageFiles);
+        } catch (e) {
+            showNotification('error', 'Error sending message!', e);
+            return;
+        }
 
-                return acc;
-            }, []
-        );
-
-        sendMessage(requestId, messageText, messageFiles)
-            .then(
-                this.onMessageSuccess,
-                e => showNotification('error', 'Error sending message!', e)
-            );
+        this.onMessageSuccess();
     }
 
     constructor(props) {

@@ -27,7 +27,8 @@ export default class MyAccountReturnDetails extends PureComponent {
         details: PropTypes.object.isRequired,
         handleCancelRMA: PropTypes.func.isRequired,
         isCancelDisabled: PropTypes.bool.isRequired,
-        renderPageTitle: PropTypes.func.isRequired
+        renderPageTitle: PropTypes.func.isRequired,
+        max_file_size: PropTypes.number.isRequired
     };
 
     state = {
@@ -183,7 +184,8 @@ export default class MyAccountReturnDetails extends PureComponent {
                 items = [],
                 id = ''
             },
-            renderPageTitle
+            renderPageTitle,
+            max_file_size
         } = this.props;
 
         return (
@@ -207,6 +209,7 @@ export default class MyAccountReturnDetails extends PureComponent {
                   details={ details }
                 />
                 <MyAccountReturnDetailsChat
+                  max_file_size={ max_file_size }
                   requestId={ details.id }
                 />
                 { this.renderCalcelRMAButton() }

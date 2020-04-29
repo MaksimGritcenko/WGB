@@ -5,6 +5,7 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Loader from 'Component/Loader';
 import Field from 'Component/Field';
+import { encodeFormFiles } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.container'
 import { attachmentIcon } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.config';
 
 import './MyAccountNewReturn.style';
@@ -31,10 +32,7 @@ export default class MyAccountNewReturn extends PureComponent {
         selectedItems: {},
         hasItemsError: false,
         policy_is_checked: false,
-        message: {
-            text: '',
-            // files: []
-        }
+        messageText: ''
     };
 
     handleBankDetailFieldChange = (value, id) => {
@@ -47,9 +45,9 @@ export default class MyAccountNewReturn extends PureComponent {
         this.setState({ selectedItems });
     };
 
-    handleRequestSubmitPress = () => {
-        const { orderId, onNewRequestSubmit } = this.props;
-        const { selectedItems, bankDetails, message } = this.state;
+    handleRequestSubmitPress = async () => {
+        const { orderId, onNewRequestSubmit, fileFormRef } = this.props;
+        const { selectedItems, bankDetails, messageText } = this.state;
 
         if (!Object.keys(selectedItems).length) return;
 
@@ -66,6 +64,11 @@ export default class MyAccountNewReturn extends PureComponent {
             ([code, value]) => ({ code, value })
         );
 
+        const message = {
+            message_text: messageText,
+            encoded_files: await encodeFormFiles(fileFormRef.current.files || [])
+        }
+
         onNewRequestSubmit({
             items: selectedItems,
             order_id: orderId,
@@ -81,10 +84,7 @@ export default class MyAccountNewReturn extends PureComponent {
     };
 
     handleTextAreaChange = (value) => {
-        const { message } = this.state;
-        message.text = value;
-
-        this.setState({ message });
+        this.setState({ messageText: value });
     }
 
     setPolicyChecked = () => {
@@ -205,7 +205,7 @@ export default class MyAccountNewReturn extends PureComponent {
     }
 
     renderMessageTextArea() {
-        const { message: { text } } = this.state;
+        const { messageText } = this.state;
 
         return (
             <Field
@@ -217,13 +217,18 @@ export default class MyAccountNewReturn extends PureComponent {
                   block: 'MyAccountNewReturn',
                   elem: 'MessageTextArea'
               } }
-              value={ text }
+              value={ messageText }
               onChange={ this.handleTextAreaChange }
             />
         )
     }
 
     renderMessageSection() {
+        const {
+            fileFormRef,
+            onFileAttach
+        } = this.props;
+
         return (
             <div>
                 <h4
@@ -242,12 +247,27 @@ export default class MyAccountNewReturn extends PureComponent {
                 <button
                     block="MyAccountNewReturn"
                     elem="MessageAttachmentButton"
+                    onClick={ this.handleAttachClick }
                 >
                     { attachmentIcon }
                     Attach File
                 </button>
+                <input
+                    type="file"
+                    accept=".pdf,.png,.jpg,.jpeg,.gif"
+                    multiple
+                    block="amrma-attach"
+                    onChange={ onFileAttach }
+                    ref={ fileFormRef }
+                />
             </div>
         )
+    }
+
+    handleAttachClick = () => {
+        const { fileFormRef } = this.props;
+
+        fileFormRef.current.click();
     }
 
     render() {
