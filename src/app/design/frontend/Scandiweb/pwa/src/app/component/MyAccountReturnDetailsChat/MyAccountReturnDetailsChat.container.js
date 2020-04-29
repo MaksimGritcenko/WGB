@@ -1,38 +1,71 @@
 import { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { history } from 'Route';
 
 import { showNotification } from 'Store/Notification';
 import { ReturnDispatcher } from 'Store/Return'
+import { ProductReturnQuery } from 'Query';
+import { fetchMutation } from 'Util/Request';
 import MyAccountReturnDetailsChat from './MyAccountReturnDetailsChat.component';
 
 // TODO implement retrieval with RMA config
 const MAX_FILE_SIZE = 1000; // KB
 
-export const mapStateToProps = state => ({
-    // wishlistItems: state.WishlistReducer.productsInWishlist
-});
+export const mapStateToProps = state => ({  });
 
 export const mapDispatchToProps = dispatch => ({
     showNotification: (type, message) => dispatch(showNotification(type, message)),
-    sendMessage: messageObject => ReturnDispatcher.sendMessage(messageObject, dispatch)
+    sendMessage: (requestId, messageText, messageFiles) => ReturnDispatcher.sendMessage(requestId, messageText, messageFiles, dispatch),
+    updateMessageList: () => ReturnDispatcher.updateMessageList(requestId, dispatch)
 });
 
 export class MyAccountReturnDetailsChatContainer extends PureComponent {
     static propTypes = {
-        // TODO: implement prop-types
+        showNotification: PropTypes.func.isRequired,
+        sendMessage: PropTypes.func.isRequired
     };
 
     state = {
-        isSendButtonDisabled: true
+        isSendButtonDisabled: true,
+        isChatLoading: false,
+        chatMessages: []
     };
 
-    onFileAttach() {
-        const filesFromForm = this.fileFormRef.current.files;
+    componentDidMount() {
+        this.requestChat();
+    }
 
-        filesFromForm.forEach(
+    requestChat() {
+        const { location: { pathname } } = history;
+
+        this.setState({ isChatLoading: true });
+
+        const returnId = pathname
+            .split('/')[3]
+            .split('&')[1]
+            .split('=')[1];
+
+        const mutation = ProductReturnQuery.getRmaChat(`${ returnId }`);
+
+        return fetchMutation(mutation).then(
+            ({ getRmaChatForRequest: { messages } }) => {
+                console.log(messages);
+                this.setState({
+                    isChatLoading: false,
+                    chatMessages: messages
+                });
+            },
+            this.onError
+        );
+    }
+
+    onFileAttach() {
+        const filesFromForm = this.fileFormRef.current.files || [];
+
+        Object.entries(filesFromForm).forEach(
             /** @param {File} file */
-            (file) => {
+            ([index, file]) => {
                 // Handle file size more than max allowed
                 if (file.size > MAX_FILE_SIZE) {
                     this.setState(() => ({ isSendButtonDisabled: true }));
@@ -46,22 +79,36 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         );
     }
 
-    sendMessage = () => {
+    onMessageSuccess = () => {
+        const { updateMessageList } = this.props;
+
+        this.fileFormRef.current.files = new FileList();
+        this.messageAreaRef.current.value = "";
+        updateMessageList();
+    }
+
+    sendMessageClick = () => {
         const { requestId, sendMessage } = this.props;
-        const filesFromForm = this.fileFormRef.current.files;
+        const filesFromForm = this.fileFormRef.current.files || [];
         const messageText = this.messageAreaRef.current.value;
 
-        const messageFiles = filesFromForm.reduce(
-            (acc, file) => {
+        const messageFiles = Object.entries(filesFromForm).reduce(
+            (acc, [index, file]) => {
                 acc.push({
                     // Key names matter
                     name: file.name.substr(0, file.name.lastIndexOf('.')),
                     encoded_file: btoa(file) // base 64 encoding
                 });
+
+                return acc;
             }, []
         );
 
-        this.sendMessage(requestId, messageText, messageFiles);
+        sendMessage(requestId, messageText, messageFiles)
+            .then(
+                onMessageSuccess,
+                e => showNotification('error', 'Error sending message!', e)
+            );
     }
 
     constructor(props) {
@@ -73,7 +120,7 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
     containerFunctions = () => ({
         onFileAttach: this.onFileAttach.bind(this),
-        sendMessage: this.sendMessage.bind(this)
+        sendMessageClick: this.sendMessageClick.bind(this)
     });
 
     containerProps = () => ({
@@ -82,11 +129,15 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
     });
 
     render() {
+        const { chatMessages, isChatLoading } = this.state;
+
         return (
             <MyAccountReturnDetailsChat
               { ...this.props }
               { ...this.containerFunctions() }
               { ...this.containerProps() }
+              chatMessages={ chatMessages }
+              isChatLoading={ isChatLoading }
             />
         );
     }

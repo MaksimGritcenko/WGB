@@ -1,0 +1,70 @@
+.MyAccountReturnDetailsChatMessages {
+    &-AdditionalContentWrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-TextBlockMessengerName,
+    &-AdditionalContentDate {
+        color: #b0adad;
+    }
+
+    &-AdditionalContentDate {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    &-TextBlockWrapper {
+        width: 90%;
+
+        @include after-mobile {
+            width: 60%;
+        }
+
+        &_isRightSide {
+            align-self: flex-end;
+        }
+    }
+
+    &-TextBlockMessengerName {
+        margin-top: 5px;
+        display: block;
+
+        &_isRightSide {
+            text-align: right;
+        }
+    }
+
+    &-TextBlockMessageWrapper {
+        border-radius: 12px;
+        background-color: #ececec;
+        padding: 10px 10px 10px 20px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &_isRightSide {
+            background-color: #dbdbdb;
+        }
+    }
+
+    &-TextBlockMessage {
+        overflow-wrap: break-word;
+        margin-bottom: 25px;
+    }
+
+    &-ChatWrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-FileListWrapper {
+        flex: 1;
+    }
+
+    &-FileName {
+        margin-right: 12px;
+        font-weight: bold;
+    }
+}
