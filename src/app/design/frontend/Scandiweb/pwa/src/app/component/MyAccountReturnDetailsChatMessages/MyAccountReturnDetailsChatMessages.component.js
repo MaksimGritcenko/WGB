@@ -152,7 +152,8 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
             >
                 { chatMessages.length
                     ? chatMessages.map(this.renderTextBlock)
-                    : <span>No messages</span> }
+                    : <span>No messages</span>
+                }
             </div>
         );
     }
