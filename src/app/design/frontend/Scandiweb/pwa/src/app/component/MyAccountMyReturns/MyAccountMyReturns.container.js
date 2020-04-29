@@ -48,7 +48,7 @@ export class MyAccountMyReturnsContainer extends PureComponent {
     renderMap = {
         [MY_RETURN]: {
             component: MyAccountMyReturns,
-            title: 'My Return'
+            title: 'My Returns'
         },
         [NEW_RETURN]: {
             component: MyAccountNewReturn,
@@ -142,7 +142,7 @@ export class MyAccountMyReturnsContainer extends PureComponent {
 
         changeHeaderState({
             name: HEADER_MY_RETURN,
-            title: 'my return',
+            title: 'My Returns',
             onBackClick: () => history.goBack()
         });
     }

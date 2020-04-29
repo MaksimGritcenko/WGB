@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { PureComponent, useEffect, useRef, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import './MyAccountReturnDetailsChatMessages.style';
@@ -8,6 +8,17 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
         if (value < 10) return `0${value}`;
 
         return value;
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        const objDiv = document.getElementById('MyAccountReturnDetailsChatMessages-ChatWrapper');
+        console.log("objDiv.scrollHeight", objDiv.scrollHeight);
+
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
 
     getDateTime(created_at) {
@@ -130,14 +141,15 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
     render() {
         const { chatMessages } = this.props;
 
-        if (!chatMessages.length) return <span>No messages</span>;
-
         return (
             <div
+              id="MyAccountReturnDetailsChatMessages-ChatWrapper"
               block="MyAccountReturnDetailsChatMessages"
               elem="ChatWrapper"
             >
-                { chatMessages.map(this.renderTextBlock) }
+                { chatMessages.length
+                    ? chatMessages.map(this.renderTextBlock)
+                    : <span>No messages</span> }
             </div>
         );
     }
