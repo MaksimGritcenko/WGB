@@ -8,7 +8,10 @@ import { goToPreviousNavigationState } from 'Store/Navigation';
 import { TOP_NAVIGATION_TYPE } from 'Store/Navigation/Navigation.reducer';
 import { searchIcon } from 'Component/Header/Header.config';
 import { SEARCH } from 'Component/Header/Header.component';
+import isMobile from 'Util/Mobile';
 import SearchOverlay from './SearchOverlay.component';
+
+export const KEYBOARD_GODOWN_ANDROID_DELAY = 300;
 
 export const mapStateToProps = state => ({
     searchResults: state.SearchBarReducer.productsInSearch,
@@ -101,7 +104,13 @@ export class SearchOverlayContainer extends PureComponent {
         } = this.props;
 
         if (name === SEARCH) {
-            this.setDefaultValues();
+            if (isMobile.android()) {
+                setTimeout(() => {
+                    this.setDefaultValues();
+                }, KEYBOARD_GODOWN_ANDROID_DELAY);
+            } else {
+                this.setDefaultValues();
+            }
         }
     }
 
