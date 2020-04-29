@@ -16,7 +16,11 @@
 
     &-ContentWrapper {
         background-color: #f9f9f9;
-        padding: 35px 25px 20px;
+        padding: 20px 10px 10px;
+
+        @include after-mobile {
+            padding: 35px 25px 20px;
+        }
 
         span {
             line-height: 1;
@@ -29,6 +33,12 @@
         display: flex;
         margin-top: 35px;
         align-items: center;
+
+        button {
+            @include mobile {
+                width: auto;
+            }
+        }
     }
 
     &-InputSectionTextArea {
