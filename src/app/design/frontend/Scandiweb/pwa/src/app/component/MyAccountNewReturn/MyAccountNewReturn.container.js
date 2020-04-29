@@ -1,11 +1,12 @@
-import DataContainer from 'Util/Request/DataContainer';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createRef } from 'react';
 import { ProductReturnQuery, OrderQuery } from 'Query';
 import { OrderDispatcher } from 'Store/Order';
 import { showNotification } from 'Store/Notification';
 import { customerType } from 'Type/Account';
 import { fetchMutation, fetchQuery } from 'Util/Request';
+import DataContainer from 'Util/Request/DataContainer';
 import MyAccountNewReturn from './MyAccountNewReturn.component';
 
 export const RETURN_REASONS = 'returnReasons';
@@ -44,8 +45,36 @@ export class MyAccountNewReturnContainer extends DataContainer {
 
     containerFunctions = {
         getShippingAddress: this.getShippingAddress.bind(this),
-        onNewRequestSubmit: this.onNewRequestSubmit.bind(this)
+        onNewRequestSubmit: this.onNewRequestSubmit.bind(this),
+        onFileAttach: this.onFileAttach.bind(this)
     };
+
+    onFileAttach() {
+        const filesFromForm = this.fileFormRef.current.files || [];
+        const { max_file_size } = this.state;
+
+        Object.entries(filesFromForm).forEach(
+            /** @param {File} file */
+            ([index, file]) => {
+                // Handle file size more than max allowed
+                if (file.size > max_file_size) {
+                    this.setState(() => ({ isSendButtonDisabled: true }));
+                    showNotification('error', __(
+                        'File %s has exceeded the maximum file size limit of %s KB',
+                        file.name,
+                        max_file_size
+                    ));
+                }
+            }
+        );
+    }
+
+    _toBase64 = (file) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
 
     componentDidMount() {
         this.requestData();
@@ -111,7 +140,8 @@ export class MyAccountNewReturnContainer extends DataContainer {
                     resolutions,
                     conditions,
                     custom_fields: customFields,
-                    contact_data: contactData
+                    contact_data: contactData,
+                    max_file_size
                 }, getOrderById: {
                     order_products: items,
                     base_order_info: { created_at: createdAt }
@@ -140,11 +170,18 @@ export class MyAccountNewReturnContainer extends DataContainer {
                     customFields,
                     contactData,
                     createdAt,
-                    shippingCover
+                    shippingCover,
+                    max_file_size
                 });
             },
             e => showNotification('error', 'Error fetching New Return!', e)
         );
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.fileFormRef = createRef();
     }
 
     render() {
@@ -164,6 +201,7 @@ export class MyAccountNewReturnContainer extends DataContainer {
               { ...this.props }
               { ...this.state }
               { ...this.containerFunctions }
+              fileFormRef={ this.fileFormRef }
               reasonData={ reasonData }
               items={ items }
               orderId={ orderId }

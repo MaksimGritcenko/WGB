@@ -20,6 +20,27 @@ export const mapDispatchToProps = dispatch => ({
     updateMessageList: () => ReturnDispatcher.updateMessageList(requestId, dispatch)
 });
 
+export const fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = error => reject(error);
+});
+
+export const encodeFormFiles = async (filesFromForm) => {
+    return Object.values(filesFromForm).reduce(
+        async (previousPromise, file) => {
+            const acc = await previousPromise;
+            acc.push({
+                name: file.name,
+                encoded_file: await fileToBase64(file)
+            });
+
+            return acc;
+        }, Promise.resolve([])
+    )
+}
+
 export class MyAccountReturnDetailsChatContainer extends PureComponent {
     static propTypes = {
         showNotification: PropTypes.func.isRequired,
@@ -84,29 +105,11 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         this.requestChat();
     }
 
-    _toBase64 = (file) => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = error => reject(error);
-    });
-
     sendMessageClick = async () => {
         const { requestId, sendMessage } = this.props;
         const filesFromForm = this.fileFormRef.current.files || [];
         const messageText = this.messageAreaRef.current.value;
-
-        const messageFiles = await Object.values(filesFromForm).reduce(
-            async (previousPromise, file) => {
-                const acc = await previousPromise;
-                acc.push({
-                    name: file.name,
-                    encoded_file: await this._toBase64(file)
-                });
-
-                return acc;
-            }, Promise.resolve([])
-        );
+        const messageFiles = await encodeFormFiles(filesFromForm);
 
         try {
             sendMessage(requestId, messageText, messageFiles);

@@ -32,7 +32,8 @@ export class ProductReturnQuery {
             .addField(this._getReturnResolutionsFields())
             .addField(this._getItemConditionsFields())
             .addField(this._getItemCustomFieldsFields())
-            .addField(this._getAdminContactDataFields());
+            .addField(this._getAdminContactDataFields())
+            .addField('max_file_size');
     }
 
     getRmaPolicy() {

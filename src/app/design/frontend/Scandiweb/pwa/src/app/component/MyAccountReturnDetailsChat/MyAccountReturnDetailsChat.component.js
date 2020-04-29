@@ -32,7 +32,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
         isSendDisabled: true
     }
 
-    hangleTextAreChange = ({ target: { value } }) => {
+    handleTextAreaChange = ({ target: { value } }) => {
         const { isSendDisabled } = this.state;
 
         if (value && isSendDisabled) this.setState({ isSendDisabled: false });
@@ -63,7 +63,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
               rows="1"
               mix={ { block: 'MyAccountReturnDetailsChat', elem: 'InputSectionTextArea' } }
               placeholder={ __('Message') }
-              onChange={ this.hangleTextAreChange }
+              onChange={ this.handleTextAreaChange }
               ref={ messageAreaRef }
             />
         )
