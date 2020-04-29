@@ -106,29 +106,25 @@ class SendMessage implements ResolverInterface
                 // File sizes validated on FE, this just to ensure security
                 continue;
             }
-
             $extension = mb_strtolower(
                 '.' . pathinfo($name, PATHINFO_EXTENSION)
             );
 
             $fileHash = $this->mathRandom->getUniqueHash() . $extension;
+            $filePath = $path . $fileHash;
 
-            if ($writer->isExist($path . $fileHash)) {
-                $this->deleteTemp($fileHash);
+            if ($writer->isExist($filePath)) {
+                unlink($filePath);
             }
 
-            $mediaPath = $this->filesystem
-                ->getDirectoryRead(DirectoryList::MEDIA)
-                ->getAbsolutePath();
-            $media = $mediaPath . self::MEDIA_PATH;
-            if (file_put_contents($fileHash, $file)) {
+            if (file_put_contents($filePath, $file)) {
                 $result[] = [
                     self::FILEHASH => $fileHash,
                     self::FILENAME => (string)$name,
                     self::EXTENSION => $extension
                 ];
             } else {
-                throw new \Exception('failed saving file');
+                throw new \Exception('Failed saving file');
             }
         }
 
@@ -152,6 +148,14 @@ class SendMessage implements ResolverInterface
             $context->getUserId()
         );
 
+        $message = $this->chatRepository->getEmptyMessageModel()
+            ->setMessage($input['message_text'])
+            ->setIsManager(0)
+            ->setIsRead(0)
+            ->setRequestId($request->getRequestId())
+            ->setCustomerId($request->getCustomerId())
+            ->setName($request->getCustomerName());
+
         if ($input['encoded_files']) {
             $decodedFiles = [];
             foreach ($input['encoded_files'] as $encodedFile) {
@@ -159,15 +163,25 @@ class SendMessage implements ResolverInterface
                 $decodedFile = base64_decode($encodedFile['encoded_file']);
                 $decodedFiles[$fileName] = $decodedFile;
             }
-
             $uploadedFiles = $this->uploadFiles($decodedFiles, $maxFileSize);
+            $messageFiles = array_map(
+                function($file) {
+                    return $this->chatRepository->getEmptyMessageFileModel()
+                        ->setFilepath($file[FileUpload::FILEHASH])
+                        ->setFilename($file[FileUpload::FILENAME]);
+                }, $uploadedFiles
+            );
+
+            $message->setMessageFiles($messageFiles);
         }
 
-        $this->frontendRmaController->saveNewReturnMessage(
-            $request,
-            $input['message_text'],
-            isset($uploadedFiles) ? $uploadedFiles : []
-        );
+        $this->chatRepository->save($message);
+
+//        $this->frontendRmaController->saveNewReturnMessage(
+//            $request,
+//            $input['message_text'],
+//            isset($uploadedFiles) ? $uploadedFiles : []
+//        );
 
         return [ 'success' => true ];
     }
