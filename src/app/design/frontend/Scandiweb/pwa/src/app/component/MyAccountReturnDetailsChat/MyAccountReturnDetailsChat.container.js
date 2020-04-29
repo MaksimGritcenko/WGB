@@ -50,7 +50,6 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
         return fetchMutation(mutation).then(
             ({ getRmaChatForRequest: { messages } }) => {
-                console.log(messages);
                 this.setState({
                     isChatLoading: false,
                     chatMessages: messages
@@ -85,28 +84,38 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         this.requestChat();
     }
 
-    sendMessageClick = () => {
+    _toBase64 = (file) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+
+    sendMessageClick = async () => {
         const { requestId, sendMessage } = this.props;
         const filesFromForm = this.fileFormRef.current.files || [];
         const messageText = this.messageAreaRef.current.value;
 
-        const messageFiles = Object.entries(filesFromForm).reduce(
-            (acc, [index, file]) => {
+        const messageFiles = await Object.values(filesFromForm).reduce(
+            async (previousPromise, file) => {
+                const acc = await previousPromise;
                 acc.push({
-                    // Key names matter
-                    name: file.name.substr(0, file.name.lastIndexOf('.')),
-                    encoded_file: btoa(file) // base 64 encoding
+                    name: file.name,
+                    encoded_file: await this._toBase64(file)
                 });
 
                 return acc;
-            }, []
+            }, Promise.resolve([])
         );
 
-        sendMessage(requestId, messageText, messageFiles)
-            .then(
-                this.onMessageSuccess,
-                e => showNotification('error', 'Error sending message!', e)
-            );
+        try {
+            sendMessage(requestId, messageText, messageFiles);
+        } catch (e) {
+            showNotification('error', 'Error sending message!', e);
+            return;
+        }
+
+        this.onMessageSuccess();
     }
 
     constructor(props) {
