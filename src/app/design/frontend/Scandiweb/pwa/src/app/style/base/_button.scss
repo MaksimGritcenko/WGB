@@ -10,7 +10,6 @@
  */
 
 :root {
-    --button-padding: 8px 22px;
     --button-color: #{$white};
     --button-background: var(--primary-base-color);
     --button-border: var(--primary-base-color);
@@ -18,10 +17,29 @@
     --button-hover-color: var(--primary-base-color);
     --button-hover-border: var(--primary-base-color);
     --button-border-width: 1px;
+
+    @include after-mobile {
+        --button-padding: 10px 22px;
+    }
+
+    @include mobile {
+        --button-padding: 13px 22px;
+    }
+}
+
+@mixin button-size {
+    @include mobile {
+        height: 41px;
+    }
+
+    @include after-mobile {
+        height: 36px;
+    }
 }
 
 .Button {
     @include button;
+    @include button-size;
 }
 
 button {

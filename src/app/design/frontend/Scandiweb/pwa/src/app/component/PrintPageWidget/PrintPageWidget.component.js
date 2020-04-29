@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,14 +11,11 @@
  */
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import isMobile from 'Util/Mobile';
 
 const BUTTON_NAME = 'Print Packing Slip';
 
 export default class PrintPageWidget extends PureComponent {
-    static propTypes = {
-        label: PropTypes.string
-    };
-
     static defaultProps = {
         label: 'Print Packing Slip'
     };
@@ -34,7 +32,35 @@ export default class PrintPageWidget extends PureComponent {
         location.reload();
     };
 
+    printMobile = () => {
+        // eslint-disable-next-line max-len
+        const customer_address = document.getElementsByClassName('MyAccountReturnDetails-CustomerAndAddressBlocks')[0].innerHTML;
+        const items = document.getElementsByClassName('MyAccountReturnDetailsItems')[0].innerHTML;
+        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }${ items }</body></html>`;
+        document.body.innerHTML = ORDER_HTML;
+        setTimeout(() => {
+            window.print();
+            setTimeout(() => {
+                document.body.innerHTML = ORDER_HTML;
+                location.reload();
+            }, 2000);
+        }, 100);
+    };
+
     render() {
+        if (isMobile.any()) {
+            return (
+            <div block="RmaWidget">
+                <button
+                  block="Button"
+                  onClick={ () => this.printMobile() }
+                >
+                    { BUTTON_NAME }
+                </button>
+            </div>
+            );
+        }
+
         return (
             <div block="RmaWidget">
                 <button
