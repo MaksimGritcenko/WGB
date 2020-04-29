@@ -49,40 +49,36 @@ export default class PrintPageWidget extends PureComponent {
 
     printMobileIOS = () => {
         // eslint-disable-next-line max-le
-        const customer_address = document.getElementsByClassName('homepage-slider')[0].innerHTML;
-        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }</body></html>`;
+        // eslint-disable-next-line max-len
+        const customer_address = document.getElementsByClassName('MyAccountReturnDetails-CustomerAndAddressBlocks')[0].innerHTML;
+        const items = document.getElementsByClassName('MyAccountReturnDetailsItems')[0].innerHTML;
+        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }${ items }</body></html>`;
         const ORIGINAL_PAGE = document.body.innerHTML;
         document.body.innerHTML = ORDER_HTML;
         setTimeout(() => {
-            try {
-                document.execCommand('print', false, null);
-                setTimeout(() => {
-                    document.body.innerHTML = ORIGINAL_PAGE;
-                }, 4000);
-                document.addEventListener("click", function(){
-                    location.reload();
-                });
-            } catch {
-                window.print()
-                setTimeout(() => {
-                    location.reload();
-                }, 2000);
+            document.execCommand('print', false, null);
+            if (navigator.userAgent.match('CriOS')) {
+                window.print();
             }
+            setTimeout(() => {
+                document.body.innerHTML = ORIGINAL_PAGE;
+                location.reload();
+            }, 4000);
         }, 100);
     };
 
     render() {
         if (isMobile.iOS()) {
             return (
-                <div block="RmaWidget">
+            <div block="RmaWidget">
                 <button
-            block="Button"
-            onClick={ () => this.printMobileIOS() }
-        >
-            { BUTTON_NAME }
-            < /button>
+                  block="Button"
+                  onClick={ () => this.printMobileIOS() }
+                >
+                { BUTTON_NAME }
+                </button>
             </div>
-        );
+            );
         }
 
         if (isMobile.android()) {
