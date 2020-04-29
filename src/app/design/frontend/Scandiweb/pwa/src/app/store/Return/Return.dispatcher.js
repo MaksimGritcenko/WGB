@@ -38,10 +38,11 @@ export class ReturnDispatcher {
             encoded_files: messageFiles
         });
 
-        fetchMutation(mutation).then(
-            () => {},
-            e => showNotification('error', 'Error sending message!', e)
-        );
+        return fetchMutation(mutation);
+    }
+
+    updateMessageList(requestId, dispatch) {
+        // TODO implement
     }
 }
 

@@ -96,9 +96,9 @@ export default class CartItem extends SourceCartItem {
     );
 
     renderReturnRules(isMobile = false) {
-        const { item: { product: { return_resolutions } }, isReturnRulesShowed } = this.props;
+        const { item: { product: { return_resolutions = [] } }, isReturnRulesShowed } = this.props;
 
-        if (!isReturnRulesShowed) return null;
+        if (!isReturnRulesShowed || !return_resolutions.length) return null;
 
         return (
             <div
