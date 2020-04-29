@@ -9,9 +9,6 @@ import { ProductReturnQuery } from 'Query';
 import { fetchMutation } from 'Util/Request';
 import MyAccountReturnDetailsChat from './MyAccountReturnDetailsChat.component';
 
-// TODO implement retrieval with RMA config
-const MAX_FILE_SIZE = 1000; // KB
-
 export const mapStateToProps = state => ({  });
 
 export const mapDispatchToProps = dispatch => ({
@@ -82,17 +79,19 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
     onFileAttach() {
         const filesFromForm = this.fileFormRef.current.files || [];
+        const { max_file_size } = this.props;
+        console.log(max_file_size);
 
         Object.entries(filesFromForm).forEach(
             /** @param {File} file */
             ([index, file]) => {
                 // Handle file size more than max allowed
-                if (file.size > MAX_FILE_SIZE) {
+                if (file.size > max_file_size) {
                     this.setState(() => ({ isSendButtonDisabled: true }));
                     showNotification('error', __(
                         'File %s has exceeded the maximum file size limit of %s KB',
                         file.name,
-                        MAX_FILE_SIZE
+                        max_file_size
                     ));
                 }
             }
