@@ -1,4 +1,8 @@
 .MyAccountNewReturn {
+    .amrma-attach {
+        display: none;
+    }
+
     &-CustomerAndAddressBlocks {
         display: flex;
 
@@ -60,14 +64,58 @@
         }
     }
 
+    &-MessageTitle,
     &-BankDetailTitle {
         text-transform: none;
         font-weight: normal;
         font-family: var(--font-roboto);
         margin-top: 20px;
+        font-size: 17px;
 
         @include desktop {
             margin-top: 45px;
+            font-size: 20px;
+        }
+    }
+
+    &-MessageAdditionalInfo {
+        font-style: italic;
+        margin: 5px 0;
+
+        @include desktop {
+            margin-top: 15px;
+        }
+    }
+
+    &-MessageTextArea {
+        textarea {
+            height: 120px;
+            width: 100%;
+            max-width: 750px;
+            font-size: var(--font-size);
+
+            @include after-mobile {
+                height: 150px;
+            }
+        }
+    }
+
+    &-MessageAttachmentButton {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        svg {
+            height: 20px;
+            width: 20px;
+            margin-right: 5px;
+        }
+    }
+
+    .MyAccount-Heading {
+        @include mobile {
+            margin-top: 14px;
+            font-size: 17px;
         }
     }
 }

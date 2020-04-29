@@ -129,7 +129,7 @@ class Product {
                 } = {},
                 regularPrice: {
                     amount: {
-                        value = ''
+                        value = 0
                     } = {}
                 } = {}
             } = {}
@@ -138,7 +138,7 @@ class Product {
         return {
             id: sku,
             name,
-            price: +roundPrice(discountValue || value) || '',
+            price: +roundPrice(discountValue || value) || 0,
             brand: this.getBrand(selectedVariant) || this.DEFAULT_BRAND,
             category: this.getCategory(categories) || category,
             variant: (variantSku === sku && !isVariantPassed)

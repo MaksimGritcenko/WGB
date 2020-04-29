@@ -153,8 +153,13 @@ class Impression extends BaseEvent {
             .filter(product => Object.values(product).length)
             .map((product, index) => {
                 const configurableVariantIndex = getCurrentVariantIndexFromFilters(product, filters);
+
+                const productData = productCollectionType === WISHLIST_IMPRESSIONS
+                    ? ProductHelper.getItemData(product)
+                    : ProductHelper.getProductData({ ...product, configurableVariantIndex, category: url_path })
+
                 return {
-                    ...ProductHelper.getProductData({ ...product, configurableVariantIndex, category: url_path }),
+                    ...productData,
                     position: offset + index + 1,
                     list: this.getProductCollectionList(productCollectionType, product, categoryName)
                 };

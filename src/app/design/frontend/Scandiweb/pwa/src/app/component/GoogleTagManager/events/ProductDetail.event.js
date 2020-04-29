@@ -50,7 +50,7 @@ class ProductDetail extends BaseEvent {
      * @param pathname
      */
     handler(product, pathname) {
-        const { sku } = product;
+        const { sku, type_id } = product;
         if (this.spamProtection(SPAM_PROTECTION_TIMEOUT, sku)
             || pathname === this.lastPath
         ) {
@@ -59,10 +59,17 @@ class ProductDetail extends BaseEvent {
 
         this.lastPath = pathname;
 
+        const productToPass = type_id === 'simple'
+            ? ProductHelper.getProductData(product, true)
+            : ProductHelper.getProductData(product);
+
+        console.log(product, productToPass);
+
+
         this.pushEventData({
             ecommerce: {
                 detail: {
-                    products: [ProductHelper.getProductData(product)]
+                    products: [productToPass]
                 }
             }
         });

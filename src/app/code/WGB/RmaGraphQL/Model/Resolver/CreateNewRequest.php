@@ -24,6 +24,7 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use WGB\RmaGraphQL\Model\Resolver\SendMessage;
 
 /**
  * Class CreateNewRequest
@@ -48,18 +49,24 @@ class CreateNewRequest implements ResolverInterface
      * @var Session
      */
     protected $customerSession;
+    /**
+     * @var \WGB\RmaGraphQL\Model\Resolver\SendMessage
+     */
+    protected $messageSender;
 
     public function __construct(
         StoreManagerInterface $storeManager,
         Session $customerSession,
         CustomerRequestRepositoryInterface $requestRepository,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        SendMessage $messageSender
     )
     {
         $this->storeManager = $storeManager;
         $this->requestRepository = $requestRepository;
         $this->orderRepository = $orderRepository;
         $this->customerSession = $customerSession;
+        $this->messageSender = $messageSender;
     }
 
     /**
@@ -139,6 +146,15 @@ class CreateNewRequest implements ResolverInterface
         $request = $this->requestRepository->create(
             $this->createRequest($input, $order, $context->getUserId())
         );
+
+        if ($input['message']) {
+            $this->messageSender->saveMessage(
+                $context->getUserId(),
+                $request->getRequestId(),
+                $input['message']['message_text'],
+                $input['message']['encoded_files']
+            );
+        }
 
         return [
             'return_id' => $request->getRequestId()

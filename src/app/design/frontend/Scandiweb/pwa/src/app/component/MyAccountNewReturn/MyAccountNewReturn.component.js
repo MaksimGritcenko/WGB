@@ -5,6 +5,8 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Loader from 'Component/Loader';
 import Field from 'Component/Field';
+import { encodeFormFiles } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.container'
+import { attachmentIcon } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.config';
 
 import './MyAccountNewReturn.style';
 import './MyAccountNewReturnPolicy.style';
@@ -29,7 +31,8 @@ export default class MyAccountNewReturn extends PureComponent {
         bankDetails: {},
         selectedItems: {},
         hasItemsError: false,
-        policy_is_checked: false
+        policy_is_checked: false,
+        messageText: ''
     };
 
     handleBankDetailFieldChange = (value, id) => {
@@ -42,9 +45,9 @@ export default class MyAccountNewReturn extends PureComponent {
         this.setState({ selectedItems });
     };
 
-    handleRequestSubmitPress = () => {
-        const { orderId, onNewRequestSubmit } = this.props;
-        const { selectedItems, bankDetails } = this.state;
+    handleRequestSubmitPress = async () => {
+        const { orderId, onNewRequestSubmit, fileFormRef } = this.props;
+        const { selectedItems, bankDetails, messageText } = this.state;
 
         if (!Object.keys(selectedItems).length) return;
 
@@ -61,10 +64,16 @@ export default class MyAccountNewReturn extends PureComponent {
             ([code, value]) => ({ code, value })
         );
 
+        const message = {
+            message_text: messageText,
+            encoded_files: await encodeFormFiles(fileFormRef.current.files || [])
+        }
+
         onNewRequestSubmit({
             items: selectedItems,
             order_id: orderId,
-            custom_fields
+            custom_fields,
+            message
         });
     };
 
@@ -73,6 +82,10 @@ export default class MyAccountNewReturn extends PureComponent {
 
         history.goBack();
     };
+
+    handleTextAreaChange = (value) => {
+        this.setState({ messageText: value });
+    }
 
     setPolicyChecked = () => {
         const { policy_is_checked } = this.state;
@@ -191,6 +204,72 @@ export default class MyAccountNewReturn extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
+    renderMessageTextArea() {
+        const { messageText } = this.state;
+
+        return (
+            <Field
+              type="textarea"
+              placeholder="Please describe your issue in details."
+              id="message"
+              name="message"
+              mix={ {
+                  block: 'MyAccountNewReturn',
+                  elem: 'MessageTextArea'
+              } }
+              value={ messageText }
+              onChange={ this.handleTextAreaChange }
+            />
+        )
+    }
+
+    renderMessageSection() {
+        const {
+            fileFormRef,
+            onFileAttach
+        } = this.props;
+
+        return (
+            <div>
+                <h4
+                  block="MyAccountNewReturn"
+                  elem="MessageTitle"
+                >
+                    Message:
+                </h4>
+                <p
+                  block="MyAccountNewReturn"
+                  elem="MessageAdditionalInfo"
+                >
+                    Please do not forget to take a picture of the goods from all sides. Request without such photos may not be approved.
+                </p>
+                { this.renderMessageTextArea() }
+                <button
+                    block="MyAccountNewReturn"
+                    elem="MessageAttachmentButton"
+                    onClick={ this.handleAttachClick }
+                >
+                    { attachmentIcon }
+                    Attach File
+                </button>
+                <input
+                    type="file"
+                    accept=".pdf,.png,.jpg,.jpeg,.gif"
+                    multiple
+                    block="amrma-attach"
+                    onChange={ onFileAttach }
+                    ref={ fileFormRef }
+                />
+            </div>
+        )
+    }
+
+    handleAttachClick = () => {
+        const { fileFormRef } = this.props;
+
+        fileFormRef.current.click();
+    }
+
     render() {
         const {
             reasonData,
@@ -224,6 +303,7 @@ export default class MyAccountNewReturn extends PureComponent {
                   shippingCover={ shippingCover }
                 />
                 { this.renderBankDetailFields() }
+                { this.renderMessageSection() }
                 { this.renderPolicy() }
                 { this.renderActions() }
             </div>

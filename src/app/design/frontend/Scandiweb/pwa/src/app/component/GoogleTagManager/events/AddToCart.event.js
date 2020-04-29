@@ -52,7 +52,7 @@ class AddToCartEvent extends BaseEvent {
                 ({ product }) => {
                     const { id } = product;
                     products.push({
-                        ...ProductHelper.getProductData(product),
+                        ...ProductHelper.getProductData(product, true),
                         quantity: quantities[id],
                         availability: true
                     });
