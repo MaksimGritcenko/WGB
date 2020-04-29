@@ -21,14 +21,30 @@ class MyAccountReturnDetailsChat extends PureComponent {
         onFileAttach: PropTypes.func.isRequired,
         sendMessageClick: PropTypes.func.isRequired,
         sendMessage: PropTypes.func.isRequired,
-        isButtonDisabled: PropTypes.bool,
         chatMessages: PropTypes.array.isRequired,
         isChatLoading: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
-        isButtonDisabled: false
     };
+
+    state = {
+        isSendDisabled: true
+    }
+
+    hangleTextAreChange = ({ target: { value } }) => {
+        const { isSendDisabled } = this.state;
+
+        if (value && isSendDisabled) this.setState({ isSendDisabled: false });
+        if (!value && !isSendDisabled) this.setState({ isSendDisabled: true });
+    }
+
+    handleSendMessageClick = () => {
+        const { sendMessageClick } = this.props;
+
+        sendMessageClick();
+        this.setState({ isSendDisabled: true });
+    }
 
     renderInputTextArea() {
         const {
@@ -41,16 +57,14 @@ class MyAccountReturnDetailsChat extends PureComponent {
               rows="1"
               mix={ { block: 'MyAccountReturnDetailsChat', elem: 'InputSectionTextArea' } }
               placeholder={ __('Message') }
+              onChange={ this.hangleTextAreChange }
               ref={ messageAreaRef }
             />
         )
     }
 
     renderInputSection() {
-        const {
-            sendMessageClick,
-            isButtonDisabled
-        } = this.props;
+        const { isSendDisabled } = this.state;
 
         return (
             <div
@@ -63,8 +77,8 @@ class MyAccountReturnDetailsChat extends PureComponent {
                 { this.renderInputTextArea() }
                 <button
                   block="Button"
-                  onClick={ sendMessageClick }
-                  disabled={ isButtonDisabled }
+                  onClick={ this.handleSendMessageClick }
+                  disabled={ isSendDisabled }
                 >
                     Send
                 </button>

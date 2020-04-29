@@ -80,11 +80,9 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
     }
 
     onMessageSuccess = () => {
-        const { updateMessageList } = this.props;
-
-        this.fileFormRef.current.files = new FileList();
+        // this.fileFormRef.current.files = new FileList();
         this.messageAreaRef.current.value = "";
-        updateMessageList();
+        this.requestChat();
     }
 
     sendMessageClick = () => {
@@ -106,7 +104,7 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
         sendMessage(requestId, messageText, messageFiles)
             .then(
-                onMessageSuccess,
+                this.onMessageSuccess,
                 e => showNotification('error', 'Error sending message!', e)
             );
     }

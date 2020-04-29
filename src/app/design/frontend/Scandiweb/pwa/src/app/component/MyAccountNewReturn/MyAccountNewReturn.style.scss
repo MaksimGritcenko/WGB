@@ -70,4 +70,11 @@
             margin-top: 45px;
         }
     }
+
+    .MyAccount-Heading {
+        @include mobile {
+            margin-top: 14px;
+            font-size: 17px;
+        }
+    }
 }

@@ -57,6 +57,12 @@
     &-ChatWrapper {
         display: flex;
         flex-direction: column;
+        height: 300px;
+        overflow: scroll;
+
+        @include after-mobile {
+            height: 400px;
+        }
     }
 
     &-FileListWrapper {
