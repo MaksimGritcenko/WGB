@@ -240,6 +240,7 @@ return [
         'ScandiPWA_Installer' => 1,
         'ScandiPWA_KlarnaGraphQl' => 1,
         'Scandiweb_Core' => 1,
+        'ScandiPWA_M2Patches' => 1,
         'ScandiPWA_MenuOrganizer' => 1,
         'ScandiPWA_PayPalGraphQl' => 1,
         'ScandiPWA_Performance' => 1,
