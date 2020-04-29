@@ -24,6 +24,7 @@ class MyAccountOrderTableRow extends PureComponent {
         const {
             row: {
                 order_id,
+                increment_id,
                 request_id,
                 created_at,
                 status: { state_label },
@@ -34,7 +35,7 @@ class MyAccountOrderTableRow extends PureComponent {
 
         return (
             <tr onClick={ onViewClick } block="MyAccountReturnTableRow">
-                <td>{ order_id ? `#${order_id}` : '' }</td>
+                <td>{ order_id ? `#${increment_id}` : '' }</td>
                 <td block="hidden-mobile">{ request_qty }</td>
                 <td block="hidden-mobile">{ request_id }</td>
                 <td>{ getFormattedDate(created_at) }</td>

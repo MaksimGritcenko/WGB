@@ -17,6 +17,7 @@ export class ProductReturnQuery {
         return new Field('getReturnList')
             .addField('created_at')
             .addField('order_id')
+            .addField('increment_id')
             .addField('request_id')
             .addField('request_qty')
             .addField(this._getReturnStatusFields());
@@ -34,10 +35,23 @@ export class ProductReturnQuery {
             .addField(this._getAdminContactDataFields());
     }
 
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
+    }
+
+
     _getAdminContactDataFields() {
         return new Field('contact_data')
             .addField('email')
             .addField('phone_number');
+    }
+
+    getRmaPolicy() {
+        return new Field('getRmaPolicy')
+            .addField('policy_status')
+            .addField('policy_page_url');
     }
 
     _getReturnReasonsFields() {
@@ -114,6 +128,12 @@ export class ProductReturnQuery {
             .addField('created_at')
             .addField('state')
             .addField('status_description');
+    }
+
+    getShippingLabel(returnId) {
+        return new Field('getShippingLabel')
+            .addArgument('return_id', 'Int!', returnId)
+            .addField('file');
     }
 
     _getReturnTrackingFields() {

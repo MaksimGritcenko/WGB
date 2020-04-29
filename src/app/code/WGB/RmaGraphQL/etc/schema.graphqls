@@ -20,6 +20,10 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnDetails")
     getOrderById(id: Int!): Order
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnOrderResolver")
+    getRmaPolicy : RmaPolicy
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Policy")
+    getShippingLabel(return_id: Int): ShippingLabelData
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ShippingLabel")
 }
 
 type RmaChatForRequest {
@@ -62,6 +66,11 @@ input CancelRequestInput {
 
 type CancelRequestOutput {
     success: Boolean
+}
+
+type RmaPolicy {
+    policy_status: Boolean
+    policy_page_url: String
 }
 
 input AddTrackingInput {
@@ -164,7 +173,6 @@ type ReturnCarrier {
 
 type ReturnDetails {
     id: String
-    file: String
     order_id: String
     created_at: String
     status: Int
@@ -173,6 +181,10 @@ type ReturnDetails {
     tracking: [ReturnTracking]
     items: [ReturnItemDetails]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+}
+
+type ShippingLabelData {
+    file: String
 }
 
 type ReturnTracking {
@@ -208,6 +220,7 @@ type ReturnState {
 
 type ReturnListEntry {
     order_id: String
+    increment_id: String
     request_id: String
     created_at: String
     status: ReturnState
