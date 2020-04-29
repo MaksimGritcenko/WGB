@@ -231,6 +231,11 @@ input CreateReturnInput {
     order_id: String!
     custom_fields: [ReturnCustomFieldInput]
     items: [ReturnItemInput]!
+    message: NewReturnMessage
+}
+
+input NewReturnMessage {
+    text: String
 }
 
 type CreateReturnOutput {
