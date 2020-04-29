@@ -1,9 +1,13 @@
-import { PureComponent, useEffect, useRef, createRef } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './MyAccountReturnDetailsChatMessages.style';
 
 export default class MyAccountReturnDetailsChatMessages extends PureComponent {
+    static propTypes = {
+        chatMessages: PropTypes.array.isRequired
+    };
+
     converDateToTwoDigits(value) {
         if (value < 10) return `0${value}`;
 
@@ -16,7 +20,6 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
 
     scrollToBottom() {
         const objDiv = document.getElementById('MyAccountReturnDetailsChatMessages-ChatWrapper');
-        console.log("objDiv.scrollHeight", objDiv.scrollHeight);
 
         objDiv.scrollTop = objDiv.scrollHeight;
     }
