@@ -28,14 +28,12 @@ export default class MyAccountReturnDetailsRating extends PureComponent {
     }
 
     renderStars() {
-        const starMap = [...Array(5)];
-
         return (
             <div
               block="MyAccountReturnDetailsRating"
               elem="Stars"
             >
-                { starMap.map(this.renderStar) }
+                { Array.from({ length: 5 }, this.renderStar) }
             </div>
         )
     }
