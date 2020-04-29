@@ -5,6 +5,7 @@ import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressT
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Loader from 'Component/Loader';
 import Field from 'Component/Field';
+import { attachmentIcon } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.config';
 
 import './MyAccountNewReturn.style';
 import './MyAccountNewReturnPolicy.style';
@@ -29,7 +30,11 @@ export default class MyAccountNewReturn extends PureComponent {
         bankDetails: {},
         selectedItems: {},
         hasItemsError: false,
-        policy_is_checked: false
+        policy_is_checked: false,
+        message: {
+            text: '',
+            // files: []
+        }
     };
 
     handleBankDetailFieldChange = (value, id) => {
@@ -44,7 +49,7 @@ export default class MyAccountNewReturn extends PureComponent {
 
     handleRequestSubmitPress = () => {
         const { orderId, onNewRequestSubmit } = this.props;
-        const { selectedItems, bankDetails } = this.state;
+        const { selectedItems, bankDetails, message } = this.state;
 
         if (!Object.keys(selectedItems).length) return;
 
@@ -64,7 +69,8 @@ export default class MyAccountNewReturn extends PureComponent {
         onNewRequestSubmit({
             items: selectedItems,
             order_id: orderId,
-            custom_fields
+            custom_fields,
+            message
         });
     };
 
@@ -73,6 +79,13 @@ export default class MyAccountNewReturn extends PureComponent {
 
         history.goBack();
     };
+
+    handleTextAreaChange = (value) => {
+        const { message } = this.state;
+        message.text = value;
+
+        this.setState({ message });
+    }
 
     setPolicyChecked = () => {
         const { policy_is_checked } = this.state;
@@ -191,6 +204,52 @@ export default class MyAccountNewReturn extends PureComponent {
         return <Loader isLoading={ isLoading } />;
     }
 
+    renderMessageTextArea() {
+        const { message: { text } } = this.state;
+
+        return (
+            <Field
+              type="textarea"
+              placeholder="Please describe your issue in details."
+              id="message"
+              name="message"
+              mix={ {
+                  block: 'MyAccountNewReturn',
+                  elem: 'MessageTextArea'
+              } }
+              value={ text }
+              onChange={ this.handleTextAreaChange }
+            />
+        )
+    }
+
+    renderMessageSection() {
+        return (
+            <div>
+                <h4
+                  block="MyAccountNewReturn"
+                  elem="MessageTitle"
+                >
+                    Message:
+                </h4>
+                <p
+                  block="MyAccountNewReturn"
+                  elem="MessageAdditionalInfo"
+                >
+                    Please do not forget to take a picture of the goods from all sides. Request without such photos may not be approved.
+                </p>
+                { this.renderMessageTextArea() }
+                <button
+                    block="MyAccountNewReturn"
+                    elem="MessageAttachmentButton"
+                >
+                    { attachmentIcon }
+                    Attach File
+                </button>
+            </div>
+        )
+    }
+
     render() {
         const {
             reasonData,
@@ -224,6 +283,7 @@ export default class MyAccountNewReturn extends PureComponent {
                   shippingCover={ shippingCover }
                 />
                 { this.renderBankDetailFields() }
+                { this.renderMessageSection() }
                 { this.renderPolicy() }
                 { this.renderActions() }
             </div>
