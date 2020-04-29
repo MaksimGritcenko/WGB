@@ -6,6 +6,7 @@ import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountReturnDetailsChat from 'Component/MyAccountReturnDetailsChat';
+import MyAccountReturnDetailsRating from 'Component/MyAccountReturnDetailsRating';
 import Html from 'Component/Html';
 import media from 'Util/Media';
 
@@ -170,6 +171,10 @@ export default class MyAccountReturnDetails extends PureComponent {
         );
     }
 
+    renderRatingSelect() {
+        return <MyAccountReturnDetailsRating />;
+    }
+
     render() {
         const {
             details,
@@ -185,6 +190,7 @@ export default class MyAccountReturnDetails extends PureComponent {
             <div block="MyAccountReturnDetails">
                 { renderPageTitle(id) }
                 { this.renderProgressBar() }
+                { this.renderRatingSelect() }
                 <div
                   block="MyAccountReturnDetails"
                   elem="CustomerAndAddressBlocks"
