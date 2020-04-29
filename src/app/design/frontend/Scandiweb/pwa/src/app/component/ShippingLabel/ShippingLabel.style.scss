@@ -1,4 +1,14 @@
 .RmaWidget {
     display: inline-flex;
     padding-left: 20px;
+
+    @include mobile {
+        width: 100%;
+        justify-content: center;
+        margin-top: 5px;
+
+        .Button {
+            width: unset;
+        }
+    }
 }
