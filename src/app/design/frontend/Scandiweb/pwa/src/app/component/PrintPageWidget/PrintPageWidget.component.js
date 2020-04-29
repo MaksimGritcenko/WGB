@@ -47,8 +47,45 @@ export default class PrintPageWidget extends PureComponent {
         }, 100);
     };
 
+    printMobileIOS = () => {
+        // eslint-disable-next-line max-le
+        const customer_address = document.getElementsByClassName('homepage-slider')[0].innerHTML;
+        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }</body></html>`;
+        const ORIGINAL_PAGE = document.body.innerHTML;
+        document.body.innerHTML = ORDER_HTML;
+        setTimeout(() => {
+            try {
+                document.execCommand('print', false, null);
+                setTimeout(() => {
+                    document.body.innerHTML = ORIGINAL_PAGE;
+                }, 4000);
+                document.addEventListener("click", function(){
+                    location.reload();
+                });
+            } catch {
+                window.print()
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            }
+        }, 100);
+    };
+
     render() {
-        if (isMobile.any()) {
+        if (isMobile.iOS()) {
+            return (
+                <div block="RmaWidget">
+                <button
+            block="Button"
+            onClick={ () => this.printMobileIOS() }
+        >
+            { BUTTON_NAME }
+            < /button>
+            </div>
+        );
+        }
+
+        if (isMobile.android()) {
             return (
             <div block="RmaWidget">
                 <button
