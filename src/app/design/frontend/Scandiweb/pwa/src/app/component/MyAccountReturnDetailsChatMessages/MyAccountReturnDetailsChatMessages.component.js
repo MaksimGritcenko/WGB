@@ -82,9 +82,20 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
                 { this.renderFileList(files) }
                 <span
                   block="MyAccountReturnDetailsChatMessages"
-                  elem="AdditionalContentDate"
+                  elem="AdditionalContentDateWrapper"
                 >
-                    { dateTime }
+                    <span
+                      block="MyAccountReturnDetailsChatMessages"
+                      elem="AdditionalContentDatePlaceholder"
+                    >
+                        { dateTime }
+                    </span>
+                    <span
+                      block="MyAccountReturnDetailsChatMessages"
+                      elem="AdditionalContentDate"
+                    >
+                        { dateTime }
+                    </span>
                 </span>
             </div>
         );
