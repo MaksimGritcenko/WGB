@@ -24,7 +24,7 @@ export default class PrintPageWidget extends PureComponent {
         // eslint-disable-next-line max-len
         const customer_address = document.getElementsByClassName('MyAccountReturnDetails-CustomerAndAddressBlocks')[0].innerHTML;
         const items = document.getElementsByClassName('MyAccountReturnDetailsItems')[0].innerHTML;
-        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }${ items }</body></html>`;
+        const ORDER_HTML = `${ customer_address }${ items }`;
         const ORIGINAL_PAGE = document.body.innerHTML;
         document.body.innerHTML = ORDER_HTML;
         window.print();
@@ -36,12 +36,13 @@ export default class PrintPageWidget extends PureComponent {
         // eslint-disable-next-line max-len
         const customer_address = document.getElementsByClassName('MyAccountReturnDetails-CustomerAndAddressBlocks')[0].innerHTML;
         const items = document.getElementsByClassName('MyAccountReturnDetailsItems')[0].innerHTML;
-        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }${ items }</body></html>`;
+        const ORDER_HTML = `${ customer_address }${ items }`;
+        const ORIGINAL_PAGE = document.body.innerHTML;
         document.body.innerHTML = ORDER_HTML;
         setTimeout(() => {
             window.print();
             setTimeout(() => {
-                document.body.innerHTML = ORDER_HTML;
+                document.body.innerHTML = ORIGINAL_PAGE;
                 location.reload();
             }, 2000);
         }, 100);
@@ -52,7 +53,7 @@ export default class PrintPageWidget extends PureComponent {
         // eslint-disable-next-line max-len
         const customer_address = document.getElementsByClassName('MyAccountReturnDetails-CustomerAndAddressBlocks')[0].innerHTML;
         const items = document.getElementsByClassName('MyAccountReturnDetailsItems')[0].innerHTML;
-        const ORDER_HTML = `<html><head><title></title></head><body>${ customer_address }${ items }</body></html>`;
+        const ORDER_HTML = `${ customer_address }${ items }`;
         const ORIGINAL_PAGE = document.body.innerHTML;
         document.body.innerHTML = ORDER_HTML;
         setTimeout(() => {
