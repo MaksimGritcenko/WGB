@@ -104,6 +104,27 @@ export default class Product {
         return url_path;
     }
 
+    static getPrice(variant, type_id) {
+        const {
+            price: {
+                minimalPrice: {
+                    amount: {
+                        value: discountValue = null
+                    } = {}
+                } = {},
+                regularPrice: {
+                    amount: {
+                        value = 0
+                    } = {}
+                } = {}
+            } = {}
+        } = variant;
+
+        return type_id !== 'grouped'
+            ? +roundPrice(discountValue || value) || 0
+            : 0;
+    }
+
     /**
      * varian: color
      * dimension1: size
@@ -119,7 +140,8 @@ export default class Product {
     }
 
     static getGroupedProductPrice(product) {
-        return 0;
+        const { groupedProductPrice = 0 } = product;
+        return groupedProductPrice;
     }
 
     static getAttribute(variant, parentAttributes, attributeName) {
@@ -149,26 +171,12 @@ export default class Product {
             configurableVariantIndex = this.getSelectedVariantIndex(product, sku)
         } = product;
         const selectedVariant = variants[configurableVariantIndex] || product;
-        const {
-            sku: variantSku,
-            price: {
-                minimalPrice: {
-                    amount: {
-                        value: discountValue = null
-                    } = {}
-                } = {},
-                regularPrice: {
-                    amount: {
-                        value = 0
-                    } = {}
-                } = {}
-            } = {}
-        } = selectedVariant;
+        const { sku: variantSku } = selectedVariant;
 
         return {
             id: sku,
             name,
-            price: +roundPrice(discountValue || value) || 0,
+            price: this.getPrice(selectedVariant, type_id),
             brand: this.getBrand(selectedVariant) || this.DEFAULT_BRAND,
             category: this.getCategory(categories) || category,
             variant: this.getAttribute(selectedVariant, attributes, 'color_vgb'),

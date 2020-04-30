@@ -11,9 +11,11 @@
  */
 
 import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
+import BrowserDatabase from 'Util/BrowserDatabase';
 import ProductHelper from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
+export const GROUPED_CART_PRODUCTS = 'GROUPED_CART_PRODUCTS';
 export const SPAM_PROTECTION_DELAY = 200;
 /**
  * Product add to cart event
@@ -47,17 +49,28 @@ class AddToCartEvent extends BaseEvent {
 
         if (isGrouped) {
             const { items, quantities } = product;
+            // eslint-disable-next-line fp/no-let
+            let groupedProductPrice = 0;
 
             items.forEach(
                 ({ product }) => {
                     const { id } = product;
-                    products.push({
+                    const productToPush = {
                         ...ProductHelper.getProductData(product, true),
                         quantity: quantities[id],
                         availability: true
-                    });
+                    };
+
+                    const { price, quantity } = productToPush;
+                    groupedProductPrice += price * quantity;
+
+                    products.push(productToPush);
                 }
             );
+
+            // const groupedCartProducts = BrowserDatabase.getItem(GROUPED_CART_PRODUCTS);
+            // BrowserDatabase.setItem(GROUPED_CART_PRODUCTS, )
+            products.push(ProductHelper.getProductData({ ...product, groupedProductPrice }));
         } else {
             const { type_id } = product;
             const productData = isItem
