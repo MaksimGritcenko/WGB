@@ -108,16 +108,17 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         const { requestId, sendMessage } = this.props;
         const filesFromForm = this.fileFormRef.current.files || [];
         const messageText = this.messageAreaRef.current.value;
+
+        this.setState({ isChatLoading: true });
         const messageFiles = await encodeFormFiles(filesFromForm);
 
         try {
-            sendMessage(requestId, messageText, messageFiles);
+            sendMessage(requestId, messageText, messageFiles)
+                .then(this.onMessageSuccess);
         } catch (e) {
             showNotification('error', 'Error sending message!', e);
             return;
         }
-
-        this.onMessageSuccess();
     }
 
     constructor(props) {

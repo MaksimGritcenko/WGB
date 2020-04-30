@@ -63,4 +63,32 @@
             border-color: #FFF;
         }
     }
+
+    &-AttachmentWrapper {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 10px;
+            height: 20px;
+            width: 20px;
+        }
+    }
+
+    &-Attachment {
+        font-weight: bold;
+    }
+
+    &-AttachmentRemoveButton {
+        width: 20px;
+        padding: 0 5px;
+        margin-right: 10px;
+
+        svg {
+            height: unset;
+            width: unset;
+            margin: 0;
+        }
+    }
 }
