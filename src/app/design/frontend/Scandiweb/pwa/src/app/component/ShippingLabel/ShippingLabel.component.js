@@ -30,7 +30,7 @@ class ShippingLabel extends PureComponent {
             <div block="RmaWidget">
                 <a
                   block="Button"
-                  disabled={true}
+                  disabled={ true }
                 >
                 { BUTTON_NAME }
                 </a>
