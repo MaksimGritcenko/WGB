@@ -19,6 +19,7 @@ export default class MyAccountReturnDetailsRating extends PureComponent {
 
         return (
             <button
+              key={ index }
               block="MyAccountReturnDetailsRating"
               elem="Star"
               mods={ { isChecked } }

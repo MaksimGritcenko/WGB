@@ -7,6 +7,8 @@ import { closeIcon } from 'Component/Header/Header.config';
 import { attachmentIcon } from './MyAccountReturnDetailsChat.config';
 import './MyAccountReturnDetailsChat.style';
 
+const ENTER_KEY_CODE = 13;
+
 class MyAccountReturnDetailsChat extends PureComponent {
     static propTypes = {
         // Refs
@@ -32,6 +34,12 @@ class MyAccountReturnDetailsChat extends PureComponent {
     state = {
         isSendDisabled: true,
         fileNames: {}
+    }
+
+    onKeyEnterDown = (event) => {
+        if (event.keyCode === ENTER_KEY_CODE) {
+            this.handleSendMessageClick();
+        }
     }
 
     handleTextAreaChange = ({ target: { value } }) => {
@@ -74,12 +82,11 @@ class MyAccountReturnDetailsChat extends PureComponent {
         } = this.props;
 
         return (
-            <textarea
-              cols="30"
-              rows="1"
+            <input
               mix={ { block: 'MyAccountReturnDetailsChat', elem: 'InputSectionTextArea' } }
               placeholder={ __('Message') }
               onChange={ this.handleTextAreaChange }
+              onKeyDown={ this.onKeyEnterDown }
               ref={ messageAreaRef }
             />
         )
@@ -94,6 +101,8 @@ class MyAccountReturnDetailsChat extends PureComponent {
               elem="InputSectionWrapper"
             >
                 <button
+                  block="MyAccountReturnDetailsChat"
+                  elem="AttachmentButton"
                   onClick={ this.handleAttachClick }
                 >
                     { attachmentIcon }
@@ -115,7 +124,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
             <div key={ index }>
                 <span
                   block="MyAccountReturnDetailsChat"
-                  elem="Attachment"
+                  elem="AttachmentName"
                 >
                     { name }
                 </span>
@@ -140,7 +149,12 @@ class MyAccountReturnDetailsChat extends PureComponent {
               elem="AttachmentWrapper"
             >
                 { attachmentIcon }
-                { Object.values(fileNames).map(this.renderAttachment) }
+                <div
+                  block="MyAccountReturnDetailsChat"
+                  elem="Attachment"
+                >
+                    { Object.values(fileNames).map(this.renderAttachment) }
+                </div>
             </div>
         )
     }
