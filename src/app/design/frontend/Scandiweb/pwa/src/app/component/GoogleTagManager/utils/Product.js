@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /**
  * ScandiPWA - Progressive Web App for Magento
  *
@@ -10,13 +11,14 @@
  */
 
 import { roundPrice } from 'Util/Price';
-import { convertKeyValuesToQueryString } from 'Util/Url';
 import GoogleTagManager, { EVENT_GENERAL } from 'Component/GoogleTagManager/GoogleTagManager.component';
+
+export const NOT_APPLICABLE = 'N/A';
 
 /**
  * Product helper, contain all related to product data prepare methods
  */
-class Product {
+export default class Product {
     static DEFAULT_BRAND = 'Vagabond';
 
     /**
@@ -26,7 +28,7 @@ class Product {
      * @return {string|string}
      */
     // eslint-disable-next-line no-unused-vars
-    static getList(product) {
+    static getList() {
         const meta = GoogleTagManager.getEvent(EVENT_GENERAL).currentMeta.metaObject || {};
 
         return meta.name
@@ -103,6 +105,32 @@ class Product {
     }
 
     /**
+     * varian: color
+     * dimension1: size
+     * dimension2: simple/grouped
+     * dimension3: variantSKU
+     * metric1: total for grouped product
+     */
+
+    static getVariantSku(sku, variantSku, isVariantPassed) {
+        return (variantSku === sku && !isVariantPassed)
+            ? NOT_APPLICABLE
+            : variantSku;
+    }
+
+    static getGroupedProductPrice(product) {
+        return 0;
+    }
+
+    static getAttribute(variant, parentAttributes, attributeName) {
+        const { attribute_value = '' } = variant.attributes[attributeName] || {};
+        const { attribute_options = {} } = parentAttributes[attributeName] || {};
+        const { label = NOT_APPLICABLE } = attribute_options[attribute_value] || {};
+
+        return label || NOT_APPLICABLE;
+    }
+
+    /**
      * Get product data as object
      *
      * @param product
@@ -113,9 +141,11 @@ class Product {
         const {
             sku,
             name,
-            category = '',
+            type_id,
+            category = NOT_APPLICABLE,
             variants = [],
             categories = [],
+            attributes = {},
             configurableVariantIndex = this.getSelectedVariantIndex(product, sku)
         } = product;
         const selectedVariant = variants[configurableVariantIndex] || product;
@@ -141,11 +171,11 @@ class Product {
             price: +roundPrice(discountValue || value) || 0,
             brand: this.getBrand(selectedVariant) || this.DEFAULT_BRAND,
             category: this.getCategory(categories) || category,
-            variant: (variantSku === sku && !isVariantPassed)
-                ? 'N/A'
-                : variantSku
+            variant: this.getAttribute(selectedVariant, attributes, 'color_vgb'),
+            dimension1: this.getAttribute(selectedVariant, attributes, 'size_vgb'),
+            dimension2: type_id,
+            dimension3: this.getVariantSku(sku, variantSku, isVariantPassed),
+            metric1: this.getGroupedProductPrice(product)
         };
     }
 }
-
-export default Product;
