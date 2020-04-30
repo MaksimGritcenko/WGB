@@ -23,7 +23,11 @@
 
     &-Stars {
         direction: rtl;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+
+        @include after-mobile {
+            margin-bottom: 30px;
+        }
     }
 
     &-Star {
@@ -44,11 +48,15 @@
             1px 0 var(--star-outline-color),
             0 -1px var(--star-outline-color);
 
-        font-size: 40px;
+        font-size: 35px;
         line-height: 1;
         /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
         font-family: Times; // make sure ★ appears correctly
         letter-spacing: 3px;
+
+        @include after-mobile {
+            font-size: 40px;
+        }
 
         &::after {
             content: '★';
