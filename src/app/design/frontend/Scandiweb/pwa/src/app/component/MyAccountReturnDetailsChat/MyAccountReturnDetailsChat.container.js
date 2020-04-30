@@ -96,6 +96,8 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         const filesFromForm = this.fileFormRef.current.files || [];
         const messageText = this.messageAreaRef.current.value;
 
+        this.setState({ isChatLoading: true });
+
         const messageFiles = await Object.values(filesFromForm).reduce(
             async (previousPromise, file) => {
                 const acc = await previousPromise;
@@ -109,13 +111,12 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
         );
 
         try {
-            sendMessage(requestId, messageText, messageFiles);
+            sendMessage(requestId, messageText, messageFiles)
+                .then(this.onMessageSuccess);
         } catch (e) {
             showNotification('error', 'Error sending message!', e);
             return;
         }
-
-        this.onMessageSuccess();
     }
 
     constructor(props) {

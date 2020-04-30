@@ -46,9 +46,10 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
         return dateTime;
     }
 
-    renderFile = ({ filename }) => {
+    renderFile = ({ filename }, index) => {
         return (
             <span
+              key={ index }
               block="MyAccountReturnDetailsChatMessages"
               elem="FileName"
             >
@@ -58,7 +59,7 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
     }
 
     renderFileList(files) {
-        if (files.length) return <div />;
+        if (!files.length) return <div />;
 
         return (
             <div
@@ -119,6 +120,7 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
 
         return (
             <div
+              key={ index }
               block="MyAccountReturnDetailsChatMessages"
               elem="TextBlockWrapper"
               mods={ { isRightSide } }
@@ -129,12 +131,14 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
                   elem="TextBlockMessageWrapper"
                   mods={ { isRightSide } }
                 >
-                    <p
-                      block="MyAccountReturnDetailsChatMessages"
-                      elem="TextBlockMessage"
-                    >
-                        { message }
-                    </p>
+                    { message && (
+                        <p
+                        block="MyAccountReturnDetailsChatMessages"
+                        elem="TextBlockMessage"
+                        >
+                            { message }
+                        </p>
+                    ) }
                     { this.renderAdditionalContent(created_at, files) }
                 </div>
             </div>

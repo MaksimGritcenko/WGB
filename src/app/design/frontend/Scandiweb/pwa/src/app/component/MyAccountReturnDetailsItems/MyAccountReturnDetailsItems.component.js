@@ -34,29 +34,8 @@ export default class MyAccountReturnDetailsItems extends MyAccountNewReturnItemS
                     { name }
                 </p>
                 <p>{ `Qty: ${ qty }` }</p>
-                { chosen_attributes.map(attr => {
-                    return <p>{ attr.label }: { attr.value }</p>
-                }) }
-            </div>
-        );
-    }
-
-    renderItemDetails(name, qty, chosen_attributes) {
-        return (
-            <div
-              block="MyAccountReturnDetailsItems"
-              elem="ItemDetails"
-            >
-                <p
-                  block="CartItem"
-                  elem="Heading"
-                  itemProp="name"
-                >
-                    { name }
-                </p>
-                <p>{ `Qty: ${ qty }` }</p>
-                { chosen_attributes.map(attr => {
-                    return <p>{ attr.label }: { attr.value }</p>
+                { chosen_attributes.map((attr, index) => {
+                    return <p key={ index }>{ attr.label }: { attr.value }</p>
                 }) }
             </div>
         );

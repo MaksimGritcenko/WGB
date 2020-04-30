@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MyAccountReturnDetailsChatMessages from 'Component/MyAccountReturnDetailsChatMessages';
 import Field from 'Component/Field';
 import Loader from 'Component/Loader';
+import { closeIcon } from 'Component/Header/Header.config';
 import { attachmentIcon } from './MyAccountReturnDetailsChat.config';
 import './MyAccountReturnDetailsChat.style';
 
@@ -29,7 +30,8 @@ class MyAccountReturnDetailsChat extends PureComponent {
     };
 
     state = {
-        isSendDisabled: true
+        isSendDisabled: true,
+        fileNames: {}
     }
 
     hangleTextAreChange = ({ target: { value } }) => {
@@ -43,13 +45,27 @@ class MyAccountReturnDetailsChat extends PureComponent {
         const { sendMessageClick } = this.props;
 
         sendMessageClick();
-        this.setState({ isSendDisabled: true });
+        this.setState({ isSendDisabled: true, fileNames: {} });
     }
 
     handleAttachClick = () => {
         const { fileFormRef } = this.props;
 
         fileFormRef.current.click();
+    }
+
+    handleFileChange = () => {
+        const { onFileAttach, fileFormRef: { current: { files } } } = this.props;
+        const { length } = files;
+
+        const fileNames = {};
+
+        for (let i = 0; i < length; i++ ) {
+            fileNames[i] = files[i].name;
+        }
+
+        onFileAttach();
+        this.setState({ fileNames, isSendDisabled: !length });
     }
 
     renderInputTextArea() {
@@ -94,6 +110,41 @@ class MyAccountReturnDetailsChat extends PureComponent {
         );
     }
 
+    renderAttachment = (name, index) => {
+        return (
+            <div key={ index }>
+                <span
+                  block="MyAccountReturnDetailsChat"
+                  elem="Attachment"
+                >
+                    { name }
+                </span>
+                <button
+                  block="MyAccountReturnDetailsChat"
+                  elem="AttachmentRemoveButton"
+                >
+                    { closeIcon }
+                </button>
+            </div>
+        );
+    };
+
+    renderAttachments() {
+        const { fileNames } = this.state;
+
+        if (!Object.keys(fileNames).length) return null;
+
+        return (
+            <div
+              block="MyAccountReturnDetailsChat"
+              elem="AttachmentWrapper"
+            >
+                { attachmentIcon }
+                { Object.values(fileNames).map(this.renderAttachment) }
+            </div>
+        )
+    }
+
     renderContent() {
         const { chatMessages, isChatLoading } = this.props;
 
@@ -107,11 +158,12 @@ class MyAccountReturnDetailsChat extends PureComponent {
                     chatMessages={ chatMessages }
                 />
                 { this.renderInputSection() }
+                { this.renderAttachments() }
             </div>
         );
     }
 
-    renderSOme() {
+    renderChat() {
         return (
             <>
                 <h4
@@ -126,17 +178,11 @@ class MyAccountReturnDetailsChat extends PureComponent {
     }
 
     render() {
-        const {
-            onFileAttach,
-            fileFormRef,
-            sendMessageClick,
-            isButtonDisabled,
-            messageAreaRef
-        } = this.props;
+        const { fileFormRef } = this.props;
 
         return (
             <div block="MyAccountReturnDetailsChat">
-                { this.renderSOme() }
+                { this.renderChat() }
                 <div
                   block="amrma-attach-file"
                 >
@@ -145,7 +191,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
                       accept=".pdf,.png,.jpg,.jpeg,.gif"
                       multiple
                       block="amrma-attach"
-                      onChange={ onFileAttach }
+                      onChange={ this.handleFileChange }
                       ref={ fileFormRef }
                     />
                 </div>
