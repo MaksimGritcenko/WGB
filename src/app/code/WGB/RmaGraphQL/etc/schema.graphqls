@@ -144,6 +144,7 @@ type RmaConfiguration {
     resolutions: [ReturnResolution]
     custom_fields: ReturnCustomFields
     contact_data: ReturnContactData
+    max_file_size: Float
 }
 
 type ReturnContactData {
@@ -231,11 +232,12 @@ input CreateReturnInput {
     order_id: String!
     custom_fields: [ReturnCustomFieldInput]
     items: [ReturnItemInput]!
-    message: NewReturnMessage
+    message: NewReturnMessageInput
 }
 
-input NewReturnMessage {
-    text: String
+input NewReturnMessageInput {
+    message_text: String!
+    encoded_files: [EncodedFile]
 }
 
 type CreateReturnOutput {

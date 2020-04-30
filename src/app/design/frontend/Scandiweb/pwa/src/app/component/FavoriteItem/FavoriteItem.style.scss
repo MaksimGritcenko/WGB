@@ -14,6 +14,7 @@
     }
 
     &-ButtonsDown {
+        align-items: center;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -26,7 +27,7 @@
     .ButtonsDown {
         &-View,
         &-Remove {
-            padding: 13px 0 0;
+            padding: 3px 0 0;
             border: none;
             background: none;
             background-color: unset;
@@ -53,10 +54,15 @@
                 border-right: 1px solid var(--link-color);
             }
         }
+
+        &-Remove {
+            height: unset;
+        }
     }
 
     &-Row {
         margin-top: 9px;
+        margin-bottom: 5px;
 
         .FavoriteItem-AddToCart {
             padding: 10px 0;

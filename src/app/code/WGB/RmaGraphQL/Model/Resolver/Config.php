@@ -83,7 +83,8 @@ class Config implements ResolverInterface
             'contact_data' => [
                 'email' => $this->configProvider->getAdministratorEmail(),
                 'phone_number' => $this->configProvider->getAdministratorPhoneNumber(),
-            ]
+            ],
+            'max_file_size' => (int)$this->configProvider->getMaxFileSize()
         ];
     }
 }
