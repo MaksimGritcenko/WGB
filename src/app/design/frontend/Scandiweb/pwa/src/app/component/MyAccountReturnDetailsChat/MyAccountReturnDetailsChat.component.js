@@ -18,59 +18,21 @@ class MyAccountReturnDetailsChat extends PureComponent {
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) })
         ]).isRequired,
-        // Other
-        onFileAttach: PropTypes.func.isRequired,
-        sendMessageClick: PropTypes.func.isRequired,
-        sendMessage: PropTypes.func.isRequired,
+        // Functions
+        handleTextAreaChange: PropTypes.func.isRequired,
+        handleSendMessageClick: PropTypes.func.isRequired,
+        handleAttachFile: PropTypes.func.isRequired,
+        handleRemoveFile: PropTypes.func.isRequired,
+        // other
         chatMessages: PropTypes.array.isRequired,
         isChatLoading: PropTypes.bool.isRequired,
+        isSendDisabled: PropTypes.bool.isRequired,
     };
-
-    static defaultProps = {
-    };
-
-    state = {
-        isSendDisabled: true,
-        fileNames: {}
-    }
-
-    handleTextAreaChange = ({ target: { value } }) => {
-        const { isSendDisabled } = this.state;
-
-        if (value && isSendDisabled) this.setState({ isSendDisabled: false });
-        if (!value && !isSendDisabled) this.setState({ isSendDisabled: true });
-    }
-
-    handleSendMessageClick = () => {
-        const { sendMessageClick } = this.props;
-
-        sendMessageClick();
-        this.setState({ isSendDisabled: true, fileNames: {} });
-    }
-
-    handleAttachClick = () => {
-        const { fileFormRef } = this.props;
-
-        fileFormRef.current.click();
-    }
-
-    handleFileChange = () => {
-        const { onFileAttach, fileFormRef: { current: { files } } } = this.props;
-        const { length } = files;
-
-        const fileNames = {};
-
-        for (let i = 0; i < length; i++ ) {
-            fileNames[i] = files[i].name;
-        }
-
-        onFileAttach();
-        this.setState({ fileNames, isSendDisabled: !length });
-    }
 
     renderInputTextArea() {
         const {
-            messageAreaRef
+            messageAreaRef,
+            handleTextAreaChange
         } = this.props;
 
         return (
@@ -79,14 +41,23 @@ class MyAccountReturnDetailsChat extends PureComponent {
               rows="1"
               mix={ { block: 'MyAccountReturnDetailsChat', elem: 'InputSectionTextArea' } }
               placeholder={ __('Message') }
-              onChange={ this.handleTextAreaChange }
+              onChange={ handleTextAreaChange }
               ref={ messageAreaRef }
             />
         )
     }
 
+    handleAttachClick = () => {
+        const { fileFormRef } = this.props;
+
+        fileFormRef.current.click();
+    }
+
     renderInputSection() {
-        const { isSendDisabled } = this.state;
+        const {
+            isSendDisabled,
+            handleSendMessageClick
+        } = this.props;
 
         return (
             <div
@@ -101,7 +72,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
                 { this.renderInputTextArea() }
                 <button
                   block="Button"
-                  onClick={ this.handleSendMessageClick }
+                  onClick={ handleSendMessageClick }
                   disabled={ isSendDisabled }
                 >
                     Send
@@ -111,6 +82,8 @@ class MyAccountReturnDetailsChat extends PureComponent {
     }
 
     renderAttachment = (name, index) => {
+        const { handleRemoveFile } = this.props;
+
         return (
             <div key={ index }>
                 <span
@@ -122,6 +95,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
                 <button
                   block="MyAccountReturnDetailsChat"
                   elem="AttachmentRemoveButton"
+                  onClick={ () => handleRemoveFile(name) }
                 >
                     { closeIcon }
                 </button>
@@ -130,9 +104,9 @@ class MyAccountReturnDetailsChat extends PureComponent {
     };
 
     renderAttachments() {
-        const { fileNames } = this.state;
+        const { files } = this.props;
 
-        if (!Object.keys(fileNames).length) return null;
+        if (!files.length) return null;
 
         return (
             <div
@@ -140,7 +114,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
               elem="AttachmentWrapper"
             >
                 { attachmentIcon }
-                { Object.values(fileNames).map(this.renderAttachment) }
+                { files.map((file, index) => this.renderAttachment(file.name, index)) }
             </div>
         )
     }
@@ -178,7 +152,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
     }
 
     render() {
-        const { fileFormRef } = this.props;
+        const { fileFormRef, handleAttachFile } = this.props;
 
         return (
             <div block="MyAccountReturnDetailsChat">
@@ -191,7 +165,7 @@ class MyAccountReturnDetailsChat extends PureComponent {
                       accept=".pdf,.png,.jpg,.jpeg,.gif"
                       multiple
                       block="amrma-attach"
-                      onChange={ this.handleFileChange }
+                      onChange={ handleAttachFile }
                       ref={ fileFormRef }
                     />
                 </div>

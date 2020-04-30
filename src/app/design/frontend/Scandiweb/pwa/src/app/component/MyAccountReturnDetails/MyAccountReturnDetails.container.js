@@ -53,7 +53,7 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
         });
 
         return fetchQuery([
-            ProductReturnQuery.getReturnCarriers(),
+            ProductReturnQuery.getConfigForDetails(),
             ProductReturnQuery.getReturnDetails(returnId),
         ]).then(
             ({ getRmaConfiguration: { carriers: carrierData }, getReturnDetailsById, max_file_size }) => {

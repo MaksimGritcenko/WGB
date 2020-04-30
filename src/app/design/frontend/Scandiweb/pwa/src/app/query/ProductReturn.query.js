@@ -107,9 +107,10 @@ export class ProductReturnQuery {
             .addField('success');
     }
 
-    getReturnCarriers() {
+    getConfigForDetails() {
         return new Field('getRmaConfiguration')
-            .addField(this._getReturnCarrierFields());
+            .addField(this._getReturnCarrierFields())
+            .addField('max_file_size');
     }
 
     _getReturnCarrierFields() {

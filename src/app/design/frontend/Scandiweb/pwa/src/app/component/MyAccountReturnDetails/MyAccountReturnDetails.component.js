@@ -21,6 +21,8 @@ const STATUS_STATE_MAP = {
     Completed: 4
 }
 
+const TEN_MEGABYTES_IN_BYTES = 10 * 1000 * 1000 * 1000;
+
 export default class MyAccountReturnDetails extends PureComponent {
     static propTypes = {
         carriers: PropTypes.array.isRequired,
@@ -28,7 +30,11 @@ export default class MyAccountReturnDetails extends PureComponent {
         handleCancelRMA: PropTypes.func.isRequired,
         isCancelDisabled: PropTypes.bool.isRequired,
         renderPageTitle: PropTypes.func.isRequired,
-        max_file_size: PropTypes.number.isRequired
+        max_file_size: PropTypes.number
+    };
+
+    static defaultProps = {
+        max_file_size: TEN_MEGABYTES_IN_BYTES
     };
 
     state = {
