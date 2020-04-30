@@ -51,7 +51,6 @@
 
     &-TextBlockMessage {
         overflow-wrap: break-word;
-        margin-bottom: 25px;
     }
 
     &-ChatWrapper {
@@ -70,7 +69,8 @@
     }
 
     &-FileName {
-        margin-right: 12px;
+        padding: 5px 0;
+        display: block;
         font-weight: bold;
     }
 }

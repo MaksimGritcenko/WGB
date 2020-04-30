@@ -46,14 +46,16 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
         return dateTime;
     }
 
-    renderFile = ({ filename }, index) => {
+    renderFile = ({ filename, link }, index) => {
         return (
             <span
               key={ index }
               block="MyAccountReturnDetailsChatMessages"
               elem="FileName"
             >
-                { filename }
+                <a href={ link }>
+                    { filename }
+                </a>
             </span>
         )
     }
