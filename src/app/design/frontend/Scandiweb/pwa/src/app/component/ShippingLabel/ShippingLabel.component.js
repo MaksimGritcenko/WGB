@@ -30,9 +30,7 @@ class ShippingLabel extends PureComponent {
             <div block="RmaWidget">
                 <a
                   block="Button"
-                  href={ url }
-                  download={ FILE_NAME }
-                  disabled="true"
+                  disabled={true}
                 >
                 { BUTTON_NAME }
                 </a>

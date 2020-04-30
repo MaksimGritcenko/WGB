@@ -1,0 +1,14 @@
+@media print {
+  .Header,
+  .Footer,
+  .NotificationList,
+  .MyAccount-Heading,
+  .MyAccountReturnDetails-HowItWorksBlock,
+  .MyAccountReturnDetails-ProgressBar,
+  .MyAccountReturnDetailsChat,
+  .MyAccount-TabList,
+  .MyAccountReturnDetailsTracking-Title,
+  .MyAccountReturnDetailsTracking-Add {
+    display: none !important;
+  }
+}
