@@ -13,6 +13,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'Component/Link';
+import Event, { EVENT_GTM_PRODUCT_CLICK } from 'Util/Event';
 import FavoriteItemCard from 'Component/FavoriteItemCard';
 import { ProductType, FilterType } from 'Type/ProductList';
 
@@ -34,6 +35,16 @@ export default class FavoriteItem extends PureComponent {
         parameters: {},
         isLoading: false
     };
+
+    constructor(props) {
+        super(props);
+        this.onViewMoreClick = this.onViewMoreClick.bind(this);
+    }
+
+    onViewMoreClick() {
+        const { product } = this.props;
+        Event.dispatch(EVENT_GTM_PRODUCT_CLICK, product);
+    }
 
     renderAddToCart() {
         const {
@@ -82,6 +93,7 @@ export default class FavoriteItem extends PureComponent {
                     <Link
                       block="ButtonsDown"
                       elem="View"
+                      onClick={ this.onViewMoreClick }
                       to={ PRODUCT_URL + product.url_key }
                     >
                         { __('View Item') }

@@ -6,6 +6,7 @@ import MyAccountReturnDetailsItems from 'Component/MyAccountReturnDetailsItems';
 import MyAccountReturnDetailsTracking from 'Component/MyAccountReturnDetailsTracking';
 import ExpandableContent from 'Component/ExpandableContent';
 import MyAccountReturnDetailsChat from 'Component/MyAccountReturnDetailsChat';
+import MyAccountReturnDetailsRating from 'Component/MyAccountReturnDetailsRating';
 import Html from 'Component/Html';
 import media from 'Util/Media';
 
@@ -26,7 +27,8 @@ export default class MyAccountReturnDetails extends PureComponent {
         details: PropTypes.object.isRequired,
         handleCancelRMA: PropTypes.func.isRequired,
         isCancelDisabled: PropTypes.bool.isRequired,
-        renderPageTitle: PropTypes.func.isRequired
+        renderPageTitle: PropTypes.func.isRequired,
+        max_file_size: PropTypes.number.isRequired
     };
 
     state = {
@@ -170,6 +172,10 @@ export default class MyAccountReturnDetails extends PureComponent {
         );
     }
 
+    renderRatingSelect() {
+        return <MyAccountReturnDetailsRating />;
+    }
+
     render() {
         const {
             details,
@@ -178,13 +184,15 @@ export default class MyAccountReturnDetails extends PureComponent {
                 items = [],
                 id = ''
             },
-            renderPageTitle
+            renderPageTitle,
+            max_file_size
         } = this.props;
 
         return (
             <div block="MyAccountReturnDetails">
                 { renderPageTitle(id) }
                 { this.renderProgressBar() }
+                { this.renderRatingSelect() }
                 <div
                   block="MyAccountReturnDetails"
                   elem="CustomerAndAddressBlocks"
@@ -201,6 +209,7 @@ export default class MyAccountReturnDetails extends PureComponent {
                   details={ details }
                 />
                 <MyAccountReturnDetailsChat
+                  max_file_size={ max_file_size }
                   requestId={ details.id }
                 />
                 { this.renderCalcelRMAButton() }
