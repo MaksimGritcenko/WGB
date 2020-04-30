@@ -23,6 +23,7 @@ module.exports = (projectRoot) => {
         lang: 'en-US',
         theme_color: '#ffffff',
         start_url: '/',
+        scope: '/',
         crossorigin: null,
         ios: {
             'apple-mobile-web-app-capable': 'yes',
