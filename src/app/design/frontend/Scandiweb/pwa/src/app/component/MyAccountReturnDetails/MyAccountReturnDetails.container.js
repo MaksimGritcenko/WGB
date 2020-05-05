@@ -56,7 +56,15 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
             ProductReturnQuery.getConfigForDetails(),
             ProductReturnQuery.getReturnDetails(returnId),
         ]).then(
-            ({ getRmaConfiguration: { carriers: carrierData }, getReturnDetailsById, max_file_size }) => {
+            ({
+                getRmaConfiguration: {
+                    carriers: carrierData,
+                    max_file_size,
+                    customer_feedback_enabled,
+                    chat_enabled
+                },
+                getReturnDetailsById
+            }) => {
                 const carriers = Object.values(carrierData).map(({ code, label }) => ({
                     label,
                     value: code
@@ -66,6 +74,8 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
                     carriers,
                     max_file_size,
                     details: getReturnDetailsById,
+                    customer_feedback_enabled,
+                    chat_enabled,
                     isCancelDisabled: false,
                     isLoading: false
                 });
@@ -100,7 +110,9 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
             details,
             isLoading,
             isCancelDisabled,
-            max_file_size
+            max_file_size,
+            customer_feedback_enabled,
+            chat_enabled
         } = this.state;
 
         return (
@@ -113,6 +125,8 @@ export class MyAccountReturnDetailsContainer extends PureComponent {
                   carriers={ carriers }
                   details={ details }
                   isCancelDisabled={ isCancelDisabled }
+                  customer_feedback_enabled={ customer_feedback_enabled }
+                  chat_enabled={ chat_enabled }
                 />
             </div>
         );

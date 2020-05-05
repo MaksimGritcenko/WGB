@@ -119,7 +119,9 @@ export class ProductReturnQuery {
     getConfigForDetails() {
         return new Field('getRmaConfiguration')
             .addField(this._getReturnCarrierFields())
-            .addField('max_file_size');
+            .addField('max_file_size')
+            .addField('customer_feedback_enabled')
+            .addField('chat_enabled');
     }
 
     _getReturnCarrierFields() {

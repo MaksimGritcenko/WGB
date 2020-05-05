@@ -179,9 +179,9 @@ export default class MyAccountReturnDetails extends PureComponent {
     }
 
     renderRatingSelect() {
-        const { details: { id: request_id, rating, state } } = this.props;
+        const { details: { id: request_id, rating, state }, customer_feedback_enabled } = this.props;
 
-        if (state !== 'Completed') {
+        if (!customer_feedback_enabled || state !== 'Completed') {
             return null;
         }
 
@@ -202,7 +202,8 @@ export default class MyAccountReturnDetails extends PureComponent {
                 id = ''
             },
             renderPageTitle,
-            max_file_size
+            max_file_size,
+            chat_enabled
         } = this.props;
 
         return (
@@ -225,10 +226,17 @@ export default class MyAccountReturnDetails extends PureComponent {
                   carriers={ carriers }
                   details={ details }
                 />
-                <MyAccountReturnDetailsChat
-                  max_file_size={ max_file_size }
-                  requestId={ details.id }
-                />
+                { (() => {
+                    if (!chat_enabled) {
+                        return null;
+                    }
+                    return (
+                        <MyAccountReturnDetailsChat
+                          max_file_size={ max_file_size }
+                          requestId={ details.id }
+                        />
+                    );
+                })() }
                 { this.renderCalcelRMAButton() }
             </div>
         );
