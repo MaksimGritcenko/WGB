@@ -33,7 +33,14 @@ class AddToCartEvent extends BaseEvent {
             isGrouped = false,
             isItem = false
         }) => {
-            this.handle({ configurableVariantIndex, ...product }, quantity || 1, isItem, isGrouped, isFromCart, massAddAction);
+            this.handle(
+                { configurableVariantIndex, ...product },
+                quantity || 1,
+                isItem,
+                isGrouped,
+                isFromCart,
+                massAddAction
+            );
         });
     }
 
