@@ -260,6 +260,10 @@ class RequestDetails
             'created_at' => $request->getCreatedAt(),
             'status' => $request->getStatus(),
             'status_description' => $statusDescription,
+            'rating' => [
+                'stars' => $request->getRating(),
+                'comment' => $request->getRatingComment()
+            ],
             'state' => $this->states[$status->getState()],
             'items' => $requestItems,
             'productIds' => $productIds,

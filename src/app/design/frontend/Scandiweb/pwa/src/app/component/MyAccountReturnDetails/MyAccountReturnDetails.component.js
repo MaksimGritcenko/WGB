@@ -179,7 +179,18 @@ export default class MyAccountReturnDetails extends PureComponent {
     }
 
     renderRatingSelect() {
-        return <MyAccountReturnDetailsRating />;
+        const { details: { id: request_id, rating, state } } = this.props;
+
+        if (state !== 'Completed') {
+            return null;
+        }
+
+        return (
+            <MyAccountReturnDetailsRating
+              request_id={ request_id }
+              rating={ rating }
+            />
+        );
     }
 
     render() {
