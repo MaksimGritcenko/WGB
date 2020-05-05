@@ -13,6 +13,12 @@
 import { roundPrice } from 'Util/Price';
 import GoogleTagManager, { EVENT_GENERAL } from 'Component/GoogleTagManager/GoogleTagManager.component';
 
+export const PRODUCT_COLOR = 'variant';
+export const GROUPED_PRODUCT_PRICE = 'metric1';
+export const PRODUCT_SIZE = 'dimension1';
+export const PRODUCT_TYPE = 'dimension2';
+export const PRODUCT_VARIANT_SKU = 'dimension3';
+
 export const NOT_APPLICABLE = 'N/A';
 
 /**
@@ -126,6 +132,77 @@ export default class Product {
     }
 
     /**
+     * @param { [sku]: { data: {}, items: [childSku1, childSku2], groupedProductPrice: int } }
+     */
+    static addGroupedProduct(groupedProductData, product, groupedProductPrice) {
+        const GTMInstance = GoogleTagManager.getInstance();
+        const groupedProducts = GTMInstance.getGroupedProducts();
+        const { sku, items } = product;
+        const existingGroupedProduct = groupedProducts[sku];
+
+        if (existingGroupedProduct) {
+            const { data: { [GROUPED_PRODUCT_PRICE]: oldPrice } } = existingGroupedProduct;
+            groupedProducts[sku].data[GROUPED_PRODUCT_PRICE] = groupedProductPrice + oldPrice;
+        } else {
+            groupedProducts[sku] = {
+                data: groupedProductData,
+                items: this.getArrayOfGroupedProductChildrenSku(items)
+            };
+        }
+
+        GTMInstance.setGroupedProducts(groupedProducts);
+    }
+
+    static getArrayOfGroupedProductChildrenSku(items) {
+        return items.reduce((acc, { product: { sku } }) => [...acc, sku], []);
+    }
+
+    static updateGroupedProduct(childSku, price) {
+        const GTMInstance = GoogleTagManager.getInstance();
+        const groupedProducts = GTMInstance.getGroupedProducts();
+        const skuOfProductToUpdate = Object.keys(groupedProducts).find((sku) => {
+            const { items } = groupedProducts[sku];
+            return items.includes(childSku);
+        });
+
+        if (skuOfProductToUpdate) {
+            const { [GROUPED_PRODUCT_PRICE]: prevPrice } = groupedProducts[skuOfProductToUpdate].data;
+
+            // 0 price metric form grouped product indicates that no more children products are left in cart
+            if (prevPrice + price === 0) {
+                const productToDelete = groupedProducts[skuOfProductToUpdate];
+                // eslint-disable-next-line fp/no-delete
+                delete groupedProducts[skuOfProductToUpdate];
+
+                GTMInstance.setGroupedProducts(groupedProducts);
+                return productToDelete;
+            }
+
+            groupedProducts[skuOfProductToUpdate].data[GROUPED_PRODUCT_PRICE] += price;
+            GTMInstance.setGroupedProducts(groupedProducts);
+        }
+
+        return null;
+    }
+
+    static mergeGroupedProducts(groupedProducts1, groupedProducts2) {
+        if (!groupedProducts1) return groupedProducts2;
+        if (!groupedProducts2) return groupedProducts1;
+
+        const result = Object.assign({}, groupedProducts2);
+
+        Object.keys(groupedProducts1).forEach((key) => {
+            if (groupedProducts2[key]) {
+                result[key].data[GROUPED_PRODUCT_PRICE] += groupedProducts1[key].data[GROUPED_PRODUCT_PRICE];
+            } else {
+                result[key] = groupedProducts1[key];
+            }
+        });
+
+        return result;
+    }
+
+    /**
      * varian: color
      * dimension1: size
      * dimension2: simple/grouped
@@ -179,11 +256,11 @@ export default class Product {
             price: this.getPrice(selectedVariant, type_id),
             brand: this.getBrand(selectedVariant) || this.DEFAULT_BRAND,
             category: this.getCategory(categories) || category,
-            variant: this.getAttribute(selectedVariant, attributes, 'color_vgb'),
-            dimension1: this.getAttribute(selectedVariant, attributes, 'size_vgb'),
-            dimension2: type_id,
-            dimension3: this.getVariantSku(sku, variantSku, isVariantPassed),
-            metric1: this.getGroupedProductPrice(product)
+            [PRODUCT_COLOR]: this.getAttribute(selectedVariant, attributes, 'color_vgb'),
+            [PRODUCT_SIZE]: this.getAttribute(selectedVariant, attributes, 'size_vgb'),
+            [PRODUCT_TYPE]: type_id,
+            [PRODUCT_VARIANT_SKU]: this.getVariantSku(sku, variantSku, isVariantPassed),
+            [GROUPED_PRODUCT_PRICE]: this.getGroupedProductPrice(product)
         };
     }
 }

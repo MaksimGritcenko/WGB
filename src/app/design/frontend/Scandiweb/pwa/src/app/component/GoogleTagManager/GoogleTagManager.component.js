@@ -22,6 +22,8 @@ import ProductDetailEvent from 'Component/GoogleTagManager/events/ProductDetail.
 import PurchaseEvent from 'Component/GoogleTagManager/events/Purchase.event';
 import CheckoutEvent from 'Component/GoogleTagManager/events/Checkout.event';
 import CheckoutOptionEvent from 'Component/GoogleTagManager/events/CheckoutOption.event';
+import { CUSTOMER, ONE_MONTH_IN_SECONDS } from 'Store/MyAccount/MyAccount.dispatcher';
+import BrowserDatabase from 'Util/BrowserDatabase';
 
 /**
  * Event list
@@ -40,6 +42,8 @@ export const EVENT_CHECKOUT_OPTION = 'checkoutOption';
  * Const
  */
 export const DATA_LAYER_NAME = 'dataLayer';
+export const GROUPED_PRODUCTS_PREFIX = 'GROUPED_PRODUCTS_';
+export const GROUPED_PRODUCTS_GUEST = `${ GROUPED_PRODUCTS_PREFIX }GUEST`;
 export const GTM_INJECTION_TIMEOUT = 4000;
 
 /**
@@ -157,6 +161,11 @@ class GoogleTagManager extends PureComponent {
     currentDataLayerName = DATA_LAYER_NAME;
 
     /**
+     * groupedProducts
+     */
+    groupedProductsStorageName = GROUPED_PRODUCTS_GUEST;
+
+    /**
      * Event data object
      *
      * @type {{}}
@@ -169,6 +178,11 @@ class GoogleTagManager extends PureComponent {
      * @type {{}}
      */
     eventDataStorage = {};
+
+    /**
+     * Grouped product storage
+     */
+    groupedProducts = {};
 
     /**
      * Did mount
@@ -216,6 +230,23 @@ class GoogleTagManager extends PureComponent {
     }
 
     /**
+     * Set grouped products to storage
+     *
+     * @param groupedProducts 
+     */
+    setGroupedProducts(groupedProducts) {
+        BrowserDatabase.setItem(groupedProducts, this.groupedProductsStorageName, ONE_MONTH_IN_SECONDS);
+        this.groupedProducts = groupedProducts;
+    }
+
+    /**
+     * Get reference to grouped products
+     */
+    getGroupedProducts() {
+        return this.groupedProducts;
+    }
+
+    /**
      * Get reference to the storage
      *
      * @param event
@@ -236,6 +267,18 @@ class GoogleTagManager extends PureComponent {
      */
     resetEventDataStorage(event) {
         this.eventDataStorage[event] = {};
+    }
+
+    updateGroupedProducts() {
+        this.groupedProducts = BrowserDatabase.getItem(this.groupedProductsStorageName) || {};
+    }
+
+    updateGroupedProductsStorageName(name) {
+        this.groupedProductsStorageName = name
+            ? `${ GROUPED_PRODUCTS_PREFIX }${ name }`
+            : GROUPED_PRODUCTS_GUEST;
+
+        this.updateGroupedProducts();
     }
 
     /**
@@ -311,6 +354,7 @@ class GoogleTagManager extends PureComponent {
         this.enabled = true;
         GoogleTagManager.instance = this;
 
+        this.initGroupedProducts();
         this.injectGTMScripts();
         this.registerEvents();
     }
@@ -330,6 +374,17 @@ class GoogleTagManager extends PureComponent {
             document.head.insertBefore(script, document.head.childNodes[0]);
         }, GTM_INJECTION_TIMEOUT);
         window[this.currentDataLayerName] = window[this.currentDataLayerName] || [];
+    }
+
+    /**
+     * Initialize grouped products
+     */
+    initGroupedProducts() {
+        const customer = BrowserDatabase.getItem(CUSTOMER);
+
+        this.updateGroupedProductsStorageName(customer && customer.id);
+
+        this.groupedProducts = BrowserDatabase.getItem(this.groupedProductsStorageName) || {};
     }
 
     /**

@@ -39,16 +39,22 @@ class RemoveFromCartEvent extends BaseEvent {
             return;
         }
 
+        const productData = ProductHelper.getItemData(item);
+        const { id, price } = productData;
+        const removedGroupedProduct = ProductHelper.updateGroupedProduct(id, -price * quantity);
+
+        const removedProducts = removedGroupedProduct
+            ? [
+                { ...productData, quantity },
+                removedGroupedProduct.data
+            ]
+            : [{ ...productData, quantity }];
+
         this.pushEventData({
             ecommerce: {
                 currencyCode: this.getCurrencyCode(),
                 remove: {
-                    products: [
-                        {
-                            ...ProductHelper.getItemData(item),
-                            quantity
-                        }
-                    ]
+                    products: removedProducts
                 },
                 cart: this.prepareCartData()
             }
