@@ -1,17 +1,21 @@
 .MyAccountReturnDetailsChatMessages {
-    &-AdditionalContentWrapper {
-        display: flex;
-        justify-content: space-between;
-    }
-
     &-TextBlockMessengerName,
     &-AdditionalContentDate {
         color: #b0adad;
     }
 
+    &-AdditionalContentDateWrapper {
+        display: inline-block;
+        position: unset;
+    }
+
+    &-AdditionalContentDatePlaceholder {
+        opacity: 0;
+    }
+
     &-AdditionalContentDate {
-        display: flex;
-        align-items: flex-end;
+        position: absolute;
+        right: 0;
     }
 
     &-TextBlockWrapper {
@@ -65,12 +69,13 @@
     }
 
     &-FileListWrapper {
-        flex: 1;
+        display: inline-block;
     }
 
     &-FileName {
         padding: 5px 0;
         display: block;
         font-weight: bold;
+        display: block;
     }
 }
