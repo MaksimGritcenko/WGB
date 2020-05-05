@@ -80,14 +80,15 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
     onFileAttach() {
         const filesFromForm = this.fileFormRef.current.files || [];
-        const { max_file_size } = this.props;
+        const { max_file_size, showNotification } = this.props;
         const oldFiles = [].concat(this.state.files);
 
         const newFiles = Object.values(filesFromForm).reduce(
             /** @param {File} file */
             (acc, file) => {
                 // Handle file size more than max allowed
-                if (file.size > max_file_size) {
+                // But first transform from b to Kb
+                if (file.size / 1024 > max_file_size) {
                     showNotification('error', __(
                         'File %s has exceeded the maximum file size limit of %s KB',
                         file.name,
