@@ -29,3 +29,5 @@ export const EVENT_GTM_PRODUCT_CLICK = 'gtm_product_click';
 export const EVENT_GTM_PRODUCT_DETAIL = 'gtm_product_detail';
 export const EVENT_GTM_PRODUCT_REMOVE_FROM_CART = 'gtm_product_remove_from_cart';
 export const EVENT_GTM_PURCHASE = 'gtm_purchase';
+export const EVENT_GTM_USER_LOGIN = 'gtm_user_login';
+export const EVENT_GTM_USER_REGISTER = 'gtm_user_register';

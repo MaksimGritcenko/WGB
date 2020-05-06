@@ -60,7 +60,7 @@ export class AddToCartContainer extends SourceAddToCartContainer {
             })).then(() => {
                 Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
                     product: {
-                        items,
+                        ...product,
                         quantities: groupedProductQuantity
                     },
                     isGrouped: true

@@ -9,6 +9,8 @@ type Mutation {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\SendMessage")
     getRmaChatForRequest(request_id: String!): RmaChatForRequest
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\GetChatForRequest")
+    giveRatingForRequest(input: RatingForRequestInput!): RatingForRequestOutput
+    @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\SetRating")
 }
 
 type Query {
@@ -24,6 +26,20 @@ type Query {
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\Policy")
     getShippingLabel(return_id: Int): ShippingLabelData
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ShippingLabel")
+}
+
+input RatingForRequestInput {
+    request_id: String!
+    rating: RequestRatingInput!
+}
+
+input RequestRatingInput {
+    stars: Int!
+    comment: String
+}
+
+type RatingForRequestOutput {
+    success: Boolean
 }
 
 type RmaChatForRequest {
@@ -144,6 +160,8 @@ type RmaConfiguration {
     resolutions: [ReturnResolution]
     custom_fields: ReturnCustomFields
     contact_data: ReturnContactData
+    customer_feedback_enabled: Boolean
+    chat_enabled: Boolean
     max_file_size: Float
 }
 
@@ -180,8 +198,14 @@ type ReturnDetails {
     status_description: String
     state: String
     tracking: [ReturnTracking]
+    rating: RequestRating
     items: [ReturnItemDetails]
     @resolver(class: "WGB\\RmaGraphQL\\Model\\Resolver\\ReturnItems")
+}
+
+type RequestRating {
+    stars: Int
+    comment: String
 }
 
 type ShippingLabelData {

@@ -76,7 +76,7 @@ class CheckoutEvent extends BaseEvent {
      * @return {{quantity: number, price: number, name: string, variant: string, id: string, category: string, brand: string, url: string}[]}
      */
     getProducts({ items }) {
-        return Object.values(items).reduce((acc, item) => (
+        const products = Object.values(items).reduce((acc, item) => (
             [
                 ...acc,
                 {
@@ -85,6 +85,11 @@ class CheckoutEvent extends BaseEvent {
                     availability: true
                 }
             ]), []);
+
+        const groupedProducts = this.getGroupedProducts();
+        Object.values(groupedProducts || {}).forEach(({ data }) => products.push(data));
+
+        return products;
     }
 }
 

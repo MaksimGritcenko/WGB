@@ -29,7 +29,8 @@ export class CartItemContainer extends SourceCartItemContainer {
                             Event.dispatch(EVENT_GTM_PRODUCT_ADD_TO_CART, {
                                 product: item,
                                 quantity: quantity - qty,
-                                isItem: true
+                                isItem: true,
+                                isFromCart: true
                             });
                         } else {
                             Event.dispatch(EVENT_GTM_PRODUCT_REMOVE_FROM_CART, {
