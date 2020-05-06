@@ -1,1 +1,1 @@
-export { default } from './MyAccountReturnDetailsRating.component';
+export { default } from './MyAccountReturnDetailsRating.container';

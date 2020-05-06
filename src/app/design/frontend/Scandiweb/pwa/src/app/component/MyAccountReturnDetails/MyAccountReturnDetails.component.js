@@ -21,6 +21,8 @@ const STATUS_STATE_MAP = {
     Completed: 4
 }
 
+const TEN_MEGABYTES_IN_BYTES = 10 * 1000 * 1000 * 1000;
+
 export default class MyAccountReturnDetails extends PureComponent {
     static propTypes = {
         carriers: PropTypes.array.isRequired,
@@ -28,7 +30,11 @@ export default class MyAccountReturnDetails extends PureComponent {
         handleCancelRMA: PropTypes.func.isRequired,
         isCancelDisabled: PropTypes.bool.isRequired,
         renderPageTitle: PropTypes.func.isRequired,
-        max_file_size: PropTypes.number.isRequired
+        max_file_size: PropTypes.number
+    };
+
+    static defaultProps = {
+        max_file_size: TEN_MEGABYTES_IN_BYTES
     };
 
     state = {
@@ -173,7 +179,18 @@ export default class MyAccountReturnDetails extends PureComponent {
     }
 
     renderRatingSelect() {
-        return <MyAccountReturnDetailsRating />;
+        const { details: { id: request_id, rating, state }, customer_feedback_enabled } = this.props;
+
+        if (!customer_feedback_enabled || state !== 'Completed') {
+            return null;
+        }
+
+        return (
+            <MyAccountReturnDetailsRating
+              request_id={ request_id }
+              rating={ rating }
+            />
+        );
     }
 
     render() {
@@ -185,7 +202,8 @@ export default class MyAccountReturnDetails extends PureComponent {
                 id = ''
             },
             renderPageTitle,
-            max_file_size
+            max_file_size,
+            chat_enabled
         } = this.props;
 
         return (
@@ -208,10 +226,17 @@ export default class MyAccountReturnDetails extends PureComponent {
                   carriers={ carriers }
                   details={ details }
                 />
-                <MyAccountReturnDetailsChat
-                  max_file_size={ max_file_size }
-                  requestId={ details.id }
-                />
+                { (() => {
+                    if (!chat_enabled) {
+                        return null;
+                    }
+                    return (
+                        <MyAccountReturnDetailsChat
+                          max_file_size={ max_file_size }
+                          requestId={ details.id }
+                        />
+                    );
+                })() }
                 { this.renderCalcelRMAButton() }
             </div>
         );

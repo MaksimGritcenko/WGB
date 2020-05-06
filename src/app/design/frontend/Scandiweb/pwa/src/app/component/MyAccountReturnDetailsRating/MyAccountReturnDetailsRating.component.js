@@ -4,16 +4,8 @@ import Field from 'Component/Field';
 import './MyAccountReturnDetailsRating.style';
 
 export default class MyAccountReturnDetailsRating extends PureComponent {
-    state = {
-        selectedIndex: null
-    }
-
-    handleStarRatingClick = (selectedIndex) => {
-        this.setState({ selectedIndex });
-    }
-
     renderStar = (_, index) => {
-        const { selectedIndex } = this.state;
+        const { selectedIndex, setSelectedIndex, isInputDisabled } = this.props;
 
         const isChecked = selectedIndex !== null && index >= selectedIndex;
 
@@ -22,8 +14,9 @@ export default class MyAccountReturnDetailsRating extends PureComponent {
               key={ index }
               block="MyAccountReturnDetailsRating"
               elem="Star"
-              mods={ { isChecked } }
-              onClick={ () => this.handleStarRatingClick(index) }
+              mods={ { isChecked, enabled: !isInputDisabled } }
+              onClick={ () => setSelectedIndex(index) }
+              disabled={ isInputDisabled }
             />
         )
     }
@@ -40,6 +33,8 @@ export default class MyAccountReturnDetailsRating extends PureComponent {
     }
 
     renderActions() {
+        const { textValue, setTextValue, submitRating, isInputDisabled } = this.props;
+
         return (
             <div
               block="MyAccountReturnDetailsRating"
@@ -51,18 +46,39 @@ export default class MyAccountReturnDetailsRating extends PureComponent {
                   type="text"
                   placeholder="You can also leave a comment"
                   mix={ { block: 'MyAccountReturnDetailsRating', elem: 'CommentField' } }
-                //   value={  }
-                //   onChange={  }
+                  value={ textValue }
+                  onChange={ setTextValue }
+                  isDisabled={ isInputDisabled }
                 />
                 <button
                   block="Button"
-                  //   onClick={  }
-                  disabled={ false }
+                  onClick={ submitRating }
+                  disabled={ isInputDisabled }
                 >
                     { __('SUBMIT REVIEW') }
                 </button>
             </div>
         )
+    }
+
+    componentDidMount() {
+        const {
+            rating,
+            setSelectedIndex,
+            setTextValue
+        } = this.props;
+
+        if (rating.stars) {
+            setSelectedIndex(5 - rating.stars);
+            setTextValue(rating.comment);
+        }
+    }
+
+    componentDidUpdate() {
+        const { rating, disableInput } = this.props;
+        if (rating.stars) {
+            disableInput();
+        }
     }
 
     render() {

@@ -63,9 +63,6 @@ class ProductDetail extends BaseEvent {
             ? ProductHelper.getProductData(product, true)
             : ProductHelper.getProductData(product);
 
-        console.log(product, productToPass);
-
-
         this.pushEventData({
             ecommerce: {
                 detail: {

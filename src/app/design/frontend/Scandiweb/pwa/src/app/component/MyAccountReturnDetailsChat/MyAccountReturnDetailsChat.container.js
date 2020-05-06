@@ -45,9 +45,10 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
     };
 
     state = {
-        isSendButtonDisabled: true,
+        isSendDisabled: true,
         isChatLoading: false,
-        chatMessages: []
+        chatMessages: [],
+        files: []
     };
 
     componentDidMount() {
@@ -79,46 +80,85 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
     onFileAttach() {
         const filesFromForm = this.fileFormRef.current.files || [];
-        const { max_file_size } = this.props;
-        console.log(max_file_size);
+        const { max_file_size, showNotification } = this.props;
+        const oldFiles = [].concat(this.state.files);
 
-        Object.entries(filesFromForm).forEach(
+        const newFiles = Object.values(filesFromForm).reduce(
             /** @param {File} file */
-            ([index, file]) => {
+            (acc, file) => {
                 // Handle file size more than max allowed
-                if (file.size > max_file_size) {
-                    this.setState(() => ({ isSendButtonDisabled: true }));
+                // But first transform from b to Kb
+                if (file.size / 1024 > max_file_size) {
                     showNotification('error', __(
                         'File %s has exceeded the maximum file size limit of %s KB',
                         file.name,
                         max_file_size
                     ));
+
+                    return acc;
                 }
-            }
+
+                acc.push(file);
+                return acc;
+            }, oldFiles
         );
+
+        this.setState({
+            files: newFiles,
+            isSendDisabled: !newFiles.length
+        })
+    }
+
+    handleTextAreaChange = ({ target: { value } }) => {
+        const { isSendDisabled } = this.state;
+
+        if (value && isSendDisabled) this.setState({ isSendDisabled: false });
+        if (!value && !isSendDisabled) this.setState({ isSendDisabled: true });
+    }
+
+    handleRemoveFile(name) {
+        const { files } = this.state;
+
+        const newFiles = files.reduce(
+            (acc, file) => {
+                if (file.name !== name) {
+                    acc.push(file);
+                }
+
+                return acc;
+            }, []
+        )
+
+        this.setState(() => ({
+            files: newFiles
+        }));
     }
 
     onMessageSuccess = () => {
-        // this.fileFormRef.current.files = new FileList();
         this.messageAreaRef.current.value = "";
+        this.setState(() => ({
+            isSendDisabled: true,
+            files: []
+        }));
         this.requestChat();
     }
 
-    sendMessageClick = async () => {
+    handleSendMessageClick = async () => {
         const { requestId, sendMessage } = this.props;
-        const filesFromForm = this.fileFormRef.current.files || [];
+        const { files } = this.state;
         const messageText = this.messageAreaRef.current.value;
 
-        this.setState({ isChatLoading: true });
-        const messageFiles = await encodeFormFiles(filesFromForm);
+        this.setState(() => ({ isChatLoading: true }));
+        const messageFiles = await encodeFormFiles(files);
 
         try {
-            sendMessage(requestId, messageText, messageFiles)
-                .then(this.onMessageSuccess);
+            await sendMessage(requestId, messageText, messageFiles);
         } catch (e) {
             showNotification('error', 'Error sending message!', e);
             return;
         }
+
+        this.onMessageSuccess();
     }
 
     constructor(props) {
@@ -129,8 +169,10 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
     }
 
     containerFunctions = () => ({
-        onFileAttach: this.onFileAttach.bind(this),
-        sendMessageClick: this.sendMessageClick.bind(this)
+        handleTextAreaChange: this.handleTextAreaChange.bind(this),
+        handleSendMessageClick: this.handleSendMessageClick.bind(this),
+        handleAttachFile: this.onFileAttach.bind(this),
+        handleRemoveFile: this.handleRemoveFile.bind(this)
     });
 
     containerProps = () => ({
@@ -143,6 +185,7 @@ export class MyAccountReturnDetailsChatContainer extends PureComponent {
 
         return (
             <MyAccountReturnDetailsChat
+              { ...this.state }
               { ...this.props }
               { ...this.containerFunctions() }
               { ...this.containerProps() }

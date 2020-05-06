@@ -308,6 +308,23 @@ class BaseEvent {
         this.getGTM().setEventStorage(event, data);
     }
 
+    /**
+     * Set grouped products
+     *
+     * @param groupedProducts
+     */
+    setGroupedProducts(groupedProducts) {
+        this.getGTM().setGroupedProducts(groupedProducts);
+    }
+
+    /**
+     * Get grouped products
+     *
+     * @param groupedProducts
+     */
+    getGroupedProducts() {
+        return this.getGTM().getGroupedProducts();
+    }
 
     /**
      * Prepare cart data
@@ -316,9 +333,12 @@ class BaseEvent {
      */
     prepareCartData() {
         const {
-            subtotal, tax_amount, items_qty,
+            subtotal = 0,
+            items_qty = 0,
+            tax_amount = 0,
             items = [],
-            quote_currency_code
+            quote_currency_code = 'EUR',
+            groupedProducts = {}
         } = this.getCartProductData();
 
         const itemsData = items
@@ -326,6 +346,10 @@ class BaseEvent {
                 ...ProductHelper.getItemData(item),
                 quantity: ProductHelper.getQuantity(item)
             }));
+
+        if (items_qty !== 0) {
+            Object.values(groupedProducts || {}).forEach(({ data }) => itemsData.push(data));
+        }
 
         return {
             items_qty,
@@ -341,7 +365,12 @@ class BaseEvent {
      * @return {initialState.productsInCart|{}}
      */
     getCartProductData() {
-        return this.getAppState().CartReducer.cartTotals;
+        const appState = this.getAppState();
+        const cartData = appState.CartReducer.cartTotals;
+
+        const groupedProducts = this.getGroupedProducts();
+
+        return { ...cartData, groupedProducts };
     }
 }
 
