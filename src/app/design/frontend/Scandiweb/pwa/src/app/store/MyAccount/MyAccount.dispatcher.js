@@ -20,12 +20,15 @@ import { MyAccountQuery } from 'Query';
 import { history } from 'Route';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { ORDERS } from 'Store/Order/Order.reducer';
+import ProductHelper from 'Component/GoogleTagManager/utils';
+import Event, { EVENT_GTM_USER_LOGIN, EVENT_GTM_USER_REGISTER } from 'Util/Event';
 import { MyAccountDispatcher as SourceMyAccountDispatcher } from 'SourceStore/MyAccount/MyAccount.dispatcher';
+import GoogleTagManager, { GROUPED_PRODUCTS_GUEST } from 'Component/GoogleTagManager/GoogleTagManager.component';
 
 export const CUSTOMER = 'customer';
 export const LOGOUT_SUCCESS_STATUS = 'true';
 
-const ONE_MONTH_IN_SECONDS = 2628000;
+export const ONE_MONTH_IN_SECONDS = 2628000;
 
 /**
  * My account actions
@@ -36,15 +39,37 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
         const query = MyAccountQuery.getCustomerQuery();
 
         const customer = BrowserDatabase.getItem(CUSTOMER) || {};
-        if (customer.id) dispatch(updateCustomerDetails(customer));
+        if (customer.id) {
+            dispatch(updateCustomerDetails(customer));
+        }
 
         return executePost({ ...prepareQuery([query]), cache: 'no-cache' }).then(
             ({ customer }) => {
                 dispatch(updateCustomerDetails(customer));
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
+                this.transferGroupeProductsData(customer.id);
+                GoogleTagManager.getInstance().updateGroupedProductsStorageName(customer.id);
+                // Event.dispatch(EVENT_GTM_USER_LOGIN);
             },
             error => dispatch(showNotification('error', error[0].message))
         );
+    }
+
+    /**
+     * transfer grouped products data from guest to logged in user
+     *
+     * @param {numbre} id customer id
+     */
+    transferGroupeProductsData(id) {
+        const GTMInstance = GoogleTagManager.getInstance();
+        if (GTMInstance.groupedProductsStorageName !== GROUPED_PRODUCTS_GUEST) return;
+        const guestGroupedProducts = GTMInstance.getGroupedProducts();
+        GTMInstance.setGroupedProducts({});
+        GTMInstance.updateGroupedProductsStorageName(id);
+        const userGroupedProducts = GTMInstance.getGroupedProducts();
+
+        const result = ProductHelper.mergeGroupedProducts(guestGroupedProducts, userGroupedProducts);
+        GTMInstance.setGroupedProducts(result);
     }
 
     logout(_, dispatch) {
@@ -57,6 +82,8 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
             return;
         }
 
+        GoogleTagManager.getInstance().updateGroupedProductsStorageName();
+
         executeGet(preparedQuery);
         dispatch(updateCustomerSignInStatus(false));
         deleteAuthorizationToken();
@@ -65,6 +92,29 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
         BrowserDatabase.deleteItem(ORDERS);
         BrowserDatabase.deleteItem(CUSTOMER);
         history.push('/');
+    }
+
+    createAccount(options = {}, dispatch) {
+        const { customer: { email }, password } = options;
+        const mutation = MyAccountQuery.getCreateAccountMutation(options);
+
+        return fetchMutation(mutation).then(
+            (data) => {
+                const { createCustomer: { customer } } = data;
+                const { confirmation_required } = customer;
+
+                if (confirmation_required) {
+                    return 2;
+                }
+
+                Event.dispatch(EVENT_GTM_USER_REGISTER);
+                return this.signIn({ email, password }, dispatch);
+            },
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
+        );
     }
 
     async signIn(options = {}, dispatch) {
@@ -76,6 +126,7 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
             WishlistDispatcher.updateInitialWishlistData(dispatch);
+            Event.dispatch(EVENT_GTM_USER_LOGIN);
 
             return true;
         } catch ([e]) {

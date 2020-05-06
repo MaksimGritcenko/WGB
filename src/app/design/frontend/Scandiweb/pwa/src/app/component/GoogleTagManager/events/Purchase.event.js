@@ -91,7 +91,7 @@ class Purchase extends BaseEvent {
      * @param cartData
      */
     getProducts({ items }) {
-        return items.reduce((acc, item) => (
+        const products = items.reduce((acc, item) => (
             [
                 ...acc,
                 {
@@ -100,6 +100,11 @@ class Purchase extends BaseEvent {
                 }
             ]
         ), []);
+
+        const groupedProducts = this.getGroupedProducts();
+        Object.values(groupedProducts || {}).forEach(({ data }) => products.push(data));
+
+        return products;
     }
 }
 
