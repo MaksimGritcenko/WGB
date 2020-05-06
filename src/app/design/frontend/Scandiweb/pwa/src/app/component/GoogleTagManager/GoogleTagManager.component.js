@@ -22,6 +22,8 @@ import ProductDetailEvent from 'Component/GoogleTagManager/events/ProductDetail.
 import PurchaseEvent from 'Component/GoogleTagManager/events/Purchase.event';
 import CheckoutEvent from 'Component/GoogleTagManager/events/Checkout.event';
 import CheckoutOptionEvent from 'Component/GoogleTagManager/events/CheckoutOption.event';
+import UserLoginEvent from 'Component/GoogleTagManager/events/UserLogin.event';
+import UserRegisterEvent from 'Component/GoogleTagManager/events/UserRegister.event';
 import { CUSTOMER, ONE_MONTH_IN_SECONDS } from 'Store/MyAccount/MyAccount.dispatcher';
 import BrowserDatabase from 'Util/BrowserDatabase';
 
@@ -37,6 +39,8 @@ export const EVENT_PRODUCT_DETAIL = 'productDetail';
 export const EVENT_PURCHASE = 'purchase';
 export const EVENT_CHECKOUT = 'checkout';
 export const EVENT_CHECKOUT_OPTION = 'checkoutOption';
+export const EVENT_USER_REGISTER = 'userRegister';
+export const EVENT_USER_LOGIN = 'userLogin';
 
 /**
  * Const
@@ -83,7 +87,9 @@ class GoogleTagManager extends PureComponent {
         [EVENT_ADD_TO_CART]: AddToCartEvent,
         [EVENT_PRODUCT_CLICK]: ProductClickEvent,
         [EVENT_PRODUCT_DETAIL]: ProductDetailEvent,
-        [EVENT_REMOVE_FROM_CART]: RemoveFromCartEvent
+        [EVENT_REMOVE_FROM_CART]: RemoveFromCartEvent,
+        [EVENT_USER_REGISTER]: UserRegisterEvent,
+        [EVENT_USER_LOGIN]: UserLoginEvent
     };
 
     /**
@@ -232,7 +238,7 @@ class GoogleTagManager extends PureComponent {
     /**
      * Set grouped products to storage
      *
-     * @param groupedProducts 
+     * @param groupedProducts
      */
     setGroupedProducts(groupedProducts) {
         BrowserDatabase.setItem(groupedProducts, this.groupedProductsStorageName, ONE_MONTH_IN_SECONDS);

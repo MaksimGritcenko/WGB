@@ -21,6 +21,7 @@ import { history } from 'Route';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { ORDERS } from 'Store/Order/Order.reducer';
 import ProductHelper from 'Component/GoogleTagManager/utils';
+import Event, { EVENT_GTM_USER_LOGIN, EVENT_GTM_USER_REGISTER } from 'Util/Event';
 import { MyAccountDispatcher as SourceMyAccountDispatcher } from 'SourceStore/MyAccount/MyAccount.dispatcher';
 import GoogleTagManager, { GROUPED_PRODUCTS_GUEST } from 'Component/GoogleTagManager/GoogleTagManager.component';
 
@@ -48,6 +49,7 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
                 BrowserDatabase.setItem(customer, CUSTOMER, ONE_MONTH_IN_SECONDS);
                 this.transferGroupeProductsData(customer.id);
                 GoogleTagManager.getInstance().updateGroupedProductsStorageName(customer.id);
+                // Event.dispatch(EVENT_GTM_USER_LOGIN);
             },
             error => dispatch(showNotification('error', error[0].message))
         );
@@ -92,6 +94,29 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
         history.push('/');
     }
 
+    createAccount(options = {}, dispatch) {
+        const { customer: { email }, password } = options;
+        const mutation = MyAccountQuery.getCreateAccountMutation(options);
+
+        return fetchMutation(mutation).then(
+            (data) => {
+                const { createCustomer: { customer } } = data;
+                const { confirmation_required } = customer;
+
+                if (confirmation_required) {
+                    return 2;
+                }
+
+                Event.dispatch(EVENT_GTM_USER_REGISTER);
+                return this.signIn({ email, password }, dispatch);
+            },
+            (error) => {
+                dispatch(showNotification('error', error[0].message));
+                return Promise.reject();
+            }
+        );
+    }
+
     async signIn(options = {}, dispatch) {
         const mutation = MyAccountQuery.getSignInMutation(options);
         try {
@@ -101,6 +126,7 @@ export class MyAccountDispatcher extends SourceMyAccountDispatcher {
             dispatch(updateCustomerSignInStatus(true));
             CartDispatcher.updateInitialCartData(dispatch);
             WishlistDispatcher.updateInitialWishlistData(dispatch);
+            Event.dispatch(EVENT_GTM_USER_LOGIN);
 
             return true;
         } catch ([e]) {
