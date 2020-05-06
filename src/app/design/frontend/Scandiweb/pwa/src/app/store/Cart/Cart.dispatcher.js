@@ -10,16 +10,37 @@
  */
 
 import { updateTotals } from 'Store/Cart';
+import { CartQuery } from 'Query';
+import { isSignedIn } from 'Util/Auth';
+import { fetchQuery } from 'Util/Request';
+import BrowserDatabase from 'Util/BrowserDatabase';
+import GoogleTagManager from 'Component/GoogleTagManager/GoogleTagManager.component';
 import { LinkedProductsDispatcher, updateLinkedProducts } from 'Store/LinkedProducts';
-import { CartDispatcher as SourceCartDispatcher } from 'SourceStore/Cart/Cart.dispatcher';
+import { CartDispatcher as SourceCartDispatcher, GUEST_QUOTE_ID } from 'SourceStore/Cart/Cart.dispatcher';
 
-export { GUEST_QUOTE_ID } from 'SourceStore/Cart/Cart.dispatcher';
+export { GUEST_QUOTE_ID };
 
 /**
  * Product Cart Dispatcher
  * @class CartDispatcher
  */
 export class CartDispatcher extends SourceCartDispatcher {
+    _syncCartWithBE(dispatch) {
+        // Need to get current cart from BE, update cart
+        fetchQuery(CartQuery.getCartQuery(
+            !isSignedIn() && this._getGuestQuoteId()
+        )).then(
+            ({ cartData }) => this._updateCartData(cartData, dispatch),
+            () => {
+                this._createEmptyCart(dispatch).then((data) => {
+                    BrowserDatabase.setItem(data, GUEST_QUOTE_ID);
+                    this._updateCartData({}, dispatch);
+                    GoogleTagManager.getInstance().setGroupedProducts({});
+                });
+            }
+        );
+    }
+
     _updateCartData(cartData, dispatch) {
         dispatch(updateTotals(cartData));
         const { items = [] } = cartData;
