@@ -1,4 +1,14 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Amasty\Rma\Block\Widget\ShippingLabelButton" type="WGB\RmaGraphQL\Block\Widget\ShippingLabelButton" />
+    <virtualType name="ScandiPWA\Router\Controller\ConfigurableRouter" type="ScandiPWA\Router\Controller\Router">
+        <arguments>
+            <argument name="ignoredURLs" xsi:type="array">
+                <item name="confirmSubscribeToNewsletter" xsi:type="string">^/newsletter/subscriber/confirm/.*</item>
+                <item name="unsubscribeFromNewslettter" xsi:type="string">^/newsletter/subscriber/unsubscribe/.*</item>
+                <item name="validateCustomerEmail" xsi:type="string">^/customer/account/confirm/.*</item>
+                <item name="rma" xsi:type="string">^/rma/chat/download.*</item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>

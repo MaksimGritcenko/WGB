@@ -2,6 +2,15 @@ import { Field } from 'Util/Query';
 
 export class ProductReturnQuery {
     /**
+     * RATINGS
+     */
+    giveRatingForRequest(input) {
+        return new Field('giveRatingForRequest')
+            .addArgument('input', 'RatingForRequestInput!', input)
+            .addField('success');
+    }
+
+    /**
      * CHAT
      */
     sendMessage(input) {
@@ -107,9 +116,12 @@ export class ProductReturnQuery {
             .addField('success');
     }
 
-    getReturnCarriers() {
+    getConfigForDetails() {
         return new Field('getRmaConfiguration')
-            .addField(this._getReturnCarrierFields());
+            .addField(this._getReturnCarrierFields())
+            .addField('max_file_size')
+            .addField('customer_feedback_enabled')
+            .addField('chat_enabled');
     }
 
     _getReturnCarrierFields() {
@@ -122,13 +134,19 @@ export class ProductReturnQuery {
         return new Field('getReturnDetailsById')
             .addArgument('return_id', 'Int!', returnId)
             .addField(this._getReturnTrackingFields())
+            .addField(this._getReturnRatingField())
             .addField(this._getReturnItemFields())
             .addField('id')
-            // .addField('file')
             .addField('order_id')
             .addField('created_at')
             .addField('state')
             .addField('status_description');
+    }
+
+    _getReturnRatingField() {
+        return new Field('rating')
+            .addField('comment')
+            .addField('stars');
     }
 
     getShippingLabel(returnId) {
