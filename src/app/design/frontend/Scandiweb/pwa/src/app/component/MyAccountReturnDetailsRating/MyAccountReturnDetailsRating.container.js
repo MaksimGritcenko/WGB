@@ -18,7 +18,8 @@ export class MyAccountReturnDetailsRatingContainer extends PureComponent {
     state = {
         isInputDisabled: false,
         selectedIndex: null,
-        textValue: ""
+        textValue: "",
+        hidden: false
     }
 
     containerFunctions = {
@@ -54,11 +55,12 @@ export class MyAccountReturnDetailsRatingContainer extends PureComponent {
             }
         };
 
+        this.disableInput();
         fetchMutation(ProductReturnQuery.giveRatingForRequest(input))
             .then(({ giveRatingForRequest: { success } }) => {
                 if (!success) throw 'Not successful';
                 showNotification('success', 'Review successfully submitted');
-                this.disableInput();
+                this.setState(() => ({ hidden: true }));
             })
             .catch(err => {
                 showNotification('error', 'Error submitting review!', err);
@@ -67,6 +69,11 @@ export class MyAccountReturnDetailsRatingContainer extends PureComponent {
 
     render() {
         const { rating } = this.props;
+        const { hidden } = this.state;
+
+        if (hidden) {
+            return null;
+        }
 
         return (
             <MyAccountReturnDetailsRating

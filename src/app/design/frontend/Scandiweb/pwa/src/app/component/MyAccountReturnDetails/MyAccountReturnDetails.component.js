@@ -181,7 +181,7 @@ export default class MyAccountReturnDetails extends PureComponent {
     renderRatingSelect() {
         const { details: { id: request_id, rating, state }, customer_feedback_enabled } = this.props;
 
-        if (!customer_feedback_enabled || state !== 'Completed') {
+        if (!customer_feedback_enabled || state !== 'Completed' || rating.stars !== 0) {
             return null;
         }
 
