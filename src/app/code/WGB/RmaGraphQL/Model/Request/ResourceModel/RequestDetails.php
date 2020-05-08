@@ -216,8 +216,12 @@ class RequestDetails
             $status_id = $requestItem->getItemStatus();
             $status_description = $itemStatuses[$status_id];
 
+            $name = $orderItem->getParentItem() != null
+                ? $orderItem->getParentItem()->getName()
+                : $orderItem->getName();
+
             return [
-                'name' => $orderItem->getParentItem()->getName(),
+                'name' => $name,
                 'discount_amount' => $orderItem->getDiscountAmount(),
                 'discount_percent' => $orderItem->getDiscountPercent(),
                 'chosen_attributes' => $this->productResolver->getChosenAttributes($orderItem),
