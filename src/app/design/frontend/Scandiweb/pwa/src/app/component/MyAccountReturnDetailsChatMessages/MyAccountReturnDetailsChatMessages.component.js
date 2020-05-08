@@ -25,25 +25,14 @@ export default class MyAccountReturnDetailsChatMessages extends PureComponent {
     }
 
     getDateTime(created_at) {
-        const date = new Date(created_at);
+        const [date, time] = created_at.split(' ');
+        const [year, month, day] = date.split('-');
+        const [hours, minutes] = time.split(':');
 
-        const day = `${
-            this.converDateToTwoDigits(date.getDate())
-        }.${
-            this.converDateToTwoDigits(date.getMonth() + 1)
-        }.${
-            this.converDateToTwoDigits(date.getFullYear())
-        }`;
+        const formattedDate = `${day}.${month}.${year}`;
+        const formattedTime = `${hours}:${minutes}`;
 
-        const time = `${
-            this.converDateToTwoDigits(date.getHours())
-        }:${
-            this.converDateToTwoDigits(date.getMinutes())
-        }`;
-
-        const dateTime = `${ day } ${ time }`;
-
-        return dateTime;
+        return `${formattedDate} ${formattedTime}`;
     }
 
     renderFile = ({ filename }, index) => {
