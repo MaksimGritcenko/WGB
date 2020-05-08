@@ -4,6 +4,7 @@ import MyAccountNewReturnCustomerTable from 'Component/MyAccountNewReturnCustome
 import MyAccountNewReturnAddressTable from 'Component/MyAccountNewReturnAddressTable';
 import MyAccountNewReturnItemSelect from 'Component/MyAccountNewReturnItemSelect';
 import Loader from 'Component/Loader';
+import { closeIcon } from 'Component/Header/Header.config';
 import Field from 'Component/Field';
 import { encodeFormFiles } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.container'
 import { attachmentIcon } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.config';
@@ -65,8 +66,7 @@ export default class MyAccountNewReturn extends PureComponent {
         );
 
         const message = {
-            message_text: messageText,
-            encoded_files: await encodeFormFiles(fileFormRef.current.files || [])
+            message_text: messageText
         }
 
         onNewRequestSubmit({
@@ -223,6 +223,49 @@ export default class MyAccountNewReturn extends PureComponent {
         )
     }
 
+    renderAttachment = (name, index) => {
+        const { handleRemoveFile } = this.props;
+
+        return (
+            <div key={ index }>
+                <span
+                  block="MyAccountReturnDetailsChat"
+                  elem="AttachmentName"
+                >
+                    { name }
+                </span>
+                <button
+                  block="MyAccountReturnDetailsChat"
+                  elem="AttachmentRemoveButton"
+                  onClick={ () => handleRemoveFile(name) }
+                >
+                    { closeIcon }
+                </button>
+            </div>
+        );
+    };
+
+    renderAttachments() {
+        const { files } = this.props;
+
+        if (!files.length) return null;
+
+        return (
+            <div
+              block="MyAccountReturnDetailsChat"
+              elem="AttachmentWrapper"
+            >
+                { attachmentIcon }
+                <div
+                  block="MyAccountReturnDetailsChat"
+                  elem="Attachment"
+                >
+                { files.map((file, index) => this.renderAttachment(file.name, index)) }
+                </div>
+            </div>
+        )
+    }
+
     renderMessageSection() {
         const {
             fileFormRef,
@@ -260,6 +303,7 @@ export default class MyAccountNewReturn extends PureComponent {
                     onChange={ onFileAttach }
                     ref={ fileFormRef }
                 />
+                { this.renderAttachments() }
             </div>
         )
     }

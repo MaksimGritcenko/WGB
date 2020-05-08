@@ -8,6 +8,7 @@ import { customerType } from 'Type/Account';
 import { fetchMutation, fetchQuery } from 'Util/Request';
 import DataContainer from 'Util/Request/DataContainer';
 import MyAccountNewReturn from './MyAccountNewReturn.component';
+import { encodeFormFiles } from 'Component/MyAccountReturnDetailsChat/MyAccountReturnDetailsChat.container';
 
 export const RETURN_REASONS = 'returnReasons';
 export const RETURN_RESOLUTIONS = 'returnResolutions';
@@ -40,41 +41,47 @@ export class MyAccountNewReturnContainer extends DataContainer {
         contactData: {},
         createdAt: '',
         shippingCover: {},
-        policy: {}
+        policy: {},
+        files: []
     };
 
     containerFunctions = {
         getShippingAddress: this.getShippingAddress.bind(this),
         onNewRequestSubmit: this.onNewRequestSubmit.bind(this),
-        onFileAttach: this.onFileAttach.bind(this)
+        onFileAttach: this.onFileAttach.bind(this),
+        handleRemoveFile: this.handleRemoveFile.bind(this)
     };
 
     onFileAttach() {
         const filesFromForm = this.fileFormRef.current.files || [];
-        const { max_file_size } = this.state;
+        const { max_file_size, showNotification } = this.props;
+        const oldFiles = [].concat(this.state.files);
 
-        Object.entries(filesFromForm).forEach(
+        const newFiles = Object.values(filesFromForm).reduce(
             /** @param {File} file */
-            ([index, file]) => {
+            (acc, file) => {
                 // Handle file size more than max allowed
-                if (file.size > max_file_size) {
-                    this.setState(() => ({ isSendButtonDisabled: true }));
+                // But first transform from b to Kb
+                if (file.size / 1024 > max_file_size) {
                     showNotification('error', __(
                         'File %s has exceeded the maximum file size limit of %s KB',
                         file.name,
                         max_file_size
                     ));
-                }
-            }
-        );
-    }
 
-    _toBase64 = (file) => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = error => reject(error);
-    });
+                    return acc;
+                }
+
+                acc.push(file);
+                return acc;
+            }, oldFiles
+        );
+
+        this.setState({
+            files: newFiles,
+            isSendDisabled: !newFiles.length
+        })
+    }
 
     componentDidMount() {
         this.requestData();
@@ -89,13 +96,17 @@ export class MyAccountNewReturnContainer extends DataContainer {
         });
     };
 
-    onNewRequestSubmit(options) {
+    async onNewRequestSubmit(options) {
         const { showSuccessNotification, history } = this.props;
+        const { files } = this.state;
+
+        options.message.encoded_files = await encodeFormFiles(files);
+
         const mutation = ProductReturnQuery.getNewReturnMutation(options);
 
         this.setState({ isLoading: true });
 
-        return fetchMutation(mutation).then(
+        fetchMutation(mutation).then(
             ({ createReturnRequest: { return_id } }) => {
                 this.setState({ isLoading: false }, () => {
                     showSuccessNotification(__(`Return successfully made, order ID: ${ return_id }`));
@@ -176,6 +187,24 @@ export class MyAccountNewReturnContainer extends DataContainer {
             },
             e => showNotification('error', 'Error fetching New Return!', e)
         );
+    }
+
+    handleRemoveFile(name) {
+        const { files } = this.state;
+
+        const newFiles = files.reduce(
+            (acc, file) => {
+                if (file.name !== name) {
+                    acc.push(file);
+                }
+
+                return acc;
+            }, []
+        )
+
+        this.setState(() => ({
+            files: newFiles
+        }));
     }
 
     constructor(props) {
