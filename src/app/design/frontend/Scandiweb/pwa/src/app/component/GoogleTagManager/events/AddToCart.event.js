@@ -14,6 +14,7 @@ import Event, { EVENT_GTM_PRODUCT_ADD_TO_CART } from 'Util/Event';
 import ProductHelper from 'Component/GoogleTagManager/utils';
 import BaseEvent from 'Component/GoogleTagManager/events/BaseEvent.event';
 
+export const GROUPED_CART_PRODUCTS = 'GROUPED_CART_PRODUCTS';
 export const SPAM_PROTECTION_DELAY = 200;
 /**
  * Product add to cart event
@@ -28,17 +29,25 @@ class AddToCartEvent extends BaseEvent {
             quantity,
             configurableVariantIndex,
             massAddAction = false,
+            isFromCart = false,
             isGrouped = false,
             isItem = false
         }) => {
-            this.handle({ configurableVariantIndex, ...product }, quantity || 1, isItem, isGrouped, massAddAction);
+            this.handle(
+                { configurableVariantIndex, ...product },
+                quantity || 1,
+                isItem,
+                isGrouped,
+                isFromCart,
+                massAddAction
+            );
         });
     }
 
     /**
      * Handle product add to cart
      */
-    handler(product, quantity, isItem, isGrouped, massAddAction) {
+    handler(product, quantity, isItem, isGrouped, isFromCart, massAddAction) {
         if (!massAddAction && this.spamProtection(SPAM_PROTECTION_DELAY)) {
             return;
         }
@@ -46,18 +55,51 @@ class AddToCartEvent extends BaseEvent {
         const products = [];
 
         if (isGrouped) {
-            const { items, quantities } = product;
+            const { items, quantities, attributes: parentAttributes } = product;
+            // eslint-disable-next-line fp/no-let
+            let groupedProductPrice = 0;
 
             items.forEach(
                 ({ product }) => {
-                    const { id } = product;
-                    products.push({
-                        ...ProductHelper.getProductData(product, true),
+                    const { id, attributes } = product;
+                    const attributesToPass = attributes.reduce((acc, attribute) => {
+                        const { attribute_code } = attribute;
+                        return {
+                            ...acc,
+                            [attribute_code]: {
+                                ...parentAttributes[attribute_code],
+                                ...attribute
+                            }
+                        };
+                    }, {});
+
+                    const productToPush = {
+                        ...ProductHelper.getProductData({
+                            // pass attributes to every children
+                            ...product,
+                            attributes: attributesToPass
+                        }, true),
                         quantity: quantities[id],
                         availability: true
-                    });
+                    };
+
+                    const { price, quantity } = productToPush;
+                    groupedProductPrice += price * quantity;
+
+                    products.push(productToPush);
                 }
             );
+
+            const groupedProductData = {
+                ...ProductHelper.getProductData({ ...product, groupedProductPrice }),
+                quantity: 0
+            };
+
+            ProductHelper.addGroupedProduct(groupedProductData, product, groupedProductPrice);
+            products.push({
+                ...groupedProductData,
+                availability: true
+            });
         } else {
             const { type_id } = product;
             const productData = isItem
@@ -69,6 +111,11 @@ class AddToCartEvent extends BaseEvent {
                 quantity,
                 availability: true
             });
+
+            if (isFromCart) {
+                const { id, price } = productData;
+                ProductHelper.updateGroupedProduct(id, price * quantity);
+            }
         }
 
         this.pushEventData({

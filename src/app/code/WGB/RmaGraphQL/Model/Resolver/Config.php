@@ -84,7 +84,9 @@ class Config implements ResolverInterface
                 'email' => $this->configProvider->getAdministratorEmail(),
                 'phone_number' => $this->configProvider->getAdministratorPhoneNumber(),
             ],
-            'max_file_size' => (int)$this->configProvider->getMaxFileSize()
+            'max_file_size' => (int)$this->configProvider->getMaxFileSize(),
+            'customer_feedback_enabled' => $this->configProvider->isEnableFeedback(),
+            'chat_enabled' => $this->configProvider->isChatEnabled()
         ];
     }
 }

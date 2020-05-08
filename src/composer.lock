@@ -11970,25 +11970,26 @@
         },
         {
             "name": "scandipwa/installer",
-            "version": "1.6.3",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scandipwa/installer.git",
-                "reference": "44af1412d8cbe208f303662f970ffa5951944825"
+                "reference": "c0c3357a5e5b14d06cc524a5873ec22251a8f66d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scandipwa/installer/zipball/44af1412d8cbe208f303662f970ffa5951944825",
-                "reference": "44af1412d8cbe208f303662f970ffa5951944825",
+                "url": "https://api.github.com/repos/scandipwa/installer/zipball/c0c3357a5e5b14d06cc524a5873ec22251a8f66d",
+                "reference": "c0c3357a5e5b14d06cc524a5873ec22251a8f66d",
                 "shasum": ""
             },
             "require": {
-                "magento/magento2-base": "^2.3",
+                "magento/magento2-base": "^2.3.3",
                 "scandipwa/source": "^2.7.2"
             },
             "type": "magento2-theme",
             "autoload": {
                 "files": [
+                    "src/cli_commands.php",
                     "src/registration.php"
                 ],
                 "psr-4": {
@@ -12013,7 +12014,7 @@
                 "scandipwa",
                 "theme"
             ],
-            "time": "2020-01-24T08:34:27+00:00"
+            "time": "2020-03-05T11:06:55+00:00"
         },
         {
             "name": "scandipwa/klarna-graphql",
@@ -12432,6 +12433,36 @@
                 "scandipwa"
             ],
             "time": "2020-01-21T15:13:56+00:00"
+        },
+        {
+            "name": "scandipwa/sample-data",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scandipwa/sample-data.git",
+                "reference": "e5b3deb217542975833cde87dc43fceba920fa8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scandipwa/sample-data/zipball/e5b3deb217542975833cde87dc43fceba920fa8d",
+                "reference": "e5b3deb217542975833cde87dc43fceba920fa8d",
+                "shasum": ""
+            },
+            "require": {
+                "magento/magento2-base": "^2.3.2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "src/registration.php"
+                ],
+                "psr-4": {
+                    "ScandiPWA\\SampleData\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Sample data for ScandiPWA",
+            "time": "2020-03-27T10:26:58+00:00"
         },
         {
             "name": "scandipwa/slider",
