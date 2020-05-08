@@ -9,6 +9,8 @@ import { RESPONSE_OK } from './StaleWhileRevalidateHandler';
  */
 const BUYPASS_CACHE_HOSTS = [
     // Project specific
+    '(?!^.*rma/chat/download.*)',
+    '(?!^.*amasty_rma/chat/download.*)',
     '(?!^.*sociallogin/login/.*)',
     '(?!^.*sociallogin/endpoint/.*)',
     '(?!^.*admin)', // Magento Admin
