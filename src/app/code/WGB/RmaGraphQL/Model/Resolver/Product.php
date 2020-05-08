@@ -193,9 +193,8 @@ class Product implements ResolverInterface
             }, []
         );
 
-        $productSKUs = array_map(function ($returnItem) {
-            /** @var ReturnOrderItemInterface $returnItem */
-            return $returnItem->getItem()->getSku();
+        $productSKUs = array_map(function ($item) {
+            return $item->getSku();
         }, $value['products']);
 
         $attributeCodes = $this->getFieldsFromProductInfo($info, 'order_products');
@@ -221,15 +220,9 @@ class Product implements ResolverInterface
 
         $data = [];
 
-        /** @var ReturnOrderItemInterface $returnItem */
-        foreach ($value['products'] as $key => $returnItem) {
-            /** @var $item Item */
-            if ($returnItem instanceof ReturnOrderItemInterface) {
-                $item = $returnItem->getItem();
-            } else {
-                $item = $returnItem;
-            }
-
+        /** @var $item Item */
+        foreach ($value['products'] as $key => $item) {
+            $returnItem = $item['return_item'];
             $data[$key] = $productsData[$item->getProductId()];
             // Retrieve parent item name if parent item present
             if ($item->getParentItem() != null) {
@@ -254,15 +247,17 @@ class Product implements ResolverInterface
                 }, 0
             );
             $data[$key]['chosen_attributes'] = $this->getChosenAttributes($item);
-            $data[$key]['returnability'] = [
-                'is_returnable' => $returnItem->isReturnable(),
-                // Explicitly set values to null in order not to get wrong results based on 0 as int default value
-                'no_returnable_reason_id' => !$returnItem->isReturnable() ? $returnItem->getNoReturnableReason() : null,
-                'no_returnable_reason_label' => !$returnItem->isReturnable() ? $this->getNoReturnReasonDescriptionById(
-                    $returnItem->getNoReturnableReason()
-                ) : null,
-                'resolutions' => $returnItem->getResolutions(),
-            ];
+            if ($returnItem) {
+                $data[$key]['returnability'] = [
+                    'is_returnable' => $returnItem->isReturnable(),
+                    // Explicitly set values to null in order not to get wrong results based on 0 as int default value
+                    'no_returnable_reason_id' => !$returnItem->isReturnable() ? $returnItem->getNoReturnableReason() : null,
+                    'no_returnable_reason_label' => !$returnItem->isReturnable() ? $this->getNoReturnReasonDescriptionById(
+                        $returnItem->getNoReturnableReason()
+                    ) : null,
+                    'resolutions' => $returnItem->getResolutions(),
+                ];
+            }
         }
 
         return $data;

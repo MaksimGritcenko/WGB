@@ -76,7 +76,6 @@ class ReturnOrderResolver implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
-        $itemsData = [];
         $trackNumbers = [];
 
         $customerId = $context->getUserId();
@@ -92,9 +91,22 @@ class ReturnOrderResolver implements ResolverInterface
             throw new GraphQlNoSuchEntityException(__('Customer ID is invalid.'));
         }
 
+        $itemsData = $order->getAllVisibleItems();
         if ($returnOrder) {
-            foreach ($returnOrder->getItems() as $returnOrderItem) {
-                $itemsData[] = $returnOrderItem;
+            $returnOrderItems = $returnOrder->getItems();
+            // Loop through the order items
+            foreach ($itemsData as $orderItem) {
+                // for each one find corresponding return item
+                foreach ($returnOrderItems as $returnItem) {
+                    $comparableId = $returnItem->getItem()->getParentItem() != null
+                        ? $returnItem->getItem()->getParentItem()->getQuoteItemId()
+                        : $returnItem->getItem()->getQuoteItemId();
+
+                    if ($comparableId == $orderItem->getQuoteItemId()) {
+                        $orderItem['return_item'] = $returnItem;
+                        break;
+                    }
+                }
             }
         }
 
