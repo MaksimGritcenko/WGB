@@ -16,11 +16,7 @@ const BUTTON_NAME = 'Print Packing Slip';
 
 export default class PrintPageWidget extends PureComponent {
     print = () => {
-        try {
-            document.execCommand('print', false, null);
-        } catch {
-            window.print();
-        }
+        window.print();
     };
 
     render() {
