@@ -231,7 +231,7 @@ class Product implements ResolverInterface
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
             $data[$key]['original_price'] = $item->getBaseOriginalPrice();
-            $data[$key]['quote_item_id'] = $item->getItemId();
+            $data[$key]['quote_item_id'] = $item['return_item']['item']['item_id'];
             $data[$key]['license_key'] = $item['license_key'];
             $data[$key]['qty_returning'] = array_reduce(
                 $returnRequestsItems,
