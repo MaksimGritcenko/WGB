@@ -27,7 +27,7 @@ export class OrderQuery extends SourceOrderQuery {
             this._prepareAttributes(),
             this._getChosenAttributesField(),
             'quote_item_id',
-            'qty_returning',
+            'qty_available_to_return',
             this._getOrderReturnability()
         ];
     }

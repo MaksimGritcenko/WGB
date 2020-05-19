@@ -257,14 +257,14 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
         );
     }
 
-    renderReasonBlockInputs(id, qty, qty_returning, { returnability: { resolutions } }) {
+    renderReasonBlockInputs(id, qty_available_to_return, { returnability: { resolutions } }) {
         const { reasonData: { reason, condition } } = this.props;
 
         const resolutionOptions = resolutions.map(({ resolution_id, label }) => ({ label, value: resolution_id }));
 
         return (
             <>
-                { this.renderReasonBlockQty(id, qty - qty_returning) }
+                { this.renderReasonBlockQty(id, qty_available_to_return) }
                 { this.renderReasonBlockSelect('Return Reason', reason, 'reason', id) }
                 { this.renderReasonBlockSelect('Item Condition', condition, 'condition', id) }
                 { this.renderReasonBlockSelect('Return Resolution', resolutionOptions, 'resolution', id) }
@@ -276,7 +276,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
     renderReasonBlock(item, id, isChecked, isDisabled) {
         const {
             qty,
-            qty_returning,
+            qty_available_to_return,
             returnability: { no_returnable_reason_label }
         } = item;
 
@@ -290,7 +290,7 @@ export default class MyAccountNewReturnItemSelect extends PureComponent {
             >
                 { isDisabled
                     ? this.renderReasonBlockRules(no_returnable_reason_label)
-                    : this.renderReasonBlockInputs(id, qty, qty_returning, item) }
+                    : this.renderReasonBlockInputs(id, qty_available_to_return, item) }
             </div>
         );
     }

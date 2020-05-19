@@ -222,7 +222,6 @@ class Product implements ResolverInterface
 
         /** @var $item Item */
         foreach ($value['products'] as $key => $item) {
-            $returnItem = $item['return_item'];
             $data[$key] = $productsData[$item->getProductId()];
             // Retrieve parent item name if parent item present
             if ($item->getParentItem() != null) {
@@ -231,23 +230,11 @@ class Product implements ResolverInterface
             $data[$key]['qty'] = $item->getQtyOrdered();
             $data[$key]['row_total'] = $item->getBaseRowTotalInclTax();
             $data[$key]['original_price'] = $item->getBaseOriginalPrice();
-            $data[$key]['quote_item_id'] = $item['return_item']['item']['item_id'];
             $data[$key]['license_key'] = $item['license_key'];
-            $data[$key]['qty_returning'] = array_reduce(
-                $returnRequestsItems,
-                function($carry, $reqItems) use ($item) {
-                    /** @var RequestItemInterface $reqItem */
-                    foreach ($reqItems as $reqItem) {
-                        if ($reqItem->getOrderItemId() == $item->getItemId()) {
-                            $carry += $reqItem->getRequestQty();
-                        }
-                    }
-
-                    return $carry;
-                }, 0
-            );
             $data[$key]['chosen_attributes'] = $this->getChosenAttributes($item);
-            if ($returnItem) {
+            if ($returnItem = $item['return_item']) {
+                $data[$key]['qty_available_to_return'] = $returnItem->getAvailableQty();
+                $data[$key]['quote_item_id'] = $returnItem['item']['item_id'];
                 $data[$key]['returnability'] = [
                     'is_returnable' => $returnItem->isReturnable(),
                     // Explicitly set values to null in order not to get wrong results based on 0 as int default value
