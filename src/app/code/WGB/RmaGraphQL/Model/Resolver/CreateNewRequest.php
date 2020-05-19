@@ -24,6 +24,7 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Amasty\Rma\Api\RequestRepositoryInterface;
 use WGB\RmaGraphQL\Model\Resolver\SendMessage;
 
 /**
@@ -40,7 +41,7 @@ class CreateNewRequest implements ResolverInterface
     /**
      * @var CustomerRequestRepositoryInterface
      */
-    protected $requestRepository;
+    protected $customerRequestRepository;
     /**
      * @var OrderRepositoryInterface
      */
@@ -53,20 +54,26 @@ class CreateNewRequest implements ResolverInterface
      * @var \WGB\RmaGraphQL\Model\Resolver\SendMessage
      */
     protected $messageSender;
+    /**
+     * @var RequestRepositoryInterface
+     */
+    protected $requestRepository;
 
     public function __construct(
         StoreManagerInterface $storeManager,
         Session $customerSession,
-        CustomerRequestRepositoryInterface $requestRepository,
+        CustomerRequestRepositoryInterface $customerRequestRepository,
         OrderRepositoryInterface $orderRepository,
-        SendMessage $messageSender
+        SendMessage $messageSender,
+        RequestRepositoryInterface $requestRepository
     )
     {
         $this->storeManager = $storeManager;
-        $this->requestRepository = $requestRepository;
+        $this->customerRequestRepository = $customerRequestRepository;
         $this->orderRepository = $orderRepository;
         $this->customerSession = $customerSession;
         $this->messageSender = $messageSender;
+        $this->requestRepository = $requestRepository;
     }
 
     /**
@@ -77,7 +84,7 @@ class CreateNewRequest implements ResolverInterface
         $returnItems = [];
 
         foreach ($input['items'] as $item) {
-            $returnItems[] = $this->requestRepository->getEmptyRequestItemModel()
+            $returnItems[] = $this->customerRequestRepository->getEmptyRequestItemModel()
                 ->setQty((float)$item['qty'])
                 ->setResolutionId((int)$item['resolution'])
                 ->setReasonId((int)$item['reason'])
@@ -113,7 +120,7 @@ class CreateNewRequest implements ResolverInterface
      * @throws NoSuchEntityException
      */
     protected function createRequest($input, $order, $customerId) {
-        $request = $this->requestRepository->getEmptyRequestModel();
+        $request = $this->customerRequestRepository->getEmptyRequestModel();
         $request
             ->setStoreId($this->storeManager->getStore()->getId())
             ->setOrderId($order->getEntityId())
@@ -139,21 +146,22 @@ class CreateNewRequest implements ResolverInterface
     {
         $input = $args['input'];
 
-        /** @var OrderInterface $order */
         $order = $this->orderRepository->get($input['order_id']);
 
-        /** @var RequestInterface $request */
-        $request = $this->requestRepository->create(
+        $request = $this->customerRequestRepository->create(
             $this->createRequest($input, $order, $context->getUserId())
         );
 
         if ($input['message']) {
+            $initialStatus = $request->getStatus();
             $this->messageSender->saveMessage(
                 $context->getUserId(),
                 $request->getRequestId(),
                 $input['message']['message_text'],
                 $input['message']['encoded_files']
             );
+            $request->setStatus($initialStatus);
+            $this->requestRepository->save($request);
         }
 
         return [
