@@ -1,4 +1,10 @@
 .MyAccountNewReturn {
+    input, textarea {
+        @include mobile {
+            font-size: 16px !important;
+        }
+    }
+
     .amrma-attach {
         display: none;
     }
